@@ -9,3 +9,6 @@ from . import overwrite
 
 from .plotting import *
 from . import plotting
+
+from . import _version
+__version__ = _version.get_versions()['version']
