@@ -12,4 +12,4 @@ from .models import *
 from . import models
 
 from . import _version
-__version__ = _version.get_versions()['version']
+__version__ = _version.version
