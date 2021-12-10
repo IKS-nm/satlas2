@@ -78,6 +78,7 @@ class Fitter:
                 for parameter_name in pars.keys():
                     parameter = pars[parameter_name]
                     n = '___'.join([source_name, model_name, parameter_name])
+                    parameter.name = '___'.join([source_name, model_name])
                     if parameter_name in self.share:
                         if parameter_name in sharing.keys():
                             expr = sharing[parameter_name]
@@ -136,6 +137,23 @@ class Fitter:
         for p in params.keys():
             source_name, model_name, parameter_name = p.split('___')
             self.pars[source_name][model_name][parameter_name].unc = params[p].stderr
+
+    def setCorrelations(self, params):
+        for p in params.keys():
+            source_name, model_name, parameter_name = p.split('___')
+            dictionary = copy.deepcopy(params[p].correl)
+            del_keys = []
+            try:
+                keys = list(dictionary.keys())
+                for key in keys:
+                    if key.startswith(self.pars[source_name][model_name][parameter_name].name):
+                        dictionary[key.split('___')[-1]] = dictionary[key]
+                    del_keys.append(key)
+                for key in del_keys:
+                    del dictionary[key]
+                self.pars[source_name][model_name][parameter_name].correl = dictionary
+            except AttributeError:
+                pass
 
     def resid(self):
         model_calcs = self.f()
@@ -236,6 +254,7 @@ class Fitter:
         kws = {}
         kwargs = {}
         if llh_selected or method.lower() == 'emcee':
+            llh_selected = True
             func = self.llh
             kws['method'] = llh_method
             if method.lower() in ['leastsq', 'least_squares']:
@@ -283,8 +302,9 @@ class Fitter:
 
     def updateInfo(self):
         self.lmpars = self.result.params
-        self.setUncertainties(self.result.params)
         self.setParameters(self.result.params)
+        self.setUncertainties(self.result.params)
+        self.setCorrelations(self.result.params)
         self.nvarys = self.result.nvarys
         try:
             self.nfree = self.result.nfree
@@ -432,6 +452,8 @@ class Parameter:
         self.vary = vary
         self.expr = expr
         self.unc = None
+        self.correl = None
+        self.name = ''
 
     def __repr__(self):
-        return '{}+/-{} ({} max, {} min, vary={})'.format(self.value, self.unc, self.max, self.min, self.vary)
+        return '{}+/-{} ({} max, {} min, vary={}, correl={})'.format(self.value, self.unc, self.max, self.min, self.vary, self.correl)
