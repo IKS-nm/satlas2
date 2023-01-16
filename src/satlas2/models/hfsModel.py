@@ -1,6 +1,7 @@
 from satlas2.core import Model, Parameter
 
 import numpy as np
+import numba as nb
 from scipy.special import wofz
 from sympy.physics.wigner import wigner_6j, wigner_3j
 
@@ -99,22 +100,65 @@ class HFS(Model):
 
     def fUnshifted(self, x):
         centroid = self.params['centroid'].value
+        # centroid = params[0]
         Al = self.params['Al'].value
+        # Al = params[1]
         Au = self.params['Au'].value
+        # Au = params[2]
         Bl = self.params['Bl'].value
+        # Bl = params[3]
         Bu = self.params['Bu'].value
+        # Bu = params[4]
         Cl = self.params['Cl'].value
+        # Cl = params[5]
         Cu = self.params['Cu'].value
+        # Cu = params[6]
         FWHMG = self.params['FWHMG'].value
+        # FWHMG = params[7]
         FWHML = self.params['FWHML'].value
+        # FWHML = params[8]
         scale = self.params['scale'].value
+        # scale = params[9]
         bkg = self.params['bkg'].value
+        # bkg = params[10]
 
         result = np.zeros(len(x))
-        x = self.transform(x)
+        # x = self.transform(x)
         for line in self.lines:
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
-            result += self.params['Amp' + line].value * self.peak(x - pos, FWHMG, FWHML)
+            result += self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
+
+        return scale * result + bkg
+    
+    def fUnshiftedParams(self, x, *params):
+        # centroid = self.params['centroid'].value
+        centroid = params[0]
+        # Al = self.params['Al'].value
+        Al = params[1]
+        # Au = self.params['Au'].value
+        Au = params[2]
+        # Bl = self.params['Bl'].value
+        Bl = params[3]
+        # Bu = self.params['Bu'].value
+        Bu = params[4]
+        # Cl = self.params['Cl'].value
+        Cl = params[5]
+        # Cu = self.params['Cu'].value
+        Cu = params[6]
+        # FWHMG = self.params['FWHMG'].value
+        FWHMG = params[7]
+        # FWHML = self.params['FWHML'].value
+        FWHML = params[8]
+        # scale = self.params['scale'].value
+        scale = params[9]
+        # bkg = self.params['bkg'].value
+        bkg = params[10]
+
+        result = np.zeros(len(x))
+        # x = self.transform(x)
+        for i, line in enumerate(self.lines):
+            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
+            result += params[i+11] * self.peak(x - pos, FWHMG, FWHML)
 
         return scale * result + bkg
 
@@ -124,6 +168,8 @@ class HFS(Model):
         Au = self.params['Au'].value
         Bl = self.params['Bl'].value
         Bu = self.params['Bu'].value
+        Cl = self.params['Cl'].value
+        Cu = self.params['Cu'].value
         FWHMG = self.params['FWHMG'].value
         FWHML = self.params['FWHML'].value
         scale = self.params['scale'].value
