@@ -1,8 +1,7 @@
 from satlas2.core import Model, Parameter
 
 import numpy as np
-import numba as nb
-from scipy.special import wofz
+from scipy.special import wofz, voigt_profile
 from sympy.physics.wigner import wigner_6j, wigner_3j
 
 __all__ = ['HFS']
@@ -190,10 +189,9 @@ class HFS(Model):
         return scale * result + bkg
 
     def peak(self, x, FWHMG, FWHML):
-        z = self.preparePeak(x, FWHMG, FWHML)
-        n = self.norm(FWHML, FWHMG)
-        ret = wofz(z).real
-        return ret/n
+        sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
+        return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
+
 
     def norm(self, FWHML, FWHMG):
         return wofz(1j * FWHML / (FWHMG * sqrt2)).real

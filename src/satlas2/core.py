@@ -752,30 +752,6 @@ class Fitter:
             except:
                 pass
 
-    # def toDataFrame(self):
-    #     import pandas as pd
-    #     row = []
-    #     df = pd.DataFrame()
-    #     for source_name, source in self.sources:
-    #         data = {}
-    #         row.append(source_name)
-    #         p = self.pars[source_name]
-    #         d = ()
-    #         columns = []
-    #         for model_name, model in source.models:
-    #             pars = p[model_name]
-    #             for parameter_name in pars.keys():
-    #                 columns.extend([(model_name, parameter_name, 'Value'), (model_name, parameter_name, 'Uncertainty')])
-    #                 d += (pars[parameter_name].value, pars[parameter_name].unc)
-    #         columns.extend([(model_name, 'Fit quality', 'Chisquare'), (model_name, 'Fit quality', 'Reduced chisquare'), (model_name, 'Fit quality', 'NDoF')])
-    #         d += (source.chisqr, source.redchi, source.nfree)
-    #         data[source_name] = d
-    #         d = pd.DataFrame.from_dict(data, orient='index')
-    #         d.columns = pd.MultiIndex.from_tuples(columns)
-    #         df = pd.concat([df, d])
-    #     df.sort_index(axis=1, level=1, ascending=True, sort_remaining=False, inplace=True)
-    #     return df
-
 class Source:
     def __init__(self, x, y, xerr=None, yerr=1, name=None):
         super().__init__()
@@ -783,8 +759,8 @@ class Source:
         self.y = y
         self.xerr = xerr
         self.yerr_data = yerr
-        if self.yerr_data == 1:
-            self.yerr_data = np.ones(self.x.shape)
+        # if self.yerr_data == 1:
+        #     self.yerr_data = np.ones(self.x.shape)
         if name is not None:
             self.name = name
         self.models = []
