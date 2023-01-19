@@ -11,5 +11,5 @@ from . import plotting
 from .models import *
 from . import models
 
-from . import _version
-__version__ = _version.version
+# from . import _version
+# __version__ = _version.version

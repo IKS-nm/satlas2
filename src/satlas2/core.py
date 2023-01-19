@@ -496,6 +496,11 @@ class Fitter:
                     tuples += ((n, parameter.value, parameter.vary, parameter.min, parameter.max, expr, None),)
         lmpars.add_many(*tuples)
         self.lmpars = lmpars
+    
+    def setExpr(self, name, expr):
+        self.createLmParameters()
+        if name in self.lmpars.keys():
+            self.lmpars[name].expr = expr
 
     def createParameterList(self):
         x = []
@@ -587,22 +592,29 @@ class Fitter:
 
     def gaussLlh(self):
         resid = self.residualCalculation()
-        return -0.5*resid*resid # Faster than **2
+        # print('here')
+        # raise ImportError
+        # print('here')
+        return 0.5*resid*resid # Faster than **2
 
     def poissonLlh(self):
         model_calcs = self.f()
         returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
-        return returnvalue
+        return -returnvalue
 
     def llh(self, params, method='gaussian', emcee=False):
         methods = {'gaussian': self.gaussLlh, 'poisson': self.poissonLlh}
         self.setParameters(params)
-        returnvalue = np.sum(methods[method.lower()]())
-        if not np.isfinite(returnvalue):
-            returnvalue = -1e99
-        if not emcee:
-            returnvalue *= -1
+        returnvalue = methods[method.lower()]()
+        # returnvalue = np.sum(methods[method.lower()]())
+        # if not np.isfinite(returnvalue):
+        #     returnvalue = -1e99
+        # if not emcee:
+        #     returnvalue *= -1
         return returnvalue
+    
+    def reduction(self, r):
+        return np.sum(r)
 
     def callback(self, params, iter, resid, *args, **kwargs):
         return None
@@ -632,43 +644,6 @@ class Fitter:
 
     def reportFit(self):
         return lm.fit_report(self.result)
-
-    def fittingDifferenceCalculator(self, parameter_name, llh_selected=False, llh_method='gaussian', method='leastsq', kws={}, mcmc_kwargs={}, sampler_kwargs={}, filename=None):
-        if parameter_name not in self.lmpars.keys():
-            raise ValueError("Unknown parameter name {}".format(parameter_name))
-
-        fit_kws = {'prepFit': False, 'llh_selected': llh_selected, 'llh_method': llh_method, 'method': method, 'kws': kws, 'mcmc_kwargs': mcmc_kwargs, 'sampler_kwargs': sampler_kwargs, 'filename': filename}
-        needed_attr = 'chisqr'
-        if llh_selected or llh_method == 'poisson':
-            needed_attr = 'nllh_result'
-        try:
-            original_value = getattr(self, needed_attr)
-        except AttributeError:
-            self.fit(**fit_kws)
-            original_value = getattr(self, needed_attr)
-
-        copied_params = copy.deepcopy(self.pars)
-        self.pars[parameter_name].vary = False
-
-        # Define boundary calculating function
-        def func(x):
-            self.pars[parameter_name].value = x
-            self.lmpars = self.pars
-            self.fit(**fit_kws)
-            value = getattr(self, needed_attr)
-            return value - original_value
-        return func
-
-    def calculateUncertainties(self, parameter_name, llh_selected=False, llh_method='gaussian', method='leastsq', kws={}, mcmc_kwargs={}, sampler_kwargs={}, filename=None):
-        if parameter_name not in self.lmpars.keys():
-            raise ValueError("Unknown parameter name {}".format(parameter_name))
-
-        fit_kws = {'prepFit': False, 'llh_selected': llh_selected, 'llh_method': llh_method, 'method': method, 'kws': kws, 'mcmc_kwargs': mcmc_kwargs, 'sampler_kwargs': sampler_kwargs, 'filename': filename}
-        diff_calc = self.fittingDifferenceCalculator(parameter_name, **fit_kws)
-        if llh_selected or llh_method == 'poisson':
-            func_to_zero = lambda x: diff_calc(x) - 0.5
-        else:
-            func_to_zero = lambda x: diff_calc(x) - 1
 
     def fit(self, prepFit=True, llh_selected=False, llh_method='gaussian', method='leastsq', kws={}, mcmc_kwargs={}, sampler_kwargs={}, filename=None, steps=1000, nwalkers=50):
         self.temp_y = self.y()
@@ -705,7 +680,8 @@ class Fitter:
             kwargs['steps'] = steps
             kwargs['nwalkers'] = nwalkers
 
-        self.result = minimize(func, self.lmpars, method=method, iter_cb=self.callback, kws=kws, **kwargs)
+        reduce_fcn = self.reduction
+        self.result = minimize(func, self.lmpars, method=method, iter_cb=self.callback, kws=kws, reduce_fcn=reduce_fcn, **kwargs)
         if llh_selected:
             self.llh_result = self.llh(self.result.params, method=llh_method)
             self.nllh_result = self.llh(self.result.params, method=llh_method)
@@ -841,7 +817,7 @@ class Model:
         name = kwargs.pop('name')
         self.params[name] = Parameter(**kwargs)
 
-    def f(self, x):
+    def f(self, x) -> float:
         raise NotImplemented
 
 
