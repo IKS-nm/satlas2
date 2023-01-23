@@ -409,6 +409,15 @@ class Fitter:
         self.share = []
         self.shareModel = []
         self.priors = []
+        self.expressions = {}
+    
+    def setExpr(self, parameter_name, parameter_expression):
+        if isinstance(parameter_name, str):
+            parameter_name = [parameter_name]
+        if isinstance(parameter_expression, str):
+            parameter_expression = [parameter_expression]
+        for parameter, expression in zip(parameter_name, parameter_expression):
+            self.expressions[parameter] = expression
 
     def shareParams(self, parameter_name):
         """Add parameters to be shared across all models."""
@@ -475,8 +484,10 @@ class Fitter:
                 for parameter_name in pars.keys(): # Loop over every parameter in the model
                     parameter = pars[parameter_name]
                     n = '___'.join([source_name, model_name, parameter_name]) # Set a unique name
-                    parameter.name = '___'.join([source_name, model_name]) # Set a unique identifiier
-                    if parameter_name in self.share: # Set the sharing of a variable with EVERY model
+                    parameter.name = '___'.join([source_name, model_name]) # Set a unique identifier
+                    if n in self.expressions.keys():
+                        expr = self.expressions[n]
+                    elif parameter_name in self.share: # Set the sharing of a variable with EVERY model
                         if parameter_name in sharing.keys(): # If not the first instance of a shared variable, get the parameter name
                             expr = sharing[parameter_name]
                         else:
@@ -496,11 +507,6 @@ class Fitter:
                     tuples += ((n, parameter.value, parameter.vary, parameter.min, parameter.max, expr, None),)
         lmpars.add_many(*tuples)
         self.lmpars = lmpars
-    
-    def setExpr(self, name, expr):
-        self.createLmParameters()
-        if name in self.lmpars.keys():
-            self.lmpars[name].expr = expr
 
     def createParameterList(self):
         x = []
