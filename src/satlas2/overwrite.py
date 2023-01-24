@@ -34,6 +34,7 @@ _nan_policy = lmfit.minimizer._nan_policy
 
 __all__ = ['SATLASSampler', 'SATLASHDFBackend', 'SATLASMinimizer', 'minimize']
 
+
 def ndarray_to_list_of_dicts(
     x: np.ndarray, key_map: Dict[str, Union[int, List[int]]]
 ) -> List[Dict[str, Union[np.number, np.ndarray]]]:
@@ -48,6 +49,7 @@ def ndarray_to_list_of_dicts(
       list of dictionaries of parameters
     """
     return [{key: xi[val] for key, val in key_map.items()} for xi in x]
+
 
 class SATLASSampler(emcee.EnsembleSampler):
     def compute_log_prob(self, coords):
@@ -99,13 +101,14 @@ class SATLASSampler(emcee.EnsembleSampler):
 
         return log_prob, blob
 
+
 class SATLASHDFBackend(emcee.backends.HDFBackend):
     @property
     def labels(self):
         with self.open() as f:
             g = f[self.name]
             return g.attrs["labels"]
-    
+
     @labels.setter
     def labels(self, labels):
         with self.open("a") as f:
@@ -114,7 +117,6 @@ class SATLASHDFBackend(emcee.backends.HDFBackend):
 
 
 class SATLASMinimizer(Minimizer):
-
     def process_walk(self, params, chain):
         result = self.prepare_fit(params)
         params = result.params
@@ -144,7 +146,7 @@ class SATLASMinimizer(Minimizer):
 
         result.errorbars = True
         result.nvarys = len(result.var_names)
-        result.nfev = nwalkers*steps
+        result.nfev = nwalkers * steps
 
         try:
             result.acor = emcee.autocorr.integrated_time(chain)
@@ -153,12 +155,24 @@ class SATLASMinimizer(Minimizer):
         return result
 
         # Calculate the residual with the "best fit" parameters
-        
 
-    def emcee(self, params=None, steps=1000, nwalkers=100, burn=0, thin=1,
-              ntemps=1, pos=None, reuse_sampler=False, workers=1,
-              float_behavior='posterior', is_weighted=True, seed=None,
-              progress=True, mcmc_kwargs={}, sampler_kwargs={}, sampler=emcee.EnsembleSampler):
+    def emcee(self,
+              params=None,
+              steps=1000,
+              nwalkers=100,
+              burn=0,
+              thin=1,
+              ntemps=1,
+              pos=None,
+              reuse_sampler=False,
+              workers=1,
+              float_behavior='posterior',
+              is_weighted=True,
+              seed=None,
+              progress=True,
+              mcmc_kwargs={},
+              sampler_kwargs={},
+              sampler=emcee.EnsembleSampler):
         if ntemps > 1:
             msg = ("'ntemps' has no effect anymore, since the PTSampler was "
                    "removed from emcee version 3.")
@@ -188,7 +202,10 @@ class SATLASMinimizer(Minimizer):
             if '__lnsigma' not in params:
                 # __lnsigma should already be in params if is_weighted was
                 # previously set to True.
-                params.add('__lnsigma', value=0.01, min=-np.inf, max=np.inf,
+                params.add('__lnsigma',
+                           value=0.01,
+                           min=-np.inf,
+                           max=np.inf,
                            vary=True)
                 # have to re-prepare the fit
                 result = self.prepare_fit(params)
@@ -235,11 +252,13 @@ class SATLASMinimizer(Minimizer):
         # function arguments for the log-probability functions
         # these values are sent to the log-probability functions by the sampler.
         lnprob_args = (self.userfcn, params, result.var_names, bounds)
-        lnprob_kwargs = {'is_weighted': is_weighted,
-                         'float_behavior': float_behavior,
-                         'userargs': self.userargs,
-                         'userkws': self.userkws,
-                         'nan_policy': self.nan_policy}
+        lnprob_kwargs = {
+            'is_weighted': is_weighted,
+            'float_behavior': float_behavior,
+            'userargs': self.userargs,
+            'userkws': self.userkws,
+            'nan_policy': self.nan_policy
+        }
 
         sampler_kwargs['args'] = lnprob_args
         sampler_kwargs['kwargs'] = lnprob_kwargs
@@ -258,11 +277,13 @@ class SATLASMinimizer(Minimizer):
                                  "of varying parameters has changed")
 
         else:
+            # p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.e-4
+            # p0 *= var_arr
             p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.e-4
             p0 *= var_arr
             sampler_kwargs['pool'] = auto_pool
-            self.sampler = sampler(nwalkers, self.nvarys,
-                                                 self._lnprob, **sampler_kwargs)
+            self.sampler = sampler(nwalkers, self.nvarys, self._lnprob,
+                                   **sampler_kwargs)
         backend = sampler_kwargs.pop('backend')
         if backend is not None:
             backend.reset(nwalkers, self.nvarys)
@@ -289,7 +310,10 @@ class SATLASMinimizer(Minimizer):
 
         # now do a production run, sampling all the time
         try:
-            output = self.sampler.run_mcmc(p0, steps, progress=progress, **mcmc_kwargs)
+            output = self.sampler.run_mcmc(p0,
+                                           steps,
+                                           progress=progress,
+                                           **mcmc_kwargs)
             self._lastpos = output.coords
         except AbortFitException:
             result.aborted = True
@@ -300,7 +324,8 @@ class SATLASMinimizer(Minimizer):
 
         # discard the burn samples and thin
         chain = self.sampler.get_chain(thin=thin, discard=burn)[..., :, :]
-        lnprobability = self.sampler.get_log_prob(thin=thin, discard=burn)[..., :]
+        lnprobability = self.sampler.get_log_prob(thin=thin,
+                                                  discard=burn)[..., :]
         flatchain = chain.reshape((-1, self.nvarys))
         if not result.aborted:
             quantiles = np.percentile(flatchain, [15.87, 50, 84.13], axis=0)
@@ -319,13 +344,14 @@ class SATLASMinimizer(Minimizer):
             for i, var_name in enumerate(result.var_names):
                 for j, var_name2 in enumerate(result.var_names):
                     if i != j:
-                        result.params[var_name].correl[var_name2] = corrcoefs[i, j]
+                        result.params[var_name].correl[var_name2] = corrcoefs[
+                            i, j]
 
         result.chain = np.copy(chain)
         result.lnprob = np.copy(lnprobability)
         result.errorbars = True
         result.nvarys = len(result.var_names)
-        result.nfev = nwalkers*steps
+        result.nfev = nwalkers * steps
 
         try:
             result.acor = self.sampler.get_autocorr_time()
@@ -335,16 +361,19 @@ class SATLASMinimizer(Minimizer):
 
         # Calculate the residual with the "best fit" parameters
         out = self.userfcn(params, *self.userargs, **self.userkws)
-        result.residual = _nan_policy(out, nan_policy=self.nan_policy,
+        result.residual = _nan_policy(out,
+                                      nan_policy=self.nan_policy,
                                       handle_inf=False)
 
         # If uncertainty was automatically estimated, weight the residual properly
         if (not is_weighted) and (result.residual.size > 1):
             if '__lnsigma' in params:
-                result.residual = result.residual/np.exp(params['__lnsigma'].value)
+                result.residual = result.residual / np.exp(
+                    params['__lnsigma'].value)
 
         # Calculate statistics for the two standard cases:
-        if isinstance(result.residual, np.ndarray) or (float_behavior == 'chi2'):
+        if isinstance(result.residual, np.ndarray) or (float_behavior
+                                                       == 'chi2'):
             result._calculate_statistics()
 
         # Handle special case unique to emcee:
@@ -354,7 +383,7 @@ class SATLASMinimizer(Minimizer):
             result.nfree = 1
 
             # assuming prior prob = 1, this is true
-            _neg2_log_likel = -2*result.residual
+            _neg2_log_likel = -2 * result.residual
 
             # assumes that residual is properly weighted, avoid overflowing np.exp()
             result.chisqr = np.exp(min(650, _neg2_log_likel))
@@ -369,12 +398,28 @@ class SATLASMinimizer(Minimizer):
         return result
 
 
-def minimize(fcn, params, method='leastsq', args=None, kws=None, iter_cb=None,
-             scale_covar=True, nan_policy='raise', reduce_fcn=None,
-             calc_covar=True, max_nfev=None, **fit_kws):
+def minimize(fcn,
+             params,
+             method='leastsq',
+             args=None,
+             kws=None,
+             iter_cb=None,
+             scale_covar=True,
+             nan_policy='raise',
+             reduce_fcn=None,
+             calc_covar=True,
+             max_nfev=None,
+             **fit_kws):
     minimizer_kws = fit_kws.pop('minimizer_kws', {})
-    fitter = SATLASMinimizer(fcn, params, fcn_args=args, fcn_kws=kws,
-                       iter_cb=iter_cb, scale_covar=scale_covar,
-                       nan_policy=nan_policy, reduce_fcn=reduce_fcn,
-                       calc_covar=calc_covar, max_nfev=max_nfev, **fit_kws)
+    fitter = SATLASMinimizer(fcn,
+                             params,
+                             fcn_args=args,
+                             fcn_kws=kws,
+                             iter_cb=iter_cb,
+                             scale_covar=scale_covar,
+                             nan_policy=nan_policy,
+                             reduce_fcn=reduce_fcn,
+                             calc_covar=calc_covar,
+                             max_nfev=max_nfev,
+                             **fit_kws)
     return fitter.minimize(method=method, **minimizer_kws)
