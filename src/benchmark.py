@@ -91,20 +91,29 @@ for scancouple in spectra[mass][spin]:
     i += 1
 fig, axes = plt.subplots(ncols=2, figsize=(14, 9), sharey=False, nrows=i)
 f.shareModelParams(['Al', 'Au', 'Bl', 'Bu'])
-f.prepareFit()
+# f.prepareFit()
 f.setExpr('Scan4648___Ag1113_5___Au', '0.0181664043527959*Scan4648___Ag1113_5___Al')
 # f.temp_y = f.y()
 # m = f.createMinuit()
-f.fit(prepFit=False, llh_selected=False)
 start = time.time()
-f.fit(prepFit=False, llh_selected=True, method='tnc')
-# m.migrad()
+f.fit()
 stop = time.time()
+f.fit(llh_selected=True, method='slsqp')
+# m.migrad()
+# f.fit(llh_selected=True, method='slsqp')
 print(f.reportFit())
 # print(m)
 print('Fitting time: {:.3f}s'.format(stop - start))
 # print(f.sources)
 # print(axes)
+f.fit(llh_selected=True,
+      method='emcee',
+      llh_method='poisson',
+      filename='benchmark.h5',
+      steps=1000,
+      nwalkers=75)
+print(f.reportFit())
+
 for i, (name, source) in enumerate(f.sources):
     ax0 = axes[i][0]
     ax1 = axes[i][1]
@@ -142,4 +151,6 @@ for i, (name, source) in enumerate(f.sources):
     ax1.plot(source.x, source.evaluate(source.x))
     ax0.set_xlim(-19000, -14000)
     ax1.set_xlim(19000, 24000)
+satlas2.generateCorrelationPlot('benchmark.h5', selection=(10, 100))
+satlas2.generateWalkPlot('benchmark.h5')
 plt.show()

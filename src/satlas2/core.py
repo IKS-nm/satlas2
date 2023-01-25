@@ -250,13 +250,13 @@ class Fitter:
         # print('here')
         # raise ImportError
         # print('here')
-        return 0.5 * resid * resid  # Faster than **2
+        return -0.5 * resid * resid  # Faster than **2
 
     def poissonLlh(self):
         model_calcs = self.f()
         returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
-        returnvalue[model_calcs<=0] = -1e20
-        return -returnvalue
+        returnvalue[model_calcs <= 0] = -1e20
+        return returnvalue
 
     def poissonChisq(self):
         model_calcs = self.f(y)
@@ -270,8 +270,12 @@ class Fitter:
         # returnvalue = np.sum(methods[method.lower()]())
         # if not np.isfinite(returnvalue):
         #     returnvalue = -1e99
-        # if not emcee:
-        #     returnvalue *= -1
+        if not emcee:
+            returnvalue *= -1
+        else:
+            returnvalue = np.sum(returnvalue)
+        # print(params['Data___model___scale'].value, returnvalue.sum())
+        # print(params, returnvalue.sum())
         return returnvalue
 
     def reduction(self, r):
@@ -374,7 +378,7 @@ class Fitter:
 
     def readWalk(self, filename):
         reader = SATLASHDFBackend(filename)
-        var_names = list(reader.labels)
+        # var_names = list(reader.labels)
         data = reader.get_chain(flat=False)
         try:
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
