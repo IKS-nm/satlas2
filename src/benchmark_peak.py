@@ -14,12 +14,12 @@ def modifiedSqrt(input):
 x = np.linspace(-100, 100, 50)
 
 f = satlas2.Fitter()
-m = satlas2.HFS(0, [0.5, 1.5], scale=10, name='model', fwhm=20)
+m = satlas2.HFS(0, [0.5, 1.5], scale=10, name='model', fwhmg=20, fwhml=20)
 m2 = satlas2.Polynomial([1], name='bkg')
-m.params['centroid'].min = -100
-m.params['centroid'].max = 100
-m.params['FWHMG'].max = 100
-m.params['FWHML'].max = 100
+# m.params['centroid'].min = -100
+# m.params['centroid'].max = 100
+# m.params['FWHMG'].max = 100
+# m.params['FWHML'].max = 100
 rng = np.random.default_rng(0)
 y = m.f(x) + m2.f(x)
 # y = m2.f(x)
@@ -28,16 +28,19 @@ d = satlas2.Source(x, y, modifiedSqrt, name='Data')
 d.addModel(m)
 d.addModel(m2)
 f.addSource(d)
-# y = np.random.Generator.poisson(lam=y)
+f.setExpr('___'.join(['Data', 'model', 'FWHML']), '___'.join(['Data', 'model', 'FWHMG']))
+f.mode = 'combined'
 start = time.time()
-f.fit(llh_selected=True, method='slsqp', llh_method='poisson', scale_covar=False)
+# f.fit(llh_selected=True, method='slsqp', llh_method='poisson', scale_covar=False)
+# f.fit(llh_selected=True, method='slsqp', llh_method='gaussian', scale_covar=True)
+f.fit()
 stop = time.time()
-f.fit(llh_selected=True,
-      method='emcee',
-      llh_method='poisson',
-      filename='peak.h5',
-      steps=1000,
-      nwalkers=25)
+# f.fit(llh_selected=True,
+#       method='emcee',
+#       llh_method='poisson',
+#       filename='peak.h5',
+#       steps=1000,
+#       nwalkers=25)
 # f.fit()
 print(f.reportFit())
 print(stop - start)
@@ -84,12 +87,12 @@ plot_x = np.linspace(-100, 100, 200)
 fig = plt.figure()
 ax = fig.add_axes([0.1, 0.1, 0.85, 0.85])
 # ax.hist(sampler.get_chain(flat=True), 100, histtype='step')
-ax.plot(x, y, drawstyle='steps')
+ax.plot(x, y, drawstyle='steps-mid')
 # ax.errorbar(x, y, yerr, fmt='.')
 ax.plot(plot_x, d.evaluate(plot_x))
 ax.grid()
-satlas2.generateCorrelationPlot('peak.h5', selection=(20, 100))
-satlas2.generateWalkPlot('peak.h5')
+# satlas2.generateCorrelationPlot('peak.h5', selection=(20, 100))
+# satlas2.generateWalkPlot('peak.h5')
 
 # fig, ax = plt.subplots(1, figsize=(10, 7), sharex=True)
 # samples = sampler.get_chain()
@@ -100,5 +103,6 @@ satlas2.generateWalkPlot('peak.h5')
 # ax.yaxis.set_label_coords(-0.1, 0.5)
 
 # ax.set_xlabel("step number");
+
 
 plt.show()

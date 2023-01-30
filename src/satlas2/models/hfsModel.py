@@ -11,7 +11,7 @@ sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
 
 class HFS(Model):
-    def __init__(self, I, J, A=[0, 0], B=[0, 0], C=[0, 0], df=0, fwhm=50, name=None, N=None, offset=0, poisson=0, scale=1.0, racah=True, prefunc=None):
+    def __init__(self, I, J, A=[0, 0], B=[0, 0], C=[0, 0], df=0, fwhmg=50, fwhml=50, name=None, N=None, offset=0, poisson=0, scale=1.0, racah=True, prefunc=None):
         super().__init__(name=name, prefunc=prefunc)
         J1, J2 = J
         lower_F = np.arange(abs(I - J1), I+J1+1, 1)
@@ -68,8 +68,8 @@ class HFS(Model):
                 'Cl': Parameter(value=C[0], vary=False),
                 'Cu': Parameter(value=C[1], vary=False),
                 # 'bkg': Parameter(value=bkg),
-                'FWHMG': Parameter(value=fwhm, min=0.01),
-                'FWHML': Parameter(value=fwhm, min=0.01),
+                'FWHMG': Parameter(value=fwhmg, min=0.01),
+                'FWHML': Parameter(value=fwhml, min=0.01),
                 'scale': Parameter(value=scale, min=0, vary=racah)}
         if N is not None:
             pars['N'] = Parameter(value=N, vary=False)

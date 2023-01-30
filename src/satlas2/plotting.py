@@ -346,8 +346,10 @@ def generateChisquareMap(fitter,
 def generateCorrelationPlot(filename,
                             filter=None,
                             bins=None,
-                            selection=(0, 100),
-                            source=False,
+                            burnin=0,
+                            source=True,
+                            binreduction=1,
+                            bin2dreduction=1,
                             model=True):
     """Given the random walk data, creates a triangle plot: distribution of
     a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
@@ -381,18 +383,19 @@ def generateCorrelationPlot(filename,
         to_be_combined.insert(0, sources)
 
     var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    full_names = list(reader.labels)
 
     data = reader.get_chain(flat=False)
     dataset_length = data.shape[0]
-    first, last = int(np.floor(dataset_length / 100 * selection[0])), int(
-        np.ceil(dataset_length / 100 * selection[1]))
+    first, last = int(burnin), int(dataset_length)
     data = data[first:last, :, :]
     data = data.reshape(-1, data.shape[-1])
 
     if filter is not None:
-        filter = [c for f in filter for c in var_names if f in c]
+        filter = [(c, n) for f in filter
+                  for (c, n) in zip(var_names, full_names) if f in c]
     else:
-        filter = var_names
+        filter = list(zip(var_names, full_names))
     with tqdm.tqdm(total=len(filter) + (len(filter)**2 - len(filter)) / 2,
                    leave=True) as pbar:
         fig, axes, cbar = _make_axes_grid(len(filter), axis_padding=0)
@@ -401,16 +404,18 @@ def generateCorrelationPlot(filename,
         if not isinstance(bins, list):
             bins = [bins for _ in filter]
         for i, val in enumerate(filter):
-            pbar.set_description(val)
+            name, full_name = val
+            pbar.set_description(name)
             ax = axes[i, i]
             bin_index = i
-            i = var_names.index(val)
+            i = full_names.index(full_name)
             x = data[:, i]
 
             if bins[bin_index] is None:
                 width = 3.5 * np.std(x) / x.size**(
                     1 / 3)  #Scott's rule for binwidth
-                bins[bin_index] = np.arange(x.min(), x.max() + width, width)
+                bins[bin_index] = int(
+                    min(int(x.ptp() / width), 1000) / binreduction)
             try:
                 n, b, p, = ax.hist(x,
                                    int(bins[bin_index]),
@@ -426,7 +431,7 @@ def generateCorrelationPlot(filename,
             # q50 = (b[center] + b[center+1])/2
             q = [15.87, 50, 84.13]
             q16, q50, q84 = np.percentile(x, q)
-            metadata[val] = {
+            metadata[full_name] = {
                 'bins': bins[bin_index],
                 'min': x.min(),
                 'max': x.max()
@@ -441,9 +446,9 @@ def generateCorrelationPlot(filename,
             l = down.split('+/-')[1].split(')')[0]
             if 'e' in up or 'e' in down:
                 ex = up.split('e')[-1]
-                ax.set_title(title_e.format(val, param_val, l, r, ex))
+                ax.set_title(title_e.format(name, param_val, l, r, ex))
             else:
-                ax.set_title(title.format(val, param_val, l, r))
+                ax.set_title(title.format(name, param_val, l, r))
 
             qvalues = [q16, q50, q84]
             c = '#0093e6'
@@ -454,24 +459,24 @@ def generateCorrelationPlot(filename,
             pbar.update(1)
 
         for i, j in zip(*np.tril_indices_from(axes, -1)):
-            x_name = filter[j]
-            y_name = filter[i]
+            x_name, x_fullname = filter[j]
+            y_name, y_fullname = filter[i]
             pbar.set_description(', '.join([x_name, y_name]))
             ax = axes[i, j]
             if j == 0:
-                ax.set_ylabel(filter[i])
+                ax.set_ylabel(y_name)
             if i == len(filter) - 1:
-                ax.set_xlabel(filter[j])
-            j = var_names.index(x_name)
-            i = var_names.index(y_name)
+                ax.set_xlabel(x_name)
+            j = full_names.index(x_fullname)
+            i = full_names.index(y_fullname)
             x = data[:, j]
             y = data[:, i]
-            x_min, x_max, x_bins = metadata[x_name]['min'], metadata[x_name][
-                'max'], metadata[x_name]['bins']
-            y_min, y_max, y_bins = metadata[y_name]['min'], metadata[y_name][
-                'max'], metadata[y_name]['bins']
-            X = np.linspace(x_min, x_max, x_bins + 1)
-            Y = np.linspace(y_min, y_max, y_bins + 1)
+            x_min, x_max, x_bins = metadata[x_fullname]['min'], metadata[
+                x_fullname]['max'], metadata[x_fullname]['bins']
+            y_min, y_max, y_bins = metadata[y_fullname]['min'], metadata[
+                y_fullname]['max'], metadata[y_fullname]['bins']
+            X = np.linspace(x_min, x_max, int(x_bins / bin2dreduction) + 1)
+            Y = np.linspace(y_min, y_max, int(y_bins / bin2dreduction) + 1)
             H, X, Y = np.histogram2d(x.flatten(),
                                      y.flatten(),
                                      bins=(X, Y),
@@ -505,9 +510,12 @@ def generateCorrelationPlot(filename,
             pbar.update(1)
         try:
             cbar = plt.colorbar(contourset, cax=cbar, orientation='vertical')
-            cbar.ax.yaxis.set_ticks([0, 1 / 6, 0.5, 5 / 6])
-            cbar.ax.set_yticklabels(
-                ['', r'3$\sigma$', r'2$\sigma$', r'1$\sigma$'])
+            ticks = cbar.ax.get_yticks()
+            dfticks = (ticks[1:] - ticks[:-1]) / 2
+            ticks = ticks[:-1] + dfticks
+            cbar.ax.yaxis.set_ticks(ticks)
+            # cbar.ax.yaxis.set_ticks([0, 1 / 6, 0.5, 5 / 6, 1.0])
+            cbar.ax.set_yticklabels([r'3$\sigma$', r'2$\sigma$', r'1$\sigma$'])
         except:
             cbar = None
     return fig, axes, cbar
@@ -515,8 +523,7 @@ def generateCorrelationPlot(filename,
 
 def generateWalkPlot(filename,
                      filter=None,
-                     selection=(0, 100),
-                     walkers=20,
+                     burnin=0,
                      source=False,
                      model=True):
     """Given the random walk data, the random walk for the selected parameters
@@ -547,29 +554,31 @@ def generateWalkPlot(filename,
         to_be_combined.insert(0, sources)
 
     var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    full_names = list(reader.labels)
 
     data = reader.get_chain(flat=False)
     dataset_length = data.shape[0]
-    first, last = int(np.floor(dataset_length / 100 * selection[0])), int(
-        np.ceil(dataset_length / 100 * selection[1]))
+    first, last = int(burnin), dataset_length
     data = data[first:last, :, :]
 
     if filter is not None:
-        filter = [c for f in filter for c in var_names if f in c]
+        filter = [(c, n) for f in filter
+                  for (c, n) in zip(var_names, full_names) if f in c]
     else:
-        filter = var_names
+        filter = list(zip(var_names, full_names))
     with tqdm.tqdm(total=len(filter), leave=True) as pbar:
         fig, axes = plt.subplots(len(filter), 1, sharex=True)
 
         if len(filter) == 1:
             axes = [axes]
         for i, (val, ax) in enumerate(zip(filter, axes)):
-            pbar.set_description(val)
-            i = var_names.index(val)
+            name, full_name = val
+            pbar.set_description(name)
+            i = full_names.index(full_name)
             x = data[:, :, i]
             q50 = np.percentile(x, [50.0])
             ax.plot(range(first, last), x, alpha=0.3, color='gray')
-            ax.set_ylabel(val)
+            ax.set_ylabel(name)
             ax.axhline(q50, color='k')
             pbar.update(1)
         ax.set_xlabel('Step')

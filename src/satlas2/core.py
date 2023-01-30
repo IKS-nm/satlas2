@@ -18,8 +18,7 @@ __all__ = ['Fitter', 'Source', 'Model', 'Parameter']
 
 def modifiedSqrt(input):
     output = np.sqrt(input)
-    output[input <= 0] = 0.5
-    # output[input <= 0] = 1
+    output[input <= 0] = 1
     return output
 
 
@@ -307,8 +306,8 @@ class Fitter:
         self.createBounds()
         self.createLmParameters()
 
-    def reportFit(self):
-        return lm.fit_report(self.result)
+    def reportFit(self, modelpars=None, show_correl=False, min_correl=0.1, sort_pars=False):
+        return lm.fit_report(self.result, modelpars, show_correl, min_correl, sort_pars)
 
     def fit(self,
             prepFit=True,
