@@ -3,18 +3,8 @@ Reimplementation of several features in the emcee and lmfit packages, in order t
 
 .. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
 """
-import h5py
-
-from collections import namedtuple
-from copy import deepcopy
-import inspect
 import multiprocessing
-import numbers
-import warnings
-
 import numpy as np
-import uncertainties
-
 import emcee
 from emcee.autocorr import AutocorrError, integrated_time
 from lmfit import Minimizer
