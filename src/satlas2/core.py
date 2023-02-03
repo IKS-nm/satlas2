@@ -256,7 +256,7 @@ class Fitter:
         return returnvalue
 
     def poissonChisq(self):
-        model_calcs = self.f(y)
+        model_calcs = self.f()
         return 2 * (model_calcs - self.temp_y +
                     self.temp_y * np.log(self.temp_y / model_calcs))
 
