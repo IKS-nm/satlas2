@@ -9,6 +9,7 @@ import emcee
 from emcee.autocorr import AutocorrError, integrated_time
 from lmfit import Minimizer
 import lmfit.minimizer
+AbortFitException = lmfit.minimizer.AbortFitException
 from typing import Dict, List, Optional, Union
 
 try:
@@ -18,6 +19,11 @@ try:
 except ImportError:
     HAS_PANDAS = False
     isnull = np.isnan
+try:
+    import dill  # noqa: F401
+    HAS_DILL = True
+except ImportError:
+    HAS_DILL = False
 _make_random_gen = lmfit.minimizer._make_random_gen
 isnull = lmfit.minimizer.isnull
 _nan_policy = lmfit.minimizer._nan_policy
