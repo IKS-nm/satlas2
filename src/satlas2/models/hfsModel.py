@@ -99,35 +99,23 @@ class HFS(Model):
 
     def fUnshifted(self, x):
         centroid = self.params['centroid'].value
-        # centroid = params[0]
         Al = self.params['Al'].value
-        # Al = params[1]
         Au = self.params['Au'].value
-        # Au = params[2]
         Bl = self.params['Bl'].value
-        # Bl = params[3]
         Bu = self.params['Bu'].value
-        # Bu = params[4]
         Cl = self.params['Cl'].value
-        # Cl = params[5]
         Cu = self.params['Cu'].value
-        # Cu = params[6]
         FWHMG = self.params['FWHMG'].value
-        # FWHMG = params[7]
         FWHML = self.params['FWHML'].value
-        # FWHML = params[8]
         scale = self.params['scale'].value
-        # scale = params[9]
-        # bkg = self.params['bkg'].value
-        # bkg = params[10]
 
         result = np.zeros(len(x))
-        # x = self.transform(x)
+        x = self.transform(x)
         for line in self.lines:
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
-            result += self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
+            result += scale * self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
 
-        return scale * result
+        return result
     
     def fUnshiftedParams(self, x, *params):
         # centroid = self.params['centroid'].value

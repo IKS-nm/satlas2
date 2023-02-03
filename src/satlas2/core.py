@@ -197,9 +197,10 @@ class Fitter:
 
     def setParameters(self, params):
         for p in params.keys():
-            source_name, model_name, parameter_name = p.split('___')
-            self.pars[source_name][model_name][parameter_name].value = params[
-                p].value
+            if params[p].vary or params[p].expr != None:
+                source_name, model_name, parameter_name = p.split('___')
+                self.pars[source_name][model_name][parameter_name].value = params[
+                    p].value
 
     def setUncertainties(self, params):
         for p in params.keys():
@@ -246,15 +247,12 @@ class Fitter:
 
     def gaussLlh(self):
         resid = self.residualCalculation()
-        # print('here')
-        # raise ImportError
-        # print('here')
         return -0.5 * resid * resid  # Faster than **2
 
     def poissonLlh(self):
         model_calcs = self.f()
         returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
-        returnvalue[model_calcs <= 0] = -1e20
+        returnvalue[model_calcs <= 0] = -np.inf
         return returnvalue
 
     def poissonChisq(self):
@@ -266,15 +264,11 @@ class Fitter:
         methods = {'gaussian': self.gaussLlh, 'poisson': self.poissonLlh}
         self.setParameters(params)
         returnvalue = methods[method.lower()]()
-        # returnvalue = np.sum(methods[method.lower()]())
-        # if not np.isfinite(returnvalue):
-        #     returnvalue = -1e99
         if not emcee:
+            returnvalue[~np.isfinite(returnvalue)] = -1e99
             returnvalue *= -1
         else:
             returnvalue = np.sum(returnvalue)
-        # print(params['Data___model___scale'].value, returnvalue.sum())
-        # print(params, returnvalue.sum())
         return returnvalue
 
     def reduction(self, r):
@@ -306,12 +300,16 @@ class Fitter:
         self.createBounds()
         self.createLmParameters()
 
-    def reportFit(self, modelpars=None, show_correl=False, min_correl=0.1, sort_pars=False):
-        return lm.fit_report(self.result, modelpars, show_correl, min_correl, sort_pars)
+    def reportFit(self,
+                  modelpars=None,
+                  show_correl=False,
+                  min_correl=0.1,
+                  sort_pars=False):
+        return lm.fit_report(self.result, modelpars, show_correl, min_correl,
+                             sort_pars)
 
     def fit(self,
-            prepFit=True,
-            llh_selected=False,
+            llh=False,
             llh_method='gaussian',
             method='leastsq',
             kws={},
@@ -322,19 +320,16 @@ class Fitter:
             nwalkers=50,
             scale_covar=True):
         self.temp_y = self.y()
-        if prepFit:
-            self.prepareFit()
-        if llh_method.lower() == 'poisson':
-            llh_selected = True
+        self.prepareFit()
 
         kws = {}
         kwargs = {}
-        if llh_selected or method.lower() == 'emcee':
-            llh_selected = True
+        if llh or method.lower() == 'emcee':
+            llh = True
             func = self.llh
             kws['method'] = llh_method
             if method.lower() in ['leastsq', 'least_squares']:
-                method = 'nelder'
+                method = 'slsqp'
         else:
             func = self.optimizeFunc
 
@@ -366,12 +361,6 @@ class Fitter:
                                reduce_fcn=reduce_fcn,
                                scale_covar=scale_covar,
                                **kwargs)
-        if llh_selected:
-            self.llh_result = self.llh(self.result.params, method=llh_method)
-            self.nllh_result = self.llh(self.result.params, method=llh_method)
-        else:
-            self.llh_result = None
-            self.nllh_result = None
         del self.temp_y
         self.updateInfo()
 
@@ -422,8 +411,6 @@ class Source:
         self.y = y
         self.xerr = xerr
         self.yerr_data = yerr
-        # if self.yerr_data == 1:
-        #     self.yerr_data = np.ones(self.x.shape)
         if name is not None:
             self.name = name
         self.models = []
@@ -447,7 +434,7 @@ class Source:
             except UnboundLocalError:
                 f = model.f(self.x)
         return f
-    
+
     def evaluate(self, x):
         for name, model in self.models:
             try:
@@ -463,13 +450,13 @@ class Source:
         else:
             err = self.yerr_data(self.f())
         if self.xerr is not None:
-            xerr = self.derivative(self.x)*self.xerr
-            err = (err*err + xerr*xerr)**0.5
+            xerr = self.derivative(self.x) * self.xerr
+            err = (err * err + xerr * xerr)**0.5
         return err
 
 
 class Model:
-    def __init__(self, prefunc=None, name=None, pretransform=True):
+    def __init__(self, prefunc=None, name=None):
         super().__init__()
         self.name = name
         self.prefunc = prefunc
@@ -490,9 +477,6 @@ class Model:
 
     def setTransform(self, func):
         self.prefunc = func
-
-    def params(self):
-        return {}
 
     def setBounds(self, name, bounds):
         if name in self.params.keys():
