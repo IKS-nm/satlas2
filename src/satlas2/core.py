@@ -334,6 +334,7 @@ class Fitter:
             func = self.optimizeFunc
 
         if method == 'emcee':
+            llh = True
             func = self.llh
             kws['method'] = llh_method
             kws['emcee'] = True
@@ -351,6 +352,9 @@ class Fitter:
             kwargs['sampler'] = SATLASSampler
             kwargs['steps'] = steps
             kwargs['nwalkers'] = nwalkers
+            kwargs['nan_policy'] = 'propagate'
+        if llh:
+            scale_covar = False
 
         reduce_fcn = self.reduction
         self.result = minimize(func,
