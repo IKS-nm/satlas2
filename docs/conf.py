@@ -22,7 +22,7 @@ copyright = '2023, Wouter Gins'
 author = 'Wouter Gins'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '0.2.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -34,7 +34,20 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.intersphinx',
 ]
+
+intersphinx_mapping = {
+    'numpy': ('https://numpy.org/doc/stable/', None),
+}
+
+autodoc_typehints_format = 'short'
+python_use_unqualified_type_names = True
+
+autodoc_type_aliases = {
+    'ArrayLike': 'ArrayLike',
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -51,6 +64,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_book_theme'
+html_logo = 'satlas.svg'
+html_favicon = 'favicon.svg'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
