@@ -5,3 +5,4 @@ dist/*.whl
 dist/*.tar.gz
 src/satlas2.egg-info
 src/satlas2/_version.py
+docs/_build
