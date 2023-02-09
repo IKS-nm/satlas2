@@ -1,7 +1,40 @@
+[project]
+name = 'satlas2'
+dependencies = [
+    'numpy',
+    'matplotlib',
+    'scipy',
+    'h5py',
+    'emcee',
+    'sympy',
+    'lmfit',
+    'uncertainties',
+    'tqdm',
+]
+authors = [
+    {name = "Wouter Gins", email = "wouter.gins@kuleuven.be"},
+    {name = "Bram van den Borne", email = "bram.vandenborne@kuleuven.be"},
+]
+description = "Fitting package aimed at laser spectroscopy"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["physics", "hyperfine structure", "fitting"]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dynamic = ["version"]
+
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 write_to = "src/satlas2/_version.py"
-local_scheme = "no-local-version"

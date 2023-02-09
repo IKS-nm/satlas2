@@ -16,7 +16,7 @@ class Polynomial(Model):
         super().__init__(name=name, prefunc=prefunc)
         self.params = {'p'+str(len(p)-(i+1)): Parameter(value=P, min=-np.inf, max=np.inf, vary=True) for i, P in enumerate(p)}
 
-    def f(self, x):
+    def f(self, x) -> float:
         x = self.transform(x)
         p = [self.params[paramkey].value for paramkey in self.params.keys()]
         return np.polyval(p, x)

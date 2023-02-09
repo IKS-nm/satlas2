@@ -1,5 +1,6 @@
 # Specify filepatterns you want git to ignore.
 *.pyc
+*.h5
 dist/*.whl
 dist/*.tar.gz
 src/satlas2.egg-info

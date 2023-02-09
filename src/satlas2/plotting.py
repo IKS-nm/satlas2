@@ -15,7 +15,9 @@ from scipy.stats import chi2
 import tqdm
 from .overwrite import SATLASHDFBackend
 
-inv_color_list = ['#7acfff', '#fff466', '#00c48f', '#ff8626', '#ff9cd3', '#0093e6']
+inv_color_list = [
+    '#7acfff', '#fff466', '#00c48f', '#ff8626', '#ff9cd3', '#0093e6'
+]
 color_list = [c for c in reversed(inv_color_list)]
 cmap = mpl.colors.ListedColormap(color_list)
 cmap.set_over(color_list[-1])
@@ -24,9 +26,16 @@ invcmap = mpl.colors.ListedColormap(inv_color_list)
 invcmap.set_over(inv_color_list[-1])
 invcmap.set_under(inv_color_list[0])
 
-__all__ = ['generateChisquareMap', 'generateCorrelationPlot', 'generateWalkPlot']
+__all__ = [
+    'generateChisquareMap', 'generateCorrelationPlot', 'generateWalkPlot'
+]
 
-def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cbar=True):
+
+def _make_axes_grid(no_variables,
+                    padding=0,
+                    cbar_size=0.5,
+                    axis_padding=0.5,
+                    cbar=True):
     """Makes a triangular grid of axes, with a colorbar axis next to it.
 
     Parameters
@@ -56,19 +65,22 @@ def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cb
     fig = plt.figure()
     padding = 1
 
-    axis_size_left = (fig.get_figwidth()-padding - 0*(no_variables + 1) * padding) / no_variables
-    axis_size_up = (fig.get_figheight()-padding - 0*(no_variables + 1) * padding) / no_variables
+    axis_size_left = (fig.get_figwidth() - padding - 0 *
+                      (no_variables + 1) * padding) / no_variables
+    axis_size_up = (fig.get_figheight() - padding - 0 *
+                    (no_variables + 1) * padding) / no_variables
 
     cbar_size = cbar_size / fig.get_figwidth()
     left_padding = padding * 0.5 / fig.get_figwidth()
     left_axis_padding = axis_padding / fig.get_figwidth()
     up_padding = padding * 0.5 / fig.get_figheight()
-    up_axis_padding = 0*axis_padding / fig.get_figheight()
+    up_axis_padding = 0 * axis_padding / fig.get_figheight()
     axis_size_left = axis_size_left / fig.get_figwidth()
     axis_size_up = axis_size_up / fig.get_figheight()
 
     # Pre-allocate a 2D-array to hold the axes.
-    axes = np.array([[None for _ in range(no_variables)] for _ in range(no_variables)],
+    axes = np.array([[None for _ in range(no_variables)]
+                     for _ in range(no_variables)],
                     dtype='object')
 
     for i, I in zip(range(no_variables), reversed(range(no_variables))):
@@ -80,7 +92,7 @@ def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cb
                 sharex = axes[j, j] if i != j else None
                 # Share the y-axis among the 2D maps along one row,
                 # but not the plot on the diagonal!
-                sharey = axes[i, i-1] if (i != j and i-1 != j) else None
+                sharey = axes[i, i - 1] if (i != j and i - 1 != j) else None
                 # Determine the place and size of the axes
                 left_edge = j * axis_size_left + left_padding
                 bottom_edge = I * axis_size_up + up_padding
@@ -89,8 +101,10 @@ def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cb
                 if I > 0:
                     bottom_edge += I * up_axis_padding
 
-                a = plt.axes([left_edge, bottom_edge, axis_size_left, axis_size_up],
-                             sharex=sharex, sharey=sharey)
+                a = plt.axes(
+                    [left_edge, bottom_edge, axis_size_left, axis_size_up],
+                    sharex=sharex,
+                    sharey=sharey)
                 plt.setp(a.xaxis.get_majorticklabels(), rotation=45)
                 plt.setp(a.yaxis.get_majorticklabels(), rotation=45)
             else:
@@ -107,7 +121,8 @@ def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cb
     for a in axes[:, 1:].flatten():
         if a is not None:
             plt.setp(a.get_yticklabels(), visible=False)
-    left_edge = no_variables*(axis_size_left+left_axis_padding)+left_padding
+    left_edge = no_variables * (axis_size_left +
+                                left_axis_padding) + left_padding
     bottom_edge = up_padding
     width = cbar_size
 
@@ -115,14 +130,26 @@ def _make_axes_grid(no_variables, padding=0, cbar_size=0.5, axis_padding=0.5, cb
 
     cbar_width = axis_size_left * 0.1
     if cbar:
-        cbar = plt.axes([1-cbar_width-padding*0.5/fig.get_figwidth(), padding*0.5/fig.get_figheight()+axis_size_up*1.5, cbar_width, axis_size_up*(no_variables-1)-axis_size_up*0.5])
+        cbar = plt.axes([
+            1 - cbar_width - padding * 0.5 / fig.get_figwidth(),
+            padding * 0.5 / fig.get_figheight() + axis_size_up * 1.5,
+            cbar_width, axis_size_up * (no_variables - 1) - axis_size_up * 0.5
+        ])
         plt.setp(cbar.get_xticklabels(), visible=False)
         plt.setp(cbar.get_yticklabels(), visible=False)
     else:
         cbar = None
     return fig, axes, cbar
 
-def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_diag=15, resolution_map=15, fit_kws={}, source=False, model=True):
+
+def generateChisquareMap(fitter,
+                         filter=None,
+                         method='chisquare',
+                         resolution_diag=15,
+                         resolution_map=15,
+                         fit_kws={},
+                         source=False,
+                         model=True):
     """Generates a correlation map for either the chisquare or the MLE method.
     On the diagonal, the chisquare or loglikelihood is drawn as a function of one fixed parameter.
     Refitting to the data each time gives the points on the line. A dashed line is drawn on these
@@ -169,10 +196,13 @@ def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_dia
     param_names = []
     no_params = 0
     for p in orig_params:
-        if orig_params[p].vary and (filter is None or any([f in p for f in filter])):
+        if orig_params[p].vary and (filter is None
+                                    or any([f in p for f in filter])):
             no_params += 1
             param_names.append(p)
-    fig, axes, cbar = _make_axes_grid(no_params, axis_padding=0, cbar=no_params > 1)
+    fig, axes, cbar = _make_axes_grid(no_params,
+                                      axis_padding=0,
+                                      cbar=no_params > 1)
 
     split_names = [name.split('___') for name in param_names]
     sources = [name[0] for name in split_names]
@@ -197,7 +227,7 @@ def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_dia
         # Set the y-ticklabels.
         ax = axes[i, i]
         ax.set_title(param_names[i])
-        if i == no_params-1:
+        if i == no_params - 1:
             if method.lower().startswith('chisquare'):
                 ax.set_ylabel(r'$\Delta\chi^2$')
             else:
@@ -214,9 +244,10 @@ def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_dia
         left = value - stderr
         params[param_names[i]].vary = False
 
-        ranges[param_names[i]]['left_val'] = 3*left - 2*value
-        ranges[param_names[i]]['right_val'] = 3*right - 2*value
-        value_range = np.linspace(3*left - 2*value, right*3 - 2*value, resolution_diag)
+        ranges[param_names[i]]['left_val'] = 3 * left - 2 * value
+        ranges[param_names[i]]['right_val'] = 3 * right - 2 * value
+        value_range = np.linspace(3 * left - 2 * value, right * 3 - 2 * value,
+                                  resolution_diag)
         chisquare = np.zeros(len(value_range))
         # Calculate the new value, and store it in the array. Update the progressbar.
         # with tqdm.tqdm(value_range, desc=param_names[i], leave=True) as pbar:
@@ -280,14 +311,15 @@ def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_dia
             fitter.lmpars = params
             fitter.fit(prepFit=False, **fit_kws)
             if fitter.llh_result is not None:
-                Z[k, l] = (fitter.llh_result - orig_value)*2
+                Z[k, l] = (fitter.llh_result - orig_value) * 2
             else:
                 Z[k, l] = fitter.chisqr - orig_value
 
         Z = -Z
         bounds = []
         for bound in [0.997300204, 0.954499736, 0.682689492]:
-            chifunc = lambda x: chi2.cdf(x, 1) - bound # Calculate 1 sigma boundary
+            chifunc = lambda x: chi2.cdf(
+                x, 1) - bound  # Calculate 1 sigma boundary
             bounds.append(-optimize.root(chifunc, 1).x[0])
         bounds.append(0)
         bounds = np.array(bounds)
@@ -310,7 +342,15 @@ def generateChisquareMap(fitter, filter=None, method='chisquare', resolution_dia
     fitter.updateInfo()
     return fig, axes, cbar
 
-def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100), source=False, model=True):
+
+def generateCorrelationPlot(filename,
+                            filter=None,
+                            bins=None,
+                            burnin=0,
+                            source=True,
+                            binreduction=1,
+                            bin2dreduction=1,
+                            model=True):
     """Given the random walk data, creates a triangle plot: distribution of
     a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
     3 sigma contours on the off-diagonal. The 1-sigma limits based on the
@@ -333,7 +373,7 @@ def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100)
     reader = SATLASHDFBackend(filename)
     var_names = list(reader.labels)
     split_names = [name.split('___') for name in var_names]
-    sources = [name[0]+'\n' for name in split_names]
+    sources = [name[0] + '\n' for name in split_names]
     models = [name[1] for name in split_names]
     var_names = [name[2] for name in split_names]
     to_be_combined = [var_names]
@@ -343,57 +383,72 @@ def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100)
         to_be_combined.insert(0, sources)
 
     var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    full_names = list(reader.labels)
 
     data = reader.get_chain(flat=False)
     dataset_length = data.shape[0]
-    first, last = int(np.floor(dataset_length/100*selection[0])), int(np.ceil(dataset_length/100*selection[1]))
+    first, last = int(burnin), int(dataset_length)
     data = data[first:last, :, :]
     data = data.reshape(-1, data.shape[-1])
 
     if filter is not None:
-        filter = [c for f in filter for c in var_names if f in c]
+        filter = [(c, n) for f in filter
+                  for (c, n) in zip(var_names, full_names) if f in c]
     else:
-        filter = var_names
-    with tqdm.tqdm(total=len(filter)+(len(filter)**2-len(filter))/2, leave=True) as pbar:
+        filter = list(zip(var_names, full_names))
+    with tqdm.tqdm(total=len(filter) + (len(filter)**2 - len(filter)) / 2,
+                   leave=True) as pbar:
         fig, axes, cbar = _make_axes_grid(len(filter), axis_padding=0)
 
         metadata = {}
         if not isinstance(bins, list):
             bins = [bins for _ in filter]
         for i, val in enumerate(filter):
-            pbar.set_description(val)
+            name, full_name = val
+            pbar.set_description(name)
             ax = axes[i, i]
             bin_index = i
-            i = var_names.index(val)
+            i = full_names.index(full_name)
             x = data[:, i]
 
             if bins[bin_index] is None:
-                width = 3.5*np.std(x)/x.size**(1/3) #Scott's rule for binwidth
-                bins[bin_index] = np.arange(x.min(), x.max()+width, width)
+                width = 3.5 * np.std(x) / x.size**(
+                    1 / 3)  #Scott's rule for binwidth
+                bins[bin_index] = int(
+                    min(int(x.ptp() / width), 1000) / binreduction)
             try:
-                n, b, p, = ax.hist(x, int(bins[bin_index]), histtype='step', color='k')
+                n, b, p, = ax.hist(x,
+                                   int(bins[bin_index]),
+                                   histtype='step',
+                                   color='k')
             except TypeError:
                 bins[bin_index] = 50
-                n, b, p, = ax.hist(x, int(bins[bin_index]), histtype='step', color='k')
+                n, b, p, = ax.hist(x,
+                                   int(bins[bin_index]),
+                                   histtype='step',
+                                   color='k')
             # center = n.argmax()
             # q50 = (b[center] + b[center+1])/2
             q = [15.87, 50, 84.13]
             q16, q50, q84 = np.percentile(x, q)
-            metadata[val] = {'bins': bins[bin_index], 'min': x.min(), 'max': x.max()}
-
+            metadata[full_name] = {
+                'bins': bins[bin_index],
+                'min': x.min(),
+                'max': x.max()
+            }
 
             title = '{}\n${}_{{-{}}}^{{+{}}}$'
             title_e = '{}\n$({}_{{-{}}}^{{+{}}})e{}$'
-            up = '{:.2ug}'.format(u.ufloat(q50, np.abs(q84-q50)))
-            down = '{:.2ug}'.format(u.ufloat(q50, np.abs(q50-q16)))
+            up = '{:.2ug}'.format(u.ufloat(q50, np.abs(q84 - q50)))
+            down = '{:.2ug}'.format(u.ufloat(q50, np.abs(q50 - q16)))
             param_val = up.split('+/-')[0].split('(')[-1]
             r = up.split('+/-')[1].split(')')[0]
             l = down.split('+/-')[1].split(')')[0]
             if 'e' in up or 'e' in down:
                 ex = up.split('e')[-1]
-                ax.set_title(title_e.format(val, param_val, l, r, ex))
+                ax.set_title(title_e.format(name, param_val, l, r, ex))
             else:
-                ax.set_title(title.format(val, param_val, l, r))
+                ax.set_title(title.format(name, param_val, l, r))
 
             qvalues = [q16, q50, q84]
             c = '#0093e6'
@@ -404,23 +459,27 @@ def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100)
             pbar.update(1)
 
         for i, j in zip(*np.tril_indices_from(axes, -1)):
-            x_name = filter[j]
-            y_name = filter[i]
+            x_name, x_fullname = filter[j]
+            y_name, y_fullname = filter[i]
             pbar.set_description(', '.join([x_name, y_name]))
             ax = axes[i, j]
             if j == 0:
-                ax.set_ylabel(filter[i])
+                ax.set_ylabel(y_name)
             if i == len(filter) - 1:
-                ax.set_xlabel(filter[j])
-            j = var_names.index(x_name)
-            i = var_names.index(y_name)
+                ax.set_xlabel(x_name)
+            j = full_names.index(x_fullname)
+            i = full_names.index(y_fullname)
             x = data[:, j]
             y = data[:, i]
-            x_min, x_max, x_bins = metadata[x_name]['min'], metadata[x_name]['max'], metadata[x_name]['bins']
-            y_min, y_max, y_bins = metadata[y_name]['min'], metadata[y_name]['max'], metadata[y_name]['bins']
-            X = np.linspace(x_min, x_max, x_bins + 1)
-            Y = np.linspace(y_min, y_max, y_bins + 1)
-            H, X, Y = np.histogram2d(x.flatten(), y.flatten(), bins=(X, Y),
+            x_min, x_max, x_bins = metadata[x_fullname]['min'], metadata[
+                x_fullname]['max'], metadata[x_fullname]['bins']
+            y_min, y_max, y_bins = metadata[y_fullname]['min'], metadata[
+                y_fullname]['max'], metadata[y_fullname]['bins']
+            X = np.linspace(x_min, x_max, int(x_bins / bin2dreduction) + 1)
+            Y = np.linspace(y_min, y_max, int(y_bins / bin2dreduction) + 1)
+            H, X, Y = np.histogram2d(x.flatten(),
+                                     y.flatten(),
+                                     bins=(X, Y),
                                      weights=None)
             X1, Y1 = 0.5 * (X[1:] + X[:-1]), 0.5 * (Y[1:] + Y[:-1])
             X, Y = X[:-1], Y[:-1]
@@ -431,7 +490,7 @@ def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100)
             Hflat = Hflat[inds]
             sm = np.cumsum(Hflat)
             sm /= sm[-1]
-            levels = 1.0 - np.exp(-0.5 * np.arange(1, 3.1, 1) ** 2)
+            levels = 1.0 - np.exp(-0.5 * np.arange(1, 3.1, 1)**2)
             V = np.empty(len(levels))
             for i, v0 in enumerate(levels):
                 try:
@@ -442,17 +501,31 @@ def generateCorrelationPlot(filename, filter=None, bins=None, selection=(0, 100)
             bounds = np.unique(np.concatenate([[H.max()], V])[::-1])
             norm = mpl.colors.BoundaryNorm(bounds, invcmap.N)
 
-            contourset = ax.contourf(X1, Y1, H.T, bounds, cmap=invcmap, norm=norm)
+            contourset = ax.contourf(X1,
+                                     Y1,
+                                     H.T,
+                                     bounds,
+                                     cmap=invcmap,
+                                     norm=norm)
             pbar.update(1)
         try:
             cbar = plt.colorbar(contourset, cax=cbar, orientation='vertical')
-            cbar.ax.yaxis.set_ticks([0, 1/6, 0.5, 5/6])
-            cbar.ax.set_yticklabels(['', r'3$\sigma$', r'2$\sigma$', r'1$\sigma$'])
+            ticks = cbar.ax.get_yticks()
+            dfticks = (ticks[1:] - ticks[:-1]) / 2
+            ticks = ticks[:-1] + dfticks
+            cbar.ax.yaxis.set_ticks(ticks)
+            # cbar.ax.yaxis.set_ticks([0, 1 / 6, 0.5, 5 / 6, 1.0])
+            cbar.ax.set_yticklabels([r'3$\sigma$', r'2$\sigma$', r'1$\sigma$'])
         except:
             cbar = None
     return fig, axes, cbar
 
-def generateWalkPlot(filename, filter=None, selection=(0, 100), walkers=20, source=False, model=True):
+
+def generateWalkPlot(filename,
+                     filter=None,
+                     burnin=0,
+                     source=False,
+                     model=True):
     """Given the random walk data, the random walk for the selected parameters
     is plotted.
 
@@ -481,27 +554,31 @@ def generateWalkPlot(filename, filter=None, selection=(0, 100), walkers=20, sour
         to_be_combined.insert(0, sources)
 
     var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    full_names = list(reader.labels)
 
     data = reader.get_chain(flat=False)
     dataset_length = data.shape[0]
-    first, last = int(np.floor(dataset_length/100*selection[0])), int(np.ceil(dataset_length/100*selection[1]))
+    first, last = int(burnin), dataset_length
     data = data[first:last, :, :]
-    # data = data.reshape(-1, data.shape[-1])
 
     if filter is not None:
-        filter = [c for f in filter for c in var_names if f in c]
+        filter = [(c, n) for f in filter
+                  for (c, n) in zip(var_names, full_names) if f in c]
     else:
-        filter = var_names
+        filter = list(zip(var_names, full_names))
     with tqdm.tqdm(total=len(filter), leave=True) as pbar:
         fig, axes = plt.subplots(len(filter), 1, sharex=True)
 
+        if len(filter) == 1:
+            axes = [axes]
         for i, (val, ax) in enumerate(zip(filter, axes)):
-            pbar.set_description(val)
-            i = var_names.index(val)
+            name, full_name = val
+            pbar.set_description(name)
+            i = full_names.index(full_name)
             x = data[:, :, i]
             q50 = np.percentile(x, [50.0])
             ax.plot(range(first, last), x, alpha=0.3, color='gray')
-            ax.set_ylabel(val)
+            ax.set_ylabel(name)
             ax.axhline(q50, color='k')
             pbar.update(1)
         ax.set_xlabel('Step')

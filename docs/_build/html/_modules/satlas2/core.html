@@ -1,0 +1,771 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>satlas2.core &#8212; satlas2 1.0.0 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">satlas2 1.0.0 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../modules.html">
+   satlas2
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../satlas2.html">
+     satlas2 package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../satlas2.models.html">
+       satlas2.models package
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for satlas2.core</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation of the base Fitter, Source, Model and Parameter classes</span>
+
+<span class="sd">.. moduleauthor:: Wouter Gins &lt;wouter.a.gins@jyu.fi&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">optimize</span>
+<span class="kn">import</span> <span class="nn">lmfit</span> <span class="k">as</span> <span class="nn">lm</span>
+<span class="kn">import</span> <span class="nn">emcee</span>
+<span class="kn">import</span> <span class="nn">numdifftools</span> <span class="k">as</span> <span class="nn">nd</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">iminuit</span>
+<span class="kn">from</span> <span class="nn">.overwrite</span> <span class="kn">import</span> <span class="n">SATLASSampler</span><span class="p">,</span> <span class="n">SATLASHDFBackend</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">SATLASMinimizer</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Fitter&#39;</span><span class="p">,</span> <span class="s1">&#39;Source&#39;</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">modifiedSqrt</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">output</span><span class="p">[</span><span class="nb">input</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<div class="viewcode-block" id="Fitter"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter">[docs]</a><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">Bounds</span><span class="p">([],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">share</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;source&#39;</span>
+
+<div class="viewcode-block" id="Fitter.setExpr"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setExpr">[docs]</a>    <span class="k">def</span> <span class="nf">setExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_expression</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameter_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter_expression</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameter_expression</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_expression</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">expression</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_expression</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
+
+<div class="viewcode-block" id="Fitter.shareParams"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.shareParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to be shared across all models.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.shareModelParams"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.shareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to be shared across all models with the same name.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.setParamPrior"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">setParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Fitter.addSource"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.addSource">[docs]</a>    <span class="k">def</span> <span class="nf">addSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Fitter.createParameters"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.createParameters">[docs]</a>    <span class="k">def</span> <span class="nf">createParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">params</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.createMinuit"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.createMinuit">[docs]</a>    <span class="k">def</span> <span class="nf">createMinuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createParameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameterMapping</span><span class="p">()</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">iminuit</span><span class="o">.</span><span class="n">Minuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">createParameterList</span><span class="p">(),</span>
+                           <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m</span></div>
+
+<div class="viewcode-block" id="Fitter.createBounds"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.createBounds">[docs]</a>    <span class="k">def</span> <span class="nf">createBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lower</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">pars</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">parameter</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">parameter</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+                        <span class="n">l</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">value</span>
+                        <span class="n">u</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">value</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">l</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">min</span>
+                        <span class="n">u</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">max</span>
+                    <span class="n">lower</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                    <span class="n">upper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">Bounds</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.createLmParameters"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.createLmParameters">[docs]</a>    <span class="k">def</span> <span class="nf">createLmParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lmpars</span> <span class="o">=</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+        <span class="n">sharing</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sharingModel</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">tuples</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+        <span class="p">):</span>  <span class="c1"># Loop over every datasource in the created parameters</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+            <span class="p">):</span>  <span class="c1"># Loop over every model in the datasource</span>
+                <span class="n">pars</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+                <span class="p">):</span>  <span class="c1"># Loop over every parameter in the model</span>
+                    <span class="n">parameter</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span>
+                                    <span class="n">parameter_name</span><span class="p">])</span>  <span class="c1"># Set a unique name</span>
+                    <span class="n">parameter</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span>
+                                                 <span class="p">])</span>  <span class="c1"># Set a unique identifier</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="p">:</span>  <span class="c1"># Set the sharing of a variable with EVERY model</span>
+                        <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">sharing</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+                        <span class="p">):</span>  <span class="c1"># If not the first instance of a shared variable, get the parameter name</span>
+                            <span class="n">expr</span> <span class="o">=</span> <span class="n">sharing</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">sharing</span><span class="p">[</span>
+                                <span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>  <span class="c1"># If the first instance of a shared variable, set it in the sharing dictionary</span>
+                            <span class="n">expr</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">expr</span>
+                    <span class="k">elif</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="p">:</span>  <span class="c1"># Set the sharing of a variable across all models with the SAME NAME</span>
+                        <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">sharingModel</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+                        <span class="p">)</span> <span class="ow">and</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">sharingModel</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+                        <span class="p">):</span>
+                            <span class="n">expr</span> <span class="o">=</span> <span class="n">sharingModel</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">sharingModel</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
+                            <span class="k">except</span><span class="p">:</span>
+                                <span class="n">sharingModel</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">model_name</span><span class="p">:</span> <span class="n">n</span><span class="p">}</span>
+                            <span class="n">expr</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">expr</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">expr</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">expr</span>
+                    <span class="n">tuples</span> <span class="o">+=</span> <span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">parameter</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">parameter</span><span class="o">.</span><span class="n">vary</span><span class="p">,</span>
+                                <span class="n">parameter</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">parameter</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">)</span>
+        <span class="n">lmpars</span><span class="o">.</span><span class="n">add_many</span><span class="p">(</span><span class="o">*</span><span class="n">tuples</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="n">lmpars</span></div>
+
+<div class="viewcode-block" id="Fitter.createParameterList"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.createParameterList">[docs]</a>    <span class="k">def</span> <span class="nf">createParameterList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">pars</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">pars</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+                        <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="Fitter.setParameterMapping"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setParameterMapping">[docs]</a>    <span class="k">def</span> <span class="nf">setParameterMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">pars</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">pars</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span>
+                            <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">]))</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Fitter.f"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">f</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.y"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.yerr"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.yerr">[docs]</a>    <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">yerr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="n">yerr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">yerr</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">yerr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.setParameters"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span>
+                <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Fitter.setUncertainties"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setUncertainties">[docs]</a>    <span class="k">def</span> <span class="nf">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">unc</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span>
+                <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span></div>
+
+<div class="viewcode-block" id="Fitter.setCorrelations"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.setCorrelations">[docs]</a>    <span class="k">def</span> <span class="nf">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
+            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span><span class="p">)</span>
+            <span class="n">del_keys</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">]</span>
+                                      <span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                        <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                    <span class="n">del_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">del_keys</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span>
+                    <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="n">dictionary</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Fitter.resid"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.resid">[docs]</a>    <span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">model_calcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span>
+            <span class="n">resid</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_calcs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">yerr</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;combined&#39;</span><span class="p">:</span>
+            <span class="n">resid</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_calcs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">modifiedSqrt</span><span class="p">(</span>
+                <span class="mi">3</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">model_calcs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resid</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resid</span></div>
+
+<div class="viewcode-block" id="Fitter.gaussianPriors"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.gaussianPriors">[docs]</a>    <span class="k">def</span> <span class="nf">gaussianPriors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">model</span><span class="p">][</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="n">uncertainty</span>
+            <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">uncertainty</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">priors</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="Fitter.gaussLlh"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.gaussLlh">[docs]</a>    <span class="k">def</span> <span class="nf">gaussLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
+        <span class="c1"># print(&#39;here&#39;)</span>
+        <span class="c1"># raise ImportError</span>
+        <span class="c1"># print(&#39;here&#39;)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span>  <span class="c1"># Faster than **2</span></div>
+
+<div class="viewcode-block" id="Fitter.poissonLlh"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.poissonLlh">[docs]</a>    <span class="k">def</span> <span class="nf">poissonLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">model_calcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+        <span class="n">returnvalue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">model_calcs</span><span class="p">)</span> <span class="o">-</span> <span class="n">model_calcs</span>
+        <span class="n">returnvalue</span><span class="p">[</span><span class="n">model_calcs</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e20</span>
+        <span class="k">return</span> <span class="n">returnvalue</span></div>
+
+<div class="viewcode-block" id="Fitter.poissonChisq"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.poissonChisq">[docs]</a>    <span class="k">def</span> <span class="nf">poissonChisq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">model_calcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">model_calcs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">+</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">/</span> <span class="n">model_calcs</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Fitter.llh"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.llh">[docs]</a>    <span class="k">def</span> <span class="nf">llh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span> <span class="n">emcee</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussLlh</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">poissonLlh</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">returnvalue</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()]()</span>
+        <span class="c1"># returnvalue = np.sum(methods[method.lower()]())</span>
+        <span class="c1"># if not np.isfinite(returnvalue):</span>
+        <span class="c1">#     returnvalue = -1e99</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">emcee</span><span class="p">:</span>
+            <span class="n">returnvalue</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">returnvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">returnvalue</span><span class="p">)</span>
+        <span class="c1"># print(params[&#39;Data___model___scale&#39;].value, returnvalue.sum())</span>
+        <span class="c1"># print(params, returnvalue.sum())</span>
+        <span class="k">return</span> <span class="n">returnvalue</span></div>
+
+<div class="viewcode-block" id="Fitter.reduction"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.reduction">[docs]</a>    <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.callback"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="nb">iter</span><span class="p">,</span> <span class="n">resid</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Fitter.residualCalculation"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.residualCalculation">[docs]</a>    <span class="k">def</span> <span class="nf">residualCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resid</span><span class="p">()</span>
+        <span class="n">priors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriors</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resid</span><span class="p">,</span> <span class="n">priors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resid</span></div>
+
+<div class="viewcode-block" id="Fitter.residualCalculationWithParams"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.residualCalculationWithParams">[docs]</a>    <span class="k">def</span> <span class="nf">residualCalculationWithParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residParams</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">priors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriors</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resid</span><span class="p">,</span> <span class="n">priors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resid</span></div>
+
+<div class="viewcode-block" id="Fitter.optimizeFunc"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.optimizeFunc">[docs]</a>    <span class="k">def</span> <span class="nf">optimizeFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.prepareFit"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.prepareFit">[docs]</a>    <span class="k">def</span> <span class="nf">prepareFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createParameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createBounds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createLmParameters</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.reportFit"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.reportFit">[docs]</a>    <span class="k">def</span> <span class="nf">reportFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelpars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_correl</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">sort_pars</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">modelpars</span><span class="p">,</span> <span class="n">show_correl</span><span class="p">,</span> <span class="n">min_correl</span><span class="p">,</span> <span class="n">sort_pars</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.fit"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">prepFit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">llh_selected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">llh_method</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;leastsq&#39;</span><span class="p">,</span>
+            <span class="n">kws</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">mcmc_kwargs</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">sampler_kwargs</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+            <span class="n">nwalkers</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">scale_covar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">prepFit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepareFit</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">llh_method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span><span class="p">:</span>
+            <span class="n">llh_selected</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">kws</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">llh_selected</span> <span class="ow">or</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;emcee&#39;</span><span class="p">:</span>
+            <span class="n">llh_selected</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llh</span>
+            <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_method</span>
+            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;leastsq&#39;</span><span class="p">,</span> <span class="s1">&#39;least_squares&#39;</span><span class="p">]:</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;nelder&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizeFunc</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;emcee&#39;</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llh</span>
+            <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_method</span>
+            <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;emcee&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">mcmc_kwargs</span><span class="p">[</span><span class="s1">&#39;skip_initial_state_check&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;mcmc_kwargs&#39;</span><span class="p">:</span> <span class="n">mcmc_kwargs</span><span class="p">,</span>
+                <span class="s1">&#39;sampler_kwargs&#39;</span><span class="p">:</span> <span class="n">sampler_kwargs</span>
+            <span class="p">}</span>
+
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sampler&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SATLASSampler</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;steps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nwalkers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nwalkers</span>
+
+        <span class="n">reduce_fcn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">func</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span>
+                               <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+                               <span class="n">iter_cb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">,</span>
+                               <span class="n">kws</span><span class="o">=</span><span class="n">kws</span><span class="p">,</span>
+                               <span class="n">reduce_fcn</span><span class="o">=</span><span class="n">reduce_fcn</span><span class="p">,</span>
+                               <span class="n">scale_covar</span><span class="o">=</span><span class="n">scale_covar</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">llh_selected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">llh_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">llh_method</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nllh_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">llh_method</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">llh_result</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nllh_result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># var_names = list(reader.labels)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">flat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">SATLASMinimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span><span class="o">.</span><span class="n">process_walk</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepareFit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">SATLASMinimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span><span class="o">.</span><span class="n">process_walk</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.updateInfo"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.updateInfo">[docs]</a>    <span class="k">def</span> <span class="nf">updateInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">nvarys</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nfree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">nfree</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">ndata</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chisqr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">chisqr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">redchi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">redchi</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateFitInfoSources</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Fitter.updateFitInfoSources"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Fitter.updateFitInfoSources">[docs]</a>    <span class="k">def</span> <span class="nf">updateFitInfoSources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">source_name</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">chisqr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chisqr</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">ndata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">nfree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfree</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">redchi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">redchi</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xerr</span> <span class="o">=</span> <span class="n">xerr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span> <span class="o">=</span> <span class="n">yerr</span>
+        <span class="c1"># if self.yerr_data == 1:</span>
+        <span class="c1">#     self.yerr_data = np.ones(self.x.shape)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">derivative</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">Derivative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Source.addModel"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source.addModel">[docs]</a>    <span class="k">def</span> <span class="nf">addModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">model</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Source.params"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source.params">[docs]</a>    <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
+        <span class="k">return</span> <span class="n">params</span></div>
+
+<div class="viewcode-block" id="Source.f"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">+=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">UnboundLocalError</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+    
+<div class="viewcode-block" id="Source.evaluate"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">+=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">UnboundLocalError</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+
+<div class="viewcode-block" id="Source.yerr"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Source.yerr">[docs]</a>    <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span><span class="p">):</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xerr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xerr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xerr</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">err</span><span class="o">*</span><span class="n">err</span> <span class="o">+</span> <span class="n">xerr</span><span class="o">*</span><span class="n">xerr</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="k">return</span> <span class="n">err</span></div></div>
+
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pretransform</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span> <span class="o">=</span> <span class="n">prefunc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xtransformed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Model.transform"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span><span class="p">):</span>
+            <span class="n">hashed</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">hashed</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xtransformed</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xtransformed</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="n">hashed</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="Model.setTransform"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.setTransform">[docs]</a>    <span class="k">def</span> <span class="nf">setTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span> <span class="o">=</span> <span class="n">func</span></div>
+
+<div class="viewcode-block" id="Model.params"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.params">[docs]</a>    <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Model.setBounds"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.setBounds">[docs]</a>    <span class="k">def</span> <span class="nf">setBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.setVary"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.setVary">[docs]</a>    <span class="k">def</span> <span class="nf">setVary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">vary</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="n">vary</span></div>
+
+<div class="viewcode-block" id="Model.setExpr"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.setExpr">[docs]</a>    <span class="k">def</span> <span class="nf">setExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span></div>
+
+<div class="viewcode-block" id="Model.addParameter"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.addParameter">[docs]</a>    <span class="k">def</span> <span class="nf">addParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.f"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Model.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="bp">NotImplemented</span></div></div>
+
+
+<div class="viewcode-block" id="Parameter"><a class="viewcode-back" href="../../satlas2.html#satlas2.core.Parameter">[docs]</a><span class="k">class</span> <span class="nc">Parameter</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="n">vary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">+/-</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1"> max, </span><span class="si">{}</span><span class="s1"> min, vary=</span><span class="si">{}</span><span class="s1">, correl=</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl</span><span class="p">)</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Wouter Gins<br/>
+  
+      &copy; Copyright 2023, Wouter Gins.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

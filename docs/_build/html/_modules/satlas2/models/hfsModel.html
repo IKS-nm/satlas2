@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>satlas2.models.hfsModel &#8212; satlas2 1.0.0 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">satlas2 1.0.0 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../modules.html">
+   satlas2
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../satlas2.html">
+     satlas2 package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../satlas2.models.html">
+       satlas2.models package
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for satlas2.models.hfsModel</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">satlas2.core</span> <span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Parameter</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">wofz</span><span class="p">,</span> <span class="n">voigt_profile</span>
+<span class="kn">from</span> <span class="nn">sympy.physics.wigner</span> <span class="kn">import</span> <span class="n">wigner_6j</span><span class="p">,</span> <span class="n">wigner_3j</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HFS&#39;</span><span class="p">]</span>
+
+<span class="n">sqrt2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="n">sqrt2log2t2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HFS"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS">[docs]</a><span class="k">class</span> <span class="nc">HFS</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">B</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fwhmg</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">fwhml</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">poisson</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">racah</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefunc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">prefunc</span><span class="o">=</span><span class="n">prefunc</span><span class="p">)</span>
+        <span class="n">J1</span><span class="p">,</span> <span class="n">J2</span> <span class="o">=</span> <span class="n">J</span>
+        <span class="n">lower_F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="n">J1</span><span class="p">),</span> <span class="n">I</span><span class="o">+</span><span class="n">J1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">upper_F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="n">J2</span><span class="p">),</span> <span class="n">I</span><span class="o">+</span><span class="n">J2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intensities</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">F1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lower_F</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">F2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">upper_F</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">F2</span> <span class="o">-</span> <span class="n">F1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">F2</span> <span class="o">==</span> <span class="n">F1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">F1</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">F1_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">F1</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">F1_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">_2&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">F1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">F2</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">F2_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">F2</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">F2_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">_2&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">F2</span><span class="p">)</span>
+
+                    <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">to</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">F1_str</span><span class="p">,</span> <span class="n">F2_str</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+                    <span class="n">C1</span><span class="p">,</span> <span class="n">D1</span><span class="p">,</span> <span class="n">E1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcShift</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J1</span><span class="p">,</span> <span class="n">F1</span><span class="p">)</span>
+                    <span class="n">C2</span><span class="p">,</span> <span class="n">D2</span><span class="p">,</span> <span class="n">E2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcShift</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J2</span><span class="p">,</span> <span class="n">F2</span><span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">C1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">D1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">E1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">C2</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">D2</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">E2</span>
+
+                    <span class="n">intens</span> <span class="o">=</span> <span class="nb">float</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">F1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">F2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> \
+                         <span class="n">wigner_6j</span><span class="p">(</span><span class="n">J2</span><span class="p">,</span> <span class="n">F2</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">F1</span><span class="p">,</span> <span class="n">J1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># DO NOT REMOVE CAST TO FLOAT!!!</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intensities</span><span class="p">[</span><span class="s1">&#39;Amp&#39;</span><span class="o">+</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">intens</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="ow">not</span> <span class="n">racah</span><span class="p">)</span>
+
+        <span class="n">norm</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">intensities</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">intensities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="o">/=</span> <span class="n">norm</span>
+
+        <span class="n">pars</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;centroid&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">df</span><span class="p">),</span>
+                <span class="s1">&#39;Al&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="s1">&#39;Au&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="s1">&#39;Bl&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="s1">&#39;Bu&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="s1">&#39;Cl&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="c1"># &#39;bkg&#39;: Parameter(value=bkg),</span>
+                <span class="s1">&#39;FWHMG&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">fwhmg</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span>
+                <span class="s1">&#39;FWHML&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">fwhml</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span>
+                <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="n">racah</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;Offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+            <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;Poisson&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">poisson</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fShifted</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fUnshifted</span>
+        <span class="n">pars</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">pars</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">intensities</span><span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">pars</span>
+
+        <span class="k">if</span> <span class="n">I</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">J1</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">I</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">J2</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">I</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">J1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">I</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">J2</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">I</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">J1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">I</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">J2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Au&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xtransformed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="HFS.fUnshifted"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.fUnshifted">[docs]</a>    <span class="k">def</span> <span class="nf">fUnshifted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># centroid = params[0]</span>
+        <span class="n">Al</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Al = params[1]</span>
+        <span class="n">Au</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Au&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Au = params[2]</span>
+        <span class="n">Bl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Bl = params[3]</span>
+        <span class="n">Bu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Bu = params[4]</span>
+        <span class="n">Cl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Cl = params[5]</span>
+        <span class="n">Cu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># Cu = params[6]</span>
+        <span class="n">FWHMG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;FWHMG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># FWHMG = params[7]</span>
+        <span class="n">FWHML</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;FWHML&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># FWHML = params[8]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="c1"># scale = params[9]</span>
+        <span class="c1"># bkg = self.params[&#39;bkg&#39;].value</span>
+        <span class="c1"># bkg = params[10]</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># x = self.transform(x)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">centroid</span> <span class="o">+</span> <span class="n">Au</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Bu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Al</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Bl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Amp&#39;</span><span class="o">+</span><span class="n">line</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">result</span></div>
+    
+<div class="viewcode-block" id="HFS.fUnshiftedParams"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.fUnshiftedParams">[docs]</a>    <span class="k">def</span> <span class="nf">fUnshiftedParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
+        <span class="c1"># centroid = self.params[&#39;centroid&#39;].value</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Al = self.params[&#39;Al&#39;].value</span>
+        <span class="n">Al</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Au = self.params[&#39;Au&#39;].value</span>
+        <span class="n">Au</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># Bl = self.params[&#39;Bl&#39;].value</span>
+        <span class="n">Bl</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="c1"># Bu = self.params[&#39;Bu&#39;].value</span>
+        <span class="n">Bu</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="c1"># Cl = self.params[&#39;Cl&#39;].value</span>
+        <span class="n">Cl</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="c1"># Cu = self.params[&#39;Cu&#39;].value</span>
+        <span class="n">Cu</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="c1"># FWHMG = self.params[&#39;FWHMG&#39;].value</span>
+        <span class="n">FWHMG</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="c1"># FWHML = self.params[&#39;FWHML&#39;].value</span>
+        <span class="n">FWHML</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="c1"># scale = self.params[&#39;scale&#39;].value</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+        <span class="c1"># bkg = self.params[&#39;bkg&#39;].value</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># x = self.transform(x)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">):</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">centroid</span> <span class="o">+</span> <span class="n">Au</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Bu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Al</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Bl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">11</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="HFS.fShifted"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.fShifted">[docs]</a>    <span class="k">def</span> <span class="nf">fShifted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Al</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Au</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Au&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Bl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Bu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Cl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Cu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">FWHMG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;FWHMG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">FWHML</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;FWHML&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Offset&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">poisson</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Poisson&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> 
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">centroid</span> <span class="o">+</span> <span class="n">Au</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Bu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Al</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Bl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Amp&#39;</span> <span class="o">+</span> <span class="n">line</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="n">offset</span><span class="p">)</span> <span class="o">-</span> <span class="n">pos</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">poisson</span><span class="o">**</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Amp&#39;</span> <span class="o">+</span> <span class="n">line</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="n">offset</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">poisson</span><span class="o">**</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="HFS.peak"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.peak">[docs]</a>    <span class="k">def</span> <span class="nf">peak</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">):</span>
+        <span class="n">sigma</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">FWHMG</span> <span class="o">/</span> <span class="n">sqrt2log2t2</span><span class="p">,</span> <span class="n">FWHML</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">voigt_profile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span> <span class="o">/</span> <span class="n">voigt_profile</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HFS.norm"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wofz</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">FWHML</span> <span class="o">/</span> <span class="p">(</span><span class="n">FWHMG</span> <span class="o">*</span> <span class="n">sqrt2</span><span class="p">))</span><span class="o">.</span><span class="n">real</span></div>
+
+<div class="viewcode-block" id="HFS.preparePeak"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.preparePeak">[docs]</a>    <span class="k">def</span> <span class="nf">preparePeak</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">):</span>
+        <span class="n">sigma</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">FWHMG</span> <span class="o">/</span> <span class="n">sqrt2log2t2</span><span class="p">,</span> <span class="n">FWHML</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">sqrt2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z</span></div>
+
+<div class="viewcode-block" id="HFS.calcShift"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.calcShift">[docs]</a>    <span class="k">def</span> <span class="nf">calcShift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">I</span><span class="o">+</span><span class="n">J</span><span class="o">+</span><span class="n">F</span><span class="p">)</span>
+        <span class="n">contrib</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wigner_6j</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wigner_3j</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="o">-</span><span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">I</span><span class="p">)</span> <span class="o">*</span> <span class="n">wigner_3j</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="o">-</span><span class="n">J</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">J</span><span class="p">))</span>
+            <span class="n">shift</span> <span class="o">=</span> <span class="n">phase</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">d</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">shift</span><span class="p">):</span>
+                <span class="n">contrib</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">*</span> <span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="n">J</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">/</span> <span class="mi">4</span>
+                <span class="n">contrib</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shift</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">contrib</span></div>
+
+<div class="viewcode-block" id="HFS.pos"><a class="viewcode-back" href="../../../satlas2.models.html#satlas2.models.hfsModel.HFS.pos">[docs]</a>    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Al</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Au</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Au&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Bl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Bu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Bu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Cl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">Cu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centroid</span> <span class="o">+</span> <span class="n">Au</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Au</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Bu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cu</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Al</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Al</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Bl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Bl</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_Cl</span><span class="p">[</span><span class="n">line</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">pos</span></div></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Wouter Gins<br/>
+  
+      &copy; Copyright 2023, Wouter Gins.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

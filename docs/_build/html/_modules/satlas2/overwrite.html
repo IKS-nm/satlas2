@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>satlas2.overwrite &#8212; satlas2 1.0.0 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">satlas2 1.0.0 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../modules.html">
+   satlas2
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../satlas2.html">
+     satlas2 package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../satlas2.models.html">
+       satlas2.models package
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for satlas2.overwrite</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Reimplementation of several features in the emcee and lmfit packages, in order to make it work correctly.</span>
+
+<span class="sd">.. moduleauthor:: Wouter Gins &lt;wouter.a.gins@jyu.fi&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">uncertainties</span>
+
+<span class="kn">import</span> <span class="nn">emcee</span>
+<span class="kn">from</span> <span class="nn">emcee.autocorr</span> <span class="kn">import</span> <span class="n">AutocorrError</span><span class="p">,</span> <span class="n">integrated_time</span>
+<span class="kn">from</span> <span class="nn">lmfit</span> <span class="kn">import</span> <span class="n">Minimizer</span>
+<span class="kn">import</span> <span class="nn">lmfit.minimizer</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">isnull</span>
+    <span class="n">HAS_PANDAS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_PANDAS</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">isnull</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span>
+<span class="n">_make_random_gen</span> <span class="o">=</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">minimizer</span><span class="o">.</span><span class="n">_make_random_gen</span>
+<span class="n">isnull</span> <span class="o">=</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">minimizer</span><span class="o">.</span><span class="n">isnull</span>
+<span class="n">_nan_policy</span> <span class="o">=</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">minimizer</span><span class="o">.</span><span class="n">_nan_policy</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SATLASSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;SATLASHDFBackend&#39;</span><span class="p">,</span> <span class="s1">&#39;SATLASMinimizer&#39;</span><span class="p">,</span> <span class="s1">&#39;minimize&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">ndarray_to_list_of_dicts</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">key_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper function to convert a ``np.ndarray`` into a list</span>
+<span class="sd">    of dictionaries of parameters. Used when parameters are named.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x (np.ndarray): parameter array of shape ``(N, n_dim)``, where</span>
+<span class="sd">        ``N`` is an integer</span>
+<span class="sd">      key_map (Dict[str, Union[int, List[int]]):</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      list of dictionaries of parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[{</span><span class="n">key</span><span class="p">:</span> <span class="n">xi</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">key_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SATLASSampler"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASSampler">[docs]</a><span class="k">class</span> <span class="nc">SATLASSampler</span><span class="p">(</span><span class="n">emcee</span><span class="o">.</span><span class="n">EnsembleSampler</span><span class="p">):</span>
+<div class="viewcode-block" id="SATLASSampler.compute_log_prob"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASSampler.compute_log_prob">[docs]</a>    <span class="k">def</span> <span class="nf">compute_log_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the vector of log-probability for the walkers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            coords: (ndarray[..., ndim]) The position vector in parameter</span>
+<span class="sd">                space where the probability should be calculated.</span>
+
+<span class="sd">        This method returns:</span>
+
+<span class="sd">        * log_prob: A vector of log-probabilities with one entry for each</span>
+<span class="sd">          walker in this sub-ensemble.</span>
+<span class="sd">        * blob: The list of meta data returned by the ``log_post_fn`` at</span>
+<span class="sd">          this position or ``None`` if nothing was returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">coords</span>
+
+        <span class="c1"># Check that the parameters are in physical ranges.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">p</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one parameter value was infinite&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">p</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one parameter value was NaN&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If the parmaeters are named, then switch to dictionaries</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_are_named</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">ndarray_to_list_of_dicts</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">)</span>
+
+        <span class="c1"># Run the log-probability calculations (optionally in parallel).</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorize</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_prob_fn</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the `pool` property of the sampler has been set (i.e. we want</span>
+            <span class="c1"># to use `multiprocessing`), use the `pool`&#39;s map method.</span>
+            <span class="c1"># Otherwise, just use the built-in `map` function.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">map_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">map_func</span> <span class="o">=</span> <span class="nb">map</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">map_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_prob_fn</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Check for log_prob returning NaN.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">log_prob</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Probability function returned NaN&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">log_prob</span><span class="p">,</span> <span class="n">blob</span></div></div>
+
+
+<div class="viewcode-block" id="SATLASHDFBackend"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASHDFBackend">[docs]</a><span class="k">class</span> <span class="nc">SATLASHDFBackend</span><span class="p">(</span><span class="n">emcee</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">HDFBackend</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+
+    <span class="nd">@labels</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="SATLASMinimizer"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASMinimizer">[docs]</a><span class="k">class</span> <span class="nc">SATLASMinimizer</span><span class="p">(</span><span class="n">Minimizer</span><span class="p">):</span>
+<div class="viewcode-block" id="SATLASMinimizer.process_walk"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASMinimizer.process_walk">[docs]</a>    <span class="k">def</span> <span class="nf">process_walk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_fit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span>
+        <span class="n">nvarys</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">nvarys</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;emcee&#39;</span>
+
+        <span class="n">flatchain</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nvarys</span><span class="p">))</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nwalkers</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">quantiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">flatchain</span><span class="p">,</span> <span class="p">[</span><span class="mf">15.87</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">84.13</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+            <span class="n">std_l</span><span class="p">,</span> <span class="n">median</span><span class="p">,</span> <span class="n">std_u</span> <span class="o">=</span> <span class="n">quantiles</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">median</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">std_u</span> <span class="o">-</span> <span class="n">std_l</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">params</span><span class="o">.</span><span class="n">update_constraints</span><span class="p">()</span>
+
+        <span class="c1"># work out correlation coefficients</span>
+        <span class="n">corrcoefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">flatchain</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">var_name2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span><span class="p">[</span><span class="n">var_name2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrcoefs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">errorbars</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">nfev</span> <span class="o">=</span> <span class="n">nwalkers</span> <span class="o">*</span> <span class="n">steps</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">acor</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">autocorr</span><span class="o">.</span><span class="n">integrated_time</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AutocorrError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+        <span class="c1"># Calculate the residual with the &quot;best fit&quot; parameters</span>
+
+<div class="viewcode-block" id="SATLASMinimizer.emcee"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.SATLASMinimizer.emcee">[docs]</a>    <span class="k">def</span> <span class="nf">emcee</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+              <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+              <span class="n">nwalkers</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+              <span class="n">burn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+              <span class="n">thin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">ntemps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">reuse_sampler</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+              <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">float_behavior</span><span class="o">=</span><span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
+              <span class="n">is_weighted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="n">mcmc_kwargs</span><span class="o">=</span><span class="p">{},</span>
+              <span class="n">sampler_kwargs</span><span class="o">=</span><span class="p">{},</span>
+              <span class="n">sampler</span><span class="o">=</span><span class="n">emcee</span><span class="o">.</span><span class="n">EnsembleSampler</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ntemps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;ntemps&#39; has no effect anymore, since the PTSampler was &quot;</span>
+                   <span class="s2">&quot;removed from emcee version 3.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">tparams</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="c1"># if you&#39;re reusing the sampler then nwalkers have to be</span>
+        <span class="c1"># determined from the previous sampling</span>
+        <span class="k">if</span> <span class="n">reuse_sampler</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sampler&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_lastpos&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You wanted to use an existing sampler, but &quot;</span>
+                                 <span class="s2">&quot;it hasn&#39;t been created yet&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">nwalkers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">nwalkers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">tparams</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_fit</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">tparams</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span>
+
+        <span class="c1"># check if the userfcn returns a vector of residuals</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">userfcn</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">userargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">userkws</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">is_weighted</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># we need to marginalise over a constant data uncertainty</span>
+            <span class="k">if</span> <span class="s1">&#39;__lnsigma&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                <span class="c1"># __lnsigma should already be in params if is_weighted was</span>
+                <span class="c1"># previously set to True.</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;__lnsigma&#39;</span><span class="p">,</span>
+                           <span class="n">value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                           <span class="nb">min</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                           <span class="nb">max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                           <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># have to re-prepare the fit</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_fit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;emcee&#39;</span>
+
+        <span class="c1"># Removing internal parameter scaling. We could possibly keep it,</span>
+        <span class="c1"># but I don&#39;t know how this affects the emcee sampling.</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">var_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+                <span class="n">var_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># don&#39;t want to append bounds if they&#39;re not being varied.</span>
+                <span class="k">continue</span>
+
+            <span class="n">param</span><span class="o">.</span><span class="n">from_internal</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">val</span>
+            <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">max</span>
+            <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">lb</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">:</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="k">if</span> <span class="n">ub</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ub</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">:</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">))</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">)</span>
+
+        <span class="c1"># set up multiprocessing options for the samplers</span>
+        <span class="n">auto_pool</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># sampler_kwargs = {}</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workers</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">workers</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">HAS_DILL</span><span class="p">:</span>
+            <span class="n">auto_pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+            <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;pool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">auto_pool</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">workers</span><span class="p">,</span> <span class="s1">&#39;map&#39;</span><span class="p">):</span>
+            <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;pool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">workers</span>
+
+        <span class="c1"># function arguments for the log-probability functions</span>
+        <span class="c1"># these values are sent to the log-probability functions by the sampler.</span>
+        <span class="n">lnprob_args</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">userfcn</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+        <span class="n">lnprob_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;is_weighted&#39;</span><span class="p">:</span> <span class="n">is_weighted</span><span class="p">,</span>
+            <span class="s1">&#39;float_behavior&#39;</span><span class="p">:</span> <span class="n">float_behavior</span><span class="p">,</span>
+            <span class="s1">&#39;userargs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">userargs</span><span class="p">,</span>
+            <span class="s1">&#39;userkws&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">userkws</span><span class="p">,</span>
+            <span class="s1">&#39;nan_policy&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nan_policy</span>
+        <span class="p">}</span>
+
+        <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lnprob_args</span>
+        <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lnprob_kwargs</span>
+
+        <span class="c1"># set up the random number generator</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">_make_random_gen</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="c1"># now initialise the samplers</span>
+        <span class="k">if</span> <span class="n">reuse_sampler</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">auto_pool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">auto_pool</span>
+
+            <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span>
+            <span class="k">if</span> <span class="n">p0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You cannot reuse the sampler if the number &quot;</span>
+                                 <span class="s2">&quot;of varying parameters has changed&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.e-4</span>
+            <span class="n">p0</span> <span class="o">*=</span> <span class="n">var_arr</span>
+            <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;pool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">auto_pool</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">sampler</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lnprob</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">sampler_kwargs</span><span class="p">)</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">sampler_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;backend&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">)</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">var_names</span>
+
+        <span class="c1"># user supplies an initialisation position for the chain</span>
+        <span class="c1"># If you try to run the sampler with p0 of a wrong size then you&#39;ll get</span>
+        <span class="c1"># a ValueError. Note, you can&#39;t initialise with a position if you are</span>
+        <span class="c1"># reusing the sampler.</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">reuse_sampler</span><span class="p">:</span>
+            <span class="n">tpos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfarray</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">p0</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">tpos</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="c1"># trying to initialise with a previous chain</span>
+            <span class="k">elif</span> <span class="n">tpos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">:</span>
+                <span class="n">tpos</span> <span class="o">=</span> <span class="n">tpos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;pos should have shape (nwalkers, nvarys)&#39;</span><span class="p">)</span>
+            <span class="n">p0</span> <span class="o">=</span> <span class="n">tpos</span>
+
+        <span class="c1"># if you specified a seed then you also need to seed the sampler</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+
+        <span class="c1"># now do a production run, sampling all the time</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">run_mcmc</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span>
+                                           <span class="n">steps</span><span class="p">,</span>
+                                           <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">,</span>
+                                           <span class="o">**</span><span class="n">mcmc_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lastpos</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">coords</span>
+        <span class="k">except</span> <span class="n">AbortFitException</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">aborted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Fit aborted by user callback. Could not estimate error-bars.&quot;</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">nfev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">nfev</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># discard the burn samples and thin</span>
+        <span class="n">chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="n">thin</span><span class="p">,</span> <span class="n">discard</span><span class="o">=</span><span class="n">burn</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">lnprobability</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">get_log_prob</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="n">thin</span><span class="p">,</span>
+                                                  <span class="n">discard</span><span class="o">=</span><span class="n">burn</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">flatchain</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">aborted</span><span class="p">:</span>
+            <span class="n">quantiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">flatchain</span><span class="p">,</span> <span class="p">[</span><span class="mf">15.87</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">84.13</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+                <span class="n">std_l</span><span class="p">,</span> <span class="n">median</span><span class="p">,</span> <span class="n">std_u</span> <span class="o">=</span> <span class="n">quantiles</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">median</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">std_u</span> <span class="o">-</span> <span class="n">std_l</span><span class="p">)</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">params</span><span class="o">.</span><span class="n">update_constraints</span><span class="p">()</span>
+
+            <span class="c1"># work out correlation coefficients</span>
+            <span class="n">corrcoefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">flatchain</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">var_name2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span><span class="p">[</span><span class="n">var_name2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrcoefs</span><span class="p">[</span>
+                            <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">chain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">lnprob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">lnprobability</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">errorbars</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">var_names</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">nfev</span> <span class="o">=</span> <span class="n">nwalkers</span> <span class="o">*</span> <span class="n">steps</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">acor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">get_autocorr_time</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">AutocorrError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">acceptance_fraction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">acceptance_fraction</span>
+
+        <span class="c1"># Calculate the residual with the &quot;best fit&quot; parameters</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">userfcn</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">userargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">userkws</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="n">_nan_policy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span>
+                                      <span class="n">nan_policy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nan_policy</span><span class="p">,</span>
+                                      <span class="n">handle_inf</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># If uncertainty was automatically estimated, weight the residual properly</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_weighted</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">residual</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;__lnsigma&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">residual</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;__lnsigma&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for the two standard cases:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">residual</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">float_behavior</span>
+                                                       <span class="o">==</span> <span class="s1">&#39;chi2&#39;</span><span class="p">):</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_calculate_statistics</span><span class="p">()</span>
+
+        <span class="c1"># Handle special case unique to emcee:</span>
+        <span class="c1"># This should eventually be moved into result._calculate_statistics.</span>
+        <span class="k">elif</span> <span class="n">float_behavior</span> <span class="o">==</span> <span class="s1">&#39;posterior&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">ndata</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">nfree</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># assuming prior prob = 1, this is true</span>
+            <span class="n">_neg2_log_likel</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">residual</span>
+
+            <span class="c1"># assumes that residual is properly weighted, avoid overflowing np.exp()</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">chisqr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">650</span><span class="p">,</span> <span class="n">_neg2_log_likel</span><span class="p">))</span>
+
+            <span class="n">result</span><span class="o">.</span><span class="n">redchi</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">chisqr</span> <span class="o">/</span> <span class="n">result</span><span class="o">.</span><span class="n">nfree</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">aic</span> <span class="o">=</span> <span class="n">_neg2_log_likel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">nvarys</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">bic</span> <span class="o">=</span> <span class="n">_neg2_log_likel</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">nvarys</span>
+
+        <span class="k">if</span> <span class="n">auto_pool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">auto_pool</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="minimize"><a class="viewcode-back" href="../../satlas2.html#satlas2.overwrite.minimize">[docs]</a><span class="k">def</span> <span class="nf">minimize</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span>
+             <span class="n">params</span><span class="p">,</span>
+             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;leastsq&#39;</span><span class="p">,</span>
+             <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">kws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">iter_cb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">scale_covar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span>
+             <span class="n">reduce_fcn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">calc_covar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">max_nfev</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="o">**</span><span class="n">fit_kws</span><span class="p">):</span>
+    <span class="n">minimizer_kws</span> <span class="o">=</span> <span class="n">fit_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;minimizer_kws&#39;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">fitter</span> <span class="o">=</span> <span class="n">SATLASMinimizer</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span>
+                             <span class="n">params</span><span class="p">,</span>
+                             <span class="n">fcn_args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+                             <span class="n">fcn_kws</span><span class="o">=</span><span class="n">kws</span><span class="p">,</span>
+                             <span class="n">iter_cb</span><span class="o">=</span><span class="n">iter_cb</span><span class="p">,</span>
+                             <span class="n">scale_covar</span><span class="o">=</span><span class="n">scale_covar</span><span class="p">,</span>
+                             <span class="n">nan_policy</span><span class="o">=</span><span class="n">nan_policy</span><span class="p">,</span>
+                             <span class="n">reduce_fcn</span><span class="o">=</span><span class="n">reduce_fcn</span><span class="p">,</span>
+                             <span class="n">calc_covar</span><span class="o">=</span><span class="n">calc_covar</span><span class="p">,</span>
+                             <span class="n">max_nfev</span><span class="o">=</span><span class="n">max_nfev</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">fit_kws</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fitter</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="o">**</span><span class="n">minimizer_kws</span><span class="p">)</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Wouter Gins<br/>
+  
+      &copy; Copyright 2023, Wouter Gins.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

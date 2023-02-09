@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>satlas2 package &#8212; satlas2 1.0.0 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="satlas2.models package" href="satlas2.models.html" />
+    <link rel="prev" title="satlas2" href="modules.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">satlas2 1.0.0 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Welcome to satlas2’s documentation!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="modules.html">
+   satlas2
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="current reference internal" href="#">
+     satlas2 package
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="satlas2.models.html">
+       satlas2.models package
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/woutergins/satlas2"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/satlas2.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.core">
+   satlas2.core module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.overwrite">
+   satlas2.overwrite module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.plotting">
+   satlas2.plotting module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>satlas2 package</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.core">
+   satlas2.core module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.overwrite">
+   satlas2.overwrite module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2.plotting">
+   satlas2.plotting module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-satlas2">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="satlas2-package">
+<h1>satlas2 package<a class="headerlink" href="#satlas2-package" title="Permalink to this headline">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="satlas2.models.html">satlas2.models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models.fitterModels">satlas2.models.fitterModels module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models.hfsModel">satlas2.models.hfsModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models.models">satlas2.models.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models.tofModel">satlas2.models.tofModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="module-satlas2.core">
+<span id="satlas2-core-module"></span><h2>satlas2.core module<a class="headerlink" href="#module-satlas2.core" title="Permalink to this headline">#</a></h2>
+<p>Implementation of the base Fitter, Source, Model and Parameter classes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.core.Fitter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Fitter</span></span><a class="reference internal" href="_modules/satlas2/core.html#Fitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.addSource">
+<span class="sig-name descname"><span class="pre">addSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.addSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.addSource" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a datasource to the Fitter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.callback">
+<span class="sig-name descname"><span class="pre">callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resid</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.callback" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createBounds">
+<span class="sig-name descname"><span class="pre">createBounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.createBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createBounds" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createLmParameters">
+<span class="sig-name descname"><span class="pre">createLmParameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.createLmParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createLmParameters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createMinuit">
+<span class="sig-name descname"><span class="pre">createMinuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.createMinuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createMinuit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createParameterList">
+<span class="sig-name descname"><span class="pre">createParameterList</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.createParameterList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createParameterList" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createParameters">
+<span class="sig-name descname"><span class="pre">createParameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.createParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Initialize the parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.f">
+<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.f" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prepFit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llh_selected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llh_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leastsq'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcmc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.fit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.gaussLlh">
+<span class="sig-name descname"><span class="pre">gaussLlh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.gaussLlh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.gaussLlh" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.gaussianPriors">
+<span class="sig-name descname"><span class="pre">gaussianPriors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.gaussianPriors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.gaussianPriors" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.llh">
+<span class="sig-name descname"><span class="pre">llh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emcee</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.llh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.llh" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.optimizeFunc">
+<span class="sig-name descname"><span class="pre">optimizeFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.optimizeFunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.optimizeFunc" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.poissonChisq">
+<span class="sig-name descname"><span class="pre">poissonChisq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.poissonChisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.poissonChisq" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.poissonLlh">
+<span class="sig-name descname"><span class="pre">poissonLlh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.poissonLlh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.poissonLlh" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.prepareFit">
+<span class="sig-name descname"><span class="pre">prepareFit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.prepareFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.prepareFit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.readWalk">
+<span class="sig-name descname"><span class="pre">readWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.readWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.readWalk" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.reduction">
+<span class="sig-name descname"><span class="pre">reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.reduction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.reduction" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.reportFit">
+<span class="sig-name descname"><span class="pre">reportFit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelpars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_correl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_correl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_pars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.reportFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.reportFit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.resid">
+<span class="sig-name descname"><span class="pre">resid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.resid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.resid" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.residualCalculation">
+<span class="sig-name descname"><span class="pre">residualCalculation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.residualCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.residualCalculation" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.residualCalculationWithParams">
+<span class="sig-name descname"><span class="pre">residualCalculationWithParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.residualCalculationWithParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.residualCalculationWithParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setCorrelations">
+<span class="sig-name descname"><span class="pre">setCorrelations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setCorrelations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setCorrelations" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setExpr">
+<span class="sig-name descname"><span class="pre">setExpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_expression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setExpr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setExpr" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setParamPrior">
+<span class="sig-name descname"><span class="pre">setParamPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setParamPrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setParamPrior" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setParameterMapping">
+<span class="sig-name descname"><span class="pre">setParameterMapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setParameterMapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setParameterMapping" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setParameters">
+<span class="sig-name descname"><span class="pre">setParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setParameters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.setUncertainties">
+<span class="sig-name descname"><span class="pre">setUncertainties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.setUncertainties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setUncertainties" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.shareModelParams">
+<span class="sig-name descname"><span class="pre">shareModelParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.shareModelParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.shareModelParams" title="Permalink to this definition">#</a></dt>
+<dd><p>Add parameters to be shared across all models with the same name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.shareParams">
+<span class="sig-name descname"><span class="pre">shareParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.shareParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.shareParams" title="Permalink to this definition">#</a></dt>
+<dd><p>Add parameters to be shared across all models.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.updateFitInfoSources">
+<span class="sig-name descname"><span class="pre">updateFitInfoSources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.updateFitInfoSources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.updateFitInfoSources" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.updateInfo">
+<span class="sig-name descname"><span class="pre">updateInfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.updateInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.updateInfo" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.y" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.yerr">
+<span class="sig-name descname"><span class="pre">yerr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Fitter.yerr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.yerr" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.core.Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretransform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.addParameter">
+<span class="sig-name descname"><span class="pre">addParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.addParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.addParameter" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.f">
+<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/satlas2/core.html#Model.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.f" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.params">
+<span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.params" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.setBounds">
+<span class="sig-name descname"><span class="pre">setBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.setBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.setBounds" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.setExpr">
+<span class="sig-name descname"><span class="pre">setExpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.setExpr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.setExpr" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.setTransform">
+<span class="sig-name descname"><span class="pre">setTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.setTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.setTransform" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.setVary">
+<span class="sig-name descname"><span class="pre">setVary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vary</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.setVary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.setVary" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Model.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Model.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.transform" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.core.Parameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Parameter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.core.Source">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xerr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Source.addModel">
+<span class="sig-name descname"><span class="pre">addModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source.addModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.addModel" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Source.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.evaluate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Source.f">
+<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.f" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Source.params">
+<span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source.params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.params" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Source.yerr">
+<span class="sig-name descname"><span class="pre">yerr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/core.html#Source.yerr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.yerr" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-satlas2.overwrite">
+<span id="satlas2-overwrite-module"></span><h2>satlas2.overwrite module<a class="headerlink" href="#module-satlas2.overwrite" title="Permalink to this headline">#</a></h2>
+<p>Reimplementation of several features in the emcee and lmfit packages, in order to make it work correctly.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASHDFBackend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.overwrite.</span></span><span class="sig-name descname"><span class="pre">SATLASHDFBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcmc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_opts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASHDFBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASHDFBackend" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">emcee.backends.hdf.HDFBackend</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASHDFBackend.labels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">labels</span></span><a class="headerlink" href="#satlas2.overwrite.SATLASHDFBackend.labels" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASMinimizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.overwrite.</span></span><span class="sig-name descname"><span class="pre">SATLASMinimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userfcn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcn_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcn_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_fcn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_nfev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASMinimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASMinimizer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">lmfit.minimizer.Minimizer</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASMinimizer.emcee">
+<span class="sig-name descname"><span class="pre">emcee</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalkers=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thin=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntemps=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse_sampler=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workers=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float_behavior='posterior'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_weighted=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcmc_kwargs={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler_kwargs={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler=&lt;class</span> <span class="pre">'emcee.ensemble.EnsembleSampler'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASMinimizer.emcee"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASMinimizer.emcee" title="Permalink to this definition">#</a></dt>
+<dd><p>Bayesian sampling of the posterior distribution.</p>
+<p>The method uses the <code class="docutils literal notranslate"><span class="pre">emcee</span></code> Markov Chain Monte Carlo package and
+assumes that the prior is Uniform. You need to have <code class="docutils literal notranslate"><span class="pre">emcee</span></code>
+version 3 or newer installed to use this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>Parameters</em><em>, </em><em>optional</em>) – Parameters to use as starting point. If this is not specified
+then the Parameters used to initialize the Minimizer object
+are used.</p></li>
+<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>optional</em>) – How many samples you would like to draw from the posterior
+distribution for each of the walkers?</p></li>
+<li><p><strong>nwalkers</strong> (<em>int</em><em>, </em><em>optional</em>) – Should be set so <span class="math notranslate nohighlight">\(nwalkers &gt;&gt; nvarys\)</span>, where <code class="docutils literal notranslate"><span class="pre">nvarys</span></code>
+are the number of parameters being varied during the fit.
+‘Walkers are the members of the ensemble. They are almost like
+separate Metropolis-Hastings chains but, of course, the proposal
+distribution for a given walker depends on the positions of all
+the other walkers in the ensemble.’ - from the <cite>emcee</cite> webpage.</p></li>
+<li><p><strong>burn</strong> (<em>int</em><em>, </em><em>optional</em>) – Discard this many samples from the start of the sampling regime.</p></li>
+<li><p><strong>thin</strong> (<em>int</em><em>, </em><em>optional</em>) – Only accept 1 in every <cite>thin</cite> samples.</p></li>
+<li><p><strong>ntemps</strong> (<em>int</em><em>, </em><em>deprecated</em>) – ntemps has no effect.</p></li>
+<li><p><strong>pos</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – Specify the initial positions for the sampler, an ndarray of
+shape <code class="docutils literal notranslate"><span class="pre">(nwalkers,</span> <span class="pre">nvarys)</span></code>. You can also initialise using a
+previous chain of the same <cite>nwalkers</cite> and <code class="docutils literal notranslate"><span class="pre">nvarys</span></code>. Note that
+<code class="docutils literal notranslate"><span class="pre">nvarys</span></code> may be one larger than you expect it to be if your
+<code class="docutils literal notranslate"><span class="pre">userfcn</span></code> returns an array and <code class="docutils literal notranslate"><span class="pre">is_weighted=False</span></code>.</p></li>
+<li><p><strong>reuse_sampler</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to True if you have already run <cite>emcee</cite> with the
+<cite>Minimizer</cite> instance and want to continue to draw from its
+<code class="docutils literal notranslate"><span class="pre">sampler</span></code> (and so retain the chain history). If False, a
+new sampler is created. The keywords <cite>nwalkers</cite>, <cite>pos</cite>, and
+<cite>params</cite> will be ignored when this is set, as they will be set
+by the existing sampler.
+<strong>Important</strong>: the Parameters used to create the sampler must
+not change in-between calls to <cite>emcee</cite>. Alteration of Parameters
+would include changed <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">vary</span></code> and <code class="docutils literal notranslate"><span class="pre">expr</span></code>
+attributes. This may happen, for example, if you use an altered
+Parameters object and call the <cite>minimize</cite> method in-between
+calls to <cite>emcee</cite>.</p></li>
+<li><p><strong>workers</strong> (<em>Pool-like</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – For parallelization of sampling. It can be any Pool-like object
+with a map method that follows the same calling sequence as the
+built-in <cite>map</cite> function. If int is given as the argument, then
+a multiprocessing-based pool is spawned internally with the
+corresponding number of parallel processes. ‘mpi4py’-based
+parallelization and ‘joblib’-based parallelization pools can
+also be used here. <strong>Note</strong>: because of multiprocessing
+overhead it may only be worth parallelising if the objective
+function is expensive to calculate, or if there are a large
+number of objective evaluations per step
+(<code class="docutils literal notranslate"><span class="pre">nwalkers</span> <span class="pre">*</span> <span class="pre">nvarys</span></code>).</p></li>
+<li><p><strong>float_behavior</strong> (<em>str</em><em>, </em><em>optional</em>) – Meaning of float (scalar) output of objective function. Use
+<cite>‘posterior’</cite> if it returns a log-posterior probability or
+<cite>‘chi2’</cite> if it returns <span class="math notranslate nohighlight">\(\chi^2\)</span>. See Notes for further
+details.</p></li>
+<li><p><strong>is_weighted</strong> (<em>bool</em><em>, </em><em>optional</em>) – Has your objective function been weighted by measurement
+uncertainties? If <code class="docutils literal notranslate"><span class="pre">is_weighted=True</span></code> then your objective
+function is assumed to return residuals that have been divided
+by the true measurement uncertainty <code class="docutils literal notranslate"><span class="pre">(data</span> <span class="pre">-</span> <span class="pre">model)</span> <span class="pre">/</span> <span class="pre">sigma</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">is_weighted=False</span></code> then the objective function is
+assumed to return unweighted residuals, <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">-</span> <span class="pre">model</span></code>. In
+this case <cite>emcee</cite> will employ a positive measurement
+uncertainty during the sampling. This measurement uncertainty
+will be present in the output params and output chain with the
+name <code class="docutils literal notranslate"><span class="pre">__lnsigma</span></code>. A side effect of this is that you cannot
+use this parameter name yourself.
+<strong>Important</strong>: this parameter only has any effect if your
+objective function returns an array. If your objective function
+returns a float, then this parameter is ignored. See Notes for
+more details.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> or </em><em>numpy.random.RandomState</em><em>, </em><em>optional</em>) – If <cite>seed</cite> is an <code class="docutils literal notranslate"><span class="pre">int</span></code>, a new <cite>numpy.random.RandomState</cite>
+instance is used, seeded with <cite>seed</cite>.
+If <cite>seed</cite> is already a <cite>numpy.random.RandomState</cite> instance,
+then that <cite>numpy.random.RandomState</cite> instance is used. Specify
+<cite>seed</cite> for repeatable minimizations.</p></li>
+<li><p><strong>progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print a progress bar to the console while running.</p></li>
+<li><p><strong>run_mcmc_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional (optional) keyword arguments that are passed to
+<code class="docutils literal notranslate"><span class="pre">emcee.EnsembleSampler.run_mcmc</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>MinimizerResult object containing updated params, statistics,
+etc. The updated params represent the median of the samples,
+while the uncertainties are half the difference of the 15.87
+and 84.13 percentiles. The <cite>MinimizerResult</cite> contains a few
+additional attributes: <cite>chain</cite> contain the samples and has
+shape <code class="docutils literal notranslate"><span class="pre">((steps</span> <span class="pre">-</span> <span class="pre">burn)</span> <span class="pre">//</span> <span class="pre">thin,</span> <span class="pre">nwalkers,</span> <span class="pre">nvarys)</span></code>.
+<cite>flatchain</cite> is a <cite>pandas.DataFrame</cite> of the flattened chain,
+that can be accessed with <cite>result.flatchain[parname]</cite>.
+<cite>lnprob</cite> contains the log probability for each sample in
+<cite>chain</cite>. The sample with the highest probability corresponds
+to the maximum likelihood estimate. <cite>acor</cite> is an array
+containing the auto-correlation time for each parameter if the
+auto-correlation time can be computed from the chain. Finally,
+<cite>acceptance_fraction</cite> (an array of the fraction of steps
+accepted for each walker).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>MinimizerResult</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method samples the posterior distribution of the parameters
+using Markov Chain Monte Carlo. It calculates the log-posterior
+probability of the model parameters, <cite>F</cite>, given the data, <cite>D</cite>,
+<span class="math notranslate nohighlight">\(\ln p(F_{true} | D)\)</span>. This ‘posterior probability’ is
+given by:</p>
+<div class="math notranslate nohighlight">
+\[\ln p(F_{true} | D) \propto \ln p(D | F_{true}) + \ln p(F_{true})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ln p(D | F_{true})\)</span> is the ‘log-likelihood’ and
+<span class="math notranslate nohighlight">\(\ln p(F_{true})\)</span> is the ‘log-prior’. The default log-prior
+encodes prior information known about the model that the log-prior
+probability is <code class="docutils literal notranslate"><span class="pre">-numpy.inf</span></code> (impossible) if any of the parameters
+is outside its limits, and is zero if all the parameters are inside
+their bounds (uniform prior). The log-likelihood function is <a class="footnote-reference brackets" href="#id2" id="id1">1</a>:</p>
+<div class="math notranslate nohighlight">
+\[\ln p(D|F_{true}) = -\frac{1}{2}\sum_n \left[\frac{(g_n(F_{true}) - D_n)^2}{s_n^2}+\ln (2\pi s_n^2)\right]\]</div>
+<p>The first term represents the residual (<span class="math notranslate nohighlight">\(g\)</span> being the
+generative model, <span class="math notranslate nohighlight">\(D_n\)</span> the data and <span class="math notranslate nohighlight">\(s_n\)</span> the
+measurement uncertainty). This gives <span class="math notranslate nohighlight">\(\chi^2\)</span> when summed
+over all data points. The objective function may also return the
+log-posterior probability, <span class="math notranslate nohighlight">\(\ln p(F_{true} | D)\)</span>. Since the
+default log-prior term is zero, the objective function can also
+just return the log-likelihood, unless you wish to create a
+non-uniform prior.</p>
+<p>If the objective function returns a float value, this is assumed
+by default to be the log-posterior probability, (<cite>float_behavior</cite>
+default is ‘posterior’). If your objective function returns
+<span class="math notranslate nohighlight">\(\chi^2\)</span>, then you should use <code class="docutils literal notranslate"><span class="pre">float_behavior='chi2'</span></code>
+instead.</p>
+<p>By default objective functions may return an ndarray of (possibly
+weighted) residuals. In this case, use <cite>is_weighted</cite> to select
+whether these are correctly weighted by measurement uncertainty.
+Note that this ignores the second term above, so that to calculate
+a correct log-posterior probability value your objective function
+should return a float value. With <code class="docutils literal notranslate"><span class="pre">is_weighted=False</span></code> the data
+uncertainty, <cite>s_n</cite>, will be treated as a nuisance parameter to be
+marginalized out. This uses strictly positive uncertainty
+(homoscedasticity) for each data point,
+<span class="math notranslate nohighlight">\(s_n = \exp(\rm{\_\_lnsigma})\)</span>. <code class="docutils literal notranslate"><span class="pre">__lnsigma</span></code> will be
+present in <cite>MinimizerResult.params</cite>, as well as <cite>Minimizer.chain</cite>
+and <code class="docutils literal notranslate"><span class="pre">nvarys</span></code> will be increased by one.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://emcee.readthedocs.io">https://emcee.readthedocs.io</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASMinimizer.process_walk">
+<span class="sig-name descname"><span class="pre">process_walk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASMinimizer.process_walk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASMinimizer.process_walk" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.overwrite.</span></span><span class="sig-name descname"><span class="pre">SATLASSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_prob_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectorize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blobs_dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">live_dangerously</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runtime_sortingfn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASSampler" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">emcee.ensemble.EnsembleSampler</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.overwrite.SATLASSampler.compute_log_prob">
+<span class="sig-name descname"><span class="pre">compute_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#SATLASSampler.compute_log_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.SATLASSampler.compute_log_prob" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the vector of log-probability for the walkers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coords</strong> – (ndarray[…, ndim]) The position vector in parameter
+space where the probability should be calculated.</p>
+</dd>
+</dl>
+<p>This method returns:</p>
+<ul class="simple">
+<li><p>log_prob: A vector of log-probabilities with one entry for each
+walker in this sub-ensemble.</p></li>
+<li><p>blob: The list of meta data returned by the <code class="docutils literal notranslate"><span class="pre">log_post_fn</span></code> at
+this position or <code class="docutils literal notranslate"><span class="pre">None</span></code> if nothing was returned.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="satlas2.overwrite.minimize">
+<span class="sig-prename descclassname"><span class="pre">satlas2.overwrite.</span></span><span class="sig-name descname"><span class="pre">minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fcn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leastsq'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_fcn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_nfev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fit_kws</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/overwrite.html#minimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.overwrite.minimize" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-satlas2.plotting">
+<span id="satlas2-plotting-module"></span><h2>satlas2.plotting module<a class="headerlink" href="#module-satlas2.plotting" title="Permalink to this headline">#</a></h2>
+<p>Functions for the generation of plots related to the fitting results.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="satlas2.plotting.generateChisquareMap">
+<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateChisquareMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_diag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/plotting.html#generateChisquareMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateChisquareMap" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates a correlation map for either the chisquare or the MLE method.
+On the diagonal, the chisquare or loglikelihood is drawn as a function of one fixed parameter.
+Refitting to the data each time gives the points on the line. A dashed line is drawn on these
+plots, with the intersection with the plots giving the correct confidence interval for the
+parameter. In solid lines, the interval estimated by the fitting routine is drawn.
+On the offdiagonal, two parameters are fixed and the model is again fitted to the data.
+The change in chisquare/loglikelihood is mapped to 1, 2 and 3 sigma contourmaps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fitter</strong> (<a class="reference internal" href="#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a>) – Fitter instance for which the chisquare map must be created.</p></li>
+<li><p><strong>filter</strong> (<em>list of strings</em>) – Only the parameters matching the names given in this list will be used
+to generate the maps.</p></li>
+<li><p><strong>resolution_diag</strong> (<em>int</em>) – Number of points for the line plot on each diagonal.</p></li>
+<li><p><strong>resolution_map</strong> (<em>int</em>) – Number of points along each dimension for the meshgrids.</p></li>
+<li><p><strong>fit_kws</strong> (<em>dictionary</em>) – Dictionary of keywords to pass on to the fitting routine.</p></li>
+<li><p><strong>npar</strong> (<em>int</em>) – Number of parameters for which simultaneous predictions need to be made.
+Influences the uncertainty estimates from the parabola.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="satlas2.plotting.generateCorrelationPlot">
+<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateCorrelationPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binreduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin2dreduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/plotting.html#generateCorrelationPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateCorrelationPlot" title="Permalink to this definition">#</a></dt>
+<dd><p>Given the random walk data, creates a triangle plot: distribution of
+a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
+3 sigma contours on the off-diagonal. The 1-sigma limits based on the
+percentile method are also indicated, as well as added to the title.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>string</em>) – Filename for the h5 file containing the data from the walk.</p></li>
+<li><p><strong>filter</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If supplied, only this list of columns is used for the plot.</p></li>
+<li><p><strong>bins</strong> (<em>int</em><em> or </em><em>list of int</em><em>, </em><em>optional</em>) – If supplied, use this number of bins for the plotting.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the MatPlotLib figure created.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="satlas2.plotting.generateWalkPlot">
+<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateWalkPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/satlas2/plotting.html#generateWalkPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateWalkPlot" title="Permalink to this definition">#</a></dt>
+<dd><p>Given the random walk data, the random walk for the selected parameters
+is plotted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>string</em>) – Filename for the h5 file containing the data from the walk.</p></li>
+<li><p><strong>filter</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If supplied, only this list of parameters is used for the plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the MatPlotLib figure created.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-satlas2">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-satlas2" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="modules.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">satlas2</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="satlas2.models.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">satlas2.models package</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Wouter Gins<br/>
+  
+      &copy; Copyright 2023, Wouter Gins.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

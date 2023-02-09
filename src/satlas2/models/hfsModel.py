@@ -1,8 +1,7 @@
 from satlas2.core import Model, Parameter
 
 import numpy as np
-import numba as nb
-from scipy.special import wofz
+from scipy.special import wofz, voigt_profile
 from sympy.physics.wigner import wigner_6j, wigner_3j
 
 __all__ = ['HFS']
@@ -12,7 +11,7 @@ sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
 
 class HFS(Model):
-    def __init__(self, I, J, A=[0, 0], B=[0, 0], C=[0, 0], df=0, fwhm=50, bkg=1, name=None, N=None, offset=0, poisson=0, scale=1.0, racah=True, prefunc=None):
+    def __init__(self, I, J, A=[0, 0], B=[0, 0], C=[0, 0], df=0, fwhmg=50, fwhml=50, name=None, N=None, offset=0, poisson=0, scale=1.0, racah=True, prefunc=None):
         super().__init__(name=name, prefunc=prefunc)
         J1, J2 = J
         lower_F = np.arange(abs(I - J1), I+J1+1, 1)
@@ -68,9 +67,9 @@ class HFS(Model):
                 'Bu': Parameter(value=B[1]),
                 'Cl': Parameter(value=C[0], vary=False),
                 'Cu': Parameter(value=C[1], vary=False),
-                'bkg': Parameter(value=bkg),
-                'FWHMG': Parameter(value=fwhm, min=0.01),
-                'FWHML': Parameter(value=fwhm, min=0.01),
+                # 'bkg': Parameter(value=bkg),
+                'FWHMG': Parameter(value=fwhmg, min=0.01),
+                'FWHML': Parameter(value=fwhml, min=0.01),
                 'scale': Parameter(value=scale, min=0, vary=racah)}
         if N is not None:
             pars['N'] = Parameter(value=N, vary=False)
@@ -100,35 +99,23 @@ class HFS(Model):
 
     def fUnshifted(self, x):
         centroid = self.params['centroid'].value
-        # centroid = params[0]
         Al = self.params['Al'].value
-        # Al = params[1]
         Au = self.params['Au'].value
-        # Au = params[2]
         Bl = self.params['Bl'].value
-        # Bl = params[3]
         Bu = self.params['Bu'].value
-        # Bu = params[4]
         Cl = self.params['Cl'].value
-        # Cl = params[5]
         Cu = self.params['Cu'].value
-        # Cu = params[6]
         FWHMG = self.params['FWHMG'].value
-        # FWHMG = params[7]
         FWHML = self.params['FWHML'].value
-        # FWHML = params[8]
         scale = self.params['scale'].value
-        # scale = params[9]
-        bkg = self.params['bkg'].value
-        # bkg = params[10]
 
         result = np.zeros(len(x))
-        # x = self.transform(x)
+        x = self.transform(x)
         for line in self.lines:
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
-            result += self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
+            result += scale * self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
 
-        return scale * result + bkg
+        return result
     
     def fUnshiftedParams(self, x, *params):
         # centroid = self.params['centroid'].value
@@ -152,7 +139,6 @@ class HFS(Model):
         # scale = self.params['scale'].value
         scale = params[9]
         # bkg = self.params['bkg'].value
-        bkg = params[10]
 
         result = np.zeros(len(x))
         # x = self.transform(x)
@@ -160,7 +146,7 @@ class HFS(Model):
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
             result += params[i+11] * self.peak(x - pos, FWHMG, FWHML)
 
-        return scale * result + bkg
+        return scale * result
 
     def fShifted(self, x):
         centroid = self.params['centroid'].value
@@ -176,7 +162,6 @@ class HFS(Model):
         N = self.params['N'].value
         offset = self.params['Offset'].value
         poisson = self.params['Poisson'].value
-        bkg = self.params['bkg'].value
 
         result = np.zeros(len(x)) 
         for line in self.lines:
@@ -187,13 +172,12 @@ class HFS(Model):
                 else:
                     result += self.params['Amp' + line].value * self.peak(x - pos - i * offset, FWHMG, FWHML) * (poisson**i)/np.math.factorial(i)
 
-        return scale * result + bkg
+        return scale * result
 
     def peak(self, x, FWHMG, FWHML):
-        z = self.preparePeak(x, FWHMG, FWHML)
-        n = self.norm(FWHML, FWHMG)
-        ret = wofz(z).real
-        return ret/n
+        sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
+        return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
+
 
     def norm(self, FWHML, FWHMG):
         return wofz(1j * FWHML / (FWHMG * sqrt2)).real
