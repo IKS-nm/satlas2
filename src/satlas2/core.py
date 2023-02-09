@@ -4,25 +4,34 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 .. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
 """
 
+from __future__ import annotations
+
+import copy
+from typing import Union
+
+import iminuit
+import lmfit as lm
+import numdifftools as nd
 import numpy as np
 import scipy.optimize as optimize
-import lmfit as lm
-import emcee
-import numdifftools as nd
-import copy
-import iminuit
-from .overwrite import SATLASSampler, SATLASHDFBackend, minimize, SATLASMinimizer
+from numpy.typing import ArrayLike
+
+from .overwrite import (SATLASHDFBackend, SATLASMinimizer, SATLASSampler,
+                        minimize)
 
 __all__ = ['Fitter', 'Source', 'Model', 'Parameter']
 
 
-def modifiedSqrt(input):
+def modifiedSqrt(input: ArrayLike) -> ArrayLike:
     output = np.sqrt(input)
     output[input <= 0] = 1
     return output
 
 
 class Fitter:
+    """
+    Main class for performing fits and organising data
+    """
     def __init__(self):
         super().__init__()
         self.sources = []
@@ -34,7 +43,27 @@ class Fitter:
         self.expressions = {}
         self.mode = 'source'
 
-    def setExpr(self, parameter_name, parameter_expression):
+    def setExpr(self, parameter_name: Union[list, str],
+                parameter_expression: Union[list, str]) -> None:
+        """
+        Set the expression to be used for the given parameters.
+        The given parameter names should be the full description
+        i.e. containing the source and model name.
+
+        Note
+        ----
+        The priority order on expressions is
+            1. Expressions given by :func:`~Fitter.setExpr`
+            2. Sharing of parameters through :func:`~Fitter.shareParams`
+            3. Sharing of parameters through :func:`~Fitter.shareModelParams`
+
+        Parameters
+        ----------
+        parameter_name: list or str
+            Either a single parameter name or a list of them.
+        parameter_expression: list or str
+            The parameter expression to be associated with parameter_name.
+        """
         if isinstance(parameter_name, str):
             parameter_name = [parameter_name]
         if isinstance(parameter_expression, str):
@@ -42,62 +71,89 @@ class Fitter:
         for parameter, expression in zip(parameter_name, parameter_expression):
             self.expressions[parameter] = expression
 
-    def shareParams(self, parameter_name):
-        """Add parameters to be shared across all models."""
+    def shareParams(self, parameter_name: Union[list, str]) -> None:
+        """Add parameters to the list of shared parameters.
+
+        Note
+        ----
+        The full parameter name should be given.
+
+        Note
+        ----
+        The priority order on expressions is
+            1. Expressions given by :func:`~Fitter.setExpr`
+            2. Sharing of parameters through :func:`~Fitter.shareParams`
+            3. Sharing of parameters through :func:`~Fitter.shareModelParams`
+
+        Parameters
+        ----------
+        parameter_name : list or str
+            List of parameters or single parameter name.
+        """
         try:
             self.share.extend(parameter_name)
         except:
             self.share.append(parameter_name)
 
-    def shareModelParams(self, parameter_name):
-        """Add parameters to be shared across all models with the same name."""
+    def shareModelParams(self, parameter_name: Union[list, str]) -> None:
+        """Add parameters to the list of shared parameters across all
+        models with the same name.
+
+        Note
+        ----
+        The priority order on expressions is
+            1. Expressions given by :func:`~Fitter.setExpr`
+            2. Sharing of parameters through :func:`~Fitter.shareParams`
+            3. Sharing of parameters through :func:`~Fitter.shareModelParams`
+
+        Parameters
+        ----------
+        parameter_name : list or str
+            List of parameters or single parameter name.
+        """
         try:
             self.shareModel.extend(parameter_name)
         except:
             self.shareModel.append(parameter_name)
 
-    def setParamPrior(self, source, model, parameter_name, value, uncertainty):
+    def setParamPrior(self, source: str, model: str, parameter_name: str,
+                      value: float, uncertainty: float) -> None:
+        """Set a Gaussian prior on a parameter, mainly intended to
+        represent literature values.
+
+        Parameters
+        ----------
+        source : str
+            Name of the datasource in which the parameter is present.
+        model : str
+            Name of the model in which the parameter is present.
+        parameter_name : str
+            Name of the parameter.
+        value : float
+            Central value of the Gaussian
+        uncertainty : float
+            Standard deviation associated with the value.
+        """
         self.priors.append((source, model, parameter_name, value, uncertainty))
 
-    def addSource(self, source, name=None):
-        """Add a datasource to the Fitter."""
-        if name is None:
-            name = source.name
+    def addSource(self, source: 'Source') -> None:
+        """Add a datasource to the Fitter structure
+
+        Parameters
+        ----------
+        source : Source
+            Source to be added to the fitter
+        """
+        name = source.name
         self.sources.append((name, source))
 
-    def createParameters(self):
-        """Initialize the parameters."""
+    def _createParameters(self) -> None:
+        """Initialize the parameters from the sources."""
         for name, source in self.sources:
             self.pars[name] = source.params()
 
-    def createMinuit(self):
-        self.createParameters()
-        self.setParameterMapping()
-        m = iminuit.Minuit(self,
-                           self.createParameterList(),
-                           name=self.parameter_names)
-        return m
-
-    def createBounds(self):
-        lower = []
-        upper = []
-        for source_name in self.pars.keys():
-            p = self.pars[source_name]
-            for model_name in p.keys():
-                pars = p[model_name]
-                for parameter_name in pars.keys():
-                    parameter = pars[parameter_name]
-                    if not parameter.vary:
-                        l = parameter.value
-                        u = parameter.value
-                    else:
-                        l = parameter.min
-                        u = parameter.max
-                    lower.append(l)
-                    upper.append(u)
-        self.bounds = optimize.Bounds(lower, upper)
-
-    def createLmParameters(self):
+    def _createLmParameters(self) -> None:
+        """Creates the lmfit parameters."""
         lmpars = lm.Parameters()
         sharing = {}
         sharingModel = {}
@@ -143,72 +199,71 @@ class Fitter:
         lmpars.add_many(*tuples)
         self.lmpars = lmpars
 
-    def createParameterList(self):
-        x = []
-        for source_name in self.pars.keys():
-            p = self.pars[source_name]
-            for model_name in p.keys():
-                pars = p[model_name]
-                for parameter_name in pars.keys():
-                    if pars[parameter_name].vary:
-                        x.append(pars[parameter_name].value)
-        return x
+    def f(self) -> ArrayLike:
+        """Calculate the response of the models in the different sources, stacked horizontally.
 
-    def setParameterMapping(self):
-        self.mapping = {}
-        self.parameter_names = []
-        i = 0
-        for source_name in self.pars.keys():
-            p = self.pars[source_name]
-            for model_name in p.keys():
-                pars = p[model_name]
-                for parameter_name in pars.keys():
-                    if pars[parameter_name].vary:
-                        self.mapping[
-                            i] = source_name, model_name, parameter_name
-                        self.parameter_names.append('_'.join(
-                            [source_name, model_name, parameter_name]))
-                        i += 1
+        Returns
+        -------
+        ArrayLike
+            Horizontally concatenated response from each source.
+        """
+        return np.hstack([source.f() for _, source in self.sources])
 
-    def __call__(self, params):
-        for i, value in enumerate(params):
-            source_name, model_name, parameter_name = self.mapping[i]
-            self.pars[source_name][model_name][parameter_name].value = value
-        resid = self.residualCalculation()
-        return np.sum(resid * resid)
+    def y(self) -> ArrayLike:
+        """Stack the data in the different sources, horizontally.
 
-    def f(self):
-        f = []
-        for name, source in self.sources:
-            f.append(source.f())
-        return np.hstack(f)
+        Returns
+        -------
+        ArrayLike
+            Horizontally concatenated data from each source.
+        """
+        return np.hstack([source.y for _, source in self.sources])
 
-    def y(self):
-        y = []
-        for _, source in self.sources:
-            y.append(source.y)
-        return np.hstack(y)
+    def yerr(self) -> ArrayLike:
+        """Stack the uncertainty in the different sources, horizontally.
 
-    def yerr(self):
-        yerr = []
-        for _, source in self.sources:
-            yerr.append(source.yerr())
-        return np.hstack(yerr)
+        Returns
+        -------
+        ArrayLike
+            Horizontally concatenated uncertainty from each source.
+        """
+        return np.hstack([source.yerr() for _, source in self.sources])
 
-    def setParameters(self, params):
+    def setParameters(self, params: lm.Parameters) -> None:
+        """Set the parameters of the underlying Models
+        based on a large Parameters object
+
+        Parameters
+        ----------
+        params : lm.Parameters
+        """
         for p in params.keys():
             if params[p].vary or params[p].expr != None:
                 source_name, model_name, parameter_name = p.split('___')
-                self.pars[source_name][model_name][parameter_name].value = params[
-                    p].value
+                self.pars[source_name][model_name][
+                    parameter_name].value = params[p].value
 
-    def setUncertainties(self, params):
+    def setUncertainties(self, params: lm.Parameters) -> None:
+        """Set the uncertainties of the underlying Models
+        based on a large Parameters object
+
+        Parameters
+        ----------
+        params : lm.Parameters
+        """
         for p in params.keys():
             source_name, model_name, parameter_name = p.split('___')
             self.pars[source_name][model_name][parameter_name].unc = params[
                 p].stderr
 
-    def setCorrelations(self, params):
+    def setCorrelations(self, params: lm.Parameters) -> None:
+        """Set the correlations of the underlying Models
+        based on a large Parameters object
+
+        Parameters
+        ----------
+        params : lmfit.Parameters
+        """
         for p in params.keys():
             source_name, model_name, parameter_name = p.split('___')
             dictionary = copy.deepcopy(params[p].correl)
@@ -227,7 +282,19 @@ class Fitter:
             except AttributeError:
                 pass
 
-    def resid(self):
+    def resid(self) -> ArrayLike:
+        """Calculates the residuals for use in a Gaussian fitting.
+        Based on the value of :attr:`Fitter.mode`, a different method is
+        used. If :attr:`Fitter.mode` is 'source', the result of :func:`~Fitter.yerr` is used.
+        If :attr:`Fitter.mode` is 'combined', the denominator is calculated as
+
+        .. math::
+            \sqrt{\\frac{3}{\\frac{1}{y}+\\frac{2}{f(x)}}}
+            
+        Returns
+        -------
+        ArrayLike
+        """
         model_calcs = self.f()
         if self.mode == 'source':
             resid = (model_calcs - self.temp_y) / self.yerr()
@@ -235,32 +302,79 @@ class Fitter:
             resid = (model_calcs - self.temp_y) / modifiedSqrt(
                 3 / (1 / self.temp_y + 2 / model_calcs))
         if np.any(np.isnan(resid)):
-            return np.inf
-        else:
-            return resid
+            resid[np.isnan(resid)] = np.inf
+        return resid
 
-    def gaussianPriors(self):
-        return [
+    def gaussianPriorResid(self) -> ArrayLike:
+        """Calculates the residual (x-xtrue)/sigma for use
+        in a Gaussian prior. The parameters for which this calculates
+        the priors are given by :func:`~Fitter.setPrior`.
+
+        Returns
+        -------
+        ArrayLike
+        """
+        return np.array([
             (self.pars[source][model][parameter].value - value) / uncertainty
             for source, model, parameter, value, uncertainty in self.priors
-        ]
+        ])
 
-    def gaussLlh(self):
+    def residualCalculation(self) -> ArrayLike:
+        """Calculates the full residual, based on :func:`~Fitter.resid`
+        and :func:`~Fitter.gaussianPriorResid`
+
+        Returns
+        -------
+        ArrayLike
+        """
+        return np.hstack([self.resid(), self.gaussianPriorResid()])
+
+    def gaussLlh(self) -> ArrayLike:
+        """Calculate the Gaussian likelihood
+
+        Returns
+        -------
+        ArrayLike
+        """
         resid = self.residualCalculation()
         return -0.5 * resid * resid  # Faster than **2
 
-    def poissonLlh(self):
+    def poissonLlh(self) -> ArrayLike:
+        """Calculate the Poisson likelihood
+
+        Returns
+        -------
+        ArrayLike
+        """
         model_calcs = self.f()
         returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
         returnvalue[model_calcs <= 0] = -np.inf
         return returnvalue
 
-    def poissonChisq(self):
-        model_calcs = self.f()
-        return 2 * (model_calcs - self.temp_y +
-                    self.temp_y * np.log(self.temp_y / model_calcs))
+    def llh(self,
+            params: lm.Parameters,
+            method: str = 'gaussian',
+            emcee: bool = False) -> ArrayLike:
+        """Calculate the likelihood, based on the parameters and method.
+        In case the minimizer uses the emcee package, the array is summed to a single number.
+        In case the minimizer uses any other routine, the array is multiplied by -1 to
+        obtain the negative likelihood.
 
-    def llh(self, params, method='gaussian', emcee=False):
+        Parameters
+        ----------
+        params : lm.Parameters
+            Parameters for which the likelihood has to be calculated.
+        method : str, optional
+            Defines either a Gaussian or Poissonian likelihood, by default 'gaussian'.
+        emcee : bool, optional
+            Toggles the output to be usable by the emcee package, by default False.
+
+        Returns
+        -------
+        ArrayLike
+            An array of the negative loglikelihood (emcee=False) or
+            a single number giving the loglikelihood (emcee=True).
+        """
         methods = {'gaussian': self.gaussLlh, 'poisson': self.poissonLlh}
         self.setParameters(params)
         returnvalue = methods[method.lower()]()
@@ -271,56 +385,115 @@ class Fitter:
             returnvalue = np.sum(returnvalue)
         return returnvalue
 
-    def reduction(self, r):
+    def reduction(self, r: ArrayLike) -> float:
+        """Reduces the likelihood to a single number. Used by lmfit.
+
+        Parameters
+        ----------
+        r : ArrayLike
+            Array of residuals
+
+        Returns
+        -------
+        float
+            Sum of array of residuals
+        """
         return np.sum(r)
 
-    def callback(self, params, iter, resid, *args, **kwargs):
-        return None
+    def chisquare(self, params: lm.Parameters) -> ArrayLike:
+        """Chisquare optimization function for lmfit.
 
-    def residualCalculation(self):
-        resid = self.resid()
-        priors = self.gaussianPriors()
-        if len(priors) > 0:
-            resid = np.append(resid, priors)
-        return resid
+        Parameters
+        ----------
+        params : lm.Parameters
+            Parameters for which the chisquare has to be calculated
 
-    def residualCalculationWithParams(self, params):
-        resid = self.residParams(params)
-        priors = self.gaussianPriors()
-        if len(priors) > 0:
-            resid = np.append(resid, priors)
-        return resid
-
-    def optimizeFunc(self, params):
+        Returns
+        -------
+        ArrayLike
+            Array of residuals, to be squared and summed by lmfit
+        """
         self.setParameters(params)
         return self.residualCalculation()
 
-    def prepareFit(self):
-        self.createParameters()
-        self.createBounds()
-        self.createLmParameters()
+    def _prepareFit(self):
+        self._createParameters()
+        self._createLmParameters()
 
     def reportFit(self,
-                  modelpars=None,
-                  show_correl=False,
-                  min_correl=0.1,
-                  sort_pars=False):
+                  modelpars: Union[lm.Parameters, None] = None,
+                  show_correl: bool = False,
+                  min_correl: float = 0.1,
+                  sort_pars: Union[bool, callable] = False) -> str:
+        """Generate a report of the fitting results.
+
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        modelpars : lmfit.Parameters, optional
+            Known Model Parameters
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+        sort_pars : bool or callable, optional
+            Whether to show parameter names sorted in alphanumerical order.
+            If False (default), then the parameters will be listed in the
+            order they were added to the Parameters dictionary. If callable,
+            then this (one argument) function is used to extract a comparison
+            key from each list element.
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """                  
         return lm.fit_report(self.result, modelpars, show_correl, min_correl,
                              sort_pars)
 
     def fit(self,
-            llh=False,
-            llh_method='gaussian',
-            method='leastsq',
-            kws={},
-            mcmc_kwargs={},
-            sampler_kwargs={},
-            filename=None,
-            steps=1000,
-            nwalkers=50,
-            scale_covar=True):
+            llh: bool=False,
+            llh_method: str='gaussian',
+            method: str='leastsq',
+            mcmc_kwargs: dict={},
+            sampler_kwargs: dict={},
+            filename: str=None,
+            steps: int=1000,
+            nwalkers: int=50,
+            scale_covar: bool=True) -> None:
+        """Perform a fit of the models (added to the sources) to the data in the sources.
+        Models in the same source are summed together, models in different sources can be
+        linked through their parameters.
+
+        Parameters
+        ----------
+        llh : bool, optional
+            Selects if a chisquare (False) or likelihood fit is performed, by default False.
+        llh_method : str, optional
+            Selects which likelihood calculation is used, by default 'gaussian'.
+        method : str, optional
+            Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
+            Set to 'emcee' for random walk.
+        mcmc_kwargs : dict, optional
+            Dictionary of keyword arguments to be supplied to the MCMC routine
+            (see :func:`emcee.EnsembleSampler.sample`), by default {}
+        sampler_kwargs : dict, optional
+            Dictionary of keyword arguments to be supplied to the :func:`emcee.EnsembleSampler`
+            , by default {}
+        filename : str, optional
+            Filename in which the random walk should be saved, by default None
+        steps : int, optional
+            Number of steps the random walk should, by default 1000
+        nwalkers : int, optional
+            Number of walkers to be used in the random walk, by default 50
+        scale_covar : bool, optional
+            Scale the calculated uncertainties by the root of the reduced
+            chisquare, by default True. Set to False when llh is True, since
+            the reduced chisquare calculated in this case is not applicable.
+        """            
         self.temp_y = self.y()
-        self.prepareFit()
+        self._prepareFit()
 
         kws = {}
         kwargs = {}
@@ -331,7 +504,7 @@ class Fitter:
             if method.lower() in ['leastsq', 'least_squares']:
                 method = 'slsqp'
         else:
-            func = self.optimizeFunc
+            func = self.chisquare
 
         if method == 'emcee':
             llh = True
@@ -360,13 +533,21 @@ class Fitter:
         self.result = minimize(func,
                                self.lmpars,
                                method=method,
-                               iter_cb=self.callback,
                                kws=kws,
                                reduce_fcn=reduce_fcn,
                                scale_covar=scale_covar,
                                **kwargs)
         del self.temp_y
         self.updateInfo()
+
+    def revertFit(self):
+        params = self.result.init_values
+        for p in params.keys():
+            source_name, model_name, parameter_name = p.split('___')
+            self.pars[source_name][model_name][parameter_name].value = params[
+                p]
+        self._prepareFit()
+        self.setParameters(self.lmpars)
 
     def readWalk(self, filename):
         reader = SATLASHDFBackend(filename)
@@ -376,7 +557,7 @@ class Fitter:
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
                 self.lmpars, data)
         except AttributeError:
-            self.prepareFit()
+            self._prepareFit()
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
                 self.lmpars, data)
         self.updateInfo()

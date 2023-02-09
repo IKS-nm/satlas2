@@ -4,11 +4,13 @@ Reimplementation of several features in the emcee and lmfit packages, in order t
 .. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
 """
 import multiprocessing
-import numpy as np
+
 import emcee
+import lmfit.minimizer
+import numpy as np
 from emcee.autocorr import AutocorrError, integrated_time
 from lmfit import Minimizer
-import lmfit.minimizer
+
 AbortFitException = lmfit.minimizer.AbortFitException
 from typing import Dict, List, Optional, Union
 
