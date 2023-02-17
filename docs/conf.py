@@ -13,6 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../src/'))
+import satlas2
 
 
 # -- Project information -----------------------------------------------------
@@ -22,7 +23,7 @@ copyright = '2023, Wouter Gins'
 author = 'Wouter Gins'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
+release = '.'.join([str(s) for s in satlas2.version_tuple[:3]])
 
 
 # -- General configuration ---------------------------------------------------
