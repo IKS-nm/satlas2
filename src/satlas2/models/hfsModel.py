@@ -1,21 +1,84 @@
-from satlas2.core import Model, Parameter
+"""
+Implementation of the HFSModel class, currently only supplied with a Voigt profile.
+
+.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
+"""
+from __future__ import annotations
+
+from typing import Tuple
 
 import numpy as np
-from scipy.special import wofz, voigt_profile
-from sympy.physics.wigner import wigner_6j, wigner_3j
+import uncertainties as unc
+from numpy.typing import ArrayLike
+from scipy.special import voigt_profile, wofz
+from sympy.physics.wigner import wigner_3j, wigner_6j
+
+from satlas2.core import Model, Parameter
 
 __all__ = ['HFS']
 
-sqrt2 = 2 ** 0.5
+sqrt2 = 2**0.5
 sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
 
+
 class HFS(Model):
-    def __init__(self, I, J, A=[0, 0], B=[0, 0], C=[0, 0], df=0, fwhmg=50, fwhml=50, name=None, N=None, offset=0, poisson=0, scale=1.0, racah=True, prefunc=None):
-        super().__init__(name=name, prefunc=prefunc)
+    """Initializes a hyperfine spectrum Model with the given hyperfine parameters.
+
+    Parameters
+    ----------
+    I : float
+        Integer or half-integer value of the nuclear spin
+    J : ArrayLike
+        A sequence of 2 spins, respectively the J value of the lower state
+        and the J value of the higher state
+    A : ArrayLike, optional
+        A sequence of 2 A values, respectively for the lower and the higher state, by default [0, 0]
+    B : ArrayLike, optional
+        A sequence of 2 B values, respectively for the lower and the higher state, by default [0, 0]
+    C : ArrayLike, optional
+        A sequence of 2 C values, respectively for the lower and the higher state, by default [0, 0]
+    df : float, optional
+        The centroid of the spectrum, by default 0
+    fwhmg : float, optional
+        The Gaussian FWHM of the Voigt profile, by default 50
+    fwhml : float, optional
+        The Lorentzian FWHM of the Voigt profile, by default 50
+    name : str, optional
+        Name of the model, by default 'HFS'
+    N : int, optional
+        Number of sidepeaks to be generated, by default None
+    offset : float, optional
+        Offset in units of x for the sidepeak, by default 0
+    poisson : float, optional
+        The poisson factor for the sidepeaks, by default 0
+    scale : float, optional
+        The amplitude of the entire spectrum, by default 1.0
+    racah : bool, optional
+        Use individual amplitudes are setting the Racah intensities, by default True
+    prefunc : callable, optional
+        Transformation to be applied on the input before evaluation, by default None
+        """
+    def __init__(self,
+                 I: float,
+                 J: ArrayLike,
+                 A: ArrayLike = [0, 0],
+                 B: ArrayLike = [0, 0],
+                 C: ArrayLike = [0, 0],
+                 df: float = 0,
+                 fwhmg: float = 50,
+                 fwhml: float = 50,
+                 name: str = 'HFS',
+                 N: int = None,
+                 offset: float = 0,
+                 poisson: float = 0,
+                 scale: float = 1.0,
+                 racah: bool = True,
+                 prefunc: callable = None):
+        super().__init__(name, prefunc=prefunc)
         J1, J2 = J
-        lower_F = np.arange(abs(I - J1), I+J1+1, 1)
-        upper_F = np.arange(abs(I - J2), I+J2+1, 1)
+        lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
+        upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
 
         self.lines = []
         self.intensities = {}
@@ -32,12 +95,12 @@ class HFS(Model):
                     if F1 % 1 == 0:
                         F1_str = '{:.0f}'.format(F1)
                     else:
-                        F1_str = '{:.0f}_2'.format(2*F1)
+                        F1_str = '{:.0f}_2'.format(2 * F1)
 
                     if F2 % 1 == 0:
                         F2_str = '{:.0f}'.format(F2)
                     else:
-                        F2_str = '{:.0f}_2'.format(2*F2)
+                        F2_str = '{:.0f}_2'.format(2 * F2)
 
                     line = '{}to{}'.format(F1_str, F2_str)
                     self.lines.append(line)
@@ -54,23 +117,26 @@ class HFS(Model):
 
                     intens = float((2 * F1 + 1) * (2 * F2 + 1) * \
                          wigner_6j(J2, F2, I, F1, J1, 1.0) ** 2) # DO NOT REMOVE CAST TO FLOAT!!!
-                    self.intensities['Amp'+line] = Parameter(value=intens, min=0, vary=not racah)
+                    self.intensities['Amp' + line] = Parameter(value=intens,
+                                                               min=0,
+                                                               vary=not racah)
 
         norm = max([p.value for p in self.intensities.values()])
         for n, v in self.intensities.items():
             v.value /= norm
 
-        pars = {'centroid': Parameter(value=df),
-                'Al': Parameter(value=A[0]),
-                'Au': Parameter(value=A[1]),
-                'Bl': Parameter(value=B[0]),
-                'Bu': Parameter(value=B[1]),
-                'Cl': Parameter(value=C[0], vary=False),
-                'Cu': Parameter(value=C[1], vary=False),
-                # 'bkg': Parameter(value=bkg),
-                'FWHMG': Parameter(value=fwhmg, min=0.01),
-                'FWHML': Parameter(value=fwhml, min=0.01),
-                'scale': Parameter(value=scale, min=0, vary=racah)}
+        pars = {
+            'centroid': Parameter(value=df),
+            'Al': Parameter(value=A[0]),
+            'Au': Parameter(value=A[1]),
+            'Bl': Parameter(value=B[0]),
+            'Bu': Parameter(value=B[1]),
+            'Cl': Parameter(value=C[0], vary=False),
+            'Cu': Parameter(value=C[1], vary=False),
+            'FWHMG': Parameter(value=fwhmg, min=0.01),
+            'FWHML': Parameter(value=fwhml, min=0.01),
+            'scale': Parameter(value=scale, min=0, vary=racah)
+        }
         if N is not None:
             pars['N'] = Parameter(value=N, vary=False)
             pars['Offset'] = Parameter(value=offset)
@@ -90,14 +156,22 @@ class HFS(Model):
             self.params['Bl'].vary = False
         if I < 1 or J2 < 1:
             self.params['Bu'].vary = False
-        if I == 0 or J1 == 0: 
+        if I == 0 or J1 == 0:
             self.params['Al'].vary = False
         if I == 0 or J2 == 0:
             self.params['Au'].vary = False
-        self.xtransformed = None
-        self.xhashed = None
 
-    def fUnshifted(self, x):
+    def fUnshifted(self, x: ArrayLike) -> ArrayLike:
+        """Calculate the response for an unshifted spectrum
+
+        Parameters
+        ----------
+        x : ArrayLike
+
+        Returns
+        -------
+        ArrayLike
+        """
         centroid = self.params['centroid'].value
         Al = self.params['Al'].value
         Au = self.params['Au'].value
@@ -112,43 +186,27 @@ class HFS(Model):
         result = np.zeros(len(x))
         x = self.transform(x)
         for line in self.lines:
-            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
-            result += scale * self.params['Amp'+line].value * self.peak(x - pos, FWHMG, FWHML)
+            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
+                line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
+                    line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
+                        line]
+            result += scale * self.params['Amp' + line].value * self.peak(
+                x - pos, FWHMG, FWHML)
 
         return result
-    
-    def fUnshiftedParams(self, x, *params):
-        # centroid = self.params['centroid'].value
-        centroid = params[0]
-        # Al = self.params['Al'].value
-        Al = params[1]
-        # Au = self.params['Au'].value
-        Au = params[2]
-        # Bl = self.params['Bl'].value
-        Bl = params[3]
-        # Bu = self.params['Bu'].value
-        Bu = params[4]
-        # Cl = self.params['Cl'].value
-        Cl = params[5]
-        # Cu = self.params['Cu'].value
-        Cu = params[6]
-        # FWHMG = self.params['FWHMG'].value
-        FWHMG = params[7]
-        # FWHML = self.params['FWHML'].value
-        FWHML = params[8]
-        # scale = self.params['scale'].value
-        scale = params[9]
-        # bkg = self.params['bkg'].value
 
-        result = np.zeros(len(x))
-        # x = self.transform(x)
-        for i, line in enumerate(self.lines):
-            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
-            result += params[i+11] * self.peak(x - pos, FWHMG, FWHML)
+    def fShifted(self, x: ArrayLike) -> ArrayLike:
+        """Calculate the response with :attr:`N` sidepeaks with an offset
+        of :attr:`offset`
 
-        return scale * result
+        Parameters
+        ----------
+        x : ArrayLike
 
-    def fShifted(self, x):
+        Returns
+        -------
+        ArrayLike
+        """
         centroid = self.params['centroid'].value
         Al = self.params['Al'].value
         Au = self.params['Au'].value
@@ -163,48 +221,84 @@ class HFS(Model):
         offset = self.params['Offset'].value
         poisson = self.params['Poisson'].value
 
-        result = np.zeros(len(x)) 
+        result = np.zeros(len(x))
+        x = self.transform(x)
         for line in self.lines:
-            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line]
+            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
+                line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
+                    line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
+                        line]
             for i in range(N + 1):
-                if self.prefunc:
-                    result += self.params['Amp' + line].value * self.peak(self.prefunc(x - i * offset) - pos, FWHMG, FWHML) * (poisson**i)/np.math.factorial(i)
-                else:
-                    result += self.params['Amp' + line].value * self.peak(x - pos - i * offset, FWHMG, FWHML) * (poisson**i)/np.math.factorial(i)
+                result += self.params['Amp' + line].value * self.peak(
+                    self.transform(x - i * offset) - pos, FWHMG,
+                    FWHML) * (poisson**i) / np.math.factorial(i)
+            result *= scale
 
-        return scale * result
+        return result
 
-    def peak(self, x, FWHMG, FWHML):
+    def peak(self, x: ArrayLike, FWHMG: float, FWHML: float) -> ArrayLike:
+        """Calculates the Voigt profile given the Gaussian
+        and Lorentzian FWHM
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+        FWHMG : float
+            Gaussian FWHM
+        FWHML : float
+            Lorentzian FWHM
+
+        Returns
+        -------
+        ArrayLike
+        """
         sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
         return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
 
+    def calcShift(self, I: float, J: float, F: int) -> ArrayLike:
+        """Calculate the coefficients for the energy shift due to the hyperfine
+        interaction up to the octupole moment. A general equation is used
+        so extending to higher orders is possible.
 
-    def norm(self, FWHML, FWHMG):
-        return wofz(1j * FWHML / (FWHMG * sqrt2)).real
+        Parameters
+        ----------
+        I : float
+            Nuclear spin
+        J : float
+            Electronic spin
+        F : int
+            Hyperfine level spin
 
-    def preparePeak(self, x, FWHMG, FWHML):
-        sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
-        z = (x + 1j * gamma) / (sigma * sqrt2)
-        return z
-
-    def calcShift(self, I, J, F):
-        phase = (-1)**(I+J+F)
+        Returns
+        -------
+        ArrayLike
+            Individual coefficients, in ascending order
+        """
+        phase = (-1)**(I + J + F)
         contrib = []
         for k in range(1, 4):
             n = float(wigner_6j(I, J, F, J, I, k))
-            d = float(wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
+            d = float(
+                wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
             shift = phase * n / d
             if not np.isfinite(shift):
                 contrib.append(0)
             else:
                 if k == 1:
-                    shift = shift * (I*J)
+                    shift = shift * (I * J)
                 elif k == 2:
                     shift = shift / 4
                 contrib.append(shift)
         return contrib
 
-    def pos(self):
+    def pos(self) -> ArrayLike:
+        """Returns the positions of the peaks in MHz in the hyperfine spectrum
+
+        Returns
+        -------
+        ArrayLike
+        """
         centroid = self.params['centroid'].value
         Al = self.params['Al'].value
         Au = self.params['Au'].value
@@ -214,5 +308,29 @@ class HFS(Model):
         Cu = self.params['Cu'].value
         pos = []
         for line in self.lines:
-            pos.append(centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[line])
+            p = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
+                line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
+                    line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
+                        line]
+            pos.append(p)
         return pos
+
+    def calculateFWHM(self) -> Tuple[float, float]:
+        """Calculate the total FWHM of the profiles, with uncertainty,
+        taking the correlations into account.
+
+        Returns
+        -------
+        Tuple[float, float]
+            Tuple of the form (value, uncertainty)
+        """
+        G, Gu = self.params['FWHMG'].value, self.params['FWHMG'].unc
+        L, Lu = self.params['FWHML'].value, self.params['FWHML'].unc
+        try:
+            correl = self.params['FWHMG'].correl['FWHML']
+        except KeyError:
+            correl = 0
+        G, L = unc.correlated_values_norm([(G, Gu), (L, Lu)],
+                                          np.array([[1, correl], [correl, 1]]))
+        fwhm = 0.5346 * L + (0.2166 * L * L + G * G)**0.5
+        return fwhm.nominal_value, fwhm.std_dev

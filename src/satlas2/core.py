@@ -1,15 +1,13 @@
 """
 Implementation of the base Fitter, Source, Model and Parameter classes
 
-.. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
+.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
-
 from __future__ import annotations
 
 import copy
 from typing import Union
 
-import iminuit
 import lmfit as lm
 import numdifftools as nd
 import numpy as np
@@ -448,20 +446,20 @@ class Fitter:
         -------
         str
             Multi-line text of fit report.
-        """                  
+        """
         return lm.fit_report(self.result, modelpars, show_correl, min_correl,
                              sort_pars)
 
     def fit(self,
-            llh: bool=False,
-            llh_method: str='gaussian',
-            method: str='leastsq',
-            mcmc_kwargs: dict={},
-            sampler_kwargs: dict={},
-            filename: str=None,
-            steps: int=1000,
-            nwalkers: int=50,
-            scale_covar: bool=True) -> None:
+            llh: bool = False,
+            llh_method: str = 'gaussian',
+            method: str = 'leastsq',
+            mcmc_kwargs: dict = {},
+            sampler_kwargs: dict = {},
+            filename: str = None,
+            steps: int = 1000,
+            nwalkers: int = 50,
+            scale_covar: bool = True) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
         Models in the same source are summed together, models in different sources can be
         linked through their parameters.
@@ -491,7 +489,7 @@ class Fitter:
             Scale the calculated uncertainties by the root of the reduced
             chisquare, by default True. Set to False when llh is True, since
             the reduced chisquare calculated in this case is not applicable.
-        """            
+        """
         self.temp_y = self.y()
         self._prepareFit()
 
@@ -541,6 +539,8 @@ class Fitter:
         self.updateInfo()
 
     def revertFit(self):
+        """Reverts the parameter values to the original values.
+        """
         params = self.result.init_values
         for p in params.keys():
             source_name, model_name, parameter_name = p.split('___')
@@ -549,7 +549,15 @@ class Fitter:
         self._prepareFit()
         self.setParameters(self.lmpars)
 
-    def readWalk(self, filename):
+    def readWalk(self, filename: str):
+        """Read and process the h5 file containing the results of a random walk.
+        The parameter values and uncertainties are extracted from the walk.
+
+        Parameters
+        ----------
+        filename : str
+            Filename of the random walk results.
+        """
         reader = SATLASHDFBackend(filename)
         # var_names = list(reader.labels)
         data = reader.get_chain(flat=False)
@@ -563,6 +571,8 @@ class Fitter:
         self.updateInfo()
 
     def updateInfo(self):
+        """:meta private:
+        """
         self.lmpars = self.result.params
         self.setParameters(self.result.params)
         self.setUncertainties(self.result.params)
@@ -578,7 +588,9 @@ class Fitter:
         self.updateFitInfoSources()
 
     def updateFitInfoSources(self):
-        for source_name, source in self.sources:
+        """:meta private:
+        """
+        for _, source in self.sources:
             source.nvarys = self.nvarys
             try:
                 source.chisqr = self.chisqr
@@ -590,7 +602,28 @@ class Fitter:
 
 
 class Source:
-    def __init__(self, x, y, yerr, xerr=None, name=None):
+    def __init__(self,
+                 x: ArrayLike,
+                 y: ArrayLike,
+                 yerr: Union[ArrayLike, callable],
+                 name: str,
+                 xerr: ArrayLike = None):
+        """Initializes a source of data
+
+        Parameters
+        ----------
+        x : ArrayLike
+            x values of the data
+        y : ArrayLike
+            y values of the data
+        yerr : Union[ArrayLike, callable]
+            The yerr of the data, either an array for fixed uncertainties
+            or a callable to be applied to the result of the models in the source.
+        name : str
+            The name given to the source. This must be a unique value!
+        xerr : ArrayLike, optional
+            If enlargement of the yerr with the xerr is required, supply this, by default None.
+        """
         super().__init__()
         self.x = x
         self.y = y
@@ -601,18 +634,31 @@ class Source:
         self.models = []
         self.derivative = nd.Derivative(self.evaluate)
 
-    def addModel(self, model, name=None):
-        if name is None:
-            name = model.name
-        self.models.append((name, model))
+    def addModel(self, model: 'Model'):
+        """Add a model to the Source
 
-    def params(self):
+        Parameters
+        ----------
+        model : Model
+            The Model to be added to the source. Multiple models give, as a result,
+            the sum of the individual models
+        """
+        self.models.append((model.name, model))
+
+    def params(self) -> dict:
+        """:meta private:"""
         params = {}
         for name, model in self.models:
             params[name] = model.params
         return params
 
-    def f(self):
+    def f(self) -> ArrayLike:
+        """Returns the sum of the evaluation of all models in the x-coordinates defined in the source.
+
+        Returns
+        -------
+        ArrayLike
+        """
         for _, model in self.models:
             try:
                 f += model.f(self.x)
@@ -620,8 +666,19 @@ class Source:
                 f = model.f(self.x)
         return f
 
-    def evaluate(self, x):
-        for name, model in self.models:
+    def evaluate(self, x: ArrayLike) -> ArrayLike:
+        """Evaluates all models in the given points and returns the sum.
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Points in which the models have to be evaluated
+
+        Returns
+        -------
+        ArrayLike
+        """
+        for _, model in self.models:
             try:
                 f += model.f(x)
             except UnboundLocalError:
@@ -629,6 +686,7 @@ class Source:
         return f
 
     def yerr(self):
+        """:meta private:"""
         err = None
         if not callable(self.yerr_data):
             err = self.yerr_data
@@ -641,7 +699,17 @@ class Source:
 
 
 class Model:
-    def __init__(self, prefunc=None, name=None):
+    def __init__(self, name: str, prefunc: callable = None):
+        """Base Model class
+
+        Parameters
+        ----------
+        name : str
+            Name given to the model
+        prefunc : callable, optional
+            Transformation function to be applied to the
+            evaluation points before evaluating the model, by default None
+        """
         super().__init__()
         self.name = name
         self.prefunc = prefunc
@@ -649,7 +717,18 @@ class Model:
         self.xtransformed = None
         self.xhashed = None
 
-    def transform(self, x):
+    def transform(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
         if callable(self.prefunc):
             hashed = x.data.tobytes()
             if hashed == self.xhashed:
@@ -660,31 +739,22 @@ class Model:
                 self.xhashed = hashed
         return x
 
-    def setTransform(self, func):
+    def setTransform(self, func: callable):
+        """Set the transformation for the pre-evaluation.
+
+        Parameters
+        ----------
+        func : callable
+        """
         self.prefunc = func
-
-    def setBounds(self, name, bounds):
-        if name in self.params.keys():
-            self.params[name].min = min(bounds)
-            self.params[name].max = max(bounds)
-
-    def setVary(self, name, vary):
-        if name in self.params.keys():
-            self.params[name].vary = vary
-
-    def setExpr(self, name, expr):
-        if name in self.params.keys():
-            self.params[name].expr = expr
-
-    def addParameter(self, **kwargs):
-        name = kwargs.pop('name')
-        self.params[name] = Parameter(**kwargs)
 
     def f(self, x) -> float:
         raise NotImplemented
 
 
 class Parameter:
+    """:meta private:
+    """
     def __init__(self, value=0, min=-np.inf, max=np.inf, vary=True, expr=None):
         super().__init__()
         self.value = value
@@ -692,8 +762,8 @@ class Parameter:
         self.max = max
         self.vary = vary
         self.expr = expr
-        self.unc = None
-        self.correl = None
+        self.unc = 0
+        self.correl = {}
         self.name = ''
 
     def __repr__(self):
