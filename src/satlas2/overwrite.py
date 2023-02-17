@@ -1,18 +1,18 @@
 """
 Reimplementation of several features in the emcee and lmfit packages, in order to make it work correctly.
 
-.. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
+.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 import multiprocessing
 
 import emcee
 import lmfit.minimizer
 import numpy as np
-from emcee.autocorr import AutocorrError, integrated_time
+from emcee.autocorr import AutocorrError
 from lmfit import Minimizer
 
 AbortFitException = lmfit.minimizer.AbortFitException
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Union
 
 try:
     import pandas as pd
