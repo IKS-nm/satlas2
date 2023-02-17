@@ -1,18 +1,18 @@
 """
 Functions for the generation of plots related to the fitting results.
 
-.. moduleauthor:: Wouter Gins <wouter.a.gins@jyu.fi>
+.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 import copy
 
-import h5py
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+import tqdm
 import uncertainties as u
 from scipy import optimize
 from scipy.stats import chi2
-import tqdm
+
 from .overwrite import SATLASHDFBackend
 
 inv_color_list = [
