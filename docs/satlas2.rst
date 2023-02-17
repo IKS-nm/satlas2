@@ -20,14 +20,6 @@ satlas2.core module
    :undoc-members:
    :show-inheritance:
 
-satlas2.overwrite module
-------------------------
-
-.. automodule:: satlas2.overwrite
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 satlas2.plotting module
 -----------------------
 
