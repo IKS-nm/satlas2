@@ -14,7 +14,7 @@ from scipy.special import erf, voigt_profile
 
 from satlas2.core import Model, Parameter
 
-__all__ = ['ExponentialDecay', 'Polynomial', 'Voigt', 'SkewedVoigt']
+__all__ = ['ExponentialDecay', 'Polynomial', 'Step', 'Voigt', 'SkewedVoigt']
 
 sqrt2 = 2**0.5
 sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
@@ -52,6 +52,39 @@ class Polynomial(Model):
         p = [self.params[paramkey].value for paramkey in self.params.keys()]
         return np.polyval(p, x)
 
+class Step(Model):
+    """Model class for a Step response
+
+        Parameters
+        ----------
+        values : ArrayLike
+            Background values between bounds, starting at -inf
+        bounds: ArrayLike
+            Bounds for background values
+        name : str, optional
+            Name of the model
+        prefunc : callable, optional
+            Transform function for the input, by default None
+        """
+    def __init__(self, values, bounds, name=None, prefunc=None):
+        super().__init__(name=name, prefunc=prefunc)
+        self.params = {'bkg_val_'+str(len(values)-(i+1)): Parameter(value=P, min=0, max=np.inf, vary=True) for i, P in enumerate(values)}
+        self.bounds = bounds
+
+    def f(self, x):
+        x = self.transform(x)
+        bkg = np.zeros(len(x))
+        bkg_sections = len(self.bounds)+1
+        if bkg_sections > 1:
+            bkg[x<self.bounds[0]] = self.params['bkg_val_0'].value
+        else:
+            return self.params['bkg_val_0'].value
+
+        for i in range(1,bkg_sections-1):
+            section = np.logical_and(x>self.bounds[i-1], x<self.bounds[i])
+            bkg[section] = self.params['bkg_val_'+str(i)].value
+        bkg[x>=self.bounds[-1]] = self.params['bkg_val_'+str(bkg_sections-1)].value
+        return bkg
 
 class ExponentialDecay(Model):
     """Model for an exponential decay
