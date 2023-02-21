@@ -7,9 +7,8 @@ import numpy as np
 
 sys.path.insert(0, '..\src')
 
-import satlas as sat
-
 import satlas2
+import satlas as sat
 
 
 def modifiedSqrt(input):
@@ -32,10 +31,14 @@ scale = 90
 x = np.arange(-17500, -14500, 40)
 x = np.hstack([x, np.arange(20000, 23000, 40)])
 times = []
+times_1 = []
 
 rng = np.random.default_rng(0)
-for j in range(1, 4):
+for j in range(1, 11):
     f = satlas2.Fitter()
+    models = []
+    X = []
+    Y = []
     for i in range(j):
         hfs = satlas2.HFS(spin,
                           J,
@@ -51,7 +54,18 @@ for j in range(1, 4):
         bkgm = satlas2.Polynomial([bkg], name='bkg1')
         y = hfs.f(x) + bkgm.f(x)
         y = rng.poisson(y)
+        hfs.params['centroid'].value = centroid - 100
+        X.append(x)
+        Y.append(y)
 
+        hfs1 = sat.HFSModel(spin,
+                            J,
+                            [A[0], A[1], B[0], B[1], C[0], C[1]],
+                            centroid - 100, [FWHMG, FWHML],
+                            scale=scale,
+                            background_params=[bkg],
+                            use_racah=True)
+        models.append(hfs1)
         datasource = satlas2.Source(x,
                                     y,
                                     yerr=modifiedSqrt,
@@ -60,17 +74,41 @@ for j in range(1, 4):
         datasource.addModel(hfs)
         datasource.addModel(bkgm)
         f.addSource(datasource)
-    f.shareModelParams(
-        ['Al', 'Au', 'Bl', 'centroid', 'FWHMG', 'FWHML', 'scale', 'p0'])
-    print('Fitting {} datasets with chisquare (Pearson)...'.format(j))
+    share = ['Al', 'Au', 'Bl', 'centroid', 'FWHMG', 'FWHML']
+    m = sat.LinkedModel(models)
+    m.shared = share
+    f.shareModelParams(share)
+    print('Fitting {} datasets with chisquare (Pearson, satlas2)...'.format(j))
     start = time.time()
     f.fit()
     stop = time.time()
     dt = stop - start
     print('{:.3} s, {:.0f} function evaluations'.format(dt, f.result.nfev))
     times.append(dt)
+    print('Fitting {} datasets with chisquare (Pearson, satlas1)...'.format(j))
+    start = time.time()
+    sat.chisquare_spectroscopic_fit(m, X, Y)
+    stop = time.time()
+    dt = stop - start
+    times_1.append(dt)
 
-f.revertFit()
+
+fig = plt.figure()
+ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+ax.plot(range(1, len(times) + 1), times, '-o', label='satlas2')
+ax.plot(range(1, len(times_1) + 1), times_1, '-o', label='satlas1')
+ax.set_xlabel('Number of datasets')
+ax.set_ylabel('Fitting time in seconds')
+ax.set_yscale('log')
+ax.legend(loc=0)
+
+times, times_1 = np.array(times), np.array(times_1)
+fig = plt.figure()
+ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+ax.plot(range(1, len(times) + 1), times_1/times, '-o')
+ax.set_xlabel('Number of datasets')
+ax.set_ylabel('Speedup factor by using satlas2')
+
 fig = plt.figure(constrained_layout=True)
 gs = gridspec.GridSpec(nrows=len(f.sources), ncols=2, figure=fig)
 a1 = None
@@ -108,8 +146,7 @@ for i, (name, datasource) in enumerate(f.sources):
     ax1.label_outer()
     ax2.label_outer()
     axes.append([ax1, ax2])
-f.fit()
-# print(f.reportFit())
+f.revertFit()
 for i, (name, datasource) in enumerate(f.sources):
     smooth_left = np.arange(datasource.x[left].min(), datasource.x[left].max(),
                             5.0)
@@ -121,10 +158,7 @@ for i, (name, datasource) in enumerate(f.sources):
                     label='Fit')
 a1.legend(loc=0)
 
-fig = plt.figure()
-ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-ax.plot(range(1, len(times) + 1), times)
-ax.set_xlabel('Number of datasets')
-ax.set_ylabel('Fitting time in seconds')
+print(f.reportFit())
+m.display_chisquare_fit(show_correl=False)
 
 plt.show()
