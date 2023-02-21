@@ -22,21 +22,21 @@ log2 = np.log(2)
 
 
 class Polynomial(Model):
+    """Model class for a polynomial response
+
+    Parameters
+    ----------
+    p : ArrayLike
+        Polynomial coefficients, sorted in increasing order
+    name : str
+        Name of the model
+    prefunc : callable, optional
+        Transform function for the input, by default None
+    """
     def __init__(self,
                  p: ArrayLike,
                  name: str = 'Polynomial',
                  prefunc: callable = None):
-        """Model class for a polynomial response
-
-        Parameters
-        ----------
-        p : ArrayLike
-            Polynomial coefficients, sorted in increasing order
-        name : str
-            Name of the model
-        prefunc : callable, optional
-            Transform function for the input, by default None
-        """
         super().__init__(name, prefunc=prefunc)
         self.params = {
             'p' + str(len(p) - (i + 1)): Parameter(value=P,
