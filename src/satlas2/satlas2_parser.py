@@ -98,7 +98,7 @@ class HFSModel:
         raise NotImplementedError('Use HFSModel.set_expr(...)')
 
     def f(self, x): 
-        """Calculate the response for an unshifted spectrum
+        """Calculate the response for an unshifted spectrum with no background
 
         Parameters
         ----------
@@ -108,7 +108,20 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x)
+        return self.hfs.fUnshifted(x) 
+
+    def __call__(self, x):
+        """Calculate the response for an unshifted spectrum with background
+
+        Parameters
+        ----------
+        x : ArrayLike
+
+        Returns
+        -------
+        ArrayLike
+        """
+        return self.hfs.fUnshifted(x) + Polynomial(self.background_params, name='bkg').f(x)
 
     def chisquare_fit(self, x, y, yerr = None, xerr = None, func = None, verbose = None, hessian = False, method = 'leastsq', show_correl = True):
         """Perform a fit of this model to the data provided in this function.
@@ -141,15 +154,16 @@ class HFSModel:
         if (func,verbose,hessian) != (None,None,False):
             raise NotImplementedError('Not implemented')
         datasource = Source(x,
-                                    y,
-                                    yerr=yerr,
-                                    name='Fit')
+                            y,
+                            yerr=yerr,
+                            name='Fit')
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
         datasource.addModel(bkg)
         f = Fitter()
         f.addSource(datasource)
         f.fit(method = method)
+        self.background_params = [list(bkg.params.values())[i].value for i in range(len(list(bkg.params.values())))]
         print(f.reportFit(show_correl = show_correl))
         return f
 
