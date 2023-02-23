@@ -1,8 +1,9 @@
-from . import core, models, overwrite, plotting
+from . import core, models, overwrite, plotting, satlas2_parser
 from .core import *
 from .models import *
 from .overwrite import *
 from .plotting import *
+from .satlas2_parser import *
 
 try:
     from ._version import version as __version__

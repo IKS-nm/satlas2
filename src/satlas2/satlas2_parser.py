@@ -7,12 +7,12 @@ NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT 
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 
-import numpy as np
 from .models import HFS, Polynomial, Step
 from .core import Fitter, Source
 
+
 class HFSModel:
-    '''Initializes a hyperfine spectrum Model with the given hyperfine parameters.
+    """Initializes a hyperfine spectrum Model with the given hyperfine parameters.
 
     Parameters
     ----------
@@ -49,36 +49,51 @@ class HFSModel:
         Offset : float, optional
             Offset in units of x for the sidepeak, by default 0
     prefunc : callable, optional
-        Transformation to be applied on the input before evaluation, by default None
-'''
-    def __init__(self,  I, J, ABC, centroid = 0, fwhm=[50.0,50.0], scale=1.0, background_params=[0.001], shape='voigt', use_racah=True, use_saturation=False, 
-        saturation=0.001, sidepeak_params={'N': None, 'Poisson': 0, 'Offset': 0}, crystalballparams=None, 
-        pseudovoigtparams=None, asymmetryparams=None, name = 'HFModel__'):
+        Transformation to be applied on the input before evaluation, by default None"""
+    def __init__(self,
+                 I,
+                 J,
+                 ABC,
+                 centroid=0,
+                 fwhm=[50.0, 50.0],
+                 scale=1.0,
+                 background_params=[0.001],
+                 shape='voigt',
+                 use_racah=True,
+                 use_saturation=False,
+                 saturation=0.001,
+                 sidepeak_params={
+                     'N': None,
+                     'Poisson': 0,
+                     'Offset': 0
+                 },
+                 crystalballparams=None,
+                 pseudovoigtparams=None,
+                 asymmetryparams=None,
+                 name='HFModel__'):
         super(HFSModel, self).__init__()
         self.background_params = background_params
         if shape != 'voigt':
-            print('Only voigt shape is supported. Use satlas 2')
-            raise NotImplementedError()
+            raise NotImplementedError('Only Voigt shape is supported.')
         if crystalballparams != None or pseudovoigtparams != None or asymmetryparams != None:
-            print('Crystalball/Pseudovoigt/Asymmetric profiles not implemented. Use satlas 2')
-            raise NotImplementedError()
+            raise NotImplementedError('Only Voigt shape is supported.')
         if name == 'HFModel__':
             self.name = name + str(I).replace('.', '_')
         self.hfs = HFS(I,
-                              J,
-                              A=ABC[:2],
-                              B=ABC[2:4],
-                              C=ABC[4:6],
-                              scale=scale,
-                              df=centroid,
-                              fwhmg = fwhm[0],
-                              fwhml = fwhm[1],
-                              name=self.name.replace('.', '_'),
-                              racah=use_racah,
-                              N = sidepeak_params['N'],
-                              offset = sidepeak_params['Offset'],
-                              poisson = sidepeak_params['Poisson'],
-                              prefunc = None)
+                       J,
+                       A=ABC[:2],
+                       B=ABC[2:4],
+                       C=ABC[4:6],
+                       scale=scale,
+                       df=centroid,
+                       fwhmg=fwhm[0],
+                       fwhml=fwhm[1],
+                       name=self.name.replace('.', '_'),
+                       racah=use_racah,
+                       N=sidepeak_params['N'],
+                       offset=sidepeak_params['Offset'],
+                       poisson=sidepeak_params['Poisson'],
+                       prefunc=None)
         self.params = self.hfs.params
 
     def set_expr(self, constraints):
@@ -92,12 +107,13 @@ class HFSModel:
             i.e.
             {'Au':['0.5','Al']} then Au = 0.5*Al"""
         for cons in constraints.keys():
-            self.hfs.params[cons].expr = f'{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}'
+            self.hfs.params[
+                cons].expr = f'{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}'
 
-    def fix_ratio(self, value, target = 'upper', parameter = 'A'):
+    def fix_ratio(self, value, target='upper', parameter='A'):
         raise NotImplementedError('Use HFSModel.set_expr(...)')
 
-    def f(self, x): 
+    def f(self, x):
         """Calculate the response for an unshifted spectrum
 
         Parameters
@@ -108,9 +124,18 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x)
+        return self.hfs.f(x)
 
-    def chisquare_fit(self, x, y, yerr = None, xerr = None, func = None, verbose = None, hessian = False, method = 'leastsq', show_correl = True):
+    def chisquare_fit(self,
+                      x,
+                      y,
+                      yerr=None,
+                      xerr=None,
+                      func=None,
+                      verbose=None,
+                      hessian=False,
+                      method='leastsq',
+                      show_correl=True):
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -138,20 +163,18 @@ class HFSModel:
         -------
         Instance of Fitter (from at satlas2)
         """
-        if (func,verbose,hessian) != (None,None,False):
+        if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
-        datasource = Source(x,
-                                    y,
-                                    yerr=yerr,
-                                    name='Fit')
+        datasource = Source(x, y, yerr=yerr, xerr=xerr, name='Fit')
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
         datasource.addModel(bkg)
         f = Fitter()
         f.addSource(datasource)
-        f.fit(method = method)
-        print(f.reportFit(show_correl = show_correl))
+        f.fit(method=method)
+        print(f.reportFit(show_correl=show_correl))
         return f
+
 
 class SumModel:
     """Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.
@@ -169,15 +192,18 @@ class SumModel:
     source_name : string, optional
         Name of the DataSource instance (from satlas2)
         """
-
-    def __init__(self, models, background_params, name = 'sum', source_name='source'): 
+    def __init__(self,
+                 models,
+                 background_params,
+                 name='sum',
+                 source_name='source'):
         super(SumModel, self).__init__()
         self.name = name
         self.models = models
         self.background_params = background_params
         self._set_params()
 
-    def _set_params(self): 
+    def _set_params(self):
         """Set the parameters of the underlying Models
         based on a large Parameters object
         """
@@ -204,9 +230,18 @@ class SumModel:
                 f += model.f(x)
             except UnboundLocalError:
                 f = model.f(x)
-        return f 
+        return f
 
-    def chisquare_fit(self, x, y, yerr = None, xerr = None, func = None, verbose = None, hessian = False, method = 'leastsq', show_correl = True):
+    def chisquare_fit(self,
+                      x,
+                      y,
+                      yerr=None,
+                      xerr=None,
+                      func=None,
+                      verbose=None,
+                      hessian=False,
+                      method='leastsq',
+                      show_correl=True):
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -234,24 +269,30 @@ class SumModel:
         -------
         Instance of Fitter (from at satlas2)
         """
-        if (func,verbose,hessian) != (None,None,False):
+        if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
-        datasource = Source(x,
-                                    y,
-                                    yerr=yerr,
-                                    name='Fit')
+        datasource = Source(x, y, yerr=yerr, name='Fit')
         for model in self.models:
             datasource.addModel(model)
-        step_bkg = Step(self.background_params['values'],self.background_params['bounds'], name='bkg')
+        step_bkg = Step(self.background_params['values'],
+                        self.background_params['bounds'],
+                        name='bkg')
         self.models.append(step_bkg)
         datasource.addModel(step_bkg)
         f = Fitter()
         f.addSource(datasource)
-        f.fit(method = method)
-        print(f.reportFit(show_correl = show_correl))
+        f.fit(method=method)
+        print(f.reportFit(show_correl=show_correl))
         return f
-        
-def chisquare_fit(model, x, y, yerr, xerr = None, method = 'leastsq', show_correl = True):
+
+
+def chisquare_fit(model,
+                  x,
+                  y,
+                  yerr,
+                  xerr=None,
+                  method='leastsq',
+                  show_correl=True):
     """Perform a fit of the provided model to the data provided in this function.
 
         Parameters
@@ -273,5 +314,9 @@ def chisquare_fit(model, x, y, yerr, xerr = None, method = 'leastsq', show_corre
         -------
         Instance of Fitter (from at satlas2)
         """
-    print('Use satlas2')
-    return model.chisquare_fit(x = x, y = y, yerr = yerr, xerr = xerr, method = method, show_correl = show_correl)
+    return model.chisquare_fit(x=x,
+                               y=y,
+                               yerr=yerr,
+                               xerr=xerr,
+                               method=method,
+                               show_correl=show_correl)
