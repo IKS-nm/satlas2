@@ -4,7 +4,6 @@ Implementation of the base HFSModel and SumModel classes, based on the syntax us
 NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT ALL FUNCTIONALITIES OF THE ORIGINAL SATLAS ARE IMPLEMENTED
 
 .. moduleauthor:: Bram van den Borne <bram.vandenborne@kuleuven.be>
-.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 
 from .models import HFS, Polynomial, Step

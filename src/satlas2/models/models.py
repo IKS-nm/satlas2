@@ -2,6 +2,7 @@
 Implementation of the various common Models.
 
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
+.. moduleauthor:: Bram van den Borne <bram.vandenborne@kuleuven.be>
 """
 from __future__ import annotations
 
@@ -74,18 +75,18 @@ class Step(Model):
                  prefunc: callable = None):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            'bkg' + str(len(values) - (i + 1)): Parameter(value=P,
+            'value' + str(len(values) - (i + 1)): Parameter(value=P,
                                                           min=0,
                                                           max=np.inf,
                                                           vary=True)
-            for i, P in enumerate(values)
+            for i, P in enumerate(values[::-1])
         }
         self.bounds = np.hstack([-np.inf, bounds, np.inf])
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        values = np.array([self.params[p].value for p in self.params.keys()])
+        values = np.array([self.params[p].value for p in self.params.keys()])[::-1]
         indices = np.digitize(x, self.bounds) - 1
         bkg = values[indices]
         return bkg
