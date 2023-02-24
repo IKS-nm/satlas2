@@ -9,7 +9,7 @@ Purpose
 -------
 Contributors:
 * Wouter Gins (wouter.gins@kuleuven.be)
-* Bram van den Borne (ruben.degroote@kuleuven.be)
+* Bram van den Borne (bram.vandenborne@kuleuven.be)
 
 An updated version of the [satlas](http://github.com/woutergins/satlas/) package. A different architecture of the code is used, resulting in a speedup of roughly 2 orders of magnitude in fitting, with increased support for simultaneous fitting and summing models.
 
