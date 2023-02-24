@@ -51,10 +51,13 @@ hfs1 = sat.HFSModel(spin,
                     background_params=bkg,
                     use_racah=True)
 hfs1.set_variation({'Cu': False, 'Cl': False})
+hfs.set_variation({'Au': False, 'Cl': False})
 
 print('Fitting 1 dataset with chisquare (Pearson, satlas2)...')
 start = time.time()
-f = satlas2.chisquare_fit(hfs, x, y, modifiedSqrt(y), show_correl = False)
+succes, message = satlas2.chisquare_fit(hfs, x, y, modifiedSqrt(y), show_correl = False)
+print(succes,message)
+print(hfs.display_chisquare_fit(show_correl = True, min_correl = 0.5))
 stop = time.time()
 dt1 = stop - start
 
@@ -64,7 +67,7 @@ sat.chisquare_fit(hfs1, x, y, modifiedSqrt(y))
 hfs1.display_chisquare_fit(show_correl = False)
 stop = time.time()
 dt2 = stop - start
-print('SATLAS2: {:.3} s, {:.0f} function evaluations'.format(dt1, f.result.nfev))
+print('SATLAS2: {:.3} s, {:.0f} function evaluations'.format(dt1, hfs.fitter.result.nfev))
 print('SATLAS1: {:.3} s'.format(dt2))
 
 fig, ((ax11,ax12),(ax21,ax22)) = plt.subplots(nrows = 2, ncols = 2, figsize = (14,9), sharex = True, sharey = True)
@@ -138,10 +141,12 @@ summodel = satlas2.SumModel([hfs1,hfs2], {'values':[bkg1,bkg2], 'bounds':[0]})
 
 print('Fitting 1 dataset with chisquare (Pearson, satlas2)...')
 start = time.time()
-f = satlas2.chisquare_fit(summodel, x, y, modifiedSqrt(y), show_correl = False)
+succes, message = satlas2.chisquare_fit(summodel, x, y, modifiedSqrt(y), show_correl = False)
+print(succes,message)
+print(summodel.display_chisquare_fit(show_correl = True, min_correl = 0.5))
 stop = time.time()
 dt1 = stop - start
-print('SATLAS2: {:.3} s, {:.0f} function evaluations'.format(dt1, f.result.nfev))
+print('SATLAS2: {:.3} s, {:.0f} function evaluations'.format(dt1, summodel.fitter.result.nfev))
 
 fig, (ax1,ax2) = plt.subplots(ncols = 2, figsize = (14,9), sharey = True)
 ax1.errorbar(x,y,modifiedSqrt(y), fmt = '.', label = 'Artificial data')

@@ -8,6 +8,7 @@ NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT 
 
 from .models import HFS, Polynomial, Step
 from .core import Fitter, Source
+import lmfit as lm
 
 
 class HFSModel:
@@ -112,6 +113,19 @@ class HFSModel:
     def fix_ratio(self, value, target='upper', parameter='A'):
         raise NotImplementedError('Use HFSModel.set_expr(...)')
 
+    def set_variation(self, varyDict):
+        """Sets the variation of the fitparameters as supplied in the
+        dictionary.
+
+        Parameters
+        ----------
+        varyDict: dictionary
+            A dictionary containing 'key: True/False' mappings with
+            the parameter names as keys."""
+
+        for p in varyDict.keys():
+            self.hfs.params[p].vary = False
+
     def f(self, x): 
         """Calculate the response for an unshifted spectrum with no background
 
@@ -184,12 +198,38 @@ class HFSModel:
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
         datasource.addModel(bkg)
-        f = Fitter()
-        f.addSource(datasource)
-        f.fit(method = method)
+        self.fitter = Fitter()
+        self.fitter.addSource(datasource)
+        self.fitter.fit(method=method)
         self.background_params = [list(bkg.params.values())[i].value for i in range(len(list(bkg.params.values())))]
-        print(f.reportFit(show_correl = show_correl))
-        return f
+        return True,self.fitter.result.message[:-1]+', but you should use real SATLAS2'
+
+    def display_chisquare_fit(self, scaled = True, **kwargs):
+        """Generate a report of the fitting results.
+
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        scaled: bool, optional
+            Whether the errors are scaled with reduced chisquared, by default True
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """
+        if not scaled:
+            raise NotImplementedError('Not implemented')
+            scaled = True
+        return lm.fit_report(self.fitter.result, **kwargs)
+
+    # def get_result_frame(method = 'chisquare', selected = None, bounds = False, vary = False, scaled = False):
+        #UNDER CONSTRUCTION
 
 
 class SumModel:
@@ -229,6 +269,9 @@ class SumModel:
             except:
                 p = model.params.copy()
         self.params = p
+
+    def set_variation(self, varyDict):
+        raise NotImplementedError('Do this at the HFSModel level')
 
     def f(self, x):
         """Calculate the response for a spectrum
@@ -295,11 +338,34 @@ class SumModel:
                         name='bkg')
         self.models.append(step_bkg)
         datasource.addModel(step_bkg)
-        f = Fitter()
-        f.addSource(datasource)
-        f.fit(method=method)
-        print(f.reportFit(show_correl=show_correl))
-        return f
+        self.fitter = Fitter()
+        self.fitter.addSource(datasource)
+        self.fitter.fit(method=method)
+        return True,self.fitter.result.message[:-1]+', but you should use real SATLAS2'
+
+    def display_chisquare_fit(self, scaled = True, **kwargs):
+        """Generate a report of the fitting results.
+
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        scaled: bool, optional
+            Whether the errors are scaled with reduced chisquared, by default True
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """
+        if not scaled:
+            raise NotImplementedError('Not implemented')
+            scaled = True
+        return lm.fit_report(self.fitter.result, **kwargs)
 
 
 def chisquare_fit(model,
