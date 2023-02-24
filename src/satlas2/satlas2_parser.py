@@ -9,6 +9,7 @@ NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT 
 from .models import HFS, Polynomial, Step
 from .core import Fitter, Source
 import lmfit as lm
+import pandas as pd
 
 
 class HFSModel:
@@ -88,7 +89,7 @@ class HFSModel:
                        df=centroid,
                        fwhmg=fwhm[0],
                        fwhml=fwhm[1],
-                       name=self.name.replace('.', '_'),
+                       name=self.name,
                        racah=use_racah,
                        N=sidepeak_params['N'],
                        offset=sidepeak_params['Offset'],
@@ -191,6 +192,8 @@ class HFSModel:
         """
         if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
+        if show_correl:
+            print('define whether you want to see the correlations in display_chisquare_fit(...)')
         datasource = Source(x,
                             y,
                             yerr=yerr,
@@ -212,7 +215,7 @@ class HFSModel:
         Parameters
         ----------
         scaled: bool, optional
-            Whether the errors are scaled with reduced chisquared, by default True
+            Whether the errors are scaled with reduced chisquared, by default True, and only True
         show_correl : bool, optional
             Whether to show a list of sorted correlations, by default False
         min_correl : float, optional
@@ -228,9 +231,56 @@ class HFSModel:
             scaled = True
         return lm.fit_report(self.fitter.result, **kwargs)
 
-    # def get_result_frame(method = 'chisquare', selected = None, bounds = False, vary = False, scaled = False):
-        #UNDER CONSTRUCTION
+    def get_result_dict(self, method = 'chisquare', scaled = True):
+        """Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.
 
+        Parameters
+        ----------
+        method: {'chisquare', 'mle'}
+            Selects which parameters have to be returned, by default 'chisquare', and only 'chisquare'
+        scaled: boolean
+            Selects if, in case of chisquare parameters, the uncertainty
+            has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True
+
+        Returns
+        -------
+        dict
+            Dictionary of the form described above."""
+        if (method.lower(),scaled) != ('chisquare',True):
+            raise NotImplementedError('Not implemented')
+        lmparamdict = self.fitter.pars['Fit'][self.name]
+        return_dict = {param_name: [lmparamdict[param_name].value, lmparamdict[param_name].unc] for param_name in lmparamdict.keys()}
+        return return_dict
+
+    def get_result_frame(self, method='chisquare', selected=False, bounds=False, vary=False, scaled=True): 
+        """Returns the data from the fit in a pandas DataFrame.
+
+        Parameters
+        ----------
+        method: str, optional
+            Selects which fitresults have to be loaded. Can be 'chisquare' or
+            'mle'. Defaults to 'chisquare', and only 'chisquare'.
+        selected: list of strings, optional
+            Selects the parameters that have any string in the list
+            as a substring in their name. Set to *None* to select
+            all parameters. Defaults to None, and only None.
+        bounds: boolean, optional
+            Selects if the boundary also has to be given. Defaults to
+            False, and onlyb False.
+        vary: boolean, optional
+            Selects if only the parameters that have been varied have to
+            be supplied. Defaults to False, and only False.
+        scaled: boolean, optional
+            Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True
+
+        Returns
+        -------
+        resultframe: DataFrame
+            Dateframe with MultiIndex, using the variable names as main column names
+            and the two rows under for the value and the uncertainty"""
+        result_dict = self.get_result_dict(method = method, scaled = scaled)
+        return_frame = pd.DataFrame.from_dict(result_dict)
+        return return_frame
 
 class SumModel:
     """Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.
@@ -330,6 +380,8 @@ class SumModel:
         """
         if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
+        if show_correl:
+            print('define whether you want to see the correlations in display_chisquare_fit(...)')
         datasource = Source(x, y, yerr=yerr, name='Fit')
         for model in self.models:
             datasource.addModel(model)
@@ -351,7 +403,7 @@ class SumModel:
         Parameters
         ----------
         scaled: bool, optional
-            Whether the errors are scaled with reduced chisquared, by default True
+            Whether the errors are scaled with reduced chisquared, by default True, and only True
         show_correl : bool, optional
             Whether to show a list of sorted correlations, by default False
         min_correl : float, optional
@@ -366,6 +418,64 @@ class SumModel:
             raise NotImplementedError('Not implemented')
             scaled = True
         return lm.fit_report(self.fitter.result, **kwargs)
+
+    def get_result_dict(self, method = 'chisquare', scaled = True):
+        """Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key 'bkg' in dictionary.
+
+        Parameters
+        ----------
+        method: {'chisquare', 'mle'}
+            Selects which parameters have to be returned, by default 'chisquare', and only 'chisquare'
+        scaled: boolean
+            Selects if, in case of chisquare parameters, the uncertainty
+            has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True
+
+        Returns
+        -------
+        dict
+            Dictionary of the form described above."""
+        if (method.lower(),scaled) != ('chisquare',True):
+            raise NotImplementedError('Not implemented')
+        return_dict = dict()
+        for model in self.models:
+            lmparamdict = self.fitter.pars['Fit'][model.name]
+            return_dict[model.name] = {param_name: [lmparamdict[param_name].value, lmparamdict[param_name].unc] for param_name in lmparamdict.keys()}
+        return return_dict
+
+    def get_result_frame(self, method='chisquare', selected=False, bounds=False, vary=False, scaled=True): 
+        """Returns the data from the fit in a pandas DataFrame.
+
+        Parameters
+        ----------
+        method: str, optional
+            Selects which fitresults have to be loaded. Can be 'chisquare' or
+            'mle'. Defaults to 'chisquare', and only 'chisquare'.
+        selected: list of strings, optional
+            Selects the parameters that have any string in the list
+            as a substring in their name. Set to *None* to select
+            all parameters. Defaults to None, and only None.
+        bounds: boolean, optional
+            Selects if the boundary also has to be given. Defaults to
+            False, and onlyb False.
+        vary: boolean, optional
+            Selects if only the parameters that have been varied have to
+            be supplied. Defaults to False, and only False.
+        scaled: boolean, optional
+            Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True
+
+        Returns
+        -------
+        resultframe: DataFrame
+            Dateframe with MultiIndex, using the model name + variable names as main column names
+            and the two rows under for the value and the uncertainty"""
+        result_dict = self.get_result_dict(method = method, scaled = scaled)
+        return_frame = pd.DataFrame.from_dict(result_dict[self.models[0].name])
+        return_frame = return_frame.add_prefix(f'{self.models[0].name}_')
+        for model in self.models[1:]:
+            df_to_add = pd.DataFrame.from_dict(result_dict[model.name])
+            df_to_add = df_to_add.add_prefix(f'{model.name}_')
+            return_frame = pd.concat([return_frame,df_to_add], axis = 1)
+        return return_frame
 
 
 def chisquare_fit(model,
