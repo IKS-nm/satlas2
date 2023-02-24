@@ -127,7 +127,7 @@ class HFSModel:
         for p in varyDict.keys():
             self.hfs.params[p].vary = False
 
-    def f(self, x): 
+    def f(self, x):
         """Calculate the response for an unshifted spectrum with no background
 
         Parameters
@@ -138,7 +138,7 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x) 
+        return self.hfs.fUnshifted(x)
 
     def __call__(self, x):
         """Calculate the response for an unshifted spectrum with background
@@ -151,7 +151,8 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x) + Polynomial(self.background_params, name='bkg').f(x)
+        return self.hfs.fUnshifted(x) + Polynomial(self.background_params,
+                                                   name='bkg').f(x)
 
     def chisquare_fit(self,
                       x,
@@ -193,21 +194,23 @@ class HFSModel:
         if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
         if show_correl:
-            print('define whether you want to see the correlations in display_chisquare_fit(...)')
-        datasource = Source(x,
-                            y,
-                            yerr=yerr,
-                            name='Fit')
+            print(
+                'define whether you want to see the correlations in display_chisquare_fit(...)'
+            )
+        datasource = Source(x, y, yerr=yerr, name='Fit')
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
         datasource.addModel(bkg)
         self.fitter = Fitter()
         self.fitter.addSource(datasource)
         self.fitter.fit(method=method)
-        self.background_params = [list(bkg.params.values())[i].value for i in range(len(list(bkg.params.values())))]
-        return True,self.fitter.result.message[:-1]+', but you should use real SATLAS2'
+        self.background_params = [
+            list(bkg.params.values())[i].value
+            for i in range(len(list(bkg.params.values())))
+        ]
+        return True, self.fitter.result.message[:-1]
 
-    def display_chisquare_fit(self, scaled = True, **kwargs):
+    def display_chisquare_fit(self, scaled=True, **kwargs):
         """Generate a report of the fitting results.
 
         The report contains the best-fit values for the parameters and their uncertainties and correlations.
@@ -229,9 +232,9 @@ class HFSModel:
         if not scaled:
             raise NotImplementedError('Not implemented')
             scaled = True
-        return lm.fit_report(self.fitter.result, **kwargs)
+        print(self.fitter.reportFit(**kwargs))
 
-    def get_result_dict(self, method = 'chisquare', scaled = True):
+    def get_result_dict(self, method='chisquare', scaled=True):
         """Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.
 
         Parameters
@@ -246,13 +249,22 @@ class HFSModel:
         -------
         dict
             Dictionary of the form described above."""
-        if (method.lower(),scaled) != ('chisquare',True):
+        if (method.lower(), scaled) != ('chisquare', True):
             raise NotImplementedError('Not implemented')
         lmparamdict = self.fitter.pars['Fit'][self.name]
-        return_dict = {param_name: [lmparamdict[param_name].value, lmparamdict[param_name].unc] for param_name in lmparamdict.keys()}
+        return_dict = {
+            param_name:
+            [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+            for param_name in lmparamdict.keys()
+        }
         return return_dict
 
-    def get_result_frame(self, method='chisquare', selected=False, bounds=False, vary=False, scaled=True): 
+    def get_result_frame(self,
+                         method='chisquare',
+                         selected=False,
+                         bounds=False,
+                         vary=False,
+                         scaled=True):
         """Returns the data from the fit in a pandas DataFrame.
 
         Parameters
@@ -278,9 +290,10 @@ class HFSModel:
         resultframe: DataFrame
             Dateframe with MultiIndex, using the variable names as main column names
             and the two rows under for the value and the uncertainty"""
-        result_dict = self.get_result_dict(method = method, scaled = scaled)
+        result_dict = self.get_result_dict(method=method, scaled=scaled)
         return_frame = pd.DataFrame.from_dict(result_dict)
         return return_frame
+
 
 class SumModel:
     """Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.
@@ -341,6 +354,9 @@ class SumModel:
                 f = model.f(x)
         return f
 
+    def __call__(self, x):
+        return self.f(x)
+
     def chisquare_fit(self,
                       x,
                       y,
@@ -349,8 +365,7 @@ class SumModel:
                       func=None,
                       verbose=None,
                       hessian=False,
-                      method='leastsq',
-                      show_correl=True):
+                      method='leastsq'):
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -371,8 +386,6 @@ class SumModel:
             Not implemented
         method : str, optional
             Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
-        show_correl : bool, optional
-            `show correlations between fitted parameters in fit message, by default True
 
         Returns
         -------
@@ -380,8 +393,6 @@ class SumModel:
         """
         if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
-        if show_correl:
-            print('define whether you want to see the correlations in display_chisquare_fit(...)')
         datasource = Source(x, y, yerr=yerr, name='Fit')
         for model in self.models:
             datasource.addModel(model)
@@ -393,9 +404,9 @@ class SumModel:
         self.fitter = Fitter()
         self.fitter.addSource(datasource)
         self.fitter.fit(method=method)
-        return True,self.fitter.result.message[:-1]+', but you should use real SATLAS2'
+        return True, self.fitter.result.message[:-1] + ', but you should use real SATLAS2'
 
-    def display_chisquare_fit(self, scaled = True, **kwargs):
+    def display_chisquare_fit(self, scaled=True, **kwargs):
         """Generate a report of the fitting results.
 
         The report contains the best-fit values for the parameters and their uncertainties and correlations.
@@ -419,7 +430,7 @@ class SumModel:
             scaled = True
         return lm.fit_report(self.fitter.result, **kwargs)
 
-    def get_result_dict(self, method = 'chisquare', scaled = True):
+    def get_result_dict(self, method='chisquare', scaled=True):
         """Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key 'bkg' in dictionary.
 
         Parameters
@@ -434,15 +445,24 @@ class SumModel:
         -------
         dict
             Dictionary of the form described above."""
-        if (method.lower(),scaled) != ('chisquare',True):
+        if (method.lower(), scaled) != ('chisquare', True):
             raise NotImplementedError('Not implemented')
         return_dict = dict()
         for model in self.models:
             lmparamdict = self.fitter.pars['Fit'][model.name]
-            return_dict[model.name] = {param_name: [lmparamdict[param_name].value, lmparamdict[param_name].unc] for param_name in lmparamdict.keys()}
+            return_dict[model.name] = {
+                param_name:
+                [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+                for param_name in lmparamdict.keys()
+            }
         return return_dict
 
-    def get_result_frame(self, method='chisquare', selected=False, bounds=False, vary=False, scaled=True): 
+    def get_result_frame(self,
+                         method='chisquare',
+                         selected=False,
+                         bounds=False,
+                         vary=False,
+                         scaled=True):
         """Returns the data from the fit in a pandas DataFrame.
 
         Parameters
@@ -468,23 +488,17 @@ class SumModel:
         resultframe: DataFrame
             Dateframe with MultiIndex, using the model name + variable names as main column names
             and the two rows under for the value and the uncertainty"""
-        result_dict = self.get_result_dict(method = method, scaled = scaled)
+        result_dict = self.get_result_dict(method=method, scaled=scaled)
         return_frame = pd.DataFrame.from_dict(result_dict[self.models[0].name])
         return_frame = return_frame.add_prefix(f'{self.models[0].name}_')
         for model in self.models[1:]:
             df_to_add = pd.DataFrame.from_dict(result_dict[model.name])
             df_to_add = df_to_add.add_prefix(f'{model.name}_')
-            return_frame = pd.concat([return_frame,df_to_add], axis = 1)
+            return_frame = pd.concat([return_frame, df_to_add], axis=1)
         return return_frame
 
 
-def chisquare_fit(model,
-                  x,
-                  y,
-                  yerr,
-                  xerr=None,
-                  method='leastsq',
-                  show_correl=True):
+def chisquare_fit(model, x, y, yerr, xerr=None, method='leastsq'):
     """Perform a fit of the provided model to the data provided in this function.
 
         Parameters
@@ -506,9 +520,4 @@ def chisquare_fit(model,
         -------
         Instance of Fitter (from at satlas2)
         """
-    return model.chisquare_fit(x=x,
-                               y=y,
-                               yerr=yerr,
-                               xerr=xerr,
-                               method=method,
-                               show_correl=show_correl)
+    return model.chisquare_fit(x=x, y=y, yerr=yerr, xerr=xerr, method=method)
