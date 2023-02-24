@@ -86,7 +86,6 @@ interface and SATLAS.
                         scale=scale,
                         background_params=bkg,
                         use_racah=True)
-    hfs1.set_variation({'Cu': False, 'Cl': False})
     
     print('Fitting 1 dataset with chisquare (Pearson, satlas2)...')
     start = time.time()
