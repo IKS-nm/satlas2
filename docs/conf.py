@@ -32,17 +32,24 @@ release = '.'.join([str(s) for s in satlas2.version_tuple[:3]])
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'matplotlib.sphinxext.plot_directive',
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.inheritance_diagram',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.autosectionlabel',
 ]
+
+graphviz_output_format = 'svg'
 
 intersphinx_mapping = {
     'numpy': ('https://numpy.org/doc/stable/', None),
 }
+
+inheritance_graph_attrs = dict(rankdir="TB")
 
 autodoc_typehints_format = 'short'
 python_use_unqualified_type_names = True

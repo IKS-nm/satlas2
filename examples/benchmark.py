@@ -59,8 +59,7 @@ for j in range(1, 11):
         Y.append(y)
 
         hfs1 = sat.HFSModel(spin,
-                            J,
-                            [A[0], A[1], B[0], B[1], C[0], C[1]],
+                            J, [A[0], A[1], B[0], B[1], C[0], C[1]],
                             centroid - 100, [FWHMG, FWHML],
                             scale=scale,
                             background_params=[bkg],
@@ -92,7 +91,6 @@ for j in range(1, 11):
     dt = stop - start
     times_1.append(dt)
 
-
 fig = plt.figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 ax.plot(range(1, len(times) + 1), times, '-o', label='satlas2')
@@ -105,7 +103,7 @@ ax.legend(loc=0)
 times, times_1 = np.array(times), np.array(times_1)
 fig = plt.figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-ax.plot(range(1, len(times) + 1), times_1/times, '-o')
+ax.plot(range(1, len(times) + 1), times_1 / times, '-o')
 ax.set_xlabel('Number of datasets')
 ax.set_ylabel('Speedup factor by using satlas2')
 

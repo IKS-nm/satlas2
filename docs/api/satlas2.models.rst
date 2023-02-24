@@ -7,6 +7,8 @@ Submodules
 satlas2.models.hfsModel module
 ------------------------------
 
+.. inheritance-diagram:: satlas2.models.hfsModel
+
 .. automodule:: satlas2.models.hfsModel
    :members:
    :undoc-members:
@@ -14,6 +16,8 @@ satlas2.models.hfsModel module
 
 satlas2.models.models module
 ----------------------------
+
+.. inheritance-diagram:: satlas2.models.models
 
 .. automodule:: satlas2.models.models
    :members:

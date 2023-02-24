@@ -1,5 +1,5 @@
-satlas2 package
-===============
+API reference
+=============
 
 Subpackages
 -----------
@@ -24,14 +24,6 @@ satlas2.plotting module
 -----------------------
 
 .. automodule:: satlas2.plotting
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: satlas2
    :members:
    :undoc-members:
    :show-inheritance:
