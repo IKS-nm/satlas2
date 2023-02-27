@@ -40,13 +40,10 @@ jobs:
         uses: ts-graphviz/setup-graphviz@v1
       - name: Install dependencies for Sphinx
         run: |
-          pip install sphinx==4.5.0 sphinx_book_theme setuptools setuptools_scm[toml]
+          pip install sphinx==4.5.0 sphinx_book_theme setuptools
       - name: Install dependencies for satlas2
         run: |
           pip install numpy matplotlib scipy h5py emcee sympy lmfit numdifftools uncertainties tqdm pandas
-      - name: Get version
-        run: |
-          python -m setuptools_scm
       - name: Sphinx build
         run: |
           sphinx-build docs _build
