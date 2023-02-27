@@ -51,13 +51,16 @@ hfs1 = sat.HFSModel(spin,
                     background_params=bkg,
                     use_racah=True)
 hfs1.set_variation({'Cu': False, 'Cl': False})
-hfs.set_variation({'Au': False, 'Cl': False})
+hfs.set_variation({'Cu': False, 'Cl': False})
 
 print('Fitting 1 dataset with chisquare (Pearson, satlas2)...')
 start = time.time()
 succes, message = satlas2.chisquare_fit(hfs, x, y, modifiedSqrt(y), show_correl = False)
 print(succes,message)
 print(hfs.display_chisquare_fit(show_correl = True, min_correl = 0.5))
+print(hfs.get_result())
+print(hfs.get_result_frame())
+print(hfs.get_result_dict())
 stop = time.time()
 dt1 = stop - start
 
@@ -137,6 +140,9 @@ y = rng.poisson(y)
 
 hfs1.params['centroid'].value = centroid1 - 100
 hfs2.params['centroid'].value = centroid2 - 100
+hfs1.set_variation({'Cu': False, 'Cl': False})
+hfs2.set_variation({'Cu': False, 'Cl': False})
+
 summodel = satlas2.SumModel([hfs1,hfs2], {'values':[bkg1,bkg2], 'bounds':[0]})
 
 print('Fitting 1 dataset with chisquare (Pearson, satlas2)...')
@@ -144,6 +150,9 @@ start = time.time()
 succes, message = satlas2.chisquare_fit(summodel, x, y, modifiedSqrt(y), show_correl = False)
 print(succes,message)
 print(summodel.display_chisquare_fit(show_correl = True, min_correl = 0.5))
+print(summodel.get_result())
+print(summodel.get_result_frame())
+print(summodel.get_result_dict())
 stop = time.time()
 dt1 = stop - start
 print('SATLAS2: {:.3} s, {:.0f} function evaluations'.format(dt1, summodel.fitter.result.nfev))
