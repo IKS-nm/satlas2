@@ -11,6 +11,7 @@ dependencies = [
     'numdifftools',
     'uncertainties',
     'tqdm',
+    'pandas',
 ]
 authors = [
     {name = "Wouter Gins", email = "wouter.gins@kuleuven.be"},

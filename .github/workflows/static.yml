@@ -41,7 +41,7 @@ jobs:
           pip install sphinx==4.5.0 sphinx_book_theme setuptools setuptools_scm[toml]
       - name: Install dependencies for satlas2
         run: |
-          pip install numpy matplotlib scipy h5py emcee sympy lmfit numdifftools uncertainties tqdm
+          pip install numpy matplotlib scipy h5py emcee sympy lmfit numdifftools uncertainties tqdm pandas
       - name: Get version
         run: |
           python -m setuptools_scm
