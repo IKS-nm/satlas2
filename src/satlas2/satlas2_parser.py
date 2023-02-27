@@ -231,6 +231,27 @@ class HFSModel:
             scaled = True
         return lm.fit_report(self.fitter.result, **kwargs)
 
+    def get_result(self, selection = 'chisquare'):
+        """Return the variable names, values and estimated error bars for the
+        parameters as seperate lists.
+
+        Parameters
+        ----------
+        selection: string, optional
+            Selects if the chisquare ('chisquare' or 'any') or MLE values are
+            used. Defaults to 'chisquare', and chisquare only
+
+        Returns
+        -------
+        names, values, uncertainties: tuple of lists
+            Returns a 3-tuple of lists containing the names of the parameters,
+            the values and the estimated uncertainties, scaled with the reduced chisquared."""
+        lmparamdict = self.fitter.pars['Fit'][self.name]
+        return list(lmparamdict.keys()),
+        [lmparamdict[param_name].value for param_name in lmparamdict.keys()],
+        [lmparamdict[param_name].unc for param_name in lmparamdict.keys()]
+
+
     def get_result_dict(self, method = 'chisquare', scaled = True):
         """Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.
 
@@ -418,6 +439,32 @@ class SumModel:
             raise NotImplementedError('Not implemented')
             scaled = True
         return lm.fit_report(self.fitter.result, **kwargs)
+
+    def get_result(self, selection = 'chisquare'):
+        """Return the variable names, values and estimated error bars for the
+        parameters as seperate lists.
+
+        Parameters
+        ----------
+        selection: string, optional
+            Selects if the chisquare ('chisquare' or 'any') or MLE values are
+            used. Defaults to 'chisquare', and chisquare only
+
+        Returns
+        -------
+        names, values, uncertainties: tuple of lists
+            Returns a 3-tuple of lists containing the names of the parameters. The first list each tuple element contains the names/values/uncertainties of the first model added to the summodel, etc.
+            The last list in each tuple element contains the names/values/uncertainties for the step background
+            The values and the estimated uncertainties are always scaled with the reduced chisquared."""
+        varnames = []
+        varvalues = []
+        varunc = []
+        for model in self.models:
+            lmparamdict = self.fitter.pars['Fit'][model.name]
+            varnames.append(list(lmparamdict.keys()))
+            varvalues.append([lmparamdict[param_name].value for param_name in lmparamdict.keys()])
+            varunc.append([lmparamdict[param_name].unc for param_name in lmparamdict.keys()])
+        return varnames,varvalues,varunc
 
     def get_result_dict(self, method = 'chisquare', scaled = True):
         """Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key 'bkg' in dictionary.
