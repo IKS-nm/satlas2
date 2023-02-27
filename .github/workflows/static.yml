@@ -44,7 +44,7 @@ jobs:
           python -m setuptools_scm
       - name: Sphinx build
         run: |
-          sphinx-build doc _build
+          sphinx-build docs _build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
