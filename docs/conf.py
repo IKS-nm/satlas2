@@ -43,7 +43,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
 ]
 
-graphviz_output_format = 'svg'
+graphviz_output_format = 'png'
 
 intersphinx_mapping = {
     'numpy': ('https://numpy.org/doc/stable/', None),

@@ -10,7 +10,8 @@ When a :class:`Fitter<satlas2.core.Fitter>` object has multiple :class:`Source<s
 
 The architecture can be summarized in the following picture featuring an example:
 
-.. graphviz:: satlasarchitecture.dot
+.. raw:: html
+    :file: architecture.svg
 
 In this example, a Source with the name *scan001* contains two models: the HFS model with the name *Pb208*, and a background model named *bkg1*. Also included in the source is some data with x, y and uncertainty of y. A second source with the name *scan002* contains another HFS model with the same name, but the background has a different name. Since the HFS models have the same name, :meth:`shareModelParams<satlas2.core.Fitter.shareModelParams>` can be used on the Fitter object to link desired parameters together, such as the hyperfine parameters. When performing the fit, the Fitter will fit the models in Source 1 to the data in Source 1, and the models in Source 2 to the data in Source 2 simultaneously.
 
