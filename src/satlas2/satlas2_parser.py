@@ -4,15 +4,16 @@ Implementation of the base HFSModel and SumModel classes, based on the syntax us
 NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT ALL FUNCTIONALITIES OF THE ORIGINAL SATLAS ARE IMPLEMENTED
 
 .. moduleauthor:: Bram van den Borne <bram.vandenborne@kuleuven.be>
-.. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 
-import numpy as np
 from .models import HFS, Polynomial, Step
 from .core import Fitter, Source
+import lmfit as lm
+import pandas as pd
+
 
 class HFSModel:
-    '''Initializes a hyperfine spectrum Model with the given hyperfine parameters.
+    """Initializes a hyperfine spectrum Model with the given hyperfine parameters.
 
     Parameters
     ----------
@@ -49,36 +50,51 @@ class HFSModel:
         Offset : float, optional
             Offset in units of x for the sidepeak, by default 0
     prefunc : callable, optional
-        Transformation to be applied on the input before evaluation, by default None
-'''
-    def __init__(self,  I, J, ABC, centroid = 0, fwhm=[50.0,50.0], scale=1.0, background_params=[0.001], shape='voigt', use_racah=True, use_saturation=False, 
-        saturation=0.001, sidepeak_params={'N': None, 'Poisson': 0, 'Offset': 0}, crystalballparams=None, 
-        pseudovoigtparams=None, asymmetryparams=None, name = 'HFModel__'):
+        Transformation to be applied on the input before evaluation, by default None"""
+    def __init__(self,
+                 I,
+                 J,
+                 ABC,
+                 centroid=0,
+                 fwhm=[50.0, 50.0],
+                 scale=1.0,
+                 background_params=[0.001],
+                 shape='voigt',
+                 use_racah=True,
+                 use_saturation=False,
+                 saturation=0.001,
+                 sidepeak_params={
+                     'N': None,
+                     'Poisson': 0,
+                     'Offset': 0
+                 },
+                 crystalballparams=None,
+                 pseudovoigtparams=None,
+                 asymmetryparams=None,
+                 name='HFModel__'):
         super(HFSModel, self).__init__()
         self.background_params = background_params
         if shape != 'voigt':
-            print('Only voigt shape is supported. Use satlas 2')
-            raise NotImplementedError()
+            raise NotImplementedError('Only Voigt shape is supported.')
         if crystalballparams != None or pseudovoigtparams != None or asymmetryparams != None:
-            print('Crystalball/Pseudovoigt/Asymmetric profiles not implemented. Use satlas 2')
-            raise NotImplementedError()
+            raise NotImplementedError('Only Voigt shape is supported.')
         if name == 'HFModel__':
             self.name = name + str(I).replace('.', '_')
         self.hfs = HFS(I,
-                              J,
-                              A=ABC[:2],
-                              B=ABC[2:4],
-                              C=ABC[4:6],
-                              scale=scale,
-                              df=centroid,
-                              fwhmg = fwhm[0],
-                              fwhml = fwhm[1],
-                              name=self.name.replace('.', '_'),
-                              racah=use_racah,
-                              N = sidepeak_params['N'],
-                              offset = sidepeak_params['Offset'],
-                              poisson = sidepeak_params['Poisson'],
-                              prefunc = None)
+                       J,
+                       A=ABC[:2],
+                       B=ABC[2:4],
+                       C=ABC[4:6],
+                       scale=scale,
+                       df=centroid,
+                       fwhmg=fwhm[0],
+                       fwhml=fwhm[1],
+                       name=self.name,
+                       racah=use_racah,
+                       N=sidepeak_params['N'],
+                       offset=sidepeak_params['Offset'],
+                       poisson=sidepeak_params['Poisson'],
+                       prefunc=None)
         self.params = self.hfs.params
 
     def set_expr(self, constraints):
@@ -92,13 +108,27 @@ class HFSModel:
             i.e.
             {'Au':['0.5','Al']} then Au = 0.5*Al"""
         for cons in constraints.keys():
-            self.hfs.params[cons].expr = f'{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}'
+            self.hfs.params[
+                cons].expr = f'{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}'
 
-    def fix_ratio(self, value, target = 'upper', parameter = 'A'):
+    def fix_ratio(self, value, target='upper', parameter='A'):
         raise NotImplementedError('Use HFSModel.set_expr(...)')
 
-    def f(self, x): 
-        """Calculate the response for an unshifted spectrum
+    def set_variation(self, varyDict):
+        """Sets the variation of the fitparameters as supplied in the
+        dictionary.
+
+        Parameters
+        ----------
+        varyDict: dictionary
+            A dictionary containing 'key: True/False' mappings with
+            the parameter names as keys."""
+
+        for p in varyDict.keys():
+            self.hfs.params[p].vary = False
+
+    def f(self, x):
+        """Calculate the response for an unshifted spectrum with no background
 
         Parameters
         ----------
@@ -110,7 +140,30 @@ class HFSModel:
         """
         return self.hfs.fUnshifted(x)
 
-    def chisquare_fit(self, x, y, yerr = None, xerr = None, func = None, verbose = None, hessian = False, method = 'leastsq', show_correl = True):
+    def __call__(self, x):
+        """Calculate the response for an unshifted spectrum with background
+
+        Parameters
+        ----------
+        x : ArrayLike
+
+        Returns
+        -------
+        ArrayLike
+        """
+        return self.hfs.fUnshifted(x) + Polynomial(self.background_params,
+                                                   name='bkg').f(x)
+
+    def chisquare_fit(self,
+                      x,
+                      y,
+                      yerr=None,
+                      xerr=None,
+                      func=None,
+                      verbose=None,
+                      hessian=False,
+                      method='leastsq',
+                      show_correl=True):
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -138,20 +191,109 @@ class HFSModel:
         -------
         Instance of Fitter (from at satlas2)
         """
-        if (func,verbose,hessian) != (None,None,False):
+        if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
-        datasource = Source(x,
-                                    y,
-                                    yerr=yerr,
-                                    name='Fit')
+        if show_correl:
+            print(
+                'define whether you want to see the correlations in display_chisquare_fit(...)'
+            )
+        datasource = Source(x, y, yerr=yerr, name='Fit')
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
         datasource.addModel(bkg)
-        f = Fitter()
-        f.addSource(datasource)
-        f.fit(method = method)
-        print(f.reportFit(show_correl = show_correl))
-        return f
+        self.fitter = Fitter()
+        self.fitter.addSource(datasource)
+        self.fitter.fit(method=method)
+        self.background_params = [
+            list(bkg.params.values())[i].value
+            for i in range(len(list(bkg.params.values())))
+        ]
+        return True, self.fitter.result.message[:-1]
+
+    def display_chisquare_fit(self, scaled=True, **kwargs):
+        """Generate a report of the fitting results.
+
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        scaled: bool, optional
+            Whether the errors are scaled with reduced chisquared, by default True, and only True
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """
+        if not scaled:
+            raise NotImplementedError('Not implemented')
+            scaled = True
+        print(self.fitter.reportFit(**kwargs))
+
+    def get_result_dict(self, method='chisquare', scaled=True):
+        """Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.
+
+        Parameters
+        ----------
+        method: {'chisquare', 'mle'}
+            Selects which parameters have to be returned, by default 'chisquare', and only 'chisquare'
+        scaled: boolean
+            Selects if, in case of chisquare parameters, the uncertainty
+            has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True
+
+        Returns
+        -------
+        dict
+            Dictionary of the form described above."""
+        if (method.lower(), scaled) != ('chisquare', True):
+            raise NotImplementedError('Not implemented')
+        lmparamdict = self.fitter.pars['Fit'][self.name]
+        return_dict = {
+            param_name:
+            [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+            for param_name in lmparamdict.keys()
+        }
+        return return_dict
+
+    def get_result_frame(self,
+                         method='chisquare',
+                         selected=False,
+                         bounds=False,
+                         vary=False,
+                         scaled=True):
+        """Returns the data from the fit in a pandas DataFrame.
+
+        Parameters
+        ----------
+        method: str, optional
+            Selects which fitresults have to be loaded. Can be 'chisquare' or
+            'mle'. Defaults to 'chisquare', and only 'chisquare'.
+        selected: list of strings, optional
+            Selects the parameters that have any string in the list
+            as a substring in their name. Set to *None* to select
+            all parameters. Defaults to None, and only None.
+        bounds: boolean, optional
+            Selects if the boundary also has to be given. Defaults to
+            False, and onlyb False.
+        vary: boolean, optional
+            Selects if only the parameters that have been varied have to
+            be supplied. Defaults to False, and only False.
+        scaled: boolean, optional
+            Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True
+
+        Returns
+        -------
+        resultframe: DataFrame
+            Dateframe with MultiIndex, using the variable names as main column names
+            and the two rows under for the value and the uncertainty"""
+        result_dict = self.get_result_dict(method=method, scaled=scaled)
+        return_frame = pd.DataFrame.from_dict(result_dict)
+        return return_frame
+
 
 class SumModel:
     """Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.
@@ -169,15 +311,18 @@ class SumModel:
     source_name : string, optional
         Name of the DataSource instance (from satlas2)
         """
-
-    def __init__(self, models, background_params, name = 'sum', source_name='source'): 
+    def __init__(self,
+                 models,
+                 background_params,
+                 name='sum',
+                 source_name='source'):
         super(SumModel, self).__init__()
         self.name = name
         self.models = models
         self.background_params = background_params
         self._set_params()
 
-    def _set_params(self): 
+    def _set_params(self):
         """Set the parameters of the underlying Models
         based on a large Parameters object
         """
@@ -187,6 +332,9 @@ class SumModel:
             except:
                 p = model.params.copy()
         self.params = p
+
+    def set_variation(self, varyDict):
+        raise NotImplementedError('Do this at the HFSModel level')
 
     def f(self, x):
         """Calculate the response for a spectrum
@@ -204,9 +352,20 @@ class SumModel:
                 f += model.f(x)
             except UnboundLocalError:
                 f = model.f(x)
-        return f 
+        return f
 
-    def chisquare_fit(self, x, y, yerr = None, xerr = None, func = None, verbose = None, hessian = False, method = 'leastsq', show_correl = True):
+    def __call__(self, x):
+        return self.f(x)
+
+    def chisquare_fit(self,
+                      x,
+                      y,
+                      yerr=None,
+                      xerr=None,
+                      func=None,
+                      verbose=None,
+                      hessian=False,
+                      method='leastsq'):
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -227,31 +386,119 @@ class SumModel:
             Not implemented
         method : str, optional
             Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
-        show_correl : bool, optional
-            `show correlations between fitted parameters in fit message, by default True
 
         Returns
         -------
         Instance of Fitter (from at satlas2)
         """
-        if (func,verbose,hessian) != (None,None,False):
+        if (func, verbose, hessian) != (None, None, False):
             raise NotImplementedError('Not implemented')
-        datasource = Source(x,
-                                    y,
-                                    yerr=yerr,
-                                    name='Fit')
+        datasource = Source(x, y, yerr=yerr, name='Fit')
         for model in self.models:
             datasource.addModel(model)
-        step_bkg = Step(self.background_params['values'],self.background_params['bounds'], name='bkg')
+        step_bkg = Step(self.background_params['values'],
+                        self.background_params['bounds'],
+                        name='bkg')
         self.models.append(step_bkg)
         datasource.addModel(step_bkg)
-        f = Fitter()
-        f.addSource(datasource)
-        f.fit(method = method)
-        print(f.reportFit(show_correl = show_correl))
-        return f
-        
-def chisquare_fit(model, x, y, yerr, xerr = None, method = 'leastsq', show_correl = True):
+        self.fitter = Fitter()
+        self.fitter.addSource(datasource)
+        self.fitter.fit(method=method)
+        return True, self.fitter.result.message[:-1] + ', but you should use real SATLAS2'
+
+    def display_chisquare_fit(self, scaled=True, **kwargs):
+        """Generate a report of the fitting results.
+
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        scaled: bool, optional
+            Whether the errors are scaled with reduced chisquared, by default True, and only True
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """
+        if not scaled:
+            raise NotImplementedError('Not implemented')
+            scaled = True
+        return lm.fit_report(self.fitter.result, **kwargs)
+
+    def get_result_dict(self, method='chisquare', scaled=True):
+        """Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key 'bkg' in dictionary.
+
+        Parameters
+        ----------
+        method: {'chisquare', 'mle'}
+            Selects which parameters have to be returned, by default 'chisquare', and only 'chisquare'
+        scaled: boolean
+            Selects if, in case of chisquare parameters, the uncertainty
+            has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True
+
+        Returns
+        -------
+        dict
+            Dictionary of the form described above."""
+        if (method.lower(), scaled) != ('chisquare', True):
+            raise NotImplementedError('Not implemented')
+        return_dict = dict()
+        for model in self.models:
+            lmparamdict = self.fitter.pars['Fit'][model.name]
+            return_dict[model.name] = {
+                param_name:
+                [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+                for param_name in lmparamdict.keys()
+            }
+        return return_dict
+
+    def get_result_frame(self,
+                         method='chisquare',
+                         selected=False,
+                         bounds=False,
+                         vary=False,
+                         scaled=True):
+        """Returns the data from the fit in a pandas DataFrame.
+
+        Parameters
+        ----------
+        method: str, optional
+            Selects which fitresults have to be loaded. Can be 'chisquare' or
+            'mle'. Defaults to 'chisquare', and only 'chisquare'.
+        selected: list of strings, optional
+            Selects the parameters that have any string in the list
+            as a substring in their name. Set to *None* to select
+            all parameters. Defaults to None, and only None.
+        bounds: boolean, optional
+            Selects if the boundary also has to be given. Defaults to
+            False, and onlyb False.
+        vary: boolean, optional
+            Selects if only the parameters that have been varied have to
+            be supplied. Defaults to False, and only False.
+        scaled: boolean, optional
+            Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True
+
+        Returns
+        -------
+        resultframe: DataFrame
+            Dateframe with MultiIndex, using the model name + variable names as main column names
+            and the two rows under for the value and the uncertainty"""
+        result_dict = self.get_result_dict(method=method, scaled=scaled)
+        return_frame = pd.DataFrame.from_dict(result_dict[self.models[0].name])
+        return_frame = return_frame.add_prefix(f'{self.models[0].name}_')
+        for model in self.models[1:]:
+            df_to_add = pd.DataFrame.from_dict(result_dict[model.name])
+            df_to_add = df_to_add.add_prefix(f'{model.name}_')
+            return_frame = pd.concat([return_frame, df_to_add], axis=1)
+        return return_frame
+
+
+def chisquare_fit(model, x, y, yerr, xerr=None, method='leastsq'):
     """Perform a fit of the provided model to the data provided in this function.
 
         Parameters
@@ -273,5 +520,4 @@ def chisquare_fit(model, x, y, yerr, xerr = None, method = 'leastsq', show_corre
         -------
         Instance of Fitter (from at satlas2)
         """
-    print('Use satlas2')
-    return model.chisquare_fit(x = x, y = y, yerr = yerr, xerr = xerr, method = method, show_correl = show_correl)
+    return model.chisquare_fit(x=x, y=y, yerr=yerr, xerr=xerr, method=method)

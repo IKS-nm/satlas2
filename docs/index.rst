@@ -43,8 +43,9 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   modules
-   tutorial
+   architecture/index
+   tutorials/index
+   api/index
 
 
 

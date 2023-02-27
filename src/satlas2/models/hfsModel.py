@@ -131,8 +131,8 @@ class HFS(Model):
             'Au': Parameter(value=A[1]),
             'Bl': Parameter(value=B[0]),
             'Bu': Parameter(value=B[1]),
-            'Cl': Parameter(value=C[0], vary=False),
-            'Cu': Parameter(value=C[1], vary=False),
+            'Cl': Parameter(value=C[0]),
+            'Cu': Parameter(value=C[1]),
             'FWHMG': Parameter(value=fwhmg, min=0.01),
             'FWHML': Parameter(value=fwhml, min=0.01),
             'scale': Parameter(value=scale, min=0, vary=racah)
@@ -148,9 +148,9 @@ class HFS(Model):
 
         self.params = pars
 
-        if I < 2 or J1 < 2:
+        if I < 1.5 or J1 < 1.5:
             self.params['Cl'].vary = False
-        if I < 2 or J2 < 2:
+        if I < 1.5 or J2 < 1.5:
             self.params['Cu'].vary = False
         if I < 1 or J1 < 1:
             self.params['Bl'].vary = False

@@ -1,0 +1,36 @@
+digraph satlas2_diagram {
+        rankdir = TB;
+        graph [
+            label="SATLAS2 architecture overview"
+            labelloc="t"
+            fontname="Helvetica,Arial,sans-serif"
+        ]
+        subgraph{
+            node [
+                fontname="Helvetica,Arial,sans-serif"
+                shape=record
+                style=filled
+                fillcolor=gray95
+            ]
+            edge [fontname="Helvetica,Arial,sans-serif"]
+            edge [arrowhead=vee style=dashed]
+            Fitter -> Datasource1 [label=<Calculates fit from>]
+            Fitter -> Datasource2
+        
+            edge [arrowhead=empty style=""]
+            Datasource1 -> Model1 [label=<Sums together>];
+            Datasource1 -> Model2;
+            Datasource2 -> Model3;
+            Datasource2 -> Model4;
+            edge [arrowhead=empty style=dashed];
+            Model3:s -> Model1:s [constraint=false xlabel=<Shares selected parameters with>];
+        
+            Datasource1[label = <{<b>Source 1</b> | <b>Name=scan001</b> | Contains <br align="left"/>x, y, yerr, model response<br align="left"/>}>];
+            Datasource2[label = <{<b>Source 2</b> | <b>Name=scan002</b> |Contains <br align="left"/>x, y, yerr, model response<br align="left"/>}>];
+        
+            Model1[label = <{<b>HFS model</b> | <b>Name=Pb208</b> | Contains <br align="left"/>hyperfine spectrum<br align="left"/>}>];
+            Model2[label = <{<b>Background model </b> | <b>Name=bkg1</b> | Contains <br align="left"/>constant background<br align="left"/>}>];
+            Model3[label = <{<b>HFS model</b> | <b>Name=Pb208</b> | Contains <br align="left"/>hyperfine spectrum<br align="left"/>}>];
+            Model4[label = <{<b>Background model </b> | <b>Name=bkg2</b> | Contains <br align="left"/>constant background<br align="left"/>}>];
+        }
+    }

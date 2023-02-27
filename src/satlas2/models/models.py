@@ -2,6 +2,7 @@
 Implementation of the various common Models.
 
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
+.. moduleauthor:: Bram van den Borne <bram.vandenborne@kuleuven.be>
 """
 from __future__ import annotations
 
@@ -52,39 +53,44 @@ class Polynomial(Model):
         p = [self.params[paramkey].value for paramkey in self.params.keys()]
         return np.polyval(p, x)
 
+
 class Step(Model):
     """Model class for a Step response
 
-        Parameters
-        ----------
-        values : ArrayLike
-            Background values between bounds, starting at -inf
-        bounds: ArrayLike
-            Bounds for background values
-        name : str, optional
-            Name of the model
-        prefunc : callable, optional
-            Transform function for the input, by default None
-        """
-    def __init__(self, values, bounds, name=None, prefunc=None):
-        super().__init__(name=name, prefunc=prefunc)
-        self.params = {'bkg_val_'+str(len(values)-(i+1)): Parameter(value=P, min=0, max=np.inf, vary=True) for i, P in enumerate(values)}
-        self.bounds = bounds
+    Parameters
+    ----------
+    values : ArrayLike
+        Background values between bounds, starting at -inf
+    bounds: ArrayLike
+        Bounds for background values
+    name : str, optional
+        Name of the model
+    prefunc : callable, optional
+        Transform function for the input, by default None
+    """
+    def __init__(self,
+                 values: ArrayLike,
+                 bounds: ArrayLike,
+                 name: str = 'Step',
+                 prefunc: callable = None):
+        super().__init__(name, prefunc=prefunc)
+        self.params = {
+            'value' + str(len(values) - (i + 1)): Parameter(value=P,
+                                                          min=0,
+                                                          max=np.inf,
+                                                          vary=True)
+            for i, P in enumerate(values[::-1])
+        }
+        self.bounds = np.hstack([-np.inf, bounds, np.inf])
 
-    def f(self, x):
+    def f(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:"""
         x = self.transform(x)
-        bkg = np.zeros(len(x))
-        bkg_sections = len(self.bounds)+1
-        if bkg_sections > 1:
-            bkg[x<self.bounds[0]] = self.params['bkg_val_0'].value
-        else:
-            return self.params['bkg_val_0'].value
-
-        for i in range(1,bkg_sections-1):
-            section = np.logical_and(x>self.bounds[i-1], x<self.bounds[i])
-            bkg[section] = self.params['bkg_val_'+str(i)].value
-        bkg[x>=self.bounds[-1]] = self.params['bkg_val_'+str(bkg_sections-1)].value
+        values = np.array([self.params[p].value for p in self.params.keys()])[::-1]
+        indices = np.digitize(x, self.bounds) - 1
+        bkg = values[indices]
         return bkg
+
 
 class ExponentialDecay(Model):
     """Model for an exponential decay
