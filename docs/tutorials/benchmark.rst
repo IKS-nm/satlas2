@@ -132,17 +132,6 @@ number of datasets that are being analysed.
     ax.set_xlabel('Number of datasets')
     ax.set_ylabel('Speedup factor by using satlas2')
 
-
-.. parsed-literal::
-
-    C:\Users\megat\Documents\git_repositories\personal\satlas2\examples\..\src\satlas2\models\hfsModel.py:284: RuntimeWarning: invalid value encountered in scalar divide
-      shift = phase * n / d
-    C:\Users\megat\.conda\envs\satlas2\Lib\site-packages\satlas\models\hfsmodel.py:573: RuntimeWarning: invalid value encountered in divide
-      D = (3*C*(C+1) - 4*I*(I+1)*J*(J+1)) / (2*I*(2*I-1)*J*(2*J-1))
-    C:\Users\megat\.conda\envs\satlas2\Lib\site-packages\satlas\models\hfsmodel.py:574: RuntimeWarning: invalid value encountered in divide
-      E = (10*(0.5*C)**3 + 20*(0.5*C)**2 + C*(-3*I*(I+1)*J*(J+1) + I*(I+1) + J*(J+1) + 3) - 5*I*(I+1)*J*(J+1)) / (I*(I-1)*(2*I-1)*J*(J-1)*(2*J-1))
-    
-
 .. parsed-literal::
 
     Fitting 1 datasets with chisquare (Pearson, satlas2)...
