@@ -33,7 +33,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
+        with:
+           python-version: '3.9'
       - name: Install dependencies
         run: |
           pip install sphinx sphinx_book_theme setuptools setuptools_scm[toml]
