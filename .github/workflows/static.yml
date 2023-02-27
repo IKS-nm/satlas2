@@ -38,7 +38,7 @@ jobs:
            python-version: '3.9'
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx_book_theme setuptools setuptools_scm[toml]
+          pip install sphinx==4.5.0 sphinx_book_theme setuptools setuptools_scm[toml]
       - name: Get version
         run: |
           python -m setuptools_scm
