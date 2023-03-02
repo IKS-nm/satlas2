@@ -26,6 +26,7 @@ This package makes use of the following packages:
 * [numdifftools](http://numdifftools.readthedocs.io/en/latest/)
 * [uncertainties](https://pythonhosted.org/uncertainties/)
 * [tqdm](https://github.com/tqdm/tqdm)
+* [pandas][https://pandas.pydata.org/]
 
 Only Python 3.x is supported! Parts of the code have been based on other resources; this is signaled in the documentation when this is the case. Inspiration has been drawn from the `triangle.py` script, written by Dan Foreman-Mackey et al., for the correlation plot code.
 

@@ -37,6 +37,7 @@ This package has the following dependencies:
     * `numdifftools <http://numdifftools.readthedocs.io/en/latest/>`_
     * `uncertainties <https://pythonhosted.org/uncertainties/>`_
     * `tqdm <https://github.com/tqdm/tqdm>`_
+    * `pandas <https://pandas.pydata.org/>`_
 
 Contents
 ========
