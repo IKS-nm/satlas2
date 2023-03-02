@@ -1,4 +1,4 @@
-Benchmark of satlas2 speed
+Benchmark of SATLAS2 speed
 ==========================
 
 The simultaneous fit of sets of data is shown in this notebook. The data

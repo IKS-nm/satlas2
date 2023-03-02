@@ -20,6 +20,14 @@ satlas2.core module
    :undoc-members:
    :show-inheritance:
 
+satlas2.interface module
+------------------------
+
+.. automodule:: satlas2.interface
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 satlas2.plotting module
 -----------------------
 

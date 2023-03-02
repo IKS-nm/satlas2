@@ -86,7 +86,8 @@ html_theme_options = {
     "use_repository_button": True,
     "repository_branch": "master",
     "home_page_in_toc": True,
-    "show_navbar_depth": 1,
+    "show_navbar_depth": 3,
+    "navigation_depth": 4,
     "use_issues_button": True,
     "use_edit_page_button": True,
 }   

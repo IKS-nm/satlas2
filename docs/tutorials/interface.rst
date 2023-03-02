@@ -28,7 +28,7 @@ functionalities, we recommend migrating to SATLAS2.
         return output
 
 Fitting a single hyperfine spectrum
-===================================
+-----------------------------------
 
 The most common task, and the one this interface is meant for, is
 fitting a single hyperfine spectrum. A special class in SATLAS2 called
@@ -220,7 +220,7 @@ SATLAS 2 is about a factor 20 for a single spectrum.
 
 
 Overlapping hyperfine spectra
-=============================
+-----------------------------
 
 The other most common usecase for SATLAS was analysis of spectra with an
 isomer present, resulting in overlapping spectra. In the SATLAS
@@ -472,7 +472,7 @@ for a single spectrum to almost a factor 100.
 
 
 Different background for multiplets
-===================================
+-----------------------------------
 
 To demonstrate the convenience of the Step background, the same results
 are coded with SATLAS, where the use of LinkedModel is required. Note
@@ -671,3 +671,27 @@ that here, the interface is *not* used.
 .. image:: output_16_0.png
 
 
+ """Perform a fit of this model to the data provided in this function.
+
+        Parameters
+        ----------
+        x : ArrayLike
+            x-values of the data points
+        y : ArrayLike
+            y-values of the data points
+        yerr : ArrayLike
+            1-sigma error on the y-values
+        xerr : ArrayLike, optional
+            1-sigma error on the x-values
+        func: function, optional
+            Not implemented
+        verbose : Bool, optional
+            Not implemented
+        hessian : bool, optional
+            Not implemented
+        method : str, optional
+            Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
+
+        Returns
+        -------
+        """
