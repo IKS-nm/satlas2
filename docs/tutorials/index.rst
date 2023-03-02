@@ -4,6 +4,6 @@ Tutorial
 .. toctree::
 
    createmodel
-   benchmark
    fitting
+   benchmark
    interface
