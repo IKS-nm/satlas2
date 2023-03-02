@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Architecture of SATLAS2 &#8212; satlas2 0.1.4 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial" href="../tutorials/index.html" />
+    <link rel="prev" title="SATLAS2 – Statistical Analysis Toolbox for Laser Spectroscopy, version 2" href="../index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/satlas.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">satlas2 0.1.4 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    SATLAS2 – Statistical Analysis Toolbox for Laser Spectroscopy, version 2
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Architecture of SATLAS2
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../tutorials/index.html">
+   Tutorial
+  </a>
+  <input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/createmodel.html">
+     Making a model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/fitting.html">
+     Fitting in SATLAS2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/benchmark.html">
+     Benchmark of SATLAS2 speed
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/interface.html">
+     Using the SATLAS interface
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../api/index.html">
+   API reference
+  </a>
+  <input checked class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/satlas2.models.html">
+     satlas2.models package
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/woutergins/satlas2"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2Farchitecture/index.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/woutergins/satlas2/edit/master/architecture/index.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/architecture/index.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Architecture of SATLAS2</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="architecture-of-satlas2">
+<h1>Architecture of SATLAS2<a class="headerlink" href="#architecture-of-satlas2" title="Permalink to this headline">#</a></h1>
+<p>The SATLAS2 architecture has been streamlined and differs enormously from SATLAS. For a way to mostly reuse old SATLAS code, see the <a class="reference internal" href="../tutorials/interface.html"><span class="doc">interface tutorial</span></a>. Help</p>
+<p>In SATLAS2, the main object to work with is the <a class="reference internal" href="../api/index.html#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a> object. This object can be assigned one or more <a class="reference internal" href="../api/index.html#satlas2.core.Source" title="satlas2.core.Source"><code class="xref py py-class docutils literal notranslate"><span class="pre">Source</span></code></a> objects through the <a class="reference internal" href="../api/index.html#satlas2.core.Fitter.addSource" title="satlas2.core.Fitter.addSource"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addSource</span></code></a> method. This <a class="reference internal" href="../api/index.html#satlas2.core.Source" title="satlas2.core.Source"><code class="xref py py-class docutils literal notranslate"><span class="pre">Source</span></code></a> object should be seen as a source for the cost-function calculation, rather than strictly associated with a data source. Each <a class="reference internal" href="../api/index.html#satlas2.core.Source" title="satlas2.core.Source"><code class="xref py py-class docutils literal notranslate"><span class="pre">Source</span></code></a> can itself contain one or more <a class="reference internal" href="../api/index.html#satlas2.core.Model" title="satlas2.core.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> objects, which calculate a response based on parameters and an input. Models that are assigned to the same Source will be added together to generate the total response.</p>
+<p>When a <a class="reference internal" href="../api/index.html#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a> object has multiple <a class="reference internal" href="../api/index.html#satlas2.core.Source" title="satlas2.core.Source"><code class="xref py py-class docutils literal notranslate"><span class="pre">Source</span></code></a> objects, the total cost function will be calculated by concatenating, essentially performing a simultaneous fit of models to different datasets. The <a class="reference internal" href="../api/index.html#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a> object uses the LMFIT library for the fitting, for which a Parameters object containing the parameters of all the models is created. This structure allows a very easy way of using the powerful LMFIT expressions to constrain parameters to be shared. For ease of use, the <a class="reference internal" href="../api/index.html#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a> object contains the <a class="reference internal" href="../api/index.html#satlas2.core.Fitter.shareModelParams" title="satlas2.core.Fitter.shareModelParams"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shareModelParams</span></code></a> and <a class="reference internal" href="../api/index.html#satlas2.core.Fitter.shareParams" title="satlas2.core.Fitter.shareParams"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shareParams</span></code></a> to set parameters to be shared across models with the same name in different Sources, or simply across all models respectively. The method <a class="reference internal" href="../api/index.html#satlas2.core.Fitter.setExpr" title="satlas2.core.Fitter.setExpr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExpr</span></code></a> can be used to set the expression of a parameter directly.</p>
+<p>The architecture can be summarized in the following picture featuring an example:</p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.46.1 (20210213.1702)
+ -->
+<!-- Title: satlas2_diagram Pages: 1 -->
+<svg width="654pt" height="369pt"
+ viewBox="0.00 0.00 653.50 369.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 365)">
+<title>satlas2_diagram</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-365 649.5,-365 649.5,4 -4,4"/>
+<text text-anchor="middle" x="322.75" y="-345.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">SATLAS2 architecture overview</text>
+<!-- Fitter -->
+<g id="node1" class="node">
+<title>Fitter</title>
+<polygon fill="#f2f2f2" stroke="black" points="288,-301.5 288,-337.5 342,-337.5 342,-301.5 288,-301.5"/>
+<text text-anchor="middle" x="315" y="-315.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Fitter</text>
+</g>
+<!-- Datasource1 -->
+<g id="node2" class="node">
+<title>Datasource1</title>
+<polygon fill="#f2f2f2" stroke="black" points="126,-165.5 126,-249.5 306,-249.5 306,-165.5 126,-165.5"/>
+<text text-anchor="start" x="184.5" y="-235.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Source 1</text>
+<polyline fill="none" stroke="black" points="126,-226.5 306,-226.5 "/>
+<text text-anchor="start" x="163" y="-212.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=scan001</text>
+<polyline fill="none" stroke="black" points="126,-203.5 306,-203.5 "/>
+<text text-anchor="start" x="134" y="-188.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="134" y="-173.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">x, y, yerr, model response</text>
+</g>
+<!-- Fitter&#45;&gt;Datasource1 -->
+<g id="edge1" class="edge">
+<title>Fitter&#45;&gt;Datasource1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M289.4,-301.44C282.09,-295.98 274.38,-289.63 268,-283 260.7,-275.42 253.68,-266.74 247.28,-258.04"/>
+<polygon fill="black" stroke="black" points="241.35,-249.73 250.82,-255.25 244.25,-253.8 247.16,-257.87 247.16,-257.87 247.16,-257.87 244.25,-253.8 243.5,-260.48 241.35,-249.73 241.35,-249.73"/>
+<text text-anchor="start" x="268" y="-271.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Calculates fit from</text>
+</g>
+<!-- Datasource2 -->
+<g id="node3" class="node">
+<title>Datasource2</title>
+<polygon fill="#f2f2f2" stroke="black" points="324,-165.5 324,-249.5 504,-249.5 504,-165.5 324,-165.5"/>
+<text text-anchor="start" x="382.5" y="-235.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Source 2</text>
+<polyline fill="none" stroke="black" points="324,-226.5 504,-226.5 "/>
+<text text-anchor="start" x="361" y="-212.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=scan002</text>
+<polyline fill="none" stroke="black" points="324,-203.5 504,-203.5 "/>
+<text text-anchor="start" x="332" y="-188.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="332" y="-173.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">x, y, yerr, model response</text>
+</g>
+<!-- Fitter&#45;&gt;Datasource2 -->
+<g id="edge2" class="edge">
+<title>Fitter&#45;&gt;Datasource2</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M342.03,-309.49C355.8,-303.74 371.93,-295.07 383,-283 389.33,-276.1 394.46,-267.72 398.6,-259.12"/>
+<polygon fill="black" stroke="black" points="402.7,-249.74 402.81,-260.71 400.7,-254.32 398.69,-258.9 398.69,-258.9 398.69,-258.9 400.7,-254.32 394.57,-257.1 402.7,-249.74 402.7,-249.74"/>
+</g>
+<!-- Model1 -->
+<g id="node4" class="node">
+<title>Model1</title>
+<polygon fill="#f2f2f2" stroke="black" points="0,-29.5 0,-113.5 138,-113.5 138,-29.5 0,-29.5"/>
+<text text-anchor="start" x="31" y="-99.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">HFS model</text>
+<polyline fill="none" stroke="black" points="0,-90.5 138,-90.5 "/>
+<text text-anchor="start" x="23.5" y="-76.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=Pb208</text>
+<polyline fill="none" stroke="black" points="0,-67.5 138,-67.5 "/>
+<text text-anchor="start" x="8" y="-52.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="8" y="-37.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">hyperfine spectrum</text>
+</g>
+<!-- Datasource1&#45;&gt;Model1 -->
+<g id="edge3" class="edge">
+<title>Datasource1&#45;&gt;Model1</title>
+<path fill="none" stroke="black" d="M148.26,-165.34C140.45,-159.55 132.85,-153.39 126,-147 117.89,-139.43 110.06,-130.61 102.93,-121.74"/>
+<polygon fill="none" stroke="black" points="105.5,-119.35 96.59,-113.62 99.99,-123.66 105.5,-119.35"/>
+<text text-anchor="start" x="126" y="-135.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Sums together</text>
+</g>
+<!-- Model2 -->
+<g id="node5" class="node">
+<title>Model2</title>
+<polygon fill="#f2f2f2" stroke="black" points="156.5,-29.5 156.5,-113.5 309.5,-113.5 309.5,-29.5 156.5,-29.5"/>
+<text text-anchor="start" x="164.5" y="-99.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Background model </text>
+<polyline fill="none" stroke="black" points="156.5,-90.5 309.5,-90.5 "/>
+<text text-anchor="start" x="192" y="-76.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=bkg1</text>
+<polyline fill="none" stroke="black" points="156.5,-67.5 309.5,-67.5 "/>
+<text text-anchor="start" x="167" y="-52.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="167" y="-37.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">constant background</text>
+</g>
+<!-- Datasource1&#45;&gt;Model2 -->
+<g id="edge4" class="edge">
+<title>Datasource1&#45;&gt;Model2</title>
+<path fill="none" stroke="black" d="M221.24,-165.2C222.89,-152.21 224.73,-137.7 226.46,-124.09"/>
+<polygon fill="none" stroke="black" points="229.96,-124.25 227.75,-113.89 223.02,-123.37 229.96,-124.25"/>
+</g>
+<!-- Model3 -->
+<g id="node6" class="node">
+<title>Model3</title>
+<polygon fill="#f2f2f2" stroke="black" points="336,-29.5 336,-113.5 474,-113.5 474,-29.5 336,-29.5"/>
+<text text-anchor="start" x="367" y="-99.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">HFS model</text>
+<polyline fill="none" stroke="black" points="336,-90.5 474,-90.5 "/>
+<text text-anchor="start" x="359.5" y="-76.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=Pb208</text>
+<polyline fill="none" stroke="black" points="336,-67.5 474,-67.5 "/>
+<text text-anchor="start" x="344" y="-52.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="344" y="-37.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">hyperfine spectrum</text>
+</g>
+<!-- Datasource2&#45;&gt;Model3 -->
+<g id="edge5" class="edge">
+<title>Datasource2&#45;&gt;Model3</title>
+<path fill="none" stroke="black" d="M411.23,-165.2C410.35,-152.21 409.38,-137.7 408.46,-124.09"/>
+<polygon fill="none" stroke="black" points="411.94,-123.64 407.78,-113.89 404.96,-124.1 411.94,-123.64"/>
+</g>
+<!-- Model4 -->
+<g id="node7" class="node">
+<title>Model4</title>
+<polygon fill="#f2f2f2" stroke="black" points="492.5,-29.5 492.5,-113.5 645.5,-113.5 645.5,-29.5 492.5,-29.5"/>
+<text text-anchor="start" x="500.5" y="-99.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Background model </text>
+<polyline fill="none" stroke="black" points="492.5,-90.5 645.5,-90.5 "/>
+<text text-anchor="start" x="528" y="-76.3" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.00">Name=bkg2</text>
+<polyline fill="none" stroke="black" points="492.5,-67.5 645.5,-67.5 "/>
+<text text-anchor="start" x="503" y="-52.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains </text>
+<text text-anchor="start" x="503" y="-37.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">constant background</text>
+</g>
+<!-- Datasource2&#45;&gt;Model4 -->
+<g id="edge6" class="edge">
+<title>Datasource2&#45;&gt;Model4</title>
+<path fill="none" stroke="black" d="M461.77,-165.2C478.2,-151 496.73,-134.98 513.71,-120.3"/>
+<polygon fill="none" stroke="black" points="516.11,-122.85 521.39,-113.66 511.53,-117.55 516.11,-122.85"/>
+</g>
+<!-- Model3&#45;&gt;Model1 -->
+<g id="edge7" class="edge">
+<title>Model3:s&#45;&gt;Model1:s</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M405,-29C405,-12.16 131.42,-10.51 77.99,-24.07"/>
+<polygon fill="none" stroke="black" points="76.08,-21.12 69,-29 79.45,-27.25 76.08,-21.12"/>
+<text text-anchor="start" x="29.18" y="-3.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Shares selected parameters with</text>
+</g>
+</g>
+</svg>
+<p>In this example, a Source with the name <em>scan001</em> contains two models: the HFS model with the name <em>Pb208</em>, and a background model named <em>bkg1</em>. Also included in the source is some data with x, y and uncertainty of y. A second source with the name <em>scan002</em> contains another HFS model with the same name, but the background has a different name. Since the HFS models have the same name, <a class="reference internal" href="../api/index.html#satlas2.core.Fitter.shareModelParams" title="satlas2.core.Fitter.shareModelParams"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shareModelParams</span></code></a> can be used on the Fitter object to link desired parameters together, such as the hyperfine parameters. When performing the fit, the Fitter will fit the models in Source 1 to the data in Source 1, and the models in Source 2 to the data in Source 2 simultaneously.</p>
+<p>This architecture is a big deviation from the architecture in SATLAS, where the paradigm was that special SumModels and LinkedModels would be created for such occasions. Instead, in SATLAS2, by implementing that models assigned to the same source are summed together and assigning different sources causes a simultaneous fit, several bugs present in SATLAS are avoided simply by reducing the coding complexity. As a bonus, with this standardized implementation, speedups of a factor 20 to 200 can be achieved, as is shown in the <a class="reference internal" href="../tutorials/benchmark.html"><span class="doc">benchmark</span></a>.</p>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">SATLAS2 – Statistical Analysis Toolbox for Laser Spectroscopy, version 2</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../tutorials/index.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tutorial</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Wouter Gins<br/>
+  
+      &copy; Copyright 2023, Wouter Gins.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

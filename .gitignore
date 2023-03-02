@@ -5,4 +5,4 @@
 dist/*.whl
 dist/*.tar.gz
 src/satlas2.egg-info
-docs/_build
+docs/_build/doctrees

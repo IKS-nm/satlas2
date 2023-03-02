@@ -1,0 +1,8 @@
+<map id="inheritance1c0be51e3b" name="inheritance1c0be51e3b">
+<area shape="rect" id="node1" href="index.html#satlas2.core.Model" target="_top" title="satlas2.core.Model" alt="" coords="369,4,476,25"/>
+<area shape="rect" id="node2" href="#satlas2.models.models.ExponentialDecay" target="_top" title="Model for an exponential decay" alt="" coords="4,64,219,84"/>
+<area shape="rect" id="node3" href="#satlas2.models.models.Polynomial" target="_top" title="Model class for a polynomial response" alt="" coords="238,64,419,84"/>
+<area shape="rect" id="node5" href="#satlas2.models.models.Voigt" target="_top" title="Model for a Voigt lineshape" alt="" coords="439,64,593,84"/>
+<area shape="rect" id="node6" href="#satlas2.models.models.Step" target="_top" title="Model class for a Step response" alt="" coords="613,64,764,84"/>
+<area shape="rect" id="node4" href="#satlas2.models.models.SkewedVoigt" target="_top" title="Model for a Voigt peak skewed by the error function." alt="" coords="421,123,611,143"/>
+</map>
