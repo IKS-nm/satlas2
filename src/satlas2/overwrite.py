@@ -115,11 +115,12 @@ class SATLASHDFBackend(emcee.backends.HDFBackend):
 
 
 class SATLASMinimizer(Minimizer):
-    def process_walk(self, params, chain):
+    def process_walk(self, params, chain, burnin=0):
         result = self.prepare_fit(params)
         params = result.params
         nvarys = result.nvarys
         result.method = 'emcee'
+        chain = chain[burnin:]
 
         flatchain = chain.reshape((-1, nvarys))
         steps = chain.shape[0]

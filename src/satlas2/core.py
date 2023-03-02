@@ -37,7 +37,7 @@ class Fitter:
         self.bounds = optimize.Bounds([], [])
         self.share = []
         self.shareModel = []
-        self.priors = []
+        self.priors = {}
         self.expressions = {}
         self.mode = 'source'
 
@@ -132,7 +132,23 @@ class Fitter:
         uncertainty : float
             Standard deviation associated with the value.
         """
-        self.priors.append((source, model, parameter_name, value, uncertainty))
+        self.priors['___'.join([source, model,
+                                parameter_name])] = (value, uncertainty)
+
+    def removeParamPrior(self, source: str, model: str,
+                         parameter_name: str) -> None:
+        """Removes a prior set on a parameter.
+
+        Parameters
+        ----------
+        source : str
+            Name of the datasource in which the parameter is present.
+        model : str
+            Name of the model in which the parameter is present.
+        parameter_name : str
+            Name of the parameter.
+        """
+        del self.priors['___'.join([source, model, parameter_name])]
 
     def addSource(self, source: 'Source') -> None:
         """Add a datasource to the Fitter structure
@@ -306,16 +322,19 @@ class Fitter:
     def gaussianPriorResid(self) -> ArrayLike:
         """Calculates the residual (x-xtrue)/sigma for use
         in a Gaussian prior. The parameters for which this calculates
-        the priors are given by :func:`~Fitter.setPrior`.
+        the priors are given by :func:`~Fitter.setParamPrior`.
 
         Returns
         -------
         ArrayLike
         """
-        return np.array([
-            (self.pars[source][model][parameter].value - value) / uncertainty
-            for source, model, parameter, value, uncertainty in self.priors
-        ])
+        returnval = []
+        for key in self.priors.keys():
+            source, model, parameter = key.split('___')
+            lit, unc = self.priors[key]
+            returnval.append(
+                (self.pars[source][model][parameter].value - lit) / unc)
+        return np.array(returnval)
 
     def residualCalculation(self) -> ArrayLike:
         """Calculates the full residual, based on :func:`~Fitter.resid`
@@ -347,6 +366,10 @@ class Fitter:
         model_calcs = self.f()
         returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
         returnvalue[model_calcs <= 0] = -np.inf
+        priors = self.gaussianPriorResid()
+        if len(priors) > 1:
+            priors = -0.5 * priors * priors
+            returnvalue = np.append(returnvalue, priors)
         return returnvalue
 
     def llh(self,
@@ -383,7 +406,7 @@ class Fitter:
             returnvalue = np.sum(returnvalue)
         return returnvalue
 
-    def reduction(self, r: ArrayLike) -> float:
+    def reductionSum(self, r: ArrayLike) -> float:
         """Reduces the likelihood to a single number. Used by lmfit.
 
         Parameters
@@ -397,6 +420,21 @@ class Fitter:
             Sum of array of residuals
         """
         return np.sum(r)
+
+    def reductionSSum(self, r: ArrayLike) -> float:
+        """Reduces the likelihood to a single number. Used by lmfit.
+
+        Parameters
+        ----------
+        r : ArrayLike
+            Array of residuals
+
+        Returns
+        -------
+        float
+            Sum of array of residuals
+        """
+        return np.sum(r * r)
 
     def chisquare(self, params: lm.Parameters) -> ArrayLike:
         """Chisquare optimization function for lmfit.
@@ -459,7 +497,8 @@ class Fitter:
             filename: str = None,
             steps: int = 1000,
             nwalkers: int = 50,
-            scale_covar: bool = True) -> None:
+            scale_covar: bool = True,
+            iter_cb: callable = None) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
         Models in the same source are summed together, models in different sources can be
         linked through their parameters.
@@ -495,6 +534,8 @@ class Fitter:
 
         kws = {}
         kwargs = {}
+        kwargs['iter_cb'] = iter_cb
+        reduce_fcn = self.reductionSum
         if llh or method.lower() == 'emcee':
             llh = True
             func = self.llh
@@ -503,6 +544,7 @@ class Fitter:
                 method = 'slsqp'
         else:
             func = self.chisquare
+            reduce_fcn = self.reductionSSum
 
         if method == 'emcee':
             llh = True
@@ -527,7 +569,6 @@ class Fitter:
         if llh:
             scale_covar = False
 
-        reduce_fcn = self.reduction
         self.result = minimize(func,
                                self.lmpars,
                                method=method,
@@ -549,7 +590,7 @@ class Fitter:
         self._prepareFit()
         self.setParameters(self.lmpars)
 
-    def readWalk(self, filename: str):
+    def readWalk(self, filename: str, burnin:int=0):
         """Read and process the h5 file containing the results of a random walk.
         The parameter values and uncertainties are extracted from the walk.
 
@@ -563,11 +604,11 @@ class Fitter:
         data = reader.get_chain(flat=False)
         try:
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data)
+                self.lmpars, data, burnin)
         except AttributeError:
             self._prepareFit()
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data)
+                self.lmpars, data, burnin)
         self.updateInfo()
 
     def updateInfo(self):
