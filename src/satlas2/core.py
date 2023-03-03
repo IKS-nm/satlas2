@@ -6,7 +6,7 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 from __future__ import annotations
 
 import copy
-from typing import Union
+from typing import Union, Tuple
 
 import lmfit as lm
 import numdifftools as nd
@@ -214,7 +214,8 @@ class Fitter:
         self.lmpars = lmpars
 
     def f(self) -> ArrayLike:
-        """Calculate the response of the models in the different sources, stacked horizontally.
+        """:meta private:
+        Calculate the response of the models in the different sources, stacked horizontally.
 
         Returns
         -------
@@ -224,7 +225,8 @@ class Fitter:
         return np.hstack([source.f() for _, source in self.sources])
 
     def y(self) -> ArrayLike:
-        """Stack the data in the different sources, horizontally.
+        """:meta private:
+        Stack the data in the different sources, horizontally.
 
         Returns
         -------
@@ -234,7 +236,8 @@ class Fitter:
         return np.hstack([source.y for _, source in self.sources])
 
     def yerr(self) -> ArrayLike:
-        """Stack the uncertainty in the different sources, horizontally.
+        """:meta private:
+        Stack the uncertainty in the different sources, horizontally.
 
         Returns
         -------
@@ -244,7 +247,8 @@ class Fitter:
         return np.hstack([source.yerr() for _, source in self.sources])
 
     def setParameters(self, params: lm.Parameters) -> None:
-        """Set the parameters of the underlying Models
+        """:meta private:
+        Set the parameters of the underlying Models
         based on a large Parameters object
 
         Parameters
@@ -258,7 +262,8 @@ class Fitter:
                     parameter_name].value = params[p].value
 
     def setUncertainties(self, params: lm.Parameters) -> None:
-        """Set the uncertainties of the underlying Models
+        """:meta private:
+        Set the uncertainties of the underlying Models
         based on a large Parameters object
 
         Parameters
@@ -271,7 +276,8 @@ class Fitter:
                 p].stderr
 
     def setCorrelations(self, params: lm.Parameters) -> None:
-        """Set the correlations of the underlying Models
+        """:meta private:
+        Set the correlations of the underlying Models
         based on a large Parameters object
 
         Parameters
@@ -297,7 +303,8 @@ class Fitter:
                 pass
 
     def resid(self) -> ArrayLike:
-        """Calculates the residuals for use in a Gaussian fitting.
+        """:meta private:
+        Calculates the residuals for use in a Gaussian fitting.
         Based on the value of :attr:`Fitter.mode`, a different method is
         used. If :attr:`Fitter.mode` is 'source', the result of :func:`~Fitter.yerr` is used.
         If :attr:`Fitter.mode` is 'combined', the denominator is calculated as
@@ -320,7 +327,8 @@ class Fitter:
         return resid
 
     def gaussianPriorResid(self) -> ArrayLike:
-        """Calculates the residual (x-xtrue)/sigma for use
+        """:meta private:
+        Calculates the residual (x-xtrue)/sigma for use
         in a Gaussian prior. The parameters for which this calculates
         the priors are given by :func:`~Fitter.setParamPrior`.
 
@@ -337,7 +345,8 @@ class Fitter:
         return np.array(returnval)
 
     def residualCalculation(self) -> ArrayLike:
-        """Calculates the full residual, based on :func:`~Fitter.resid`
+        """:meta private:
+        Calculates the full residual, based on :func:`~Fitter.resid`
         and :func:`~Fitter.gaussianPriorResid`
 
         Returns
@@ -347,7 +356,8 @@ class Fitter:
         return np.hstack([self.resid(), self.gaussianPriorResid()])
 
     def gaussLlh(self) -> ArrayLike:
-        """Calculate the Gaussian likelihood
+        """:meta private:
+        Calculate the Gaussian likelihood
 
         Returns
         -------
@@ -357,7 +367,8 @@ class Fitter:
         return -0.5 * resid * resid  # Faster than **2
 
     def poissonLlh(self) -> ArrayLike:
-        """Calculate the Poisson likelihood
+        """:meta private:
+        Calculate the Poisson likelihood
 
         Returns
         -------
@@ -376,7 +387,8 @@ class Fitter:
             params: lm.Parameters,
             method: str = 'gaussian',
             emcee: bool = False) -> ArrayLike:
-        """Calculate the likelihood, based on the parameters and method.
+        """:meta private:
+        Calculate the likelihood, based on the parameters and method.
         In case the minimizer uses the emcee package, the array is summed to a single number.
         In case the minimizer uses any other routine, the array is multiplied by -1 to
         obtain the negative likelihood.
@@ -407,7 +419,8 @@ class Fitter:
         return returnvalue
 
     def reductionSum(self, r: ArrayLike) -> float:
-        """Reduces the likelihood to a single number. Used by lmfit.
+        """:meta private:
+        Reduces the likelihood to a single number. Used by lmfit.
 
         Parameters
         ----------
@@ -422,7 +435,8 @@ class Fitter:
         return np.sum(r)
 
     def reductionSSum(self, r: ArrayLike) -> float:
-        """Reduces the likelihood to a single number. Used by lmfit.
+        """:meta private:
+        Reduces the likelihood to a single number. Used by lmfit.
 
         Parameters
         ----------
@@ -437,7 +451,8 @@ class Fitter:
         return np.sum(r * r)
 
     def chisquare(self, params: lm.Parameters) -> ArrayLike:
-        """Chisquare optimization function for lmfit.
+        """:meta private:
+        Chisquare optimization function for lmfit.
 
         Parameters
         ----------
@@ -453,40 +468,20 @@ class Fitter:
         return self.residualCalculation()
 
     def _prepareFit(self):
+        """:meta private:"""
         self._createParameters()
         self._createLmParameters()
 
-    def reportFit(self,
-                  modelpars: Union[lm.Parameters, None] = None,
-                  show_correl: bool = False,
-                  min_correl: float = 0.1,
-                  sort_pars: Union[bool, callable] = False) -> str:
-        """Generate a report of the fitting results.
-
-        The report contains the best-fit values for the parameters and their uncertainties and correlations.
-
-        Parameters
-        ----------
-        modelpars : lmfit.Parameters, optional
-            Known Model Parameters
-        show_correl : bool, optional
-            Whether to show a list of sorted correlations, by default False
-        min_correl : float, optional
-            Smallest correlation in absolute value to show, by default 0.1
-        sort_pars : bool or callable, optional
-            Whether to show parameter names sorted in alphanumerical order.
-            If False (default), then the parameters will be listed in the
-            order they were added to the Parameters dictionary. If callable,
-            then this (one argument) function is used to extract a comparison
-            key from each list element.
-
-        Returns
-        -------
-        str
-            Multi-line text of fit report.
+    def revertFit(self):
+        """Reverts the parameter values to the original values.
         """
-        return lm.fit_report(self.result, modelpars, show_correl, min_correl,
-                             sort_pars)
+        params = self.result.init_values
+        for p in params.keys():
+            source_name, model_name, parameter_name = p.split('___')
+            self.pars[source_name][model_name][parameter_name].value = params[
+                p]
+        self._prepareFit()
+        self.setParameters(self.lmpars)
 
     def fit(self,
             llh: bool = False,
@@ -579,18 +574,39 @@ class Fitter:
         del self.temp_y
         self.updateInfo()
 
-    def revertFit(self):
-        """Reverts the parameter values to the original values.
-        """
-        params = self.result.init_values
-        for p in params.keys():
-            source_name, model_name, parameter_name = p.split('___')
-            self.pars[source_name][model_name][parameter_name].value = params[
-                p]
-        self._prepareFit()
-        self.setParameters(self.lmpars)
+    def reportFit(self,
+                  modelpars: Union[lm.Parameters, None] = None,
+                  show_correl: bool = False,
+                  min_correl: float = 0.1,
+                  sort_pars: Union[bool, callable] = False) -> str:
+        """Generate a report of the fitting results.
 
-    def readWalk(self, filename: str, burnin:int=0):
+        The report contains the best-fit values for the parameters and their uncertainties and correlations.
+
+        Parameters
+        ----------
+        modelpars : lmfit.Parameters, optional
+            Known Model Parameters
+        show_correl : bool, optional
+            Whether to show a list of sorted correlations, by default False
+        min_correl : float, optional
+            Smallest correlation in absolute value to show, by default 0.1
+        sort_pars : bool or callable, optional
+            Whether to show parameter names sorted in alphanumerical order.
+            If False (default), then the parameters will be listed in the
+            order they were added to the Parameters dictionary. If callable,
+            then this (one argument) function is used to extract a comparison
+            key from each list element.
+
+        Returns
+        -------
+        str
+            Multi-line text of fit report.
+        """
+        return lm.fit_report(self.result, modelpars, show_correl, min_correl,
+                             sort_pars)
+
+    def readWalk(self, filename: str, burnin: int = 0):
         """Read and process the h5 file containing the results of a random walk.
         The parameter values and uncertainties are extracted from the walk.
 
@@ -601,14 +617,14 @@ class Fitter:
         """
         reader = SATLASHDFBackend(filename)
         # var_names = list(reader.labels)
-        data = reader.get_chain(flat=False)
+        data = reader.get_chain(flat=False, discard=burnin)
         try:
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data, burnin)
+                self.lmpars, data)
         except AttributeError:
             self._prepareFit()
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data, burnin)
+                self.lmpars, data)
         self.updateInfo()
 
     def updateInfo(self):
@@ -640,6 +656,87 @@ class Fitter:
                 source.redchi = self.redchi
             except:
                 pass
+
+    def evaluateOverWalk(self,
+                         filename: str,
+                         burnin: int = 0,
+                         x: ArrayLike = None,
+                         evals: int = 0) -> Tuple[list, list]:
+        """The parameters saved in the h5 file are evaluated
+        in the models a specific number of times. From these evaluations, the
+        16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.
+
+        Parameters
+        ----------
+        filename : str
+            Filename of the random walk results.
+        burnin : int, optional
+            Amount of steps to skip, by default 0
+        x : ArrayLike, optional
+            Evaluation points for the model, defaults to the datapoints in Source
+        evals : int, optional
+            Number of selected parameter values, defaults to using all values
+
+        Returns
+        -------
+        Tuple of lists
+            A tuple with, as the first element, a list of arrays x-values for
+            which the band has been evaluated. Each source contributes an array.
+            The second element is a list of 2D arrays, one for each source. The
+            first row is the sigma- boundary, the second row is the median value
+            and the third row is the sigm+ boundary.
+        """
+        reader = SATLASHDFBackend(filename)
+        var_names = list(reader.labels)
+        data = reader.get_chain(flat=False, discard=burnin)
+        flatchain = data.reshape((-1, len(var_names)))
+        if x is None:
+            method = 'f'
+            args = ()
+        else:
+            method = 'evaluate'
+            args = (x, )
+        if evals > 0:
+            if evals < flatchain.shape[0]:
+                choices = np.random.choice(flatchain.shape[0], evals)
+                flatchain = flatchain[choices]
+        else:
+            pass
+        try:
+            names = [p for p in self.lmpars.keys()]
+        except:
+            self._prepareFit()
+            names = [p for p in self.lmpars.keys()]
+        common = [(i, name.split('___')) for i, name in enumerate(var_names)
+                  if name in names]
+        bands = []
+        X = []
+        for sample in flatchain:
+            for column, splitname in common:
+                source, model, parameter = splitname
+                self.pars[source][model][parameter].value = sample[column]
+            for i, (_, source) in enumerate(self.sources):
+                try:
+                    bands[i] = np.vstack(
+                        [bands[i], getattr(source, method)(*args)])
+                except Exception as e:
+                    bands.append(getattr(source, method)(*args))
+                if len(args) > 0:
+                    X.append(args[0])
+                else:
+                    X.append(source.x)
+        for i, band in enumerate(bands):
+            q = np.percentile(band, [16, 84], axis=0)
+            bands[i] = q
+        median = np.percentile(flatchain, 50, axis=0)
+        for column, splitname in common:
+            source, model, parameter = splitname
+            self.pars[source][model][parameter].value = median[column]
+        for i, (_, source) in enumerate(self.sources):
+            bands[i] = np.vstack(
+                [bands[i][0],
+                 getattr(source, method)(*args), bands[i][1]])
+        return X, bands
 
 
 class Source:

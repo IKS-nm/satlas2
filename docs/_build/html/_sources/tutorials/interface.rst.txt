@@ -669,29 +669,3 @@ that here, the interface is *not* used.
     plt.show()
 
 .. image:: output_16_0.png
-
-
- """Perform a fit of this model to the data provided in this function.
-
-        Parameters
-        ----------
-        x : ArrayLike
-            x-values of the data points
-        y : ArrayLike
-            y-values of the data points
-        yerr : ArrayLike
-            1-sigma error on the y-values
-        xerr : ArrayLike, optional
-            1-sigma error on the x-values
-        func: function, optional
-            Not implemented
-        verbose : Bool, optional
-            Not implemented
-        hessian : bool, optional
-            Not implemented
-        method : str, optional
-            Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
-
-        Returns
-        -------
-        """

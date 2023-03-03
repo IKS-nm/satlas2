@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>satlas2.core &#8212; satlas2 0.1.4 documentation</title>
+    <title>satlas2.core &#8212; satlas2 0.1.5 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -77,7 +77,7 @@
       <img src="../../_static/satlas.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">satlas2 0.1.4 documentation</h1>
+      <h1 class="site-logo" id="site-title">satlas2 0.1.5 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
@@ -290,7 +290,7 @@ title="Open an issue"
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">lmfit</span> <span class="k">as</span> <span class="nn">lm</span>
 <span class="kn">import</span> <span class="nn">numdifftools</span> <span class="k">as</span> <span class="nn">nd</span>
@@ -497,38 +497,42 @@ title="Open an issue"
         <span class="n">lmpars</span><span class="o">.</span><span class="n">add_many</span><span class="p">(</span><span class="o">*</span><span class="n">tuples</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="n">lmpars</span>
 
-<div class="viewcode-block" id="Fitter.f"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response of the models in the different sources, stacked horizontally.</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculate the response of the models in the different sources, stacked horizontally.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ArrayLike</span>
 <span class="sd">            Horizontally concatenated response from each source.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Fitter.y"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stack the data in the different sources, horizontally.</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Stack the data in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ArrayLike</span>
 <span class="sd">            Horizontally concatenated data from each source.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Fitter.yerr"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.yerr">[docs]</a>    <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stack the uncertainty in the different sources, horizontally.</span>
+    <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Stack the uncertainty in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ArrayLike</span>
 <span class="sd">            Horizontally concatenated uncertainty from each source.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">yerr</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">yerr</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Fitter.setParameters"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the parameters of the underlying Models</span>
+    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Set the parameters of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
 <span class="sd">        Parameters</span>
@@ -539,10 +543,11 @@ title="Open an issue"
             <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">expr</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span>
-                    <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span></div>
+                    <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
 
-<div class="viewcode-block" id="Fitter.setUncertainties"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setUncertainties">[docs]</a>    <span class="k">def</span> <span class="nf">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the uncertainties of the underlying Models</span>
+    <span class="k">def</span> <span class="nf">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Set the uncertainties of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
 <span class="sd">        Parameters</span>
@@ -552,10 +557,11 @@ title="Open an issue"
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">unc</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span>
-                <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span></div>
+                <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
 
-<div class="viewcode-block" id="Fitter.setCorrelations"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setCorrelations">[docs]</a>    <span class="k">def</span> <span class="nf">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the correlations of the underlying Models</span>
+    <span class="k">def</span> <span class="nf">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Set the correlations of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
 <span class="sd">        Parameters</span>
@@ -578,10 +584,11 @@ title="Open an issue"
                 <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span>
                     <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">correl</span> <span class="o">=</span> <span class="n">dictionary</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span></div>
+                <span class="k">pass</span>
 
-<div class="viewcode-block" id="Fitter.resid"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.resid">[docs]</a>    <span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the residuals for use in a Gaussian fitting.</span>
+    <span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculates the residuals for use in a Gaussian fitting.</span>
 <span class="sd">        Based on the value of :attr:`Fitter.mode`, a different method is</span>
 <span class="sd">        used. If :attr:`Fitter.mode` is &#39;source&#39;, the result of :func:`~Fitter.yerr` is used.</span>
 <span class="sd">        If :attr:`Fitter.mode` is &#39;combined&#39;, the denominator is calculated as</span>
@@ -601,10 +608,11 @@ title="Open an issue"
                 <span class="mi">3</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">model_calcs</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resid</span><span class="p">)):</span>
             <span class="n">resid</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resid</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-        <span class="k">return</span> <span class="n">resid</span></div>
+        <span class="k">return</span> <span class="n">resid</span>
 
-<div class="viewcode-block" id="Fitter.gaussianPriorResid"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.gaussianPriorResid">[docs]</a>    <span class="k">def</span> <span class="nf">gaussianPriorResid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the residual (x-xtrue)/sigma for use</span>
+    <span class="k">def</span> <span class="nf">gaussianPriorResid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculates the residual (x-xtrue)/sigma for use</span>
 <span class="sd">        in a Gaussian prior. The parameters for which this calculates</span>
 <span class="sd">        the priors are given by :func:`~Fitter.setParamPrior`.</span>
 
@@ -618,30 +626,33 @@ title="Open an issue"
             <span class="n">lit</span><span class="p">,</span> <span class="n">unc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="n">returnval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">model</span><span class="p">][</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">lit</span><span class="p">)</span> <span class="o">/</span> <span class="n">unc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">returnval</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">returnval</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Fitter.residualCalculation"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.residualCalculation">[docs]</a>    <span class="k">def</span> <span class="nf">residualCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the full residual, based on :func:`~Fitter.resid`</span>
+    <span class="k">def</span> <span class="nf">residualCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculates the full residual, based on :func:`~Fitter.resid`</span>
 <span class="sd">        and :func:`~Fitter.gaussianPriorResid`</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ArrayLike</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">resid</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriorResid</span><span class="p">()])</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">resid</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriorResid</span><span class="p">()])</span>
 
-<div class="viewcode-block" id="Fitter.gaussLlh"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.gaussLlh">[docs]</a>    <span class="k">def</span> <span class="nf">gaussLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the Gaussian likelihood</span>
+    <span class="k">def</span> <span class="nf">gaussLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculate the Gaussian likelihood</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ArrayLike</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span>  <span class="c1"># Faster than **2</span></div>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span>  <span class="c1"># Faster than **2</span>
 
-<div class="viewcode-block" id="Fitter.poissonLlh"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.poissonLlh">[docs]</a>    <span class="k">def</span> <span class="nf">poissonLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the Poisson likelihood</span>
+    <span class="k">def</span> <span class="nf">poissonLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculate the Poisson likelihood</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -654,13 +665,14 @@ title="Open an issue"
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">priors</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">priors</span> <span class="o">*</span> <span class="n">priors</span>
             <span class="n">returnvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">returnvalue</span><span class="p">,</span> <span class="n">priors</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">returnvalue</span></div>
+        <span class="k">return</span> <span class="n">returnvalue</span>
 
-<div class="viewcode-block" id="Fitter.llh"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.llh">[docs]</a>    <span class="k">def</span> <span class="nf">llh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">llh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
             <span class="n">emcee</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the likelihood, based on the parameters and method.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Calculate the likelihood, based on the parameters and method.</span>
 <span class="sd">        In case the minimizer uses the emcee package, the array is summed to a single number.</span>
 <span class="sd">        In case the minimizer uses any other routine, the array is multiplied by -1 to</span>
 <span class="sd">        obtain the negative likelihood.</span>
@@ -688,25 +700,11 @@ title="Open an issue"
             <span class="n">returnvalue</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">returnvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">returnvalue</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">returnvalue</span></div>
+        <span class="k">return</span> <span class="n">returnvalue</span>
 
-<div class="viewcode-block" id="Fitter.reductionSum"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.reductionSum">[docs]</a>    <span class="k">def</span> <span class="nf">reductionSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduces the likelihood to a single number. Used by lmfit.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        r : ArrayLike</span>
-<span class="sd">            Array of residuals</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        float</span>
-<span class="sd">            Sum of array of residuals</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Fitter.reductionSSum"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.reductionSSum">[docs]</a>    <span class="k">def</span> <span class="nf">reductionSSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduces the likelihood to a single number. Used by lmfit.</span>
+    <span class="k">def</span> <span class="nf">reductionSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -718,10 +716,27 @@ title="Open an issue"
 <span class="sd">        float</span>
 <span class="sd">            Sum of array of residuals</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Fitter.chisquare"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.chisquare">[docs]</a>    <span class="k">def</span> <span class="nf">chisquare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Chisquare optimization function for lmfit.</span>
+    <span class="k">def</span> <span class="nf">reductionSSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        r : ArrayLike</span>
+<span class="sd">            Array of residuals</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Sum of array of residuals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">chisquare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="sd">        Chisquare optimization function for lmfit.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -734,43 +749,23 @@ title="Open an issue"
 <span class="sd">            Array of residuals, to be squared and summed by lmfit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_prepareFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createParameters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createLmParameters</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Fitter.reportFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.reportFit">[docs]</a>    <span class="k">def</span> <span class="nf">reportFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">modelpars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                  <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                  <span class="n">min_correl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-                  <span class="n">sort_pars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
-
-<span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        modelpars : lmfit.Parameters, optional</span>
-<span class="sd">            Known Model Parameters</span>
-<span class="sd">        show_correl : bool, optional</span>
-<span class="sd">            Whether to show a list of sorted correlations, by default False</span>
-<span class="sd">        min_correl : float, optional</span>
-<span class="sd">            Smallest correlation in absolute value to show, by default 0.1</span>
-<span class="sd">        sort_pars : bool or callable, optional</span>
-<span class="sd">            Whether to show parameter names sorted in alphanumerical order.</span>
-<span class="sd">            If False (default), then the parameters will be listed in the</span>
-<span class="sd">            order they were added to the Parameters dictionary. If callable,</span>
-<span class="sd">            then this (one argument) function is used to extract a comparison</span>
-<span class="sd">            key from each list element.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        str</span>
-<span class="sd">            Multi-line text of fit report.</span>
+<div class="viewcode-block" id="Fitter.revertFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.revertFit">[docs]</a>    <span class="k">def</span> <span class="nf">revertFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">modelpars</span><span class="p">,</span> <span class="n">show_correl</span><span class="p">,</span> <span class="n">min_correl</span><span class="p">,</span>
-                             <span class="n">sort_pars</span><span class="p">)</span></div>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">init_values</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span>
+                <span class="n">p</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prepareFit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Fitter.fit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">llh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -863,18 +858,39 @@ title="Open an issue"
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Fitter.revertFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.revertFit">[docs]</a>    <span class="k">def</span> <span class="nf">revertFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">init_values</span>
-        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">source_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">model_name</span><span class="p">][</span><span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span>
-                <span class="n">p</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_prepareFit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Fitter.reportFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.reportFit">[docs]</a>    <span class="k">def</span> <span class="nf">reportFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">modelpars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="n">min_correl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+                  <span class="n">sort_pars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
-<div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">burnin</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        modelpars : lmfit.Parameters, optional</span>
+<span class="sd">            Known Model Parameters</span>
+<span class="sd">        show_correl : bool, optional</span>
+<span class="sd">            Whether to show a list of sorted correlations, by default False</span>
+<span class="sd">        min_correl : float, optional</span>
+<span class="sd">            Smallest correlation in absolute value to show, by default 0.1</span>
+<span class="sd">        sort_pars : bool or callable, optional</span>
+<span class="sd">            Whether to show parameter names sorted in alphanumerical order.</span>
+<span class="sd">            If False (default), then the parameters will be listed in the</span>
+<span class="sd">            order they were added to the Parameters dictionary. If callable,</span>
+<span class="sd">            then this (one argument) function is used to extract a comparison</span>
+<span class="sd">            key from each list element.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Multi-line text of fit report.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">modelpars</span><span class="p">,</span> <span class="n">show_correl</span><span class="p">,</span> <span class="n">min_correl</span><span class="p">,</span>
+                             <span class="n">sort_pars</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read and process the h5 file containing the results of a random walk.</span>
 <span class="sd">        The parameter values and uncertainties are extracted from the walk.</span>
 
@@ -885,14 +901,14 @@ title="Open an issue"
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="c1"># var_names = list(reader.labels)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">flat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">flat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">discard</span><span class="o">=</span><span class="n">burnin</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">SATLASMinimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span><span class="o">.</span><span class="n">process_walk</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">burnin</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prepareFit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">SATLASMinimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span><span class="o">.</span><span class="n">process_walk</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">burnin</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">updateInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -923,7 +939,88 @@ title="Open an issue"
                 <span class="n">source</span><span class="o">.</span><span class="n">nfree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfree</span>
                 <span class="n">source</span><span class="o">.</span><span class="n">redchi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">redchi</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">pass</span></div>
+                <span class="k">pass</span>
+
+<div class="viewcode-block" id="Fitter.evaluateOverWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.evaluateOverWalk">[docs]</a>    <span class="k">def</span> <span class="nf">evaluateOverWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                         <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                         <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The parameters saved in the h5 file are evaluated</span>
+<span class="sd">        in the models a specific number of times. From these evaluations, the</span>
+<span class="sd">        16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename of the random walk results.</span>
+<span class="sd">        burnin : int, optional</span>
+<span class="sd">            Amount of steps to skip, by default 0</span>
+<span class="sd">        x : ArrayLike, optional</span>
+<span class="sd">            Evaluation points for the model, defaults to the datapoints in Source</span>
+<span class="sd">        evals : int, optional</span>
+<span class="sd">            Number of selected parameter values, defaults to using all values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple of lists</span>
+<span class="sd">            A tuple with, as the first element, a list of arrays x-values for</span>
+<span class="sd">            which the band has been evaluated. Each source contributes an array.</span>
+<span class="sd">            The second element is a list of 2D arrays, one for each source. The</span>
+<span class="sd">            first row is the sigma- boundary, the second row is the median value</span>
+<span class="sd">            and the third row is the sigm+ boundary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">flat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">discard</span><span class="o">=</span><span class="n">burnin</span><span class="p">)</span>
+        <span class="n">flatchain</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">var_names</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;evaluate&#39;</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">evals</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">evals</span> <span class="o">&lt;</span> <span class="n">flatchain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">choices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">flatchain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">evals</span><span class="p">)</span>
+                <span class="n">flatchain</span> <span class="o">=</span> <span class="n">flatchain</span><span class="p">[</span><span class="n">choices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prepareFit</span><span class="p">()</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="n">common</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">)</span>
+                  <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">flatchain</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">splitname</span> <span class="ow">in</span> <span class="n">common</span><span class="p">:</span>
+                <span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">splitname</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">model</span><span class="p">][</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">)])</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">bands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bands</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">84</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
+        <span class="n">median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">flatchain</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">splitname</span> <span class="ow">in</span> <span class="n">common</span><span class="p">:</span>
+            <span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">splitname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">model</span><span class="p">][</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">median</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">):</span>
+            <span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                 <span class="nb">getattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">bands</span></div></div>
 
 
 <div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>

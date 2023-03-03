@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>API reference &#8212; satlas2 0.1.4 documentation</title>
+    <title>API reference &#8212; satlas2 0.1.5 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -32,7 +32,6 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -81,7 +80,7 @@
       <img src="../_static/satlas.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">satlas2 0.1.4 documentation</h1>
+      <h1 class="site-logo" id="site-title">satlas2 0.1.5 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -464,32 +463,29 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.chisquare">
-<span class="sig-name descname"><span class="pre">chisquare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.chisquare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.chisquare" title="Permalink to this definition">#</a></dt>
-<dd><p>Chisquare optimization function for lmfit.</p>
+<dt class="sig sig-object py" id="satlas2.core.Fitter.evaluateOverWalk">
+<span class="sig-name descname"><span class="pre">evaluateOverWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.evaluateOverWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.evaluateOverWalk" title="Permalink to this definition">#</a></dt>
+<dd><p>The parameters saved in the h5 file are evaluated
+in the models a specific number of times. From these evaluations, the
+16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>lm.Parameters</em>) – Parameters for which the chisquare has to be calculated</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the random walk results.</p></li>
+<li><p><strong>burnin</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of steps to skip, by default 0</p></li>
+<li><p><strong>x</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – Evaluation points for the model, defaults to the datapoints in Source</p></li>
+<li><p><strong>evals</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of selected parameter values, defaults to using all values</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Array of residuals, to be squared and summed by lmfit</p>
+<dd class="field-even"><p>A tuple with, as the first element, a list of arrays x-values for
+which the band has been evaluated. Each source contributes an array.
+The second element is a list of 2D arrays, one for each source. The
+first row is the sigma- boundary, the second row is the median value
+and the third row is the sigm+ boundary.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.f" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the response of the models in the different sources, stacked horizontally.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Horizontally concatenated response from each source.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
+<dd class="field-odd"><p>Tuple of lists</p>
 </dd>
 </dl>
 </dd></dl>
@@ -523,66 +519,6 @@ the reduced chisquare calculated in this case is not applicable.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.gaussLlh">
-<span class="sig-name descname"><span class="pre">gaussLlh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.gaussLlh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.gaussLlh" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the Gaussian likelihood</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.gaussianPriorResid">
-<span class="sig-name descname"><span class="pre">gaussianPriorResid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.gaussianPriorResid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.gaussianPriorResid" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the residual (x-xtrue)/sigma for use
-in a Gaussian prior. The parameters for which this calculates
-the priors are given by <a class="reference internal" href="#satlas2.core.Fitter.setParamPrior" title="satlas2.core.Fitter.setParamPrior"><code class="xref py py-func docutils literal notranslate"><span class="pre">setParamPrior()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.llh">
-<span class="sig-name descname"><span class="pre">llh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emcee</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.llh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.llh" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the likelihood, based on the parameters and method.
-In case the minimizer uses the emcee package, the array is summed to a single number.
-In case the minimizer uses any other routine, the array is multiplied by -1 to
-obtain the negative likelihood.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>params</strong> (<em>lm.Parameters</em>) – Parameters for which the likelihood has to be calculated.</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Defines either a Gaussian or Poissonian likelihood, by default ‘gaussian’.</p></li>
-<li><p><strong>emcee</strong> (<em>bool</em><em>, </em><em>optional</em>) – Toggles the output to be usable by the emcee package, by default False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An array of the negative loglikelihood (emcee=False) or
-a single number giving the loglikelihood (emcee=True).</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.poissonLlh">
-<span class="sig-name descname"><span class="pre">poissonLlh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.poissonLlh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.poissonLlh" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the Poisson likelihood</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="satlas2.core.Fitter.readWalk">
 <span class="sig-name descname"><span class="pre">readWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.readWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.readWalk" title="Permalink to this definition">#</a></dt>
 <dd><p>Read and process the h5 file containing the results of a random walk.
@@ -590,40 +526,6 @@ The parameter values and uncertainties are extracted from the walk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of the random walk results.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.reductionSSum">
-<span class="sig-name descname"><span class="pre">reductionSSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.reductionSSum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.reductionSSum" title="Permalink to this definition">#</a></dt>
-<dd><p>Reduces the likelihood to a single number. Used by lmfit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>r</strong> (<em>ArrayLike</em>) – Array of residuals</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Sum of array of residuals</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>float</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.reductionSum">
-<span class="sig-name descname"><span class="pre">reductionSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.reductionSum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.reductionSum" title="Permalink to this definition">#</a></dt>
-<dd><p>Reduces the likelihood to a single number. Used by lmfit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>r</strong> (<em>ArrayLike</em>) – Array of residuals</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Sum of array of residuals</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>float</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -671,49 +573,9 @@ key from each list element.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.resid">
-<span class="sig-name descname"><span class="pre">resid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.resid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.resid" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the residuals for use in a Gaussian fitting.
-Based on the value of <code class="xref py py-attr docutils literal notranslate"><span class="pre">Fitter.mode</span></code>, a different method is
-used. If <code class="xref py py-attr docutils literal notranslate"><span class="pre">Fitter.mode</span></code> is ‘source’, the result of <a class="reference internal" href="#satlas2.core.Fitter.yerr" title="satlas2.core.Fitter.yerr"><code class="xref py py-func docutils literal notranslate"><span class="pre">yerr()</span></code></a> is used.
-If <code class="xref py py-attr docutils literal notranslate"><span class="pre">Fitter.mode</span></code> is ‘combined’, the denominator is calculated as</p>
-<div class="math notranslate nohighlight">
-\[\sqrt{\frac{3}{\frac{1}{y}+\frac{2}{f(x)}}}\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.residualCalculation">
-<span class="sig-name descname"><span class="pre">residualCalculation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.residualCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.residualCalculation" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the full residual, based on <a class="reference internal" href="#satlas2.core.Fitter.resid" title="satlas2.core.Fitter.resid"><code class="xref py py-func docutils literal notranslate"><span class="pre">resid()</span></code></a>
-and <a class="reference internal" href="#satlas2.core.Fitter.gaussianPriorResid" title="satlas2.core.Fitter.gaussianPriorResid"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussianPriorResid()</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="satlas2.core.Fitter.revertFit">
 <span class="sig-name descname"><span class="pre">revertFit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.revertFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.revertFit" title="Permalink to this definition">#</a></dt>
 <dd><p>Reverts the parameter values to the original values.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.setCorrelations">
-<span class="sig-name descname"><span class="pre">setCorrelations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.setCorrelations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setCorrelations" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the correlations of the underlying Models
-based on a large Parameters object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>lmfit.Parameters</em>) – </p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -757,30 +619,6 @@ represent literature values.</p>
 <li><p><strong>value</strong> (<em>float</em>) – Central value of the Gaussian</p></li>
 <li><p><strong>uncertainty</strong> (<em>float</em>) – Standard deviation associated with the value.</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.setParameters">
-<span class="sig-name descname"><span class="pre">setParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.setParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setParameters" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the parameters of the underlying Models
-based on a large Parameters object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>lm.Parameters</em>) – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.setUncertainties">
-<span class="sig-name descname"><span class="pre">setUncertainties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.setUncertainties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setUncertainties" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the uncertainties of the underlying Models
-based on a large Parameters object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>lm.Parameters</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -830,34 +668,6 @@ models with the same name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>list</em><em> or </em><em>str</em>) – List of parameters or single parameter name.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.y">
-<span class="sig-name descname"><span class="pre">y</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.y" title="Permalink to this definition">#</a></dt>
-<dd><p>Stack the data in the different sources, horizontally.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Horizontally concatenated data from each source.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.yerr">
-<span class="sig-name descname"><span class="pre">yerr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.yerr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.yerr" title="Permalink to this definition">#</a></dt>
-<dd><p>Stack the uncertainty in the different sources, horizontally.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Horizontally concatenated uncertainty from each source.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
 </dd>
 </dl>
 </dd></dl>
