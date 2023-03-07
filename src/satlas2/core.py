@@ -6,11 +6,12 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 from __future__ import annotations
 
 import copy
-from typing import Union, Tuple
+from typing import Tuple, Union
 
 import lmfit as lm
 import numdifftools as nd
 import numpy as np
+import pandas as pd
 import scipy.optimize as optimize
 from numpy.typing import ArrayLike
 
@@ -605,6 +606,50 @@ class Fitter:
         """
         return lm.fit_report(self.result, modelpars, show_correl, min_correl,
                              sort_pars)
+
+    def createParameterDataframe(self) -> pd.DataFrame:
+        """Generates a dataframe containing all information about the parameters
+        after a fit.
+
+        Returns
+        -------
+        pd.DataFrame"""
+        data = [[
+            p.split('___')[0],
+            p.split('___')[1],
+            p.split('___')[2], self.result.params[p].value,
+            self.result.params[p].stderr, self.result.params[p].min,
+            self.result.params[p].max, self.result.params[p].expr,
+            self.result.params[p].vary
+        ] for p in self.result.params]
+        columns = [
+            'Source', 'Model', 'Parameter', 'Value', 'Stderr',
+            'Boundary (min)', 'Boundary (max)', 'Expression', 'Vary'
+        ]
+        df = pd.DataFrame(data=data, columns=columns)
+        return df
+
+    def createResultDataframe(self) -> pd.DataFrame:
+        """Generates a dataframe containing the fitting information and
+        statistics.
+
+        Returns
+        -------
+        pd.DataFrame"""
+        columns = [
+            'Source', 'Fitting method', 'Message', 'Function evaluations',
+            'Data points', 'Variables', 'Chi-square', 'Reduced chi-square',
+            'Akaike info criterium', 'Bayesian info criterium'
+        ]
+        source = [name for (name, s) in self.sources]
+        source = ', '.join(source)
+        data = [[
+            source, self.result.method, self.result.message, self.result.nfev,
+            self.result.ndata, self.result.nvarys, self.result.chisqr,
+            self.result.redchi, self.result.aic, self.result.bic
+        ]]
+        df = pd.DataFrame(data=data, columns=columns)
+        return df
 
     def readWalk(self, filename: str, burnin: int = 0):
         """Read and process the h5 file containing the results of a random walk.
