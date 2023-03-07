@@ -463,6 +463,30 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createParameterDataframe">
+<span class="sig-name descname"><span class="pre">createParameterDataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.createParameterDataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createParameterDataframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates a dataframe containing all information about the parameters
+after a fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="satlas2.core.Fitter.createResultDataframe">
+<span class="sig-name descname"><span class="pre">createResultDataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.createResultDataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createResultDataframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates a dataframe containing the fitting information and
+statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="satlas2.core.Fitter.evaluateOverWalk">
 <span class="sig-name descname"><span class="pre">evaluateOverWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.evaluateOverWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.evaluateOverWalk" title="Permalink to this definition">#</a></dt>
 <dd><p>The parameters saved in the h5 file are evaluated
