@@ -120,6 +120,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../../tutorials/dataframe.html">
+     Extracting dataframes
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../../tutorials/benchmark.html">
      Benchmark of SATLAS2 speed
     </a>
@@ -303,7 +308,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="HFSModel"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel">[docs]</a><span class="k">class</span> <span class="nc">HFSModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum Model with the given hyperfine parameters.</span>
+    <span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum Model with the given hyperfine parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -388,7 +393,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span>
 
 <div class="viewcode-block" id="HFSModel.set_expr"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.set_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the expression to be used for the given parameters.</span>
+        <span class="sd">&quot;&quot;&quot;Set the expression to be used for the given parameters.</span>
 <span class="sd">        The constraint should be a dict with following structure:</span>
 
 <span class="sd">        key: string</span>
@@ -404,7 +409,7 @@ title="Open an issue"
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Use HFSModel.set_expr(...)&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HFSModel.set_variation"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.set_variation">[docs]</a>    <span class="k">def</span> <span class="nf">set_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varyDict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the variation of the fitparameters as supplied in the</span>
+        <span class="sd">&quot;&quot;&quot;Sets the variation of the fitparameters as supplied in the</span>
 <span class="sd">        dictionary.</span>
 
 <span class="sd">        Parameters</span>
@@ -417,7 +422,7 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="HFSModel.f"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -431,7 +436,7 @@ title="Open an issue"
                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -454,7 +459,7 @@ title="Open an issue"
                       <span class="n">hessian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">,</span>
                       <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
+        <span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -506,7 +511,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">message</span></div>
 
 <div class="viewcode-block" id="HFSModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -530,7 +535,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="HFSModel.get_result"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">selection</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
+        <span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
 <span class="sd">        parameters as seperate lists.</span>
 
 <span class="sd">        Parameters</span>
@@ -552,7 +557,7 @@ title="Open an issue"
 <div class="viewcode-block" id="HFSModel.get_result_dict"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                         <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -582,7 +587,7 @@ title="Open an issue"
                          <span class="n">bounds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">vary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -613,7 +618,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="SumModel"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel">[docs]</a><span class="k">class</span> <span class="nc">SumModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</span>
+    <span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -640,7 +645,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_params</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the parameters of the underlying Models</span>
+        <span class="sd">&quot;&quot;&quot;Set the parameters of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
@@ -654,7 +659,7 @@ title="Open an issue"
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Do this at the HFSModel level&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SumModel.f"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for a spectrum</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the response for a spectrum</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -683,7 +688,7 @@ title="Open an issue"
                       <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">hessian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
+        <span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -731,7 +736,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">message</span></div>
 
 <div class="viewcode-block" id="SumModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -755,7 +760,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="SumModel.get_result"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">selection</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
+        <span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
 <span class="sd">        parameters as seperate lists.</span>
 
 <span class="sd">        Parameters</span>
@@ -789,7 +794,7 @@ title="Open an issue"
 <div class="viewcode-block" id="SumModel.get_result_dict"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                         <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key &#39;bkg&#39; in dictionary.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key &#39;bkg&#39; in dictionary.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -821,7 +826,7 @@ title="Open an issue"
                          <span class="n">bounds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">vary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -862,7 +867,7 @@ title="Open an issue"
                   <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">],</span>
                   <span class="n">xerr</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform a fit of the provided model to the data provided in this function.</span>
+    <span class="sd">&quot;&quot;&quot;Perform a fit of the provided model to the data provided in this function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

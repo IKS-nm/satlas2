@@ -5,5 +5,6 @@ Tutorial
 
    createmodel
    fitting
+   dataframe
    benchmark
    interface

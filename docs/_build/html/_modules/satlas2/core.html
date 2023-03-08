@@ -120,6 +120,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../../tutorials/dataframe.html">
+     Extracting dataframes
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../../tutorials/benchmark.html">
      Benchmark of SATLAS2 speed
     </a>
@@ -312,7 +317,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="Fitter"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter">[docs]</a><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main class for performing fits and organising data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -328,7 +333,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="Fitter.setExpr"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setExpr">[docs]</a>    <span class="k">def</span> <span class="nf">setExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
                 <span class="n">parameter_expression</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the expression to be used for the given parameters.</span>
 <span class="sd">        The given parameter names should be the full description</span>
 <span class="sd">        i.e. containing the source and model name.</span>
@@ -355,7 +360,7 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
 
 <div class="viewcode-block" id="Fitter.shareParams"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.shareParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters.</span>
+        <span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters.</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        ----</span>
@@ -379,7 +384,7 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Fitter.shareModelParams"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.shareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters across all</span>
+        <span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters across all</span>
 <span class="sd">        models with the same name.</span>
 
 <span class="sd">        Note</span>
@@ -401,7 +406,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="Fitter.setParamPrior"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">setParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                       <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a Gaussian prior on a parameter, mainly intended to</span>
+        <span class="sd">&quot;&quot;&quot;Set a Gaussian prior on a parameter, mainly intended to</span>
 <span class="sd">        represent literature values.</span>
 
 <span class="sd">        Parameters</span>
@@ -422,7 +427,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="Fitter.removeParamPrior"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.removeParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">removeParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                          <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes a prior set on a parameter.</span>
+        <span class="sd">&quot;&quot;&quot;Removes a prior set on a parameter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -436,7 +441,7 @@ title="Open an issue"
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="p">[</span><span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">])]</span></div>
 
 <div class="viewcode-block" id="Fitter.addSource"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.addSource">[docs]</a>    <span class="k">def</span> <span class="nf">addSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;Source&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter structure</span>
+        <span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter structure</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -447,12 +452,12 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_createParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters from the sources.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the parameters from the sources.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">params</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_createLmParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the lmfit parameters.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Creates the lmfit parameters.&quot;&quot;&quot;</span>
         <span class="n">lmpars</span> <span class="o">=</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
         <span class="n">sharing</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sharingModel</span> <span class="o">=</span> <span class="p">{}</span>
@@ -499,7 +504,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="n">lmpars</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the response of the models in the different sources, stacked horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -510,7 +515,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Stack the data in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -521,7 +526,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Stack the uncertainty in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -532,7 +537,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">yerr</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the parameters of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -547,7 +552,7 @@ title="Open an issue"
                     <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the uncertainties of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -561,7 +566,7 @@ title="Open an issue"
                 <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
 
     <span class="k">def</span> <span class="nf">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the correlations of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -588,7 +593,7 @@ title="Open an issue"
                 <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the residuals for use in a Gaussian fitting.</span>
 <span class="sd">        Based on the value of :attr:`Fitter.mode`, a different method is</span>
 <span class="sd">        used. If :attr:`Fitter.mode` is &#39;source&#39;, the result of :func:`~Fitter.yerr` is used.</span>
@@ -612,7 +617,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">resid</span>
 
     <span class="k">def</span> <span class="nf">gaussianPriorResid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the residual (x-xtrue)/sigma for use</span>
 <span class="sd">        in a Gaussian prior. The parameters for which this calculates</span>
 <span class="sd">        the priors are given by :func:`~Fitter.setParamPrior`.</span>
@@ -630,7 +635,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">returnval</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">residualCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the full residual, based on :func:`~Fitter.resid`</span>
 <span class="sd">        and :func:`~Fitter.gaussianPriorResid`</span>
 
@@ -641,7 +646,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">resid</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriorResid</span><span class="p">()])</span>
 
     <span class="k">def</span> <span class="nf">gaussLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the Gaussian likelihood</span>
 
 <span class="sd">        Returns</span>
@@ -652,7 +657,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span>  <span class="c1"># Faster than **2</span>
 
     <span class="k">def</span> <span class="nf">poissonLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the Poisson likelihood</span>
 
 <span class="sd">        Returns</span>
@@ -672,7 +677,7 @@ title="Open an issue"
             <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
             <span class="n">emcee</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the likelihood, based on the parameters and method.</span>
 <span class="sd">        In case the minimizer uses the emcee package, the array is summed to a single number.</span>
 <span class="sd">        In case the minimizer uses any other routine, the array is multiplied by -1 to</span>
@@ -704,7 +709,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">returnvalue</span>
 
     <span class="k">def</span> <span class="nf">reductionSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -720,7 +725,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">reductionSSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -736,7 +741,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">chisquare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Chisquare optimization function for lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -753,12 +758,12 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_prepareFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createParameters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createLmParameters</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Fitter.revertFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.revertFit">[docs]</a>    <span class="k">def</span> <span class="nf">revertFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
+        <span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">init_values</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -779,7 +784,7 @@ title="Open an issue"
             <span class="n">nwalkers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
             <span class="n">scale_covar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
             <span class="n">iter_cb</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of the models (added to the sources) to the data in the sources.</span>
+        <span class="sd">&quot;&quot;&quot;Perform a fit of the models (added to the sources) to the data in the sources.</span>
 <span class="sd">        Models in the same source are summed together, models in different sources can be</span>
 <span class="sd">        linked through their parameters.</span>
 
@@ -864,7 +869,7 @@ title="Open an issue"
                   <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="n">min_correl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
                   <span class="n">sort_pars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -891,8 +896,8 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">modelpars</span><span class="p">,</span> <span class="n">show_correl</span><span class="p">,</span> <span class="n">min_correl</span><span class="p">,</span>
                              <span class="n">sort_pars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.createParameterDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createParameterDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createParameterDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe containing all information about the parameters</span>
+<div class="viewcode-block" id="Fitter.createResultDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createResultDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createResultDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Generates a dataframe containing all information about the parameters</span>
 <span class="sd">        after a fit.</span>
 
 <span class="sd">        Returns</span>
@@ -913,8 +918,8 @@ title="Open an issue"
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="Fitter.createResultDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createResultDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createResultDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe containing the fitting information and</span>
+<div class="viewcode-block" id="Fitter.createMetadataDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createMetadataDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createMetadataDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Generates a dataframe containing the fitting information and</span>
 <span class="sd">        statistics.</span>
 
 <span class="sd">        Returns</span>
@@ -936,7 +941,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read and process the h5 file containing the results of a random walk.</span>
+        <span class="sd">&quot;&quot;&quot;Read and process the h5 file containing the results of a random walk.</span>
 <span class="sd">        The parameter values and uncertainties are extracted from the walk.</span>
 
 <span class="sd">        Parameters</span>
@@ -957,7 +962,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">updateInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
@@ -974,7 +979,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">updateFitInfoSources</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">updateFitInfoSources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
             <span class="n">source</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span>
@@ -991,7 +996,7 @@ title="Open an issue"
                          <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                          <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="n">evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The parameters saved in the h5 file are evaluated</span>
+        <span class="sd">&quot;&quot;&quot;The parameters saved in the h5 file are evaluated</span>
 <span class="sd">        in the models a specific number of times. From these evaluations, the</span>
 <span class="sd">        16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.</span>
 
@@ -1075,7 +1080,7 @@ title="Open an issue"
                  <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">],</span>
                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">xerr</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a source of data</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a source of data</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1102,7 +1107,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">derivative</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">Derivative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Source.addModel"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.addModel">[docs]</a>    <span class="k">def</span> <span class="nf">addModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s1">&#39;Model&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a model to the Source</span>
+        <span class="sd">&quot;&quot;&quot;Add a model to the Source</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1113,14 +1118,14 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
         <span class="k">return</span> <span class="n">params</span>
 
 <div class="viewcode-block" id="Source.f"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the sum of the evaluation of all models in the x-coordinates defined in the source.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the sum of the evaluation of all models in the x-coordinates defined in the source.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1134,7 +1139,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">f</span></div>
 
 <div class="viewcode-block" id="Source.evaluate"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates all models in the given points and returns the sum.</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates all models in the given points and returns the sum.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1153,7 +1158,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">f</span></div>
 
     <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">err</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span><span class="p">):</span>
             <span class="n">err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span>
@@ -1167,7 +1172,7 @@ title="Open an issue"
 
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefunc</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Base Model class</span>
+        <span class="sd">&quot;&quot;&quot;Base Model class</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1185,7 +1190,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1207,7 +1212,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">x</span>
 
 <div class="viewcode-block" id="Model.setTransform"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Model.setTransform">[docs]</a>    <span class="k">def</span> <span class="nf">setTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the transformation for the pre-evaluation.</span>
+        <span class="sd">&quot;&quot;&quot;Set the transformation for the pre-evaluation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1220,7 +1225,7 @@ title="Open an issue"
 
 
 <span class="k">class</span> <span class="nc">Parameter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
+    <span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>

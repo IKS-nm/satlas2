@@ -120,6 +120,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../../../tutorials/dataframe.html">
+     Extracting dataframes
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../../../tutorials/benchmark.html">
      Benchmark of SATLAS2 speed
     </a>
@@ -307,7 +312,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="Polynomial"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.Polynomial">[docs]</a><span class="k">class</span> <span class="nc">Polynomial</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model class for a polynomial response</span>
+    <span class="sd">&quot;&quot;&quot;Model class for a polynomial response</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -332,14 +337,14 @@ title="Open an issue"
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">paramkey</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">paramkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Step"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.Step">[docs]</a><span class="k">class</span> <span class="nc">Step</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model class for a Step response</span>
+    <span class="sd">&quot;&quot;&quot;Model class for a Step response</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -368,7 +373,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()])[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -377,7 +382,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="ExponentialDecay"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.ExponentialDecay">[docs]</a><span class="k">class</span> <span class="nc">ExponentialDecay</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for an exponential decay</span>
+    <span class="sd">&quot;&quot;&quot;Model for an exponential decay</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -406,7 +411,7 @@ title="Open an issue"
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;amplitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;halflife&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
@@ -414,7 +419,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="Voigt"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.Voigt">[docs]</a><span class="k">class</span> <span class="nc">Voigt</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for a Voigt lineshape</span>
+    <span class="sd">&quot;&quot;&quot;Model for a Voigt lineshape</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -447,7 +452,7 @@ title="Open an issue"
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
@@ -459,7 +464,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">ret</span>
 
 <div class="viewcode-block" id="Voigt.calculateFWHM"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.Voigt.calculateFWHM">[docs]</a>    <span class="k">def</span> <span class="nf">calculateFWHM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the total FWHM of the profiles, with uncertainty,</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the total FWHM of the profiles, with uncertainty,</span>
 <span class="sd">        taking the correlations into account.</span>
 
 <span class="sd">        Returns</span>
@@ -480,7 +485,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="SkewedVoigt"><a class="viewcode-back" href="../../../api/satlas2.models.html#satlas2.models.models.SkewedVoigt">[docs]</a><span class="k">class</span> <span class="nc">SkewedVoigt</span><span class="p">(</span><span class="n">Voigt</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for a Voigt peak skewed by the error function.</span>
+    <span class="sd">&quot;&quot;&quot;Model for a Voigt peak skewed by the error function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -514,7 +519,7 @@ title="Open an issue"
                                         <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="n">FWHMG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;FWHMG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
