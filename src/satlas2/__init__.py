@@ -1,9 +1,10 @@
-from . import core, interface, models, overwrite, plotting
+from . import core, interface, models, overwrite, plotting, sql
 from .core import *
+from .interface import *
 from .models import *
 from .overwrite import *
 from .plotting import *
-from .interface import *
+from .sql import *
 
 try:
     from ._version import version as __version__

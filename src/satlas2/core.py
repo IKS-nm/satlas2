@@ -623,8 +623,8 @@ class Fitter:
             self.result.params[p].vary
         ] for p in self.result.params]
         columns = [
-            'Source', 'Model', 'Parameter', 'Value', 'Stderr',
-            'Boundary (min)', 'Boundary (max)', 'Expression', 'Vary'
+            'Source', 'Model', 'Parameter', 'Value', 'Stderr', 'Minimum',
+            'Maximum', 'Expression', 'Vary'
         ]
         df = pd.DataFrame(data=data, columns=columns)
         return df
@@ -638,8 +638,7 @@ class Fitter:
         pd.DataFrame"""
         columns = [
             'Source', 'Fitting method', 'Message', 'Function evaluations',
-            'Data points', 'Variables', 'Chi-square', 'Reduced chi-square',
-            'Akaike info criterium', 'Bayesian info criterium'
+            'Data points', 'Variables', 'Chisquare', 'Redchi', 'Aic', 'Bic'
         ]
         source = [name for (name, s) in self.sources]
         source = ', '.join(source)
