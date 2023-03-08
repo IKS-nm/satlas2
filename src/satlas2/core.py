@@ -607,7 +607,7 @@ class Fitter:
         return lm.fit_report(self.result, modelpars, show_correl, min_correl,
                              sort_pars)
 
-    def createParameterDataframe(self) -> pd.DataFrame:
+    def createResultDataframe(self) -> pd.DataFrame:
         """Generates a dataframe containing all information about the parameters
         after a fit.
 
@@ -629,7 +629,7 @@ class Fitter:
         df = pd.DataFrame(data=data, columns=columns)
         return df
 
-    def createResultDataframe(self) -> pd.DataFrame:
+    def createMetadataDataframe(self) -> pd.DataFrame:
         """Generates a dataframe containing the fitting information and
         statistics.
 
