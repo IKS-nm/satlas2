@@ -183,7 +183,11 @@ class HFS(Model):
         FWHML = self.params['FWHML'].value
         scale = self.params['scale'].value
 
-        result = np.zeros(len(x))
+        try:
+            result = np.zeros(len(x))
+        except TypeError:
+            x = np.array([x])
+            result = np.zeros(len(x))
         x = self.transform(x)
         for line in self.lines:
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[

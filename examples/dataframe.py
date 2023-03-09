@@ -9,6 +9,58 @@ import pandas as pd
 
 import satlas2
 
+import sqlite3
+
+
+# Xstat = (1 / sigma**2).sum(axis=axis)
+#     Xm = (x / sigma**2).sum(axis=axis) / Xstat
+#     # Xscatt = (((x - Xm) / sigma)**2).sum() / ((1 - 1.0 / len(x)) * Xstat)
+#     Xscatt = (((x - Xm) / sigma)**2).sum(axis=axis) / ((len(x) - 1) * Xstat)
+#     Xstat = 1 / Xstat
+#     return Xm, np.maximum.reduce([Xstat, Xscatt], axis=axis) ** 0.5
+class ExperimentalWeightedAverage(object):
+    def __init__(self):
+        self.x = []
+        self.sigma = []
+
+    def step(self, x, sigma):
+        self.x.append(x)
+        self.sigma.append(sigma)
+
+    def finalize(self):
+        x = np.array(self.x)
+        sigma = np.array(self.sigma)
+        Xstat = (1 / sigma**2).sum()
+        Xm = (x / sigma**2).sum() / Xstat
+        return Xm
+
+
+class ExperimentalStandardDeviation(object):
+    def __init__(self):
+        self.x = []
+        self.sigma = []
+
+    def step(self, x, sigma):
+        self.x.append(x)
+        self.sigma.append(sigma)
+
+    def finalize(self):
+        x = np.array(self.x)
+        sigma = np.array(self.sigma)
+        Xstat = (1 / sigma**2).sum()
+        Xm = (x / sigma**2).sum() / Xstat
+        Xscatt = (((x - Xm) / sigma)**2).sum() / ((len(x) - 1) * Xstat)
+        Xstat = 1 / Xstat
+        return_value = np.max([Xstat, Xscatt])**0.5
+        return return_value
+
+
+def sqlite_memory_engine_creator():
+    con = sqlite3.connect(':memory:')
+    con.create_aggregate("expstd", 2, ExperimentalStandardDeviation)
+    con.create_aggregate("expav", 2, ExperimentalWeightedAverage)
+    return con
+
 
 def modifiedSqrt(input):
     output = np.sqrt(input)
@@ -125,35 +177,31 @@ results = pd.concat(results)
 #     except:
 #         pass
 
-from sqlalchemy import create_engine, select, func
-from sqlalchemy.orm import Session
-engine = create_engine('sqlite://', echo=False)
-from satlas2.sql import Base, Result
-Base.metadata.create_all(engine)
-list_to_write = results.to_dict(orient='records')
-records = [Result(**entry) for entry in list_to_write]
-with Session(engine) as session:
-    session.add_all(records)
-    subq = select((1/(Result.Stderr*Result.Stderr)).label('statistic'),
-                  ).subquery()
-    stmt = select(Result.Parameter,
-                  (func.sum(Result.Value/(Result.Stderr*Result.Stderr))/func.sum((1/(Result.Stderr*Result.Stderr)))).label('WeightedAverage'),
-                   func.sum((1/(Result.Stderr*Result.Stderr)).label('Statistical'),
-                Result.Stderr ).group_by(Result.Model, Result.Parameter)
-    print(stmt)
-    print()
-    res = session.execute(stmt).all()
-    print(res)
-    for r in res:
-        # print(r.Parameter, r.WeightedAverage, r.Statistical)
-        print(r)
-    stmt = select(Result.Parameter, Result.Value, Result.Stderr).order_by(Result.Parameter)
-    print(stmt)
-    print()
-    for res in session.execute(stmt):
-        print(res)
+def wavg(group):
+    x = group['Value']
+    sigma = group['Stderr']
+    Xstat = (1 / sigma**2).sum()
+    Xm = (x / sigma**2).sum() / Xstat
+    return Xm
 
-# with engine.connect() as connection:
-#     print(connection.execute(text('SELECT * FROM Results')).fetchall() )
-#     print(connection.execute(text('SELECT Parameter, SUM(Value/POW(Stderr, 2))/SUM(1/POW(Stderr,2)) FROM Results GROUP BY Model, Parameter')).fetchall() )
-# plt.show()
+def wstd(group):
+    x = group['Value']
+    sigma = group['Stderr']
+    Xstat = (1 / sigma**2).sum()
+    Xm = (x / sigma**2).sum() / Xstat
+    Xscatt = (((x - Xm) / sigma)**2).sum() / ((len(x) - 1) * Xstat)
+    Xstat = 1 / Xstat
+    return_value = np.max([Xstat, Xscatt])**0.5
+    return return_value
+
+grouped = results[results.Parameter.isin(['FWHMG', 'FWHML'])].groupby(['Model', 'Parameter'])
+dfwavg = grouped.apply(wavg)
+dfwavg.name = 'Weighted average'
+dfwavg = dfwavg.to_frame()
+dfwstd = grouped.apply(wstd)
+dfwstd.name = 'Uncertainty'
+dfwstd = dfwstd.to_frame()
+dfresult = pd.merge(dfwavg, dfwstd, right_index=True, left_index=True)
+print(dfwavg)
+print(dfwstd)
+print(dfresult)
