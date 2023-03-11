@@ -3,8 +3,8 @@ Tutorial
 
 .. toctree::
 
-   createmodel
-   fitting
-   dataframe
-   benchmark
-   interface
+   createmodel/index
+   fitting/index
+   dataframe/index
+   benchmark/index
+   interface/index

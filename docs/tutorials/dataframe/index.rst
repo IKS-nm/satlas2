@@ -68,8 +68,7 @@ are saved to a BytesIO object for saving to an Excel spreadsheet later.
     for bkg, name in zip(bkgs, names):
         peakm, bkgm = createModels(bkg, lamda, loc, fwhmg, fwhml, amp)
 
-        y = peakm.f(x) + bkgm.f(x)
-        y = rng.poisson(y)
+        y = satlas2.generateSpectrum([peakm, bkgm], x, rng.poisson)
 
         fig = plt.figure()
         ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])

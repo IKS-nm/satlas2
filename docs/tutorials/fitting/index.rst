@@ -46,10 +46,9 @@ exponential decay is generated.
     
     data_x = np.linspace(0, 5*halflife, 20)
     
-    noise = rng.normal(loc=0, scale=0.5, size=data_x.shape[0])
-    
-    data_y = model.f(data_x) + noise
-    yerr = np.ones(data_y.shape) * 0.5
+    noise = 0.5
+    data_y = satlas2.generateSpectrum(model, data_x, lambda x: rng.normal(x, noise))
+    yerr = np.ones(data_y.shape) * noise
     
     x = np.linspace(0, 5*halflife, 100)
     y = model.f(x)
@@ -243,7 +242,7 @@ algorithms are among the most stable and widely applicable.
 
     [[Fit Statistics]]
         # fitting method   = basinhopping
-        # function evals   = 2502
+        # function evals   = 2505
         # data points      = 20
         # variables        = 2
         chi-square         = 14.1856875
@@ -251,12 +250,12 @@ algorithms are among the most stable and widely applicable.
         Akaike info crit   = -2.86997486
         Bayesian info crit = -0.87851031
     [[Variables]]
-        ArtificialData___Exp___amplitude:  5.25120347 +/- 0.32314798 (6.15%) (init = 5)
-        ArtificialData___Exp___halflife:   2.70698419 +/- 0.25131396 (9.28%) (init = 3)
+        ArtificialData___Exp___amplitude:  5.25120348 +/- 0.32314799 (6.15%) (init = 5)
+        ArtificialData___Exp___halflife:   2.70698420 +/- 0.25131396 (9.28%) (init = 3)
 
     [[Fit Statistics]]
         # fitting method   = ampgo, with L-BFGS-B as local solver
-        # function evals   = 5232
+        # function evals   = 4644
         # data points      = 20
         # variables        = 2
         chi-square         = 14.1856875
@@ -295,7 +294,7 @@ algorithms are among the most stable and widely applicable.
 
     [[Fit Statistics]]
         # fitting method   = Powell
-        # function evals   = 78
+        # function evals   = 70
         # data points      = 20
         # variables        = 2
         chi-square         = 14.1856882
@@ -383,7 +382,7 @@ algorithms are among the most stable and widely applicable.
     [[Variables]]
         ArtificialData___Exp___amplitude:  5.25120090 +/- 0.32314795 (6.15%) (init = 5)
         ArtificialData___Exp___halflife:   2.70698589 +/- 0.25131419 (9.28%) (init = 3)
-        
+    
 
 .. code:: ipython3
 
@@ -594,8 +593,8 @@ hyperfine data.
                       fwhmg=FWHMG,
                       fwhml=FWHML)
     bkgm = satlas2.Polynomial([bkg], name='bkg1')
-    y = hfs.f(x) + bkgm.f(x)
-    y = rng.poisson(y)
+    
+    y = satlas2.generateSpectrum([hfs, bkgm], x, rng.poisson)
     
     datasource = satlas2.Source(x,
                                 y,
@@ -676,23 +675,23 @@ fit can be done by using the normal chisquare fitting.
         Akaike info crit   = 13.1933897
         Bayesian info crit = 40.2891074
     [[Variables]]
-        Scan1___HFS1___centroid:  479.080652 +/- 3.21746540 (0.67%) (init = 480)
+        Scan1___HFS1___centroid:  479.080650 +/- 3.21744678 (0.67%) (init = 480)
         Scan1___HFS1___Al:        9602.87663 +/- 2.38671593 (0.02%) (init = 9600)
-        Scan1___HFS1___Au:        176.326689 +/- 1.06392978 (0.60%) (init = 175)
+        Scan1___HFS1___Au:        176.326690 +/- 1.06392599 (0.60%) (init = 175)
         Scan1___HFS1___Bl:        0 (fixed)
-        Scan1___HFS1___Bu:        320.837279 +/- 8.31152333 (2.59%) (init = 315)
+        Scan1___HFS1___Bu:        320.837280 +/- 8.31153123 (2.59%) (init = 315)
         Scan1___HFS1___Cl:        0 (fixed)
-        Scan1___HFS1___Cu:        0.28989910 +/- 0.64811694 (223.57%) (init = 0)
-        Scan1___HFS1___FWHMG:     124.983341 +/- 20.4156381 (16.33%) (init = 135)
-        Scan1___HFS1___FWHML:     115.427693 +/- 16.2067806 (14.04%) (init = 101)
-        Scan1___HFS1___scale:     93.1256961 +/- 4.04213456 (4.34%) (init = 90)
+        Scan1___HFS1___Cu:        0.28989447 +/- 0.64808883 (223.56%) (init = 0)
+        Scan1___HFS1___FWHMG:     124.983331 +/- 20.4156372 (16.33%) (init = 135)
+        Scan1___HFS1___FWHML:     115.427701 +/- 16.2067792 (14.04%) (init = 101)
+        Scan1___HFS1___scale:     93.1256964 +/- 4.04213464 (4.34%) (init = 90)
         Scan1___HFS1___Amp3to2:   0.4545455 (fixed)
         Scan1___HFS1___Amp3to3:   0.4772727 (fixed)
         Scan1___HFS1___Amp3to4:   0.3409091 (fixed)
         Scan1___HFS1___Amp4to3:   0.1590909 (fixed)
         Scan1___HFS1___Amp4to4:   0.4772727 (fixed)
         Scan1___HFS1___Amp4to5:   1 (fixed)
-        Scan1___bkg1___p0:        1.32051852 +/- 0.29450940 (22.30%) (init = 1)
+        Scan1___bkg1___p0:        1.32051846 +/- 0.29450939 (22.30%) (init = 1)
     
 
 
@@ -743,23 +742,23 @@ in y is given by the square root:
         Akaike info crit   = 22.0657907
         Bayesian info crit = 49.1615083
     [[Variables]]
-        Scan1___HFS1___centroid:  478.154621 +/- 3.14574744 (0.66%) (init = 480)
+        Scan1___HFS1___centroid:  478.154622 +/- 3.14574940 (0.66%) (init = 480)
         Scan1___HFS1___Al:        9603.17923 +/- 2.31958026 (0.02%) (init = 9600)
-        Scan1___HFS1___Au:        175.647786 +/- 1.02796818 (0.59%) (init = 175)
+        Scan1___HFS1___Au:        175.647786 +/- 1.02797017 (0.59%) (init = 175)
         Scan1___HFS1___Bl:        0 (fixed)
-        Scan1___HFS1___Bu:        324.809730 +/- 8.15037743 (2.51%) (init = 315)
+        Scan1___HFS1___Bu:        324.809731 +/- 8.15038145 (2.51%) (init = 315)
         Scan1___HFS1___Cl:        0 (fixed)
-        Scan1___HFS1___Cu:        0.53845248 +/- 0.60603004 (112.55%) (init = 0)
-        Scan1___HFS1___FWHMG:     155.650402 +/- 15.1637100 (9.74%) (init = 135)
-        Scan1___HFS1___FWHML:     81.1159557 +/- 13.7997440 (17.01%) (init = 101)
-        Scan1___HFS1___scale:     91.2170265 +/- 3.69217065 (4.05%) (init = 90)
+        Scan1___HFS1___Cu:        0.53845378 +/- 0.60603957 (112.55%) (init = 0)
+        Scan1___HFS1___FWHMG:     155.650412 +/- 15.1637090 (9.74%) (init = 135)
+        Scan1___HFS1___FWHML:     81.1159460 +/- 13.7997436 (17.01%) (init = 101)
+        Scan1___HFS1___scale:     91.2170258 +/- 3.69217051 (4.05%) (init = 90)
         Scan1___HFS1___Amp3to2:   0.4545455 (fixed)
         Scan1___HFS1___Amp3to3:   0.4772727 (fixed)
         Scan1___HFS1___Amp3to4:   0.3409091 (fixed)
         Scan1___HFS1___Amp4to3:   0.1590909 (fixed)
         Scan1___HFS1___Amp4to4:   0.4772727 (fixed)
         Scan1___HFS1___Amp4to5:   1 (fixed)
-        Scan1___bkg1___p0:        0.54384289 +/- 0.22795428 (41.92%) (init = 1)
+        Scan1___bkg1___p0:        0.54384301 +/- 0.22795427 (41.92%) (init = 1)
     
 
 
@@ -787,28 +786,28 @@ However, the Poisson likellihood can also be used to fit the spectrum:
         # function evals   = 352
         # data points      = 150
         # variables        = 9
-        chi-square         = 527352.919
-        reduced chi-square = 3740.09163
-        Akaike info crit   = 1242.74850
-        Bayesian info crit = 1269.84422
+        chi-square         = 527353.038
+        reduced chi-square = 3740.09247
+        Akaike info crit   = 1242.74853
+        Bayesian info crit = 1269.84425
     [[Variables]]
-        Scan1___HFS1___centroid:  479.100498 +/- 4.33540143 (0.90%) (init = 480)
-        Scan1___HFS1___Al:        9602.92877 +/- 3.15571496 (0.03%) (init = 9600)
-        Scan1___HFS1___Au:        176.139831 +/- 1.41620285 (0.80%) (init = 175)
+        Scan1___HFS1___centroid:  479.100586 +/- 4.33513046 (0.90%) (init = 480)
+        Scan1___HFS1___Al:        9602.92888 +/- 3.15529346 (0.03%) (init = 9600)
+        Scan1___HFS1___Au:        176.139805 +/- 1.41592721 (0.80%) (init = 175)
         Scan1___HFS1___Bl:        0 (fixed)
-        Scan1___HFS1___Bu:        322.342053 +/- 11.1549535 (3.46%) (init = 315)
+        Scan1___HFS1___Bu:        322.344602 +/- 11.1539978 (3.46%) (init = 315)
         Scan1___HFS1___Cl:        0 (fixed)
-        Scan1___HFS1___Cu:        0.34832071 +/- 0.85322189 (244.95%) (init = 0)
-        Scan1___HFS1___FWHMG:     126.456110 +/- 24.3380985 (19.25%) (init = 135)
-        Scan1___HFS1___FWHML:     114.497431 +/- 19.7530675 (17.25%) (init = 101)
-        Scan1___HFS1___scale:     93.0381465 +/- 5.32651291 (5.73%) (init = 90)
+        Scan1___HFS1___Cu:        0.34831527 +/- 0.85318133 (244.95%) (init = 0)
+        Scan1___HFS1___FWHMG:     126.466451 +/- 24.1675668 (19.11%) (init = 135)
+        Scan1___HFS1___FWHML:     114.489689 +/- 19.6138914 (17.13%) (init = 101)
+        Scan1___HFS1___scale:     93.0371162 +/- 5.32580850 (5.72%) (init = 90)
         Scan1___HFS1___Amp3to2:   0.4545455 (fixed)
         Scan1___HFS1___Amp3to3:   0.4772727 (fixed)
         Scan1___HFS1___Amp3to4:   0.3409091 (fixed)
         Scan1___HFS1___Amp4to3:   0.1590909 (fixed)
         Scan1___HFS1___Amp4to4:   0.4772727 (fixed)
         Scan1___HFS1___Amp4to5:   1 (fixed)
-        Scan1___bkg1___p0:        0.83462267 +/- 0.33639941 (40.31%) (init = 1)
+        Scan1___bkg1___p0:        0.83471487 +/- 0.33553551 (40.20%) (init = 1)
     
 
 

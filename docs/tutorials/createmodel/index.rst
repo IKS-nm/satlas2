@@ -27,6 +27,9 @@ preamble, we just import all the libraries that we will need.
     
     import satlas2
 
+Subclassing Model
+-----------------
+
 The new class will be a subclass of the SATLAS2 Model class, and it will
 contain SATLAS2 Parameters in its *params* dictionary.
 
@@ -50,11 +53,10 @@ contain SATLAS2 Parameters in its *params* dictionary.
 
 This defines a sine wave of angular frequency ω with an exponential
 decay with decay constant λ. Note that, in the parameter name in
-*__init__*, *lamda* is used instead of *lambda* since the last one is a
+**init**, *lamda* is used instead of *lambda* since the last one is a
 keyword in Python.
 
-With this new Model, we can use this to both simulate what a dataset
-would look like:
+With this new Model, plotting is done in the following way:
 
 .. code:: ipython3
 
@@ -72,10 +74,7 @@ would look like:
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_title('My ExpSine Model')
-    print(model.params)
-
-
-
+    model.params
 
 .. parsed-literal::
 
@@ -83,20 +82,27 @@ would look like:
      'lambda': 1.5+/-0 (inf max, 0 min, vary=True, correl={}),
      'omega': 4+/-0 (inf max, 0 min, vary=True, correl={})}
 
-
-
-
 .. image:: output_5_1.png
 
 
-And this model can easily be used with Source and Fitter to fit to data.
-First, we generate some data:
+Data generation and fitting
+---------------------------
+
+The model defined above is fully compatible with all SATLAS2 code and
+can be used to fit data. To illustrate this feature, a dataset needs to
+be generated. For this, SATLAS2 contains a convenience function. The
+standard argument generates a dataset that assumes the model supplies
+the mean value of a Poisson distribution, which is useful for simulation
+of laser spectroscopy spectra. However, the generator can be modified,
+allowing generic Gaussian data to be generated as well:
 
 .. code:: ipython3
 
     data_x = np.linspace(0, 4, 20)
-    data_y = model.f(data_x) + np.random.randn(data_x.shape[0])*0.5
-    yerr = np.ones(data_y.shape)*0.5
+    noise = 1.5
+    generator = lambda x: np.random.default_rng(0).normal(x, noise)
+    data_y = satlas2.generateSpectrum(model, data_x, generator=generator)
+    yerr = np.ones(data_y.shape)*noise
     
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
@@ -105,8 +111,6 @@ First, we generate some data:
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.legend(loc=0)
-
-
 
 .. image:: output_7_0.png
 
@@ -132,24 +136,21 @@ chisquare fit, no extra arguments are required for the fit.
     ax.set_ylabel('y')
     ax.legend(loc=0)
 
-
 .. parsed-literal::
 
     [[Fit Statistics]]
         # fitting method   = leastsq
-        # function evals   = 53
+        # function evals   = 93
         # data points      = 20
         # variables        = 3
-        chi-square         = 28.7327890
-        reduced chi-square = 1.69016406
-        Akaike info crit   = 13.2461335
-        Bayesian info crit = 16.2333303
+        chi-square         = 14.1735643
+        reduced chi-square = 0.83373907
+        Akaike info crit   = -0.88707432
+        Bayesian info crit = 2.10012250
     [[Variables]]
-        Datafile1___MyModel___amplitude:  5.39734439 +/- 1.20120658 (22.26%) (init = 7)
-        Datafile1___MyModel___lambda:     1.36883125 +/- 0.40630320 (29.68%) (init = 1.5)
-        Datafile1___MyModel___omega:      4.44140916 +/- 0.25391170 (5.72%) (init = 4)
-    
-
+        Datafile1___MyModel___amplitude:  9.03884096 +/- 4.31842559 (47.78%) (init = 7)
+        Datafile1___MyModel___lambda:     2.15722712 +/- 1.22083220 (56.59%) (init = 1.5)
+        Datafile1___MyModel___omega:      4.22415871 +/- 0.68336353 (16.18%) (init = 4)
 
 .. image:: output_9_1.png
 

@@ -1,37 +1,71 @@
 API reference
 =============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   satlas2.models
-
-Submodules
-----------
-
-satlas2.core module
+Core module summary
 -------------------
 
-.. automodule:: satlas2.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. currentmodule:: satlas2.core
 
-satlas2.interface module
+.. autosummary::
+
+   ~Fitter
+   ~Source
+   ~Model
+
+Models module summary
+---------------------
+
+.. currentmodule:: satlas2.models
+
+.. autosummary::
+
+   ~models.ExponentialDecay
+   ~models.Polynomial
+   ~models.SkewedVoigt
+   ~models.Step
+   ~models.Voigt
+   ~hfsModel.HFS
+
+Interface module summary
 ------------------------
 
-.. automodule:: satlas2.interface
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. currentmodule:: satlas2.interface
 
-satlas2.plotting module
+.. autosummary::
+
+   ~HFSModel
+   ~SumModel
+   ~chisquare_fit
+
+Plotting module summary
 -----------------------
 
-.. automodule:: satlas2.plotting
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. currentmodule:: satlas2.plotting
+
+.. autosummary::
+
+   ~generateCorrelationPlot
+   ~generateWalkPlot
+
+Utilities module summary
+------------------------
+
+.. currentmodule:: satlas2.utilities
+
+.. autosummary::
+
+   ~generateSpectrum
+   ~poissonInterval
+   ~weightedAverage
+
+Subpages
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   summaries/core
+   summaries/models
+   summaries/interface
+   summaries/plotting
+   summaries/utilities

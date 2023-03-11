@@ -75,8 +75,7 @@ number of datasets that are being analysed.
                               fwhmg=135,
                               fwhml=100)
             bkgm = satlas2.Polynomial([bkg], name='bkg1')
-            y = hfs.f(x) + bkgm.f(x)
-            y = rng.poisson(y)
+            y = satlas2.generateSpectrum([hfs, bkgm], x, rng.poisson)
             hfs.params['centroid'].value = centroid - 100
             X.append(x)
             Y.append(y)
