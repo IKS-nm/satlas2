@@ -6,7 +6,7 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 from __future__ import annotations
 
 import copy
-from typing import Tuple, Union
+from typing import Tuple, Union, Optional
 
 import lmfit as lm
 import numdifftools as nd
@@ -416,6 +416,9 @@ class Fitter:
             returnvalue[~np.isfinite(returnvalue)] = -1e99
             returnvalue *= -1
         else:
+            if ~np.isfinite(np.sum(returnvalue)):
+                print(returnvalue)
+                print(params)
             returnvalue = np.sum(returnvalue)
         return returnvalue
 
@@ -490,11 +493,11 @@ class Fitter:
             method: str = 'leastsq',
             mcmc_kwargs: dict = {},
             sampler_kwargs: dict = {},
-            filename: str = None,
+            filename: Optional[str] = None,
             steps: int = 1000,
             nwalkers: int = 50,
             scale_covar: bool = True,
-            iter_cb: callable = None) -> None:
+            iter_cb: Optional[callable] = None) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
         Models in the same source are summed together, models in different sources can be
         linked through their parameters.
@@ -576,7 +579,7 @@ class Fitter:
         self.updateInfo()
 
     def reportFit(self,
-                  modelpars: Union[lm.Parameters, None] = None,
+                  modelpars: Optional[lm.Parameters] = None,
                   show_correl: bool = False,
                   min_correl: float = 0.1,
                   sort_pars: Union[bool, callable] = False) -> str:
@@ -650,7 +653,7 @@ class Fitter:
         df = pd.DataFrame(data=data, columns=columns)
         return df
 
-    def readWalk(self, filename: str, burnin: int = 0):
+    def readWalk(self, filename: str, burnin: Optional[int] = 0):
         """Read and process the h5 file containing the results of a random walk.
         The parameter values and uncertainties are extracted from the walk.
 
@@ -658,6 +661,8 @@ class Fitter:
         ----------
         filename : str
             Filename of the random walk results.
+        burnin: Optional[int]
+            Optional amount of steps to remove from the start, defaults to 0.
         """
         reader = SATLASHDFBackend(filename)
         # var_names = list(reader.labels)
@@ -704,7 +709,7 @@ class Fitter:
     def evaluateOverWalk(self,
                          filename: str,
                          burnin: int = 0,
-                         x: ArrayLike = None,
+                         x: Optional[ArrayLike] = None,
                          evals: int = 0) -> Tuple[list, list]:
         """The parameters saved in the h5 file are evaluated
         in the models a specific number of times. From these evaluations, the
@@ -784,28 +789,28 @@ class Fitter:
 
 
 class Source:
+    """Initializes a source of data
+
+    Parameters
+    ----------
+    x : ArrayLike
+        x values of the data
+    y : ArrayLike
+        y values of the data
+    yerr : Union[ArrayLike, callable]
+        The yerr of the data, either an array for fixed uncertainties
+        or a callable to be applied to the result of the models in the source.
+    name : str
+        The name given to the source. This must be a unique value!
+    xerr : ArrayLike, optional
+        If enlargement of the yerr with the xerr is required, supply this, by default None.
+    """
     def __init__(self,
                  x: ArrayLike,
                  y: ArrayLike,
                  yerr: Union[ArrayLike, callable],
                  name: str,
                  xerr: ArrayLike = None):
-        """Initializes a source of data
-
-        Parameters
-        ----------
-        x : ArrayLike
-            x values of the data
-        y : ArrayLike
-            y values of the data
-        yerr : Union[ArrayLike, callable]
-            The yerr of the data, either an array for fixed uncertainties
-            or a callable to be applied to the result of the models in the source.
-        name : str
-            The name given to the source. This must be a unique value!
-        xerr : ArrayLike, optional
-            If enlargement of the yerr with the xerr is required, supply this, by default None.
-        """
         super().__init__()
         self.x = x
         self.y = y
@@ -881,17 +886,17 @@ class Source:
 
 
 class Model:
-    def __init__(self, name: str, prefunc: callable = None):
-        """Base Model class
+    """Base Model class
 
-        Parameters
-        ----------
-        name : str
-            Name given to the model
-        prefunc : callable, optional
-            Transformation function to be applied to the
-            evaluation points before evaluating the model, by default None
-        """
+    Parameters
+    ----------
+    name : str
+        Name given to the model
+    prefunc : callable, optional
+        Transformation function to be applied to the
+        evaluation points before evaluating the model, by default None
+    """
+    def __init__(self, name: str, prefunc: Optional[callable] = None):
         super().__init__()
         self.name = name
         self.prefunc = prefunc
@@ -930,7 +935,18 @@ class Model:
         """
         self.prefunc = func
 
-    def f(self, x) -> float:
+    def f(self, x: ArrayLike) -> float:
+        """Evaluates the model in the given points.
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Points in which the model has to be evaluated
+
+        Returns
+        -------
+        ArrayLike
+        """
         raise NotImplemented
 
 

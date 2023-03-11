@@ -14,6 +14,8 @@ from scipy import optimize
 from scipy.stats import chi2
 
 from .overwrite import SATLASHDFBackend
+from .core import Fitter
+from typing import Optional, List, Tuple
 
 inv_color_list = [
     '#7acfff', '#fff466', '#00c48f', '#ff8626', '#ff9cd3', '#0093e6'
@@ -142,15 +144,16 @@ def _make_axes_grid(no_variables,
     return fig, axes, cbar
 
 
-def generateChisquareMap(fitter,
-                         filter=None,
-                         method='chisquare',
-                         resolution_diag=15,
-                         resolution_map=15,
-                         fit_kws={},
-                         source=False,
-                         model=True):
-    """Generates a correlation map for either the chisquare or the MLE method.
+def generateChisquareMap(fitter: Fitter,
+                         filter: Optional[List[str]] = None,
+                         method: str = 'chisquare',
+                         resolution_diag: int = 15,
+                         resolution_map: int = 15,
+                         fit_kws: dict = {},
+                         source: bool = False,
+                         model: bool = True):
+    """:meta private:
+    Generates a correlation map for either the chisquare or the MLE method.
     On the diagonal, the chisquare or loglikelihood is drawn as a function of one fixed parameter.
     Refitting to the data each time gives the points on the line. A dashed line is drawn on these
     plots, with the intersection with the plots giving the correct confidence interval for the
@@ -343,14 +346,16 @@ def generateChisquareMap(fitter,
     return fig, axes, cbar
 
 
-def generateCorrelationPlot(filename,
-                            filter=None,
-                            bins=None,
-                            burnin=0,
-                            source=True,
-                            binreduction=1,
-                            bin2dreduction=1,
-                            model=True):
+def generateCorrelationPlot(
+    filename: str,
+    filter: Optional[List[str]] = None,
+    bins: Optional[int] = None,
+    burnin: int = 0,
+    source: bool = True,
+    model: bool = True,
+    binreduction: int = 1,
+    bin2dreduction: int = 1,
+) -> Tuple[plt.Figure, Tuple[plt.Axes], plt.Axes]:
     """Given the random walk data, creates a triangle plot: distribution of
     a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
     3 sigma contours on the off-diagonal. The 1-sigma limits based on the
@@ -358,17 +363,33 @@ def generateCorrelationPlot(filename,
 
     Parameters
     ----------
-    filename: string
+    filename : str
         Filename for the h5 file containing the data from the walk.
-    filter: list of str, optional
-        If supplied, only this list of columns is used for the plot.
-    bins: int or list of int, optional
-        If supplied, use this number of bins for the plotting.
+    filter : Optional[List[str]], optional
+        Only this list of columns is used for the plot, by default None.
+    bins : Optional[int], optional
+        Use this number of bins for the plotting. Applies the same
+         number of bins for each parameter. If supplied as a list,
+          length must match the number of parameters. By default None.
+    burnin : int, optional
+        Number of initial steps from the random walk to be discarded,
+        by default 0.
+    source : bool, optional
+        Add the source name to the plot titles, by default True.
+    model : bool, optional
+        Add the model name to the plot titles, by default True.
+    binreduction : int, optional
+        Reduces the amount of bins in the 1D case by this factor,
+        by default 1.
+    bin2dreduction : int, optional
+        Further reduces the amount of bins in the 2D case by this factor,
+        by default 1.
 
     Returns
     -------
-    figure
-        Returns the MatPlotLib figure created."""
+    Tuple[plt.Figure, Tuple[plt.Axes], plt.Axes]
+        Tuple containing the figure, the individual axes, and the colorbar axis.
+    """
 
     reader = SATLASHDFBackend(filename)
     var_names = list(reader.labels)
@@ -521,26 +542,33 @@ def generateCorrelationPlot(filename,
     return fig, axes, cbar
 
 
-def generateWalkPlot(filename,
-                     filter=None,
-                     burnin=0,
-                     source=False,
-                     model=True):
+def generateWalkPlot(filename: str,
+                     filter: Optional[List[str]] = None,
+                     burnin: int = 0,
+                     source: bool = False,
+                     model: bool = True) -> Tuple[plt.Figure, Tuple[plt.Axes]]:
     """Given the random walk data, the random walk for the selected parameters
     is plotted.
 
     Parameters
     ----------
-    filename: string
+    filename : str
         Filename for the h5 file containing the data from the walk.
-    filter: list of str, optional
-        If supplied, only this list of parameters is used for the plot.
+    filter : Optional[List[str]], optional
+        Only this list of columns is used for the plot, by default None.
+    burnin : int, optional
+        Number of initial steps from the random walk to be discarded,
+        by default 0.
+    source : bool, optional
+        Add the source name to the plot titles, by default False.
+    model : bool, optional
+        Add the model name to the plot titles, by default True.
 
     Returns
     -------
-    figure
-        Returns the MatPlotLib figure created."""
-
+    Tuple[plt.Figure, Tuple[plt.Axes]]
+        Tuple containing the figure and the individual axes.
+    """
     reader = SATLASHDFBackend(filename)
     var_names = reader.labels
     split_names = [name.split('___') for name in var_names]

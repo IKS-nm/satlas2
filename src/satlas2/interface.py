@@ -202,12 +202,12 @@ class HFSModel:
         NotImplementedError
             When the chosen options for func, verbose and Hessian result is not implemented.
         """
-        if (func, verbose, hessian) != (None, None, False):
-            raise NotImplementedError('Not implemented')
         if show_correl:
             print(
                 'define whether you want to see the correlations in display_chisquare_fit(...)'
             )
+        if func is not None:
+            yerr = func
         datasource = Source(x, y, yerr=yerr, name='Fit')
         datasource.addModel(self.hfs)
         bkg = Polynomial(self.background_params, name='bkg')
