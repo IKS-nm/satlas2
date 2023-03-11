@@ -10,7 +10,7 @@ from typing import Tuple
 import numpy as np
 import uncertainties as unc
 from numpy.typing import ArrayLike
-from scipy.special import voigt_profile, wofz
+from scipy.special import voigt_profile
 from sympy.physics.wigner import wigner_3j, wigner_6j
 
 from satlas2.core import Model, Parameter
@@ -162,7 +162,8 @@ class HFS(Model):
             self.params['Au'].vary = False
 
     def fUnshifted(self, x: ArrayLike) -> ArrayLike:
-        """Calculate the response for an unshifted spectrum
+        """:meta private:
+        Calculate the response for an unshifted spectrum
 
         Parameters
         ----------
@@ -200,7 +201,8 @@ class HFS(Model):
         return result
 
     def fShifted(self, x: ArrayLike) -> ArrayLike:
-        """Calculate the response with :attr:`N` sidepeaks with an offset
+        """:meta private:
+        Calculate the response with :attr:`N` sidepeaks with an offset
         of :attr:`offset`
 
         Parameters
@@ -241,7 +243,8 @@ class HFS(Model):
         return result
 
     def peak(self, x: ArrayLike, FWHMG: float, FWHML: float) -> ArrayLike:
-        """Calculates the Voigt profile given the Gaussian
+        """:meta private:
+        Calculates the Voigt profile given the Gaussian
         and Lorentzian FWHM
 
         Parameters
@@ -261,7 +264,8 @@ class HFS(Model):
         return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
 
     def calcShift(self, I: float, J: float, F: int) -> ArrayLike:
-        """Calculate the coefficients for the energy shift due to the hyperfine
+        """:meta private:
+        Calculate the coefficients for the energy shift due to the hyperfine
         interaction up to the octupole moment. A general equation is used
         so extending to higher orders is possible.
 
