@@ -4,7 +4,7 @@
    width="1545"
    height="1545"
    id="svg15"
-   sodipodi:docname="satlas.svg"
+   sodipodi:docname="satlas_dark.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -50,18 +50,18 @@
          style="stroke:#2108f3;stroke-opacity:1" />
     </g>
     <path
-       style="fill:none;stroke:#000000;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#ffffff;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 10,783.11073 c 469.18715,165.85152 1008.1878,170.70699 1525.3492,-13.9684"
        id="path3192"
        sodipodi:nodetypes="cc" />
     <circle
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        id="path3972"
        cx="795.02399"
        cy="745.7464"
        r="145.27135" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 317.30479,1285.9731 C 656.61286,823.73121 901.65847,1106.292 901.18387,1299.9415"
        id="path4028"
        sodipodi:nodetypes="cc" />
