@@ -1,5 +1,7 @@
-ORGANiSATION OF THE PROGRAM
----------------------------
+# ORGANiSATION OF THE PROGRAM
+
+=============================
+
 The SATLAS2 program consists of several subfolders and .py files. In the different folders, the files are:
     MODELS:
         models.py   -- Implements several basic models.
@@ -8,6 +10,7 @@ The SATLAS2 program consists of several subfolders and .py files. In the differe
     overwrite.py    -- Overwrites some classes and methods from LMFIT and emcee for easier use
     plotting.py     -- Used for representing the results of the random walks
 
-INSTALLATION INSTRUCTIONS
--------------------------
+## INSTALLATION INSTRUCTIONS
+
+---------------------------
 If the required packages are already installed, installation is done by copying the entire satlas2 folder somewhere the Python can access it. Preferentially, the Anaconda Python distribution is used to install NumPy, SciPy and h5py, after which satlas is installed via the command "pip install satlas2", which should always be up to date.
