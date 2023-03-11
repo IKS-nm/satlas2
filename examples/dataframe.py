@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 import satlas2
-
+import satlas
 import sqlite3
 
 
