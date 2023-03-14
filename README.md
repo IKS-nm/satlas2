@@ -1,7 +1,5 @@
 # SATLAS2 -- Statistical Analysis Toolbox for Laser Spectroscopy Version 2
 
---------------------------------------------------------------------------
-
 ![alt text](https://img.shields.io/pypi/v/satlas2?label=PyPI%20version 'PyPI version')
 ![alt text](https://img.shields.io/pypi/pyversions/satlas2?label=Python%20version&logo=python&logoColor=white 'Python version')
 ![alt text](https://img.shields.io/pypi/l/satlas2?color=blue&label=License 'License')
@@ -13,7 +11,6 @@
 
 ## Purpose
 
-----------
 Contributors:
 
 * Wouter Gins (wouter.gins@kuleuven.be)
@@ -23,7 +20,6 @@ An updated version of the [satlas](http://github.com/woutergins/satlas/) package
 
 ## Dependencies
 
-----------
 This package makes use of the following packages:
 
 * [NumPy](http://www.numpy.org/)
@@ -41,7 +37,5 @@ This package makes use of the following packages:
 Only Python 3.x is supported! Parts of the code have been based on other resources; this is signaled in the documentation when this is the case. Inspiration has been drawn from the `triangle.py` script, written by Dan Foreman-Mackey et al., for the correlation plot code.
 
 ## Installation
-
-----------
 
 A package is available on PyPi, so 'pip install satlas2' should provide a working environment.
