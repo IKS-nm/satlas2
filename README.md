@@ -1,10 +1,15 @@
 # SATLAS2 -- Statistical Analysis Toolbox for Laser Spectroscopy Version 2
 
-==========================================================================
+--------------------------------------------------------------------------
 
-![alt text](https://img.shields.io/badge/License-MIT-blue.svg 'License')
-![alt text](https://img.shields.io/badge/Python-3.x-green.svg 'Python version')
-![alt text](https://img.shields.io/badge/Tested_on-Windows-green.svg 'Supported platform')
+![alt text](https://img.shields.io/pypi/v/satlas2?label=PyPI%20version 'PyPI version')
+![alt text](https://img.shields.io/pypi/pyversions/satlas2?label=Python%20version&logo=python&logoColor=white 'Python version')
+![alt text](https://img.shields.io/pypi/l/satlas2?color=blue&label=License 'License')
+
+![alt text](https://img.shields.io/badge/Tested_on-Windows/Linux-green.svg 'Supported platform')
+![alt text](https://img.shields.io/badge/Not_tested_on-Mac-red.svg 'Unsupported platform')
+
+![alt text](https://img.shields.io/pypi/dm/satlas2?label=Downloads 'PyPI - Downloads')
 
 ## Purpose
 
