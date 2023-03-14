@@ -15,7 +15,10 @@ from scipy.special import erf, voigt_profile
 
 from satlas2.core import Model, Parameter
 
-__all__ = ['ExponentialDecay', 'Polynomial', 'Step', 'Voigt', 'SkewedVoigt']
+__all__ = [
+    'ExponentialDecay', 'Polynomial', 'PiecewiseConstant', 'Voigt',
+    'SkewedVoigt'
+]
 
 sqrt2 = 2**0.5
 sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
@@ -54,8 +57,8 @@ class Polynomial(Model):
         return np.polyval(p, x)
 
 
-class Step(Model):
-    """Model class for a Step response
+class PiecewiseConstant(Model):
+    """Model class for a PiecewiseConstant response
 
     Parameters
     ----------
@@ -71,14 +74,14 @@ class Step(Model):
     def __init__(self,
                  values: ArrayLike,
                  bounds: ArrayLike,
-                 name: str = 'Step',
+                 name: str = 'PiecewiseConstant',
                  prefunc: callable = None):
         super().__init__(name, prefunc=prefunc)
         self.params = {
             'value' + str(len(values) - (i + 1)): Parameter(value=P,
-                                                          min=0,
-                                                          max=np.inf,
-                                                          vary=True)
+                                                            min=0,
+                                                            max=np.inf,
+                                                            vary=True)
             for i, P in enumerate(values[::-1])
         }
         self.bounds = np.hstack([-np.inf, bounds, np.inf])
@@ -86,7 +89,8 @@ class Step(Model):
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        values = np.array([self.params[p].value for p in self.params.keys()])[::-1]
+        values = np.array([self.params[p].value
+                           for p in self.params.keys()])[::-1]
         indices = np.digitize(x, self.bounds) - 1
         bkg = values[indices]
         return bkg

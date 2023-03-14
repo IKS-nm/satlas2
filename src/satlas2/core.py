@@ -6,7 +6,7 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 from __future__ import annotations
 
 import copy
-from typing import Tuple, Union, Optional
+from typing import Optional, Tuple, Union
 
 import lmfit as lm
 import numdifftools as nd
@@ -416,9 +416,6 @@ class Fitter:
             returnvalue[~np.isfinite(returnvalue)] = -1e99
             returnvalue *= -1
         else:
-            if ~np.isfinite(np.sum(returnvalue)):
-                print(returnvalue)
-                print(params)
             returnvalue = np.sum(returnvalue)
         return returnvalue
 

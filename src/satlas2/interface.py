@@ -8,14 +8,14 @@ NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT 
 
 from __future__ import annotations
 
-from typing import Union, Tuple
+from typing import Tuple, Union
 
 import lmfit as lm
 import pandas as pd
 from numpy.typing import ArrayLike
 
 from .core import Fitter, Source
-from .models import HFS, Polynomial, Step
+from .models import HFS, Polynomial, PiecewiseConstant
 
 
 class HFSModel:
@@ -436,9 +436,9 @@ class SumModel:
         datasource = Source(x, y, yerr=yerr, name='Fit')
         for model in self.models:
             datasource.addModel(model)
-        step_bkg = Step(self.background_params['values'],
-                        self.background_params['bounds'],
-                        name='bkg')
+        step_bkg = PiecewiseConstant(self.background_params['values'],
+                                     self.background_params['bounds'],
+                                     name='bkg')
         self.models.append(step_bkg)
         datasource.addModel(step_bkg)
         self.fitter = Fitter()

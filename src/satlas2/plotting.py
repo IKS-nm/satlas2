@@ -4,6 +4,7 @@ Functions for the generation of plots related to the fitting results.
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
 import copy
+from typing import List, Optional, Tuple
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -13,9 +14,8 @@ import uncertainties as u
 from scipy import optimize
 from scipy.stats import chi2
 
-from .overwrite import SATLASHDFBackend
 from .core import Fitter
-from typing import Optional, List, Tuple
+from .overwrite import SATLASHDFBackend
 
 inv_color_list = [
     '#7acfff', '#fff466', '#00c48f', '#ff8626', '#ff9cd3', '#0093e6'
