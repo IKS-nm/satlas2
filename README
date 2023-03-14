@@ -7,8 +7,10 @@ The SATLAS2 program consists of several subfolders and .py files. In the differe
         models.py   -- Implements several basic models.
         hfsModel.py -- Implements the HFSModel class used for laser spectroscopy
     core.py         -- Implements the core functionalities of the Fitter, Source, Model and Parameter classes
+    interface.py    -- Implements a small interface with basic functionality between SATLAS1 and 2
     overwrite.py    -- Overwrites some classes and methods from LMFIT and emcee for easier use
     plotting.py     -- Used for representing the results of the random walks
+    utilities.py    -- Collection of convenience functions
 
 ## INSTALLATION INSTRUCTIONS
 

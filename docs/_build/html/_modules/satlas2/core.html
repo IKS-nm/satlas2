@@ -1,90 +1,132 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>satlas2.core &#8212; satlas2 0.1.7 documentation</title>
-    
+    <title>satlas2.core &#8212; SATLAS2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
-    <link rel="shortcut icon" href="../../_static/favicon.svg"/>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/satlas2/core';</script>
+    <link rel="icon" href="../../_static/favicon.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/satlas.svg" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">satlas2 0.1.7 documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../../_static/satlas_light.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/satlas_dark.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -94,198 +136,171 @@
             </li>
         </ul>
         <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../../architecture/index.html">
-   Architecture of SATLAS2
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../tutorials/index.html">
-   Tutorial
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/createmodel.html">
-     Making a model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/fitting.html">
-     Fitting in SATLAS2
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/dataframe.html">
-     Extracting dataframes
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/benchmark.html">
-     Benchmark of SATLAS2 speed
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/interface.html">
-     Using the SATLAS interface
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api/index.html">
-   API reference
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../api/satlas2.models.html">
-     satlas2.models package
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture of SATLAS2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/createmodel/index.html">Making a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/fitting/index.html">Fitting in SATLAS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/dataframe/index.html">Extracting dataframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/walkoptions/index.html">Different <code class="docutils literal notranslate"><span class="pre">emcee</span></code> moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/benchmark/index.html">Benchmark of SATLAS2 speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/interface/index.html">Using the SATLAS interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/core.html">API Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/models.html">API Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/interface.html">API Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/plotting.html">API Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/utilities.html">API Utilities</a></li>
+</ul>
+</li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2F_modules/satlas2/core.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
 
-          
 
 
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/woutergins/satlas2"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
 
-      </li>
+</div></div>
       
-      <li>
-        <a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2F_modules/satlas2/core.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
+    </div>
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
 </div>
+</div>
+              
+              
 
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-</div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1></h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                    </div>
-                </div>
-            </div>
-            <main id="main-content" role="main">
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for satlas2.core</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Implementation of the base Fitter, Source, Model and Parameter classes</span>
@@ -295,7 +310,7 @@ title="Open an issue"
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">lmfit</span> <span class="k">as</span> <span class="nn">lm</span>
 <span class="kn">import</span> <span class="nn">numdifftools</span> <span class="k">as</span> <span class="nn">nd</span>
@@ -316,8 +331,8 @@ title="Open an issue"
     <span class="k">return</span> <span class="n">output</span>
 
 
-<div class="viewcode-block" id="Fitter"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter">[docs]</a><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Fitter"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter">[docs]</a><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main class for performing fits and organising data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -331,9 +346,9 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;source&#39;</span>
 
-<div class="viewcode-block" id="Fitter.setExpr"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setExpr">[docs]</a>    <span class="k">def</span> <span class="nf">setExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+<div class="viewcode-block" id="Fitter.setExpr"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.setExpr">[docs]</a>    <span class="k">def</span> <span class="nf">setExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
                 <span class="n">parameter_expression</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the expression to be used for the given parameters.</span>
 <span class="sd">        The given parameter names should be the full description</span>
 <span class="sd">        i.e. containing the source and model name.</span>
@@ -359,8 +374,8 @@ title="Open an issue"
         <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">expression</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_expression</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
 
-<div class="viewcode-block" id="Fitter.shareParams"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.shareParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters.</span>
+<div class="viewcode-block" id="Fitter.shareParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.shareParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters.</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        ----</span>
@@ -383,8 +398,8 @@ title="Open an issue"
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.shareModelParams"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.shareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters across all</span>
+<div class="viewcode-block" id="Fitter.shareModelParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.shareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters across all</span>
 <span class="sd">        models with the same name.</span>
 
 <span class="sd">        Note</span>
@@ -404,9 +419,9 @@ title="Open an issue"
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.setParamPrior"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.setParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">setParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="Fitter.setParamPrior"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.setParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">setParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                       <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Set a Gaussian prior on a parameter, mainly intended to</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a Gaussian prior on a parameter, mainly intended to</span>
 <span class="sd">        represent literature values.</span>
 
 <span class="sd">        Parameters</span>
@@ -425,9 +440,9 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="p">[</span><span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
                                 <span class="n">parameter_name</span><span class="p">])]</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.removeParamPrior"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.removeParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">removeParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="Fitter.removeParamPrior"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.removeParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">removeParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                          <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Removes a prior set on a parameter.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes a prior set on a parameter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -440,8 +455,8 @@ title="Open an issue"
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="p">[</span><span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">])]</span></div>
 
-<div class="viewcode-block" id="Fitter.addSource"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.addSource">[docs]</a>    <span class="k">def</span> <span class="nf">addSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;Source&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter structure</span>
+<div class="viewcode-block" id="Fitter.addSource"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.addSource">[docs]</a>    <span class="k">def</span> <span class="nf">addSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;Source&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter structure</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -452,12 +467,12 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_createParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters from the sources.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters from the sources.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">params</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_createLmParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Creates the lmfit parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the lmfit parameters.&quot;&quot;&quot;</span>
         <span class="n">lmpars</span> <span class="o">=</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
         <span class="n">sharing</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sharingModel</span> <span class="o">=</span> <span class="p">{}</span>
@@ -504,7 +519,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="n">lmpars</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the response of the models in the different sources, stacked horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -515,7 +530,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Stack the data in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -526,7 +541,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Stack the uncertainty in the different sources, horizontally.</span>
 
 <span class="sd">        Returns</span>
@@ -537,7 +552,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">yerr</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the parameters of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -552,7 +567,7 @@ title="Open an issue"
                     <span class="n">parameter_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">setUncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the uncertainties of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -566,7 +581,7 @@ title="Open an issue"
                 <span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
 
     <span class="k">def</span> <span class="nf">setCorrelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Set the correlations of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 
@@ -593,7 +608,7 @@ title="Open an issue"
                 <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the residuals for use in a Gaussian fitting.</span>
 <span class="sd">        Based on the value of :attr:`Fitter.mode`, a different method is</span>
 <span class="sd">        used. If :attr:`Fitter.mode` is &#39;source&#39;, the result of :func:`~Fitter.yerr` is used.</span>
@@ -617,7 +632,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">resid</span>
 
     <span class="k">def</span> <span class="nf">gaussianPriorResid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the residual (x-xtrue)/sigma for use</span>
 <span class="sd">        in a Gaussian prior. The parameters for which this calculates</span>
 <span class="sd">        the priors are given by :func:`~Fitter.setParamPrior`.</span>
@@ -635,7 +650,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">returnval</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">residualCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculates the full residual, based on :func:`~Fitter.resid`</span>
 <span class="sd">        and :func:`~Fitter.gaussianPriorResid`</span>
 
@@ -646,7 +661,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">resid</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussianPriorResid</span><span class="p">()])</span>
 
     <span class="k">def</span> <span class="nf">gaussLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the Gaussian likelihood</span>
 
 <span class="sd">        Returns</span>
@@ -657,7 +672,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">resid</span> <span class="o">*</span> <span class="n">resid</span>  <span class="c1"># Faster than **2</span>
 
     <span class="k">def</span> <span class="nf">poissonLlh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the Poisson likelihood</span>
 
 <span class="sd">        Returns</span>
@@ -677,7 +692,7 @@ title="Open an issue"
             <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
             <span class="n">emcee</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Calculate the likelihood, based on the parameters and method.</span>
 <span class="sd">        In case the minimizer uses the emcee package, the array is summed to a single number.</span>
 <span class="sd">        In case the minimizer uses any other routine, the array is multiplied by -1 to</span>
@@ -709,7 +724,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">returnvalue</span>
 
     <span class="k">def</span> <span class="nf">reductionSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -725,7 +740,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">reductionSSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Reduces the likelihood to a single number. Used by lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -741,7 +756,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">chisquare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        Chisquare optimization function for lmfit.</span>
 
 <span class="sd">        Parameters</span>
@@ -758,12 +773,12 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">residualCalculation</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_prepareFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createParameters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_createLmParameters</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Fitter.revertFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.revertFit">[docs]</a>    <span class="k">def</span> <span class="nf">revertFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
+<div class="viewcode-block" id="Fitter.revertFit"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.revertFit">[docs]</a>    <span class="k">def</span> <span class="nf">revertFit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverts the parameter values to the original values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">init_values</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -773,18 +788,18 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">_prepareFit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.fit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Fitter.fit"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">llh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
             <span class="n">llh_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">,</span>
             <span class="n">mcmc_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
             <span class="n">sampler_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
-            <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
             <span class="n">nwalkers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
             <span class="n">scale_covar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="n">iter_cb</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Perform a fit of the models (added to the sources) to the data in the sources.</span>
+            <span class="n">iter_cb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of the models (added to the sources) to the data in the sources.</span>
 <span class="sd">        Models in the same source are summed together, models in different sources can be</span>
 <span class="sd">        linked through their parameters.</span>
 
@@ -864,12 +879,12 @@ title="Open an issue"
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_y</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Fitter.reportFit"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.reportFit">[docs]</a>    <span class="k">def</span> <span class="nf">reportFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">modelpars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="Fitter.reportFit"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.reportFit">[docs]</a>    <span class="k">def</span> <span class="nf">reportFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">modelpars</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">lm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="n">min_correl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
                   <span class="n">sort_pars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -896,8 +911,8 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">modelpars</span><span class="p">,</span> <span class="n">show_correl</span><span class="p">,</span> <span class="n">min_correl</span><span class="p">,</span>
                              <span class="n">sort_pars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fitter.createResultDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createResultDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createResultDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a dataframe containing all information about the parameters</span>
+<div class="viewcode-block" id="Fitter.createResultDataframe"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.createResultDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createResultDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe containing all information about the parameters</span>
 <span class="sd">        after a fit.</span>
 
 <span class="sd">        Returns</span>
@@ -912,14 +927,14 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span>
         <span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">]</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;Source&#39;</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="s1">&#39;Stderr&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;Boundary (min)&#39;</span><span class="p">,</span> <span class="s1">&#39;Boundary (max)&#39;</span><span class="p">,</span> <span class="s1">&#39;Expression&#39;</span><span class="p">,</span> <span class="s1">&#39;Vary&#39;</span>
+            <span class="s1">&#39;Source&#39;</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="s1">&#39;Stderr&#39;</span><span class="p">,</span> <span class="s1">&#39;Minimum&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Maximum&#39;</span><span class="p">,</span> <span class="s1">&#39;Expression&#39;</span><span class="p">,</span> <span class="s1">&#39;Vary&#39;</span>
         <span class="p">]</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="Fitter.createMetadataDataframe"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.createMetadataDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createMetadataDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a dataframe containing the fitting information and</span>
+<div class="viewcode-block" id="Fitter.createMetadataDataframe"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.createMetadataDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createMetadataDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe containing the fitting information and</span>
 <span class="sd">        statistics.</span>
 
 <span class="sd">        Returns</span>
@@ -927,8 +942,7 @@ title="Open an issue"
 <span class="sd">        pd.DataFrame&quot;&quot;&quot;</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s1">&#39;Source&#39;</span><span class="p">,</span> <span class="s1">&#39;Fitting method&#39;</span><span class="p">,</span> <span class="s1">&#39;Message&#39;</span><span class="p">,</span> <span class="s1">&#39;Function evaluations&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;Data points&#39;</span><span class="p">,</span> <span class="s1">&#39;Variables&#39;</span><span class="p">,</span> <span class="s1">&#39;Chi-square&#39;</span><span class="p">,</span> <span class="s1">&#39;Reduced chi-square&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;Akaike info criterium&#39;</span><span class="p">,</span> <span class="s1">&#39;Bayesian info criterium&#39;</span>
+            <span class="s1">&#39;Data points&#39;</span><span class="p">,</span> <span class="s1">&#39;Variables&#39;</span><span class="p">,</span> <span class="s1">&#39;Chisquare&#39;</span><span class="p">,</span> <span class="s1">&#39;Redchi&#39;</span><span class="p">,</span> <span class="s1">&#39;Aic&#39;</span><span class="p">,</span> <span class="s1">&#39;Bic&#39;</span>
         <span class="p">]</span>
         <span class="n">source</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">]</span>
         <span class="n">source</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -940,14 +954,16 @@ title="Open an issue"
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Read and process the h5 file containing the results of a random walk.</span>
+<div class="viewcode-block" id="Fitter.readWalk"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.readWalk">[docs]</a>    <span class="k">def</span> <span class="nf">readWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">burnin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read and process the h5 file containing the results of a random walk.</span>
 <span class="sd">        The parameter values and uncertainties are extracted from the walk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        filename : str</span>
 <span class="sd">            Filename of the random walk results.</span>
+<span class="sd">        burnin: Optional[int]</span>
+<span class="sd">            Optional amount of steps to remove from the start, defaults to 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="c1"># var_names = list(reader.labels)</span>
@@ -962,7 +978,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">updateInfo</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">updateInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lmpars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
@@ -979,7 +995,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">updateFitInfoSources</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">updateFitInfoSources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
             <span class="n">source</span><span class="o">.</span><span class="n">nvarys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvarys</span>
@@ -991,12 +1007,12 @@ title="Open an issue"
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span>
 
-<div class="viewcode-block" id="Fitter.evaluateOverWalk"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Fitter.evaluateOverWalk">[docs]</a>    <span class="k">def</span> <span class="nf">evaluateOverWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Fitter.evaluateOverWalk"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.evaluateOverWalk">[docs]</a>    <span class="k">def</span> <span class="nf">evaluateOverWalk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                          <span class="n">burnin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-                         <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="n">evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;The parameters saved in the h5 file are evaluated</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The parameters saved in the h5 file are evaluated</span>
 <span class="sd">        in the models a specific number of times. From these evaluations, the</span>
 <span class="sd">        16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.</span>
 
@@ -1073,29 +1089,29 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">bands</span></div></div>
 
 
-<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes a source of data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ArrayLike</span>
+<span class="sd">        x values of the data</span>
+<span class="sd">    y : ArrayLike</span>
+<span class="sd">        y values of the data</span>
+<span class="sd">    yerr : Union[ArrayLike, callable]</span>
+<span class="sd">        The yerr of the data, either an array for fixed uncertainties</span>
+<span class="sd">        or a callable to be applied to the result of the models in the source.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name given to the source. This must be a unique value!</span>
+<span class="sd">    xerr : ArrayLike, optional</span>
+<span class="sd">        If enlargement of the yerr with the xerr is required, supply this, by default None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                  <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                  <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">],</span>
                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">xerr</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initializes a source of data</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        x : ArrayLike</span>
-<span class="sd">            x values of the data</span>
-<span class="sd">        y : ArrayLike</span>
-<span class="sd">            y values of the data</span>
-<span class="sd">        yerr : Union[ArrayLike, callable]</span>
-<span class="sd">            The yerr of the data, either an array for fixed uncertainties</span>
-<span class="sd">            or a callable to be applied to the result of the models in the source.</span>
-<span class="sd">        name : str</span>
-<span class="sd">            The name given to the source. This must be a unique value!</span>
-<span class="sd">        xerr : ArrayLike, optional</span>
-<span class="sd">            If enlargement of the yerr with the xerr is required, supply this, by default None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
@@ -1106,8 +1122,8 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">derivative</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">Derivative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Source.addModel"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.addModel">[docs]</a>    <span class="k">def</span> <span class="nf">addModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s1">&#39;Model&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add a model to the Source</span>
+<div class="viewcode-block" id="Source.addModel"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Source.addModel">[docs]</a>    <span class="k">def</span> <span class="nf">addModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s1">&#39;Model&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a model to the Source</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1118,14 +1134,14 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
         <span class="k">return</span> <span class="n">params</span>
 
-<div class="viewcode-block" id="Source.f"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the sum of the evaluation of all models in the x-coordinates defined in the source.</span>
+<div class="viewcode-block" id="Source.f"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Source.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the sum of the evaluation of all models in the x-coordinates defined in the source.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1138,8 +1154,8 @@ title="Open an issue"
                 <span class="n">f</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span></div>
 
-<div class="viewcode-block" id="Source.evaluate"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Source.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Evaluates all models in the given points and returns the sum.</span>
+<div class="viewcode-block" id="Source.evaluate"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Source.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates all models in the given points and returns the sum.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1158,7 +1174,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">f</span></div>
 
     <span class="k">def</span> <span class="nf">yerr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:&quot;&quot;&quot;</span>
         <span class="n">err</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span><span class="p">):</span>
             <span class="n">err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yerr_data</span>
@@ -1170,18 +1186,18 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">err</span></div>
 
 
-<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefunc</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Base Model class</span>
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base Model class</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        name : str</span>
-<span class="sd">            Name given to the model</span>
-<span class="sd">        prefunc : callable, optional</span>
-<span class="sd">            Transformation function to be applied to the</span>
-<span class="sd">            evaluation points before evaluating the model, by default None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name given to the model</span>
+<span class="sd">    prefunc : callable, optional</span>
+<span class="sd">        Transformation function to be applied to the</span>
+<span class="sd">        evaluation points before evaluating the model, by default None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefunc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span> <span class="o">=</span> <span class="n">prefunc</span>
@@ -1190,7 +1206,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1211,8 +1227,8 @@ title="Open an issue"
                 <span class="bp">self</span><span class="o">.</span><span class="n">xhashed</span> <span class="o">=</span> <span class="n">hashed</span>
         <span class="k">return</span> <span class="n">x</span>
 
-<div class="viewcode-block" id="Model.setTransform"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Model.setTransform">[docs]</a>    <span class="k">def</span> <span class="nf">setTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the transformation for the pre-evaluation.</span>
+<div class="viewcode-block" id="Model.setTransform"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Model.setTransform">[docs]</a>    <span class="k">def</span> <span class="nf">setTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the transformation for the pre-evaluation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1220,12 +1236,23 @@ title="Open an issue"
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefunc</span> <span class="o">=</span> <span class="n">func</span></div>
 
-<div class="viewcode-block" id="Model.f"><a class="viewcode-back" href="../../api/index.html#satlas2.core.Model.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Model.f"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Model.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates the model in the given points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : ArrayLike</span>
+<span class="sd">            Points in which the model has to be evaluated</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ArrayLike</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="bp">NotImplemented</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">Parameter</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;:meta private:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;:meta private:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -1243,36 +1270,67 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl</span><span class="p">)</span>
 </pre></div>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
   
-    By Wouter Gins<br/>
-  
-      &copy; Copyright 2023, Wouter Gins.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
-</div>
+<p class="component-author">
+By Wouter Gins
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Wouter Gins.
+      <br/>
+    
+  </p>
 
-      </div>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

@@ -1,90 +1,132 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>satlas2.interface &#8212; satlas2 0.1.7 documentation</title>
-    
+    <title>satlas2.interface &#8212; SATLAS2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
-    <link rel="shortcut icon" href="../../_static/favicon.svg"/>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/satlas2/interface';</script>
+    <link rel="icon" href="../../_static/favicon.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/satlas.svg" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">satlas2 0.1.7 documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../../_static/satlas_light.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/satlas_dark.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -94,198 +136,171 @@
             </li>
         </ul>
         <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../../architecture/index.html">
-   Architecture of SATLAS2
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../tutorials/index.html">
-   Tutorial
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/createmodel.html">
-     Making a model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/fitting.html">
-     Fitting in SATLAS2
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/dataframe.html">
-     Extracting dataframes
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/benchmark.html">
-     Benchmark of SATLAS2 speed
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../tutorials/interface.html">
-     Using the SATLAS interface
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api/index.html">
-   API reference
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../api/satlas2.models.html">
-     satlas2.models package
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture of SATLAS2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/createmodel/index.html">Making a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/fitting/index.html">Fitting in SATLAS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/dataframe/index.html">Extracting dataframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/walkoptions/index.html">Different <code class="docutils literal notranslate"><span class="pre">emcee</span></code> moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/benchmark/index.html">Benchmark of SATLAS2 speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/interface/index.html">Using the SATLAS interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/core.html">API Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/models.html">API Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/interface.html">API Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/plotting.html">API Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/utilities.html">API Utilities</a></li>
+</ul>
+</li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2F_modules/satlas2/interface.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
 
-          
 
 
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/woutergins/satlas2"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
 
-      </li>
+</div></div>
       
-      <li>
-        <a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2F_modules/satlas2/interface.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
+    </div>
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
 </div>
+</div>
+              
+              
 
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-</div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1></h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                    </div>
-                </div>
-            </div>
-            <main id="main-content" role="main">
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for satlas2.interface</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Implementation of the base HFSModel and SumModel classes, based on the syntax used in the original satlas</span>
@@ -297,18 +312,18 @@ title="Open an issue"
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">lmfit</span> <span class="k">as</span> <span class="nn">lm</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">Fitter</span><span class="p">,</span> <span class="n">Source</span>
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">HFS</span><span class="p">,</span> <span class="n">Polynomial</span><span class="p">,</span> <span class="n">Step</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">HFS</span><span class="p">,</span> <span class="n">Polynomial</span><span class="p">,</span> <span class="n">PiecewiseConstant</span>
 
 
-<div class="viewcode-block" id="HFSModel"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel">[docs]</a><span class="k">class</span> <span class="nc">HFSModel</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum Model with the given hyperfine parameters.</span>
+<div class="viewcode-block" id="HFSModel"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel">[docs]</a><span class="k">class</span> <span class="nc">HFSModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum Model with the given hyperfine parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -392,8 +407,8 @@ title="Open an issue"
                        <span class="n">prefunc</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span>
 
-<div class="viewcode-block" id="HFSModel.set_expr"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.set_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Set the expression to be used for the given parameters.</span>
+<div class="viewcode-block" id="HFSModel.set_expr"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.set_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the expression to be used for the given parameters.</span>
 <span class="sd">        The constraint should be a dict with following structure:</span>
 
 <span class="sd">        key: string</span>
@@ -405,11 +420,11 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span>
                 <span class="n">cons</span><span class="p">]</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">constraints</span><span class="p">[</span><span class="n">cons</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">*Fit___</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">___</span><span class="si">{</span><span class="n">constraints</span><span class="p">[</span><span class="n">cons</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span></div>
 
-<div class="viewcode-block" id="HFSModel.fix_ratio"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.fix_ratio">[docs]</a>    <span class="k">def</span> <span class="nf">fix_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="HFSModel.fix_ratio"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.fix_ratio">[docs]</a>    <span class="k">def</span> <span class="nf">fix_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Use HFSModel.set_expr(...)&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HFSModel.set_variation"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.set_variation">[docs]</a>    <span class="k">def</span> <span class="nf">set_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varyDict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sets the variation of the fitparameters as supplied in the</span>
+<div class="viewcode-block" id="HFSModel.set_variation"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.set_variation">[docs]</a>    <span class="k">def</span> <span class="nf">set_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varyDict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the variation of the fitparameters as supplied in the</span>
 <span class="sd">        dictionary.</span>
 
 <span class="sd">        Parameters</span>
@@ -421,8 +436,8 @@ title="Open an issue"
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">varyDict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="HFSModel.f"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
+<div class="viewcode-block" id="HFSModel.f"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -436,7 +451,7 @@ title="Open an issue"
                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for an unshifted spectrum with background</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -449,7 +464,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="o">.</span><span class="n">fUnshifted</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">Polynomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">,</span>
                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HFSModel.chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="HFSModel.chisquare_fit"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                       <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                       <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                       <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -459,7 +474,7 @@ title="Open an issue"
                       <span class="n">hessian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">,</span>
                       <span class="n">show_correl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -491,12 +506,12 @@ title="Open an issue"
 <span class="sd">        NotImplementedError</span>
 <span class="sd">            When the chosen options for func, verbose and Hessian result is not implemented.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">hessian</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Not implemented&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">show_correl</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
                 <span class="s1">&#39;define whether you want to see the correlations in display_chisquare_fit(...)&#39;</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">yerr</span> <span class="o">=</span> <span class="n">func</span>
         <span class="n">datasource</span> <span class="o">=</span> <span class="n">Source</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">yerr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
         <span class="n">datasource</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hfs</span><span class="p">)</span>
         <span class="n">bkg</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span>
@@ -510,8 +525,8 @@ title="Open an issue"
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">message</span></div>
 
-<div class="viewcode-block" id="HFSModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+<div class="viewcode-block" id="HFSModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -533,9 +548,9 @@ title="Open an issue"
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Not implemented&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HFSModel.get_result"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="HFSModel.get_result"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">selection</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
 <span class="sd">        parameters as seperate lists.</span>
 
 <span class="sd">        Parameters</span>
@@ -554,10 +569,10 @@ title="Open an issue"
             <span class="n">lmparamdict</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">lmparamdict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="p">],</span> <span class="p">[</span><span class="n">lmparamdict</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">unc</span> <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">lmparamdict</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
 
-<div class="viewcode-block" id="HFSModel.get_result_dict"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="HFSModel.get_result_dict"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                         <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -581,13 +596,13 @@ title="Open an issue"
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">return_dict</span></div>
 
-<div class="viewcode-block" id="HFSModel.get_result_frame"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.HFSModel.get_result_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="HFSModel.get_result_frame"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.HFSModel.get_result_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                          <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">bounds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">vary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -617,8 +632,8 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">return_frame</span></div></div>
 
 
-<div class="viewcode-block" id="SumModel"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel">[docs]</a><span class="k">class</span> <span class="nc">SumModel</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</span>
+<div class="viewcode-block" id="SumModel"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel">[docs]</a><span class="k">class</span> <span class="nc">SumModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -645,7 +660,7 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_params</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the parameters of the underlying Models</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the parameters of the underlying Models</span>
 <span class="sd">        based on a large Parameters object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
@@ -655,11 +670,11 @@ title="Open an issue"
                 <span class="n">p</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">p</span>
 
-<div class="viewcode-block" id="SumModel.set_variation"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.set_variation">[docs]</a>    <span class="k">def</span> <span class="nf">set_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varyDict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="SumModel.set_variation"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.set_variation">[docs]</a>    <span class="k">def</span> <span class="nf">set_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varyDict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Do this at the HFSModel level&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SumModel.f"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the response for a spectrum</span>
+<div class="viewcode-block" id="SumModel.f"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the response for a spectrum</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -679,7 +694,7 @@ title="Open an issue"
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SumModel.chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="SumModel.chisquare_fit"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                       <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                       <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                       <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -688,7 +703,7 @@ title="Open an issue"
                       <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">hessian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of this model to the data provided in this function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -725,9 +740,9 @@ title="Open an issue"
         <span class="n">datasource</span> <span class="o">=</span> <span class="n">Source</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">yerr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
             <span class="n">datasource</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="n">step_bkg</span> <span class="o">=</span> <span class="n">Step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">[</span><span class="s1">&#39;bounds&#39;</span><span class="p">],</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span>
+        <span class="n">step_bkg</span> <span class="o">=</span> <span class="n">PiecewiseConstant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">background_params</span><span class="p">[</span><span class="s1">&#39;bounds&#39;</span><span class="p">],</span>
+                                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bkg&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step_bkg</span><span class="p">)</span>
         <span class="n">datasource</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">step_bkg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">()</span>
@@ -735,8 +750,8 @@ title="Open an issue"
         <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">message</span></div>
 
-<div class="viewcode-block" id="SumModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
+<div class="viewcode-block" id="SumModel.display_chisquare_fit"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.display_chisquare_fit">[docs]</a>    <span class="k">def</span> <span class="nf">display_chisquare_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a report of the fitting results.</span>
 
 <span class="sd">        The report contains the best-fit values for the parameters and their uncertainties and correlations.</span>
 
@@ -758,9 +773,9 @@ title="Open an issue"
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Not implemented&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lm</span><span class="o">.</span><span class="n">fit_report</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitter</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SumModel.get_result"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="SumModel.get_result"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">selection</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the variable names, values and estimated error bars for the</span>
 <span class="sd">        parameters as seperate lists.</span>
 
 <span class="sd">        Parameters</span>
@@ -791,10 +806,10 @@ title="Open an issue"
             <span class="p">])</span>
         <span class="k">return</span> <span class="n">varnames</span><span class="p">,</span> <span class="n">varvalues</span><span class="p">,</span> <span class="n">varunc</span></div>
 
-<div class="viewcode-block" id="SumModel.get_result_dict"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="SumModel.get_result_dict"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.get_result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                         <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key &#39;bkg&#39; in dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key &#39;bkg&#39; in dictionary.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -820,13 +835,13 @@ title="Open an issue"
             <span class="p">}</span>
         <span class="k">return</span> <span class="n">return_dict</span></div>
 
-<div class="viewcode-block" id="SumModel.get_result_frame"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.SumModel.get_result_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="SumModel.get_result_frame"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.SumModel.get_result_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_result_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;chisquare&#39;</span><span class="p">,</span>
                          <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">bounds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">vary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the data from the fit in a pandas DataFrame.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -861,13 +876,13 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">return_frame</span></div></div>
 
 
-<div class="viewcode-block" id="chisquare_fit"><a class="viewcode-back" href="../../api/index.html#satlas2.interface.chisquare_fit">[docs]</a><span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;HFSModel&#39;</span><span class="p">,</span> <span class="s1">&#39;SumModel&#39;</span><span class="p">],</span>
+<div class="viewcode-block" id="chisquare_fit"><a class="viewcode-back" href="../../api/summaries/interface.html#satlas2.interface.chisquare_fit">[docs]</a><span class="k">def</span> <span class="nf">chisquare_fit</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;HFSModel&#39;</span><span class="p">,</span> <span class="s1">&#39;SumModel&#39;</span><span class="p">],</span>
                   <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                   <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
                   <span class="n">yerr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">callable</span><span class="p">],</span>
                   <span class="n">xerr</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;leastsq&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Perform a fit of the provided model to the data provided in this function.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform a fit of the provided model to the data provided in this function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -891,36 +906,67 @@ title="Open an issue"
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">chisquare_fit</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">yerr</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">xerr</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span></div>
 </pre></div>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
   
-    By Wouter Gins<br/>
-  
-      &copy; Copyright 2023, Wouter Gins.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
-</div>
+<p class="component-author">
+By Wouter Gins
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Wouter Gins.
+      <br/>
+    
+  </p>
 
-      </div>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

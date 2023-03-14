@@ -1,93 +1,136 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>API reference &#8212; satlas2 0.1.7 documentation</title>
-    
+    <title>API reference &#8212; SATLAS2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/css/sphinx-toolbox.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
-    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/index';</script>
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="satlas2.models package" href="satlas2.models.html" />
-    <link rel="prev" title="Using the SATLAS interface" href="../tutorials/interface.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+    <link rel="next" title="API Core" href="summaries/core.html" />
+    <link rel="prev" title="Using the SATLAS interface" href="../tutorials/interface/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/satlas.svg" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">satlas2 0.1.7 documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../_static/satlas_light.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/satlas_dark.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -97,1187 +140,452 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../architecture/index.html">
-   Architecture of SATLAS2
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../tutorials/index.html">
-   Tutorial
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../tutorials/createmodel.html">
-     Making a model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../tutorials/fitting.html">
-     Fitting in SATLAS2
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../tutorials/dataframe.html">
-     Extracting dataframes
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../tutorials/benchmark.html">
-     Benchmark of SATLAS2 speed
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../tutorials/interface.html">
-     Using the SATLAS interface
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
-   API reference
-  </a>
-  <input checked class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="satlas2.models.html">
-     satlas2.models package
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/index.html">Architecture of SATLAS2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/createmodel/index.html">Making a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/fitting/index.html">Fitting in SATLAS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/dataframe/index.html">Extracting dataframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/walkoptions/index.html">Different <code class="docutils literal notranslate"><span class="pre">emcee</span></code> moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/benchmark/index.html">Benchmark of SATLAS2 speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/interface/index.html">Using the SATLAS interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="summaries/core.html">API Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summaries/models.html">API Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summaries/interface.html">API Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summaries/plotting.html">API Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summaries/utilities.html">API Utilities</a></li>
+</ul>
+</li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/edit/master/api/index.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2Fapi/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
 
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/woutergins/satlas2"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2Fapi/index.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/woutergins/satlas2/edit/master/api/index.rst"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/api/index.rst.txt"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.rst</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#subpackages">
-   Subpackages
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.core">
-   satlas2.core module
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.interface">
-   satlas2.interface module
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.plotting">
-   satlas2.plotting module
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>API reference</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#subpackages">
-   Subpackages
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.core">
-   satlas2.core module
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.interface">
-   satlas2.interface module
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-satlas2.plotting">
-   satlas2.plotting module
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>API reference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-module-summary">Core module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models-module-summary">Models module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-module-summary">Interface module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-module-summary">Plotting module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities-module-summary">Utilities module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpages">Subpages</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="api-reference">
-<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">#</a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">#</a></h2>
+<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h1>
+<section id="core-module-summary">
+<h2>Core module summary<a class="headerlink" href="#core-module-summary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/core.html#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Fitter</span></code></a>()</p></td>
+<td><p>Main class for performing fits and organising data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/core.html#satlas2.core.Source" title="satlas2.core.Source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Source</span></code></a>(x, y, yerr, name[, xerr])</p></td>
+<td><p>Initializes a source of data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/core.html#satlas2.core.Model" title="satlas2.core.Model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code></a>(name[, prefunc])</p></td>
+<td><p>Base Model class</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="models-module-summary">
+<h2>Models module summary<a class="headerlink" href="#models-module-summary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.models.ExponentialDecay" title="satlas2.models.models.ExponentialDecay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExponentialDecay</span></code></a>(a, tau[, name, prefunc])</p></td>
+<td><p>Model for an exponential decay</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.models.Polynomial" title="satlas2.models.models.Polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Polynomial</span></code></a>(p[, name, prefunc])</p></td>
+<td><p>Model class for a polynomial response</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.models.SkewedVoigt" title="satlas2.models.models.SkewedVoigt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SkewedVoigt</span></code></a>(A, mu, FWHMG, FWHML, skew[, ...])</p></td>
+<td><p>Model for a Voigt peak skewed by the error function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.models.PiecewiseConstant" title="satlas2.models.models.PiecewiseConstant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PiecewiseConstant</span></code></a>(values, bounds[, name, ...])</p></td>
+<td><p>Model class for a PiecewiseConstant response</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.models.Voigt" title="satlas2.models.models.Voigt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Voigt</span></code></a>(A, mu, FWHMG, FWHML[, name, prefunc])</p></td>
+<td><p>Model for a Voigt lineshape</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/models.html#satlas2.models.hfsModel.HFS" title="satlas2.models.hfsModel.HFS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HFS</span></code></a>(I, J[, A, B, C, df, fwhmg, fwhml, name, ...])</p></td>
+<td><p>Initializes a hyperfine spectrum Model with the given hyperfine parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="interface-module-summary">
+<h2>Interface module summary<a class="headerlink" href="#interface-module-summary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/interface.html#satlas2.interface.HFSModel" title="satlas2.interface.HFSModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HFSModel</span></code></a>(I, J, ABC[, centroid, fwhm, scale, ...])</p></td>
+<td><p>Initializes a hyperfine spectrum Model with the given hyperfine parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/interface.html#satlas2.interface.SumModel" title="satlas2.interface.SumModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SumModel</span></code></a>(models, background_params[, name, ...])</p></td>
+<td><p>Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/interface.html#satlas2.interface.chisquare_fit" title="satlas2.interface.chisquare_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chisquare_fit</span></code></a>(model, x, y, yerr[, xerr, method])</p></td>
+<td><p>Perform a fit of the provided model to the data provided in this function.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="plotting-module-summary">
+<h2>Plotting module summary<a class="headerlink" href="#plotting-module-summary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/plotting.html#satlas2.plotting.generateCorrelationPlot" title="satlas2.plotting.generateCorrelationPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generateCorrelationPlot</span></code></a>(filename[, filter, ...])</p></td>
+<td><p>Given the random walk data, creates a triangle plot: distribution of a single parameter on the diagonal axes, 2D contour plots with 1, 2 and 3 sigma contours on the off-diagonal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/plotting.html#satlas2.plotting.generateWalkPlot" title="satlas2.plotting.generateWalkPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generateWalkPlot</span></code></a>(filename[, filter, burnin, ...])</p></td>
+<td><p>Given the random walk data, the random walk for the selected parameters is plotted.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="utilities-module-summary">
+<h2>Utilities module summary<a class="headerlink" href="#utilities-module-summary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/utilities.html#satlas2.utilities.generateSpectrum" title="satlas2.utilities.generateSpectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generateSpectrum</span></code></a>(models, x[, generator])</p></td>
+<td><p>Generates a dataset based on the models and x-values provided.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="summaries/utilities.html#satlas2.utilities.poissonInterval" title="satlas2.utilities.poissonInterval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poissonInterval</span></code></a>(data[, sigma, alpha, mean])</p></td>
+<td><p>Calculates the confidence interval for the mean of a Poisson distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="summaries/utilities.html#satlas2.utilities.weightedAverage" title="satlas2.utilities.weightedAverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">weightedAverage</span></code></a>(x, sigma[, axis])</p></td>
+<td><p>Takes the weighted average of an array of values and the associated errors.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="subpages">
+<h2>Subpages<a class="headerlink" href="#subpages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="satlas2.models.html">satlas2.models package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#satlas2-models-hfsmodel-module">satlas2.models.hfsModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#satlas2-models-models-module">satlas2.models.models module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satlas2.models.html#module-satlas2.models">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="summaries/core.html">API Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summaries/models.html">API Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summaries/interface.html">API Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summaries/plotting.html">API Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summaries/utilities.html">API Utilities</a></li>
 </ul>
 </div>
 </section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
-</section>
-<section id="module-satlas2.core">
-<span id="satlas2-core-module"></span><h2>satlas2.core module<a class="headerlink" href="#module-satlas2.core" title="Permalink to this headline">#</a></h2>
-<p>Implementation of the base Fitter, Source, Model and Parameter classes</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="satlas2.core.Fitter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Fitter</span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Main class for performing fits and organising data</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.addSource">
-<span class="sig-name descname"><span class="pre">addSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#satlas2.core.Source" title="satlas2.core.Source"><span class="pre">Source</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.addSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.addSource" title="Permalink to this definition">#</a></dt>
-<dd><p>Add a datasource to the Fitter structure</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>source</strong> (<a class="reference internal" href="#satlas2.core.Source" title="satlas2.core.Source"><em>Source</em></a>) – Source to be added to the fitter</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.createMetadataDataframe">
-<span class="sig-name descname"><span class="pre">createMetadataDataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.createMetadataDataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createMetadataDataframe" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates a dataframe containing the fitting information and
-statistics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.createResultDataframe">
-<span class="sig-name descname"><span class="pre">createResultDataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.createResultDataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.createResultDataframe" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates a dataframe containing all information about the parameters
-after a fit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.evaluateOverWalk">
-<span class="sig-name descname"><span class="pre">evaluateOverWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.evaluateOverWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.evaluateOverWalk" title="Permalink to this definition">#</a></dt>
-<dd><p>The parameters saved in the h5 file are evaluated
-in the models a specific number of times. From these evaluations, the
-16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>str</em>) – Filename of the random walk results.</p></li>
-<li><p><strong>burnin</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of steps to skip, by default 0</p></li>
-<li><p><strong>x</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – Evaluation points for the model, defaults to the datapoints in Source</p></li>
-<li><p><strong>evals</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of selected parameter values, defaults to using all values</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple with, as the first element, a list of arrays x-values for
-which the band has been evaluated. Each source contributes an array.
-The second element is a list of 2D arrays, one for each source. The
-first row is the sigma- boundary, the second row is the median value
-and the third row is the sigm+ boundary.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Tuple of lists</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llh_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'leastsq'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcmc_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_covar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_cb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform a fit of the models (added to the sources) to the data in the sources.
-Models in the same source are summed together, models in different sources can be
-linked through their parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llh</strong> (<em>bool</em><em>, </em><em>optional</em>) – Selects if a chisquare (False) or likelihood fit is performed, by default False.</p></li>
-<li><p><strong>llh_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects which likelihood calculation is used, by default ‘gaussian’.</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects the method used by the <code class="xref py py-func docutils literal notranslate"><span class="pre">lmfit.minimizer()</span></code>, by default ‘leastsq’.
-Set to ‘emcee’ for random walk.</p></li>
-<li><p><strong>mcmc_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of keyword arguments to be supplied to the MCMC routine
-(see <code class="xref py py-func docutils literal notranslate"><span class="pre">emcee.EnsembleSampler.sample()</span></code>), by default {}</p></li>
-<li><p><strong>sampler_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of keyword arguments to be supplied to the <code class="xref py py-func docutils literal notranslate"><span class="pre">emcee.EnsembleSampler()</span></code>
-, by default {}</p></li>
-<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Filename in which the random walk should be saved, by default None</p></li>
-<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of steps the random walk should, by default 1000</p></li>
-<li><p><strong>nwalkers</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of walkers to be used in the random walk, by default 50</p></li>
-<li><p><strong>scale_covar</strong> (<em>bool</em><em>, </em><em>optional</em>) – Scale the calculated uncertainties by the root of the reduced
-chisquare, by default True. Set to False when llh is True, since
-the reduced chisquare calculated in this case is not applicable.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.readWalk">
-<span class="sig-name descname"><span class="pre">readWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.readWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.readWalk" title="Permalink to this definition">#</a></dt>
-<dd><p>Read and process the h5 file containing the results of a random walk.
-The parameter values and uncertainties are extracted from the walk.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of the random walk results.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.removeParamPrior">
-<span class="sig-name descname"><span class="pre">removeParamPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.removeParamPrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.removeParamPrior" title="Permalink to this definition">#</a></dt>
-<dd><p>Removes a prior set on a parameter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> (<em>str</em>) – Name of the datasource in which the parameter is present.</p></li>
-<li><p><strong>model</strong> (<em>str</em>) – Name of the model in which the parameter is present.</p></li>
-<li><p><strong>parameter_name</strong> (<em>str</em>) – Name of the parameter.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.reportFit">
-<span class="sig-name descname"><span class="pre">reportFit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelpars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Parameters</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_correl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_correl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_pars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.reportFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.reportFit" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate a report of the fitting results.</p>
-<p>The report contains the best-fit values for the parameters and their uncertainties and correlations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>modelpars</strong> (<em>lmfit.Parameters</em><em>, </em><em>optional</em>) – Known Model Parameters</p></li>
-<li><p><strong>show_correl</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show a list of sorted correlations, by default False</p></li>
-<li><p><strong>min_correl</strong> (<em>float</em><em>, </em><em>optional</em>) – Smallest correlation in absolute value to show, by default 0.1</p></li>
-<li><p><strong>sort_pars</strong> (<em>bool</em><em> or </em><em>callable</em><em>, </em><em>optional</em>) – Whether to show parameter names sorted in alphanumerical order.
-If False (default), then the parameters will be listed in the
-order they were added to the Parameters dictionary. If callable,
-then this (one argument) function is used to extract a comparison
-key from each list element.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Multi-line text of fit report.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>str</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.revertFit">
-<span class="sig-name descname"><span class="pre">revertFit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.revertFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.revertFit" title="Permalink to this definition">#</a></dt>
-<dd><p>Reverts the parameter values to the original values.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.setExpr">
-<span class="sig-name descname"><span class="pre">setExpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.setExpr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setExpr" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the expression to be used for the given parameters.
-The given parameter names should be the full description
-i.e. containing the source and model name.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>The priority order on expressions is</dt><dd><ol class="arabic simple">
-<li><p>Expressions given by <a class="reference internal" href="#satlas2.core.Fitter.setExpr" title="satlas2.core.Fitter.setExpr"><code class="xref py py-func docutils literal notranslate"><span class="pre">setExpr()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareParams" title="satlas2.core.Fitter.shareParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareParams()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareModelParams" title="satlas2.core.Fitter.shareModelParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareModelParams()</span></code></a></p></li>
-</ol>
-</dd>
-</dl>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parameter_name</strong> (<em>list</em><em> or </em><em>str</em>) – Either a single parameter name or a list of them.</p></li>
-<li><p><strong>parameter_expression</strong> (<em>list</em><em> or </em><em>str</em>) – The parameter expression to be associated with parameter_name.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.setParamPrior">
-<span class="sig-name descname"><span class="pre">setParamPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.setParamPrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.setParamPrior" title="Permalink to this definition">#</a></dt>
-<dd><p>Set a Gaussian prior on a parameter, mainly intended to
-represent literature values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> (<em>str</em>) – Name of the datasource in which the parameter is present.</p></li>
-<li><p><strong>model</strong> (<em>str</em>) – Name of the model in which the parameter is present.</p></li>
-<li><p><strong>parameter_name</strong> (<em>str</em>) – Name of the parameter.</p></li>
-<li><p><strong>value</strong> (<em>float</em>) – Central value of the Gaussian</p></li>
-<li><p><strong>uncertainty</strong> (<em>float</em>) – Standard deviation associated with the value.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.shareModelParams">
-<span class="sig-name descname"><span class="pre">shareModelParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.shareModelParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.shareModelParams" title="Permalink to this definition">#</a></dt>
-<dd><p>Add parameters to the list of shared parameters across all
-models with the same name.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>The priority order on expressions is</dt><dd><ol class="arabic simple">
-<li><p>Expressions given by <a class="reference internal" href="#satlas2.core.Fitter.setExpr" title="satlas2.core.Fitter.setExpr"><code class="xref py py-func docutils literal notranslate"><span class="pre">setExpr()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareParams" title="satlas2.core.Fitter.shareParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareParams()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareModelParams" title="satlas2.core.Fitter.shareModelParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareModelParams()</span></code></a></p></li>
-</ol>
-</dd>
-</dl>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parameter_name</strong> (<em>list</em><em> or </em><em>str</em>) – List of parameters or single parameter name.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Fitter.shareParams">
-<span class="sig-name descname"><span class="pre">shareParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Fitter.shareParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Fitter.shareParams" title="Permalink to this definition">#</a></dt>
-<dd><p>Add parameters to the list of shared parameters.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The full parameter name should be given.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>The priority order on expressions is</dt><dd><ol class="arabic simple">
-<li><p>Expressions given by <a class="reference internal" href="#satlas2.core.Fitter.setExpr" title="satlas2.core.Fitter.setExpr"><code class="xref py py-func docutils literal notranslate"><span class="pre">setExpr()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareParams" title="satlas2.core.Fitter.shareParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareParams()</span></code></a></p></li>
-<li><p>Sharing of parameters through <a class="reference internal" href="#satlas2.core.Fitter.shareModelParams" title="satlas2.core.Fitter.shareModelParams"><code class="xref py py-func docutils literal notranslate"><span class="pre">shareModelParams()</span></code></a></p></li>
-</ol>
-</dd>
-</dl>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parameter_name</strong> (<em>list</em><em> or </em><em>str</em>) – List of parameters or single parameter name.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="satlas2.core.Model">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefunc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Model.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Model.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.f" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Model.setTransform">
-<span class="sig-name descname"><span class="pre">setTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Model.setTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Model.setTransform" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the transformation for the pre-evaluation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func</strong> (<em>callable</em>) – </p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="satlas2.core.Source">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.core.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Source.addModel">
-<span class="sig-name descname"><span class="pre">addModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#satlas2.core.Model" title="satlas2.core.Model"><span class="pre">Model</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/core.html#Source.addModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.addModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Add a model to the Source</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="#satlas2.core.Model" title="satlas2.core.Model"><em>Model</em></a>) – The Model to be added to the source. Multiple models give, as a result,
-the sum of the individual models</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Source.evaluate">
-<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Source.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.evaluate" title="Permalink to this definition">#</a></dt>
-<dd><p>Evaluates all models in the given points and returns the sum.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>ArrayLike</em>) – Points in which the models have to be evaluated</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.core.Source.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/core.html#Source.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.core.Source.f" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the sum of the evaluation of all models in the x-coordinates defined in the source.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-satlas2.interface">
-<span id="satlas2-interface-module"></span><h2>satlas2.interface module<a class="headerlink" href="#module-satlas2.interface" title="Permalink to this headline">#</a></h2>
-<p>Implementation of the base HFSModel and SumModel classes, based on the syntax used in the original satlas</p>
-<p>NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT ALL FUNCTIONALITIES OF THE ORIGINAL SATLAS ARE IMPLEMENTED</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.interface.</span></span><span class="sig-name descname"><span class="pre">HFSModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ABC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwhm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[50.0,</span> <span class="pre">50.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.001]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'voigt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_racah</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_saturation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saturation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sidepeak_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'N':</span> <span class="pre">None,</span> <span class="pre">'Offset':</span> <span class="pre">0,</span> <span class="pre">'Poisson':</span> <span class="pre">0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crystalballparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudovoigtparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asymmetryparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'HFModel__'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Initializes a hyperfine spectrum Model with the given hyperfine parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>I</strong> (<em>float</em>) – Integer or half-integer value of the nuclear spin</p></li>
-<li><p><strong>J</strong> (<em>ArrayLike</em>) – A sequence of 2 spins, respectively the J value of the lower state
-and the J value of the higher state</p></li>
-<li><p><strong>ABC</strong> (<em>ArrayLike</em>) – A sequence of 2 A, 2 B and 2 C values, respectively for the lower and the higher state</p></li>
-<li><p><strong>centroid</strong> (<em>float</em><em>, </em><em>optional</em>) – The centroid of the spectrum, by default 0</p></li>
-<li><p><strong>fwhm</strong> (<em>ArrayLike</em><em>, </em><em>length = 2</em><em>, </em><em>optional</em>) – First element: The Gaussian FWHM of the Voigt profile, by default 50
-Second element: The Lorentzian FWHM of the Voigt profile, by default 50</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – The amplitude of the entire spectrum, by default 1.0</p></li>
-<li><p><strong>background_params</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – The coefficients of the polynomial background, by default [0.001]</p></li>
-<li><p><strong>shape</strong> (<em>str</em><em>, </em><em>optional</em>) – Voigt only</p></li>
-<li><p><strong>use_racah</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use individual amplitudes are setting the Racah intensities, by default True</p></li>
-<li><p><strong>use_saturation</strong> (<em>bool</em><em>, </em><em>optional</em>) – False only</p></li>
-<li><p><strong>saturation</strong> (<em>float</em><em>, </em><em>optional</em>) – No saturation</p></li>
-<li><p><strong>sidepeak_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – keys:</p></li>
-<li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of sidepeaks to be generated, by default None</p></li>
-<li><p><strong>Poisson</strong> (<em>float</em><em>, </em><em>optional</em>) – The poisson factor for the sidepeaks, by default 0</p></li>
-<li><p><strong>Offset</strong> (<em>float</em><em>, </em><em>optional</em>) – Offset in units of x for the sidepeak, by default 0</p></li>
-<li><p><strong>prefunc</strong> (<em>callable</em><em>, </em><em>optional</em>) – Transformation to be applied on the input before evaluation, by default None</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.chisquare_fit">
-<span class="sig-name descname"><span class="pre">chisquare_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hessian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'leastsq'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_correl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.chisquare_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.chisquare_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform a fit of this model to the data provided in this function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>ArrayLike</em>) – x-values of the data points</p></li>
-<li><p><strong>y</strong> (<em>ArrayLike</em>) – y-values of the data-points</p></li>
-<li><p><strong>yerr</strong> (<em>Union</em><em>[</em><em>ArrayLike</em><em>, </em><em>callable</em><em>]</em><em>, </em><em>optional</em>) – 1-sigma error on the y-values, values or function to be used on f(x),
-by default None=sqrt(f(x))</p></li>
-<li><p><strong>xerr</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – 1-sigma error on the x-values, by default None</p></li>
-<li><p><strong>func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Not implemented</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Not implemented, by default False</p></li>
-<li><p><strong>hessian</strong> (<em>bool</em><em>, </em><em>optional</em>) – Not implemented, by default False</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects the method used by the <code class="xref py py-func docutils literal notranslate"><span class="pre">lmfit.minimizer()</span></code>, by default ‘leastsq’</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns a boolean indicating the success of the fit, and the message accompanying it.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>Tuple</em>[<em>bool</em>, <em>str</em>]</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>NotImplementedError</strong> – When the chosen options for func, verbose and Hessian result is not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.display_chisquare_fit">
-<span class="sig-name descname"><span class="pre">display_chisquare_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.display_chisquare_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.display_chisquare_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate a report of the fitting results.</p>
-<p>The report contains the best-fit values for the parameters and their uncertainties and correlations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>scaled</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the errors are scaled with reduced chisquared, by default True, and only True</p></li>
-<li><p><strong>show_correl</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show a list of sorted correlations, by default False</p></li>
-<li><p><strong>min_correl</strong> (<em>float</em><em>, </em><em>optional</em>) – Smallest correlation in absolute value to show, by default 0.1</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Multi-line text of fit report.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>str</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.f" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the response for an unshifted spectrum with background</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>ArrayLike</em>) – </p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.fix_ratio">
-<span class="sig-name descname"><span class="pre">fix_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.fix_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.fix_ratio" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.get_result">
-<span class="sig-name descname"><span class="pre">get_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.get_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.get_result" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the variable names, values and estimated error bars for the
-parameters as seperate lists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>selection</strong> (<em>string</em><em>, </em><em>optional</em>) – Selects if the chisquare (‘chisquare’ or ‘any’) or MLE values are
-used. Defaults to ‘chisquare’, and chisquare only</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>names, values, uncertainties</strong> – Returns a 3-tuple of lists containing the names of the parameters,
-the values and the estimated uncertainties, scaled with the reduced chisquared.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple of lists</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.get_result_dict">
-<span class="sig-name descname"><span class="pre">get_result_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.get_result_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.get_result_dict" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<em>{'chisquare'</em><em>, </em><em>'mle'}</em>) – Selects which parameters have to be returned, by default ‘chisquare’, and only ‘chisquare’</p></li>
-<li><p><strong>scaled</strong> (<em>boolean</em>) – Selects if, in case of chisquare parameters, the uncertainty
-has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dictionary of the form described above.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>dict</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.get_result_frame">
-<span class="sig-name descname"><span class="pre">get_result_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.get_result_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.get_result_frame" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the data from the fit in a pandas DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects which fitresults have to be loaded. Can be ‘chisquare’ or
-‘mle’. Defaults to ‘chisquare’, and only ‘chisquare’.</p></li>
-<li><p><strong>selected</strong> (<em>list of strings</em><em>, </em><em>optional</em>) – Selects the parameters that have any string in the list
-as a substring in their name. Set to <em>None</em> to select
-all parameters. Defaults to None, and only None.</p></li>
-<li><p><strong>bounds</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Selects if the boundary also has to be given. Defaults to
-False, and onlyb False.</p></li>
-<li><p><strong>vary</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Selects if only the parameters that have been varied have to
-be supplied. Defaults to False, and only False.</p></li>
-<li><p><strong>scaled</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>resultframe</strong> – Dateframe with MultiIndex, using the variable names as main column names
-and the two rows under for the value and the uncertainty</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.set_expr">
-<span class="sig-name descname"><span class="pre">set_expr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.set_expr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.set_expr" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the expression to be used for the given parameters.
-The constraint should be a dict with following structure:</p>
-<dl class="simple">
-<dt>key: string</dt><dd><p>Parameter to constrain</p>
-</dd>
-<dt>value: ArrayLike, length = 2</dt><dd><p>First element: Factor to multiply
-Second element: Parameter that the key should be constrained to. {‘Au’:[‘0.5’,’Al’]} results in Au = 0.5*Al</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.HFSModel.set_variation">
-<span class="sig-name descname"><span class="pre">set_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varyDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#HFSModel.set_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.HFSModel.set_variation" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the variation of the fitparameters as supplied in the
-dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>varyDict</strong> (<em>dictionary</em>) – A dictionary containing ‘key: True/False’ mappings with
-the parameter names as keys.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satlas2.interface.</span></span><span class="sig-name descname"><span class="pre">SumModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'source'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>models</strong> (<em>ArrayLike</em><em>, </em><em>with instances of HFSModel as elements</em>) – The models that should be summed</p></li>
-<li><p><strong>background_params</strong> (<em>Dict with keys: 'values' and 'bounds' and values ArrayLike</em>) – The bounds where the background changes stepwise in key ‘bounds’
-The background values between the bounds
-i.e. {‘values’: [2,5], ‘bounds’:[-10]} means a background of 2 from -inf to -10, and a background of 5 from -10 to +inf</p></li>
-<li><p><strong>name</strong> (<em>string</em><em>, </em><em>optional</em>) – Name of this summodel</p></li>
-<li><p><strong>source_name</strong> (<em>string</em><em>, </em><em>optional</em>) – Name of the DataSource instance (from satlas2)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.chisquare_fit">
-<span class="sig-name descname"><span class="pre">chisquare_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hessian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'leastsq'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.chisquare_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.chisquare_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform a fit of this model to the data provided in this function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>ArrayLike</em>) – x-values of the data points</p></li>
-<li><p><strong>y</strong> (<em>ArrayLike</em>) – y-values of the data-points</p></li>
-<li><p><strong>yerr</strong> (<em>Union</em><em>[</em><em>ArrayLike</em><em>, </em><em>callable</em><em>]</em><em>, </em><em>optional</em>) – 1-sigma error on the y-values, values or function to be used on f(x),
-by default None=sqrt(f(x))</p></li>
-<li><p><strong>xerr</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – 1-sigma error on the x-values, by default None</p></li>
-<li><p><strong>func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Not implemented</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Not implemented, by default False</p></li>
-<li><p><strong>hessian</strong> (<em>bool</em><em>, </em><em>optional</em>) – Not implemented, by default False</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects the method used by the <code class="xref py py-func docutils literal notranslate"><span class="pre">lmfit.minimizer()</span></code>, by default ‘leastsq’</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns a boolean indicating the success of the fit, and the message accompanying it.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>Tuple</em>[<em>bool</em>, <em>str</em>]</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>NotImplementedError</strong> – When the chosen options for func, verbose and Hessian result is not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.display_chisquare_fit">
-<span class="sig-name descname"><span class="pre">display_chisquare_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.display_chisquare_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.display_chisquare_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate a report of the fitting results.</p>
-<p>The report contains the best-fit values for the parameters and their uncertainties and correlations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>scaled</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the errors are scaled with reduced chisquared, by default True, and only True</p></li>
-<li><p><strong>show_correl</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show a list of sorted correlations, by default False</p></li>
-<li><p><strong>min_correl</strong> (<em>float</em><em>, </em><em>optional</em>) – Smallest correlation in absolute value to show, by default 0.1</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Multi-line text of fit report.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>str</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArrayLike</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.f" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculate the response for a spectrum</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>ArrayLike</em>) – </p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ArrayLike</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.get_result">
-<span class="sig-name descname"><span class="pre">get_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.get_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.get_result" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the variable names, values and estimated error bars for the
-parameters as seperate lists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>selection</strong> (<em>string</em><em>, </em><em>optional</em>) – Selects if the chisquare (‘chisquare’ or ‘any’) or MLE values are
-used. Defaults to ‘chisquare’, and chisquare only</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>names, values, uncertainties</strong> – Returns a 3-tuple of lists containing the names of the parameters. The first list each tuple element contains the names/values/uncertainties of the first model added to the summodel, etc.
-The last list in each tuple element contains the names/values/uncertainties for the step background
-The values and the estimated uncertainties are always scaled with the reduced chisquared.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple of lists</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.get_result_dict">
-<span class="sig-name descname"><span class="pre">get_result_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.get_result_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.get_result_dict" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key ‘bkg’ in dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<em>{'chisquare'</em><em>, </em><em>'mle'}</em>) – Selects which parameters have to be returned, by default ‘chisquare’, and only ‘chisquare’</p></li>
-<li><p><strong>scaled</strong> (<em>boolean</em>) – Selects if, in case of chisquare parameters, the uncertainty
-has to be scaled by sqrt(reduced_chisquare). Defaults to True, and only True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dictionary of the form described above.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><em>dict</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.get_result_frame">
-<span class="sig-name descname"><span class="pre">get_result_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.get_result_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.get_result_frame" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the data from the fit in a pandas DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects which fitresults have to be loaded. Can be ‘chisquare’ or
-‘mle’. Defaults to ‘chisquare’, and only ‘chisquare’.</p></li>
-<li><p><strong>selected</strong> (<em>list of strings</em><em>, </em><em>optional</em>) – Selects the parameters that have any string in the list
-as a substring in their name. Set to <em>None</em> to select
-all parameters. Defaults to None, and only None.</p></li>
-<li><p><strong>bounds</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Selects if the boundary also has to be given. Defaults to
-False, and onlyb False.</p></li>
-<li><p><strong>vary</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Selects if only the parameters that have been varied have to
-be supplied. Defaults to False, and only False.</p></li>
-<li><p><strong>scaled</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Sets the uncertainty scaling with the reduced chisquare value. Default to True, and only True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>resultframe</strong> – Dateframe with MultiIndex, using the model name + variable names as main column names
-and the two rows under for the value and the uncertainty</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satlas2.interface.SumModel.set_variation">
-<span class="sig-name descname"><span class="pre">set_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varyDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#SumModel.set_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.SumModel.set_variation" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="satlas2.interface.chisquare_fit">
-<span class="sig-prename descclassname"><span class="pre">satlas2.interface.</span></span><span class="sig-name descname"><span class="pre">chisquare_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'HFSModel'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'SumModel'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xerr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArrayLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'leastsq'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/interface.html#chisquare_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.interface.chisquare_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform a fit of the provided model to the data provided in this function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> – </p></li>
-<li><p><strong>x</strong> (<em>ArrayLike</em>) – x-values of the data points</p></li>
-<li><p><strong>y</strong> (<em>ArrayLike</em>) – y-values of the data points</p></li>
-<li><p><strong>yerr</strong> (<em>ArrayLike</em>) – 1-sigma error on the y-values</p></li>
-<li><p><strong>xerr</strong> (<em>ArrayLike</em><em>, </em><em>optional</em>) – 1-sigma error on the x-values</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Selects the method used by the <code class="xref py py-func docutils literal notranslate"><span class="pre">lmfit.minimizer()</span></code>, by default ‘leastsq’.</p></li>
-<li><p><strong>show_correl</strong> (<em>bool</em><em>, </em><em>optional</em>) – Show correlations between fitted parameters in fit message, by default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Instance of Fitter</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-satlas2.plotting">
-<span id="satlas2-plotting-module"></span><h2>satlas2.plotting module<a class="headerlink" href="#module-satlas2.plotting" title="Permalink to this headline">#</a></h2>
-<p>Functions for the generation of plots related to the fitting results.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="satlas2.plotting.generateChisquareMap">
-<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateChisquareMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chisquare'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_diag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/plotting.html#generateChisquareMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateChisquareMap" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates a correlation map for either the chisquare or the MLE method.
-On the diagonal, the chisquare or loglikelihood is drawn as a function of one fixed parameter.
-Refitting to the data each time gives the points on the line. A dashed line is drawn on these
-plots, with the intersection with the plots giving the correct confidence interval for the
-parameter. In solid lines, the interval estimated by the fitting routine is drawn.
-On the offdiagonal, two parameters are fixed and the model is again fitted to the data.
-The change in chisquare/loglikelihood is mapped to 1, 2 and 3 sigma contourmaps.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fitter</strong> (<a class="reference internal" href="#satlas2.core.Fitter" title="satlas2.core.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fitter</span></code></a>) – Fitter instance for which the chisquare map must be created.</p></li>
-<li><p><strong>filter</strong> (<em>list of strings</em>) – Only the parameters matching the names given in this list will be used
-to generate the maps.</p></li>
-<li><p><strong>resolution_diag</strong> (<em>int</em>) – Number of points for the line plot on each diagonal.</p></li>
-<li><p><strong>resolution_map</strong> (<em>int</em>) – Number of points along each dimension for the meshgrids.</p></li>
-<li><p><strong>fit_kws</strong> (<em>dictionary</em>) – Dictionary of keywords to pass on to the fitting routine.</p></li>
-<li><p><strong>npar</strong> (<em>int</em>) – Number of parameters for which simultaneous predictions need to be made.
-Influences the uncertainty estimates from the parabola.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="satlas2.plotting.generateCorrelationPlot">
-<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateCorrelationPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binreduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin2dreduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/plotting.html#generateCorrelationPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateCorrelationPlot" title="Permalink to this definition">#</a></dt>
-<dd><p>Given the random walk data, creates a triangle plot: distribution of
-a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
-3 sigma contours on the off-diagonal. The 1-sigma limits based on the
-percentile method are also indicated, as well as added to the title.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>string</em>) – Filename for the h5 file containing the data from the walk.</p></li>
-<li><p><strong>filter</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If supplied, only this list of columns is used for the plot.</p></li>
-<li><p><strong>bins</strong> (<em>int</em><em> or </em><em>list of int</em><em>, </em><em>optional</em>) – If supplied, use this number of bins for the plotting.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns the MatPlotLib figure created.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>figure</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="satlas2.plotting.generateWalkPlot">
-<span class="sig-prename descclassname"><span class="pre">satlas2.plotting.</span></span><span class="sig-name descname"><span class="pre">generateWalkPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burnin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/satlas2/plotting.html#generateWalkPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#satlas2.plotting.generateWalkPlot" title="Permalink to this definition">#</a></dt>
-<dd><p>Given the random walk data, the random walk for the selected parameters
-is plotted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>string</em>) – Filename for the h5 file containing the data from the walk.</p></li>
-<li><p><strong>filter</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If supplied, only this list of parameters is used for the plot.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns the MatPlotLib figure created.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>figure</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 </section>
 
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../tutorials/interface.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Using the SATLAS interface</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="satlas2.models.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">satlas2.models package</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By Wouter Gins<br/>
-  
-      &copy; Copyright 2023, Wouter Gins.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
 
-
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../tutorials/interface/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Using the SATLAS interface</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="summaries/core.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Core</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-module-summary">Core module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models-module-summary">Models module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-module-summary">Interface module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-module-summary">Plotting module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities-module-summary">Utilities module summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpages">Subpages</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Wouter Gins
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Wouter Gins.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

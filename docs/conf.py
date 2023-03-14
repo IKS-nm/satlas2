@@ -42,8 +42,11 @@ extensions = [
     'sphinx.ext.inheritance_diagram',
     'sphinx.ext.githubpages',
     'sphinx.ext.autosectionlabel',
+    'sphinx_toolbox.shields'
 ]
 
+github_username = 'woutergins'
+github_repository = 'satlas2'
 
 graphviz_output_format = 'png'
 

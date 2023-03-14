@@ -1,0 +1,1110 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Using the SATLAS interface &#8212; SATLAS2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/sphinx-toolbox.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/interface/index';</script>
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API reference" href="../../api/index.html" />
+    <link rel="prev" title="Benchmark of SATLAS2 speed" href="../benchmark/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/satlas_light.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/satlas_dark.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    SATLAS2 – Statistical Analysis Toolbox for Laser Spectroscopy, version 2
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture of SATLAS2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Tutorial</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../createmodel/index.html">Making a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fitting/index.html">Fitting in SATLAS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dataframe/index.html">Extracting dataframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../walkoptions/index.html">Different <code class="docutils literal notranslate"><span class="pre">emcee</span></code> moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../benchmark/index.html">Benchmark of SATLAS2 speed</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Using the SATLAS interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/core.html">API Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/models.html">API Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/interface.html">API Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/plotting.html">API Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/summaries/utilities.html">API Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/edit/master/tutorials/interface/index.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/woutergins/satlas2/issues/new?title=Issue%20on%20page%20%2Ftutorials/interface/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/tutorials/interface/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Using the SATLAS interface</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-a-single-hyperfine-spectrum">Fitting a single hyperfine spectrum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overlapping-hyperfine-spectra">Overlapping hyperfine spectra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-background-for-multiplets">Different background for multiplets</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="using-the-satlas-interface">
+<h1>Using the SATLAS interface<a class="headerlink" href="#using-the-satlas-interface" title="Permalink to this heading">#</a></h1>
+<p>As a stepping stone between SATLAS and SATLAS2, an interface has been
+provided which can mostly be used as a drop-in replacement for code that
+uses the SATLAS syntax. Note that not all functionalities have been
+implemented in this fashion. For users that require these
+functionalities, we recommend migrating to SATLAS2.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;..\src&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">satlas2</span>
+<span class="kn">import</span> <span class="nn">satlas</span> <span class="k">as</span> <span class="nn">sat</span>
+
+
+<span class="k">def</span> <span class="nf">modifiedSqrt</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">output</span><span class="p">[</span><span class="nb">input</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-3</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+</div>
+<section id="fitting-a-single-hyperfine-spectrum">
+<h2>Fitting a single hyperfine spectrum<a class="headerlink" href="#fitting-a-single-hyperfine-spectrum" title="Permalink to this heading">#</a></h2>
+<p>The most common task, and the one this interface is meant for, is
+fitting a single hyperfine spectrum. A special class in SATLAS2 called
+<em>HFSModel</em> has been created as a replacement for the equivalent SATLAS
+<em>HFSModel</em>. Note that the normal hyperfine spectrum model in SATLAS2 is
+called <em>HFS</em>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spin</span> <span class="o">=</span> <span class="mf">3.5</span>
+<span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
+<span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9600</span><span class="p">,</span> <span class="mi">175</span><span class="p">]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">315</span><span class="p">]</span>
+<span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">FWHMG</span> <span class="o">=</span> <span class="mi">135</span>
+<span class="n">FWHML</span> <span class="o">=</span> <span class="mi">101</span>
+<span class="n">centroid</span> <span class="o">=</span> <span class="mi">480</span>
+<span class="n">bkg</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">90</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">17500</span><span class="p">,</span> <span class="o">-</span><span class="mi">14500</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">23000</span><span class="p">,</span> <span class="mi">40</span><span class="p">)])</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hfs</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">I</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span>
+                       <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span>
+                       <span class="n">ABC</span><span class="o">=</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                       <span class="n">centroid</span><span class="o">=</span><span class="n">centroid</span><span class="p">,</span>
+                       <span class="n">fwhm</span><span class="o">=</span><span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                       <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+                       <span class="n">background_params</span><span class="o">=</span><span class="n">bkg</span><span class="p">,</span>
+                       <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The object called <em>hfs</em> can be used with the syntax of SATLAS.
+Generating Poisson-distributed data is done by simply calling the
+function with frequency values as an argument, and using the result for
+the NumPy Poisson random number generator.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">generateSpectrum</span><span class="p">(</span><span class="n">hfs</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">poisson</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In order to demonstrate the difference in performance, the centroid is
+offset by 100 from the actual value and the fitting is done by both the
+interface and SATLAS.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hfs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">centroid</span> <span class="o">-</span> <span class="mi">100</span>
+<span class="c1"># Normal SATLAS implementation</span>
+<span class="n">hfs1</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">spin</span><span class="p">,</span>
+                    <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">centroid</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+                    <span class="n">background_params</span><span class="o">=</span><span class="n">bkg</span><span class="p">,</span>
+                    <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs1</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+<span class="c1"># Interface fitting</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fitting 1 dataset with chisquare (Pearson, satlas2)...&#39;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">satlas2</span><span class="o">.</span><span class="n">chisquare_fit</span><span class="p">(</span><span class="n">hfs</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hfs</span><span class="o">.</span><span class="n">display_chisquare_fit</span><span class="p">(</span><span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># SATLAS fitting</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fitting 1 dataset with chisquare (Pearson, satlas)...&#39;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sat</span><span class="o">.</span><span class="n">chisquare_fit</span><span class="p">(</span><span class="n">hfs1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">hfs1</span><span class="o">.</span><span class="n">display_chisquare_fit</span><span class="p">(</span><span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dt2</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS2: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS1: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fitting</span> <span class="mi">1</span> <span class="n">dataset</span> <span class="k">with</span> <span class="n">chisquare</span> <span class="p">(</span><span class="n">Pearson</span><span class="p">,</span> <span class="n">satlas2</span><span class="p">)</span><span class="o">...</span>
+<span class="n">define</span> <span class="n">whether</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">see</span> <span class="n">the</span> <span class="n">correlations</span> <span class="ow">in</span> <span class="n">display_chisquare_fit</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="p">[[</span><span class="n">Fit</span> <span class="n">Statistics</span><span class="p">]]</span>
+    <span class="c1"># fitting method   = leastsq</span>
+    <span class="c1"># function evals   = 137</span>
+    <span class="c1"># data points      = 150</span>
+    <span class="c1"># variables        = 8</span>
+    <span class="n">chi</span><span class="o">-</span><span class="n">square</span>         <span class="o">=</span> <span class="mf">151.188938</span>
+    <span class="n">reduced</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span> <span class="o">=</span> <span class="mf">1.06471083</span>
+    <span class="n">Akaike</span> <span class="n">info</span> <span class="n">crit</span>   <span class="o">=</span> <span class="mf">17.1842512</span>
+    <span class="n">Bayesian</span> <span class="n">info</span> <span class="n">crit</span> <span class="o">=</span> <span class="mf">41.2693335</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">Fit___HFModel__3_5___centroid</span><span class="p">:</span>  <span class="mf">482.548151</span> <span class="o">+/-</span> <span class="mf">7.56664202</span> <span class="p">(</span><span class="mf">1.57</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">380</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Al</span><span class="p">:</span>        <span class="mf">9604.53249</span> <span class="o">+/-</span> <span class="mf">6.41301505</span> <span class="p">(</span><span class="mf">0.07</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">9600</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Au</span><span class="p">:</span>        <span class="mf">176.460909</span> <span class="o">+/-</span> <span class="mf">2.73509340</span> <span class="p">(</span><span class="mf">1.55</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">175</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Bl</span><span class="p">:</span>        <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Bu</span><span class="p">:</span>        <span class="mf">348.564588</span> <span class="o">+/-</span> <span class="mf">19.6945285</span> <span class="p">(</span><span class="mf">5.65</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">315</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Cl</span><span class="p">:</span>        <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Cu</span><span class="p">:</span>        <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___FWHMG</span><span class="p">:</span>     <span class="mf">142.382607</span> <span class="o">+/-</span> <span class="mf">57.6647366</span> <span class="p">(</span><span class="mf">40.50</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">135</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___FWHML</span><span class="p">:</span>     <span class="mf">100.522879</span> <span class="o">+/-</span> <span class="mf">63.5247619</span> <span class="p">(</span><span class="mf">63.19</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___scale</span><span class="p">:</span>     <span class="mf">89.2398271</span> <span class="o">+/-</span> <span class="mf">7.15348105</span> <span class="p">(</span><span class="mf">8.02</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp3to2</span><span class="p">:</span>   <span class="mf">0.4545455</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp3to3</span><span class="p">:</span>   <span class="mf">0.4772727</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp3to4</span><span class="p">:</span>   <span class="mf">0.3409091</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp4to3</span><span class="p">:</span>   <span class="mf">0.1590909</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp4to4</span><span class="p">:</span>   <span class="mf">0.4772727</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__3_5___Amp4to5</span><span class="p">:</span>   <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___bkg___p0</span><span class="p">:</span>                 <span class="mf">100.670729</span> <span class="o">+/-</span> <span class="mf">1.59295191</span> <span class="p">(</span><span class="mf">1.58</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">Fitting</span> <span class="mi">1</span> <span class="n">dataset</span> <span class="k">with</span> <span class="n">chisquare</span> <span class="p">(</span><span class="n">Pearson</span><span class="p">,</span> <span class="n">satlas</span><span class="p">)</span><span class="o">...</span>
+<span class="n">Chisquare</span> <span class="n">fitting</span> <span class="ow">in</span> <span class="n">progress</span> <span class="p">(</span><span class="mf">151.18893761580117</span><span class="p">):</span> <span class="mi">172</span><span class="n">it</span> <span class="p">[</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">,</span> <span class="mf">182.60</span><span class="n">it</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+
+<span class="n">NDoF</span><span class="p">:</span> <span class="mi">142</span><span class="p">,</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">151.18894</span><span class="p">,</span> <span class="n">Reduced</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">1.0647108</span>
+<span class="n">Akaike</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">17.18425</span><span class="p">,</span> <span class="n">Bayesian</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">41.269333</span>
+<span class="n">Errors</span> <span class="n">scaled</span> <span class="k">with</span> <span class="n">reduced</span> <span class="n">chisquare</span><span class="o">.</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">FWHMG</span><span class="p">:</span>        <span class="mf">142.398642</span> <span class="o">+/-</span> <span class="mf">57.6603105</span> <span class="p">(</span><span class="mf">40.49</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">142.3868</span><span class="p">)</span>
+    <span class="n">FWHML</span><span class="p">:</span>        <span class="mf">100.507633</span> <span class="o">+/-</span> <span class="mf">63.5294155</span> <span class="p">(</span><span class="mf">63.21</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">100.5189</span><span class="p">)</span>
+    <span class="n">TotalFWHM</span><span class="p">:</span>    <span class="mf">203.616069</span> <span class="o">+/-</span> <span class="mf">21.3016922</span> <span class="p">(</span><span class="mf">10.46</span><span class="o">%</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0.5346*FWHML+(0.2166*FWHML**2+FWHMG**2)**0.5&#39;</span>
+    <span class="n">Scale</span><span class="p">:</span>        <span class="mf">89.2388856</span> <span class="o">+/-</span> <span class="mf">7.15309388</span> <span class="p">(</span><span class="mf">8.02</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">89.23958</span><span class="p">)</span>
+    <span class="n">Saturation</span><span class="p">:</span>   <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp3__2</span><span class="p">:</span>      <span class="mf">0.4546399</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp3__3</span><span class="p">:</span>      <span class="mf">0.4773649</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp3__4</span><span class="p">:</span>      <span class="mf">0.3410048</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp4__3</span><span class="p">:</span>      <span class="mf">0.1591578</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp4__4</span><span class="p">:</span>      <span class="mf">0.4773975</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Amp4__5</span><span class="p">:</span>      <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Al</span><span class="p">:</span>           <span class="mf">9604.53225</span> <span class="o">+/-</span> <span class="mf">6.41310262</span> <span class="p">(</span><span class="mf">0.07</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">9604.532</span><span class="p">)</span>
+    <span class="n">Au</span><span class="p">:</span>           <span class="mf">176.461706</span> <span class="o">+/-</span> <span class="mf">2.73513443</span> <span class="p">(</span><span class="mf">1.55</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">176.4611</span><span class="p">)</span>
+    <span class="n">Bl</span><span class="p">:</span>           <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Bu</span><span class="p">:</span>           <span class="mf">348.556409</span> <span class="o">+/-</span> <span class="mf">19.6948333</span> <span class="p">(</span><span class="mf">5.65</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">348.5625</span><span class="p">)</span>
+    <span class="n">Cl</span><span class="p">:</span>           <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Cu</span><span class="p">:</span>           <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Centroid</span><span class="p">:</span>     <span class="mf">482.545220</span> <span class="o">+/-</span> <span class="mf">7.56678464</span> <span class="p">(</span><span class="mf">1.57</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">482.5474</span><span class="p">)</span>
+    <span class="n">Background0</span><span class="p">:</span>  <span class="mf">100.670920</span> <span class="o">+/-</span> <span class="mf">1.59296489</span> <span class="p">(</span><span class="mf">1.58</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">100.6708</span><span class="p">)</span>
+    <span class="n">N</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+<span class="n">SATLAS2</span><span class="p">:</span> <span class="mf">0.043</span> <span class="n">s</span>
+<span class="n">SATLAS1</span><span class="p">:</span> <span class="mf">0.967</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>Note that the results are functionally identical: the slight difference
+is due to a more modern implementation of the least squares fitting
+routine that is used under the hood by SATLAS2. The speedup by using
+SATLAS 2 is about a factor 20 for a single spectrum.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">left_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">right_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">left_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">right_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax11</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax12</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax21</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax22</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax12</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax21</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">left_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">left_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">right_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">right_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+
+<span class="n">ax21</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">left_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">left_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs1</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">right_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">right_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs1</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit&#39;</span><span class="p">)</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS2&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/output_9_0.png" src="../../_images/output_9_0.png" />
+</section>
+<section id="overlapping-hyperfine-spectra">
+<h2>Overlapping hyperfine spectra<a class="headerlink" href="#overlapping-hyperfine-spectra" title="Permalink to this heading">#</a></h2>
+<p>The other most common usecase for SATLAS was analysis of spectra with an
+isomer present, resulting in overlapping spectra. In the SATLAS
+terminology, this would result in a <em>SumModel</em> being used. In SATLAS2, a
+second <em>HFS</em> is simply added to the Source. However, the interface does
+provide the folllowing functionality:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
+<span class="n">FWHMG</span> <span class="o">=</span> <span class="mi">135</span>
+<span class="n">FWHML</span> <span class="o">=</span> <span class="mi">101</span>
+
+<span class="n">spin1</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">A1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5300</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="n">B1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">230</span><span class="p">]</span>
+<span class="n">C1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">centroid1</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">bkg1</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">scale1</span> <span class="o">=</span> <span class="mi">90</span>
+
+<span class="n">spin2</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">A2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3300</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+<span class="n">B2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">270</span><span class="p">]</span>
+<span class="n">C2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">centroid2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+<span class="n">bkg2</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">scale2</span> <span class="o">=</span> <span class="mi">160</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">13000</span><span class="p">,</span> <span class="o">-</span><span class="mi">9000</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11000</span><span class="p">,</span> <span class="mi">14000</span><span class="p">,</span> <span class="mi">40</span><span class="p">)])</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Interface models</span>
+<span class="n">hfs1</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">I</span><span class="o">=</span><span class="n">spin1</span><span class="p">,</span>
+                        <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span>
+                        <span class="n">ABC</span><span class="o">=</span><span class="p">[</span><span class="n">A1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="n">centroid</span><span class="o">=</span><span class="n">centroid1</span><span class="p">,</span>
+                        <span class="n">fwhm</span><span class="o">=</span><span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                        <span class="n">scale</span><span class="o">=</span><span class="n">scale1</span><span class="p">,</span>
+                        <span class="n">background_params</span><span class="o">=</span><span class="p">[</span><span class="n">bkg1</span><span class="p">],</span>
+                        <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs1</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">hfs2</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">I</span><span class="o">=</span><span class="n">spin2</span><span class="p">,</span>
+                        <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span>
+                        <span class="n">ABC</span><span class="o">=</span><span class="p">[</span><span class="n">A2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="n">centroid</span><span class="o">=</span><span class="n">centroid2</span><span class="p">,</span>
+                        <span class="n">fwhm</span><span class="o">=</span><span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                        <span class="n">scale</span><span class="o">=</span><span class="n">scale2</span><span class="p">,</span>
+                        <span class="n">background_params</span><span class="o">=</span><span class="p">[</span><span class="n">bkg2</span><span class="p">],</span>
+                        <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs2</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">generateSpectrum</span><span class="p">([</span><span class="n">hfs1</span><span class="p">,</span> <span class="n">hfs2</span><span class="p">,</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">Polynomial</span><span class="p">([</span><span class="n">bkg1</span><span class="p">])],</span> <span class="n">x</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">poisson</span><span class="p">)</span>
+
+<span class="n">hfs1</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">centroid1</span> <span class="o">-</span> <span class="mi">100</span>
+<span class="n">hfs2</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;centroid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">centroid2</span> <span class="o">-</span> <span class="mi">100</span>
+<span class="n">summodel</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">SumModel</span><span class="p">([</span><span class="n">hfs1</span><span class="p">,</span> <span class="n">hfs2</span><span class="p">],</span> <span class="p">{</span>
+    <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bkg1</span><span class="p">,</span> <span class="n">bkg2</span><span class="p">],</span>
+    <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="c1"># SATLAS implementation</span>
+<span class="n">hfs3</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">spin1</span><span class="p">,</span>
+                    <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">A1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">centroid1</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">scale1</span><span class="p">,</span>
+                    <span class="n">background_params</span><span class="o">=</span><span class="n">bkg</span><span class="p">,</span>
+                    <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs4</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">spin2</span><span class="p">,</span>
+                    <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">A2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">centroid2</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">scale2</span><span class="p">,</span>
+                    <span class="n">background_params</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs3</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">hfs4</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Background0&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">summodel2</span> <span class="o">=</span> <span class="n">hfs3</span> <span class="o">+</span> <span class="n">hfs4</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fitting 1 dataset with chisquare (Pearson, satlas2)...&#39;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">chisquare_fit</span><span class="p">(</span><span class="n">summodel</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summodel</span><span class="o">.</span><span class="n">display_chisquare_fit</span><span class="p">(</span><span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sat</span><span class="o">.</span><span class="n">chisquare_fit</span><span class="p">(</span><span class="n">summodel2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">summodel2</span><span class="o">.</span><span class="n">display_chisquare_fit</span><span class="p">(</span><span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dt2</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS2: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS1: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fitting</span> <span class="mi">1</span> <span class="n">dataset</span> <span class="k">with</span> <span class="n">chisquare</span> <span class="p">(</span><span class="n">Pearson</span><span class="p">,</span> <span class="n">satlas2</span><span class="p">)</span><span class="o">...</span>
+<span class="p">[[</span><span class="n">Fit</span> <span class="n">Statistics</span><span class="p">]]</span>
+    <span class="c1"># fitting method   = leastsq</span>
+    <span class="c1"># function evals   = 423</span>
+    <span class="c1"># data points      = 175</span>
+    <span class="c1"># variables        = 16</span>
+    <span class="n">chi</span><span class="o">-</span><span class="n">square</span>         <span class="o">=</span> <span class="mf">177.052463</span>
+    <span class="n">reduced</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span> <span class="o">=</span> <span class="mf">1.11353750</span>
+    <span class="n">Akaike</span> <span class="n">info</span> <span class="n">crit</span>   <span class="o">=</span> <span class="mf">34.0405200</span>
+    <span class="n">Bayesian</span> <span class="n">info</span> <span class="n">crit</span> <span class="o">=</span> <span class="mf">84.6770956</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">Fit___HFModel__4___centroid</span><span class="p">:</span>       <span class="mf">392.980617</span> <span class="o">+/-</span> <span class="mf">13.2182180</span> <span class="p">(</span><span class="mf">3.36</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Al</span><span class="p">:</span>             <span class="mf">5306.16636</span> <span class="o">+/-</span> <span class="mf">9.74519323</span> <span class="p">(</span><span class="mf">0.18</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">5300</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Au</span><span class="p">:</span>             <span class="mf">103.560669</span> <span class="o">+/-</span> <span class="mf">4.03858459</span> <span class="p">(</span><span class="mf">3.90</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Bl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Bu</span><span class="p">:</span>             <span class="mf">195.784015</span> <span class="o">+/-</span> <span class="mf">32.9150928</span> <span class="p">(</span><span class="mf">16.81</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">230</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Cl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Cu</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___FWHMG</span><span class="p">:</span>          <span class="mf">251.277769</span> <span class="o">+/-</span> <span class="mf">25.0965330</span> <span class="p">(</span><span class="mf">9.99</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">135</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___FWHML</span><span class="p">:</span>          <span class="mf">0.01000055</span> <span class="o">+/-</span> <span class="mf">4.50439705</span> <span class="p">(</span><span class="mf">45041.49</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___scale</span><span class="p">:</span>          <span class="mf">79.7727405</span> <span class="o">+/-</span> <span class="mf">7.53870955</span> <span class="p">(</span><span class="mf">9.45</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp7_2to5_2</span><span class="p">:</span>    <span class="mf">0.5</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp7_2to7_2</span><span class="p">:</span>    <span class="mf">0.4938272</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp7_2to9_2</span><span class="p">:</span>    <span class="mf">0.3395062</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp9_2to7_2</span><span class="p">:</span>    <span class="mf">0.1728395</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp9_2to9_2</span><span class="p">:</span>    <span class="mf">0.4938272</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__4___Amp9_2to11_2</span><span class="p">:</span>   <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___centroid</span><span class="p">:</span>      <span class="o">-</span><span class="mf">104.843040</span> <span class="o">+/-</span> <span class="mf">5.61216015</span> <span class="p">(</span><span class="mf">5.35</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="o">-</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Al</span><span class="p">:</span>             <span class="mf">3299.38314</span> <span class="o">+/-</span> <span class="mf">2.54164939</span> <span class="p">(</span><span class="mf">0.08</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">3300</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Au</span><span class="p">:</span>             <span class="mf">60.0125639</span> <span class="o">+/-</span> <span class="mf">0.99398820</span> <span class="p">(</span><span class="mf">1.66</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Bl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Bu</span><span class="p">:</span>             <span class="mf">273.049192</span> <span class="o">+/-</span> <span class="mf">15.5843734</span> <span class="p">(</span><span class="mf">5.71</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">270</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Cl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Cu</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___FWHMG</span><span class="p">:</span>          <span class="mf">121.107402</span> <span class="o">+/-</span> <span class="mf">39.0810172</span> <span class="p">(</span><span class="mf">32.27</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">135</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___FWHML</span><span class="p">:</span>          <span class="mf">112.746219</span> <span class="o">+/-</span> <span class="mf">36.9166340</span> <span class="p">(</span><span class="mf">32.74</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___scale</span><span class="p">:</span>          <span class="mf">163.484079</span> <span class="o">+/-</span> <span class="mf">9.34512379</span> <span class="p">(</span><span class="mf">5.72</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">160</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp13_2to11_2</span><span class="p">:</span>  <span class="mf">0.6666667</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp13_2to13_2</span><span class="p">:</span>  <span class="mf">0.5530864</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp13_2to15_2</span><span class="p">:</span>  <span class="mf">0.3358025</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp15_2to13_2</span><span class="p">:</span>  <span class="mf">0.2246914</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp15_2to15_2</span><span class="p">:</span>  <span class="mf">0.5530864</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___HFModel__7___Amp15_2to17_2</span><span class="p">:</span>  <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Fit___bkg___value1</span><span class="p">:</span>                <span class="mf">60.4476367</span> <span class="o">+/-</span> <span class="mf">2.36128234</span> <span class="p">(</span><span class="mf">3.91</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">Fit___bkg___value0</span><span class="p">:</span>                <span class="mf">61.4896354</span> <span class="o">+/-</span> <span class="mf">2.12969392</span> <span class="p">(</span><span class="mf">3.46</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="n">Chisquare</span> <span class="n">fitting</span> <span class="n">done</span><span class="p">:</span> <span class="mi">421</span><span class="n">it</span> <span class="p">[</span><span class="mi">00</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="mf">32.65</span><span class="n">it</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+
+<span class="n">NDoF</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">177.29488</span><span class="p">,</span> <span class="n">Reduced</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">1.108093</span>
+<span class="n">Akaike</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">32.27996</span><span class="p">,</span> <span class="n">Bayesian</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">79.751749</span>
+<span class="n">Errors</span> <span class="n">scaled</span> <span class="k">with</span> <span class="n">reduced</span> <span class="n">chisquare</span><span class="o">.</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">s0_FWHMG</span><span class="p">:</span>          <span class="mf">250.753540</span> <span class="o">+/-</span> <span class="mf">26.0746636</span> <span class="p">(</span><span class="mf">10.40</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">250.7535</span><span class="p">)</span>
+    <span class="n">s0_FWHML</span><span class="p">:</span>          <span class="mf">1.00000275</span> <span class="o">+/-</span> <span class="mf">11.8677590</span> <span class="p">(</span><span class="mf">1186.77</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">1.000003</span><span class="p">)</span>
+    <span class="n">s0_TotalFWHM</span><span class="p">:</span>      <span class="mf">251.288574</span> <span class="o">+/-</span> <span class="mf">24.9165138</span> <span class="p">(</span><span class="mf">9.92</span><span class="o">%</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0.5346*s0_FWHML+(0.2166*s0_FWHML**2+s0_FWHMG**2)**0.5&#39;</span>
+    <span class="n">s0_Scale</span><span class="p">:</span>          <span class="mf">79.7123062</span> <span class="o">+/-</span> <span class="mf">7.13677345</span> <span class="p">(</span><span class="mf">8.95</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">79.71231</span><span class="p">)</span>
+    <span class="n">s0_Saturation</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__5_2</span><span class="p">:</span>    <span class="mf">0.5000937</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__7_2</span><span class="p">:</span>    <span class="mf">0.4939217</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__9_2</span><span class="p">:</span>    <span class="mf">0.3396039</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__7_2</span><span class="p">:</span>    <span class="mf">0.172911</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__9_2</span><span class="p">:</span>    <span class="mf">0.4939521</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__11_2</span><span class="p">:</span>   <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Al</span><span class="p">:</span>             <span class="mf">5306.11719</span> <span class="o">+/-</span> <span class="mf">9.76080435</span> <span class="p">(</span><span class="mf">0.18</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">5306.117</span><span class="p">)</span>
+    <span class="n">s0_Au</span><span class="p">:</span>             <span class="mf">103.549437</span> <span class="o">+/-</span> <span class="mf">4.12089719</span> <span class="p">(</span><span class="mf">3.98</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">103.5494</span><span class="p">)</span>
+    <span class="n">s0_Bl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Bu</span><span class="p">:</span>             <span class="mf">196.011593</span> <span class="o">+/-</span> <span class="mf">32.8509112</span> <span class="p">(</span><span class="mf">16.76</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">196.0116</span><span class="p">)</span>
+    <span class="n">s0_Cl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Cu</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Centroid</span><span class="p">:</span>       <span class="mf">392.909905</span> <span class="o">+/-</span> <span class="mf">13.1577474</span> <span class="p">(</span><span class="mf">3.35</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">392.9099</span><span class="p">)</span>
+    <span class="n">s0_Background0</span><span class="p">:</span>    <span class="mf">181.069305</span> <span class="o">+/-</span> <span class="mf">1.91537125</span> <span class="p">(</span><span class="mf">1.06</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">181.0693</span><span class="p">)</span>
+    <span class="n">s0_N</span><span class="p">:</span>              <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_FWHMG</span><span class="p">:</span>          <span class="mf">121.817424</span> <span class="o">+/-</span> <span class="mf">39.1318124</span> <span class="p">(</span><span class="mf">32.12</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">121.8174</span><span class="p">)</span>
+    <span class="n">s1_FWHML</span><span class="p">:</span>          <span class="mf">112.056361</span> <span class="o">+/-</span> <span class="mf">37.1055724</span> <span class="p">(</span><span class="mf">33.11</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">112.0564</span><span class="p">)</span>
+    <span class="n">s1_TotalFWHM</span><span class="p">:</span>      <span class="mf">192.416653</span> <span class="o">+/-</span> <span class="mf">15.7236790</span> <span class="p">(</span><span class="mf">8.17</span><span class="o">%</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0.5346*s1_FWHML+(0.2166*s1_FWHML**2+s1_FWHMG**2)**0.5&#39;</span>
+    <span class="n">s1_Scale</span><span class="p">:</span>          <span class="mf">163.317972</span> <span class="o">+/-</span> <span class="mf">9.22593437</span> <span class="p">(</span><span class="mf">5.65</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">163.318</span><span class="p">)</span>
+    <span class="n">s1_Saturation</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp13_2__11_2</span><span class="p">:</span>  <span class="mf">0.666746</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp13_2__13_2</span><span class="p">:</span>  <span class="mf">0.5531882</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp13_2__15_2</span><span class="p">:</span>  <span class="mf">0.3359059</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp15_2__13_2</span><span class="p">:</span>  <span class="mf">0.2247785</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp15_2__15_2</span><span class="p">:</span>  <span class="mf">0.55321</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp15_2__17_2</span><span class="p">:</span>  <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Al</span><span class="p">:</span>             <span class="mf">3299.37436</span> <span class="o">+/-</span> <span class="mf">2.48138492</span> <span class="p">(</span><span class="mf">0.08</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">3299.374</span><span class="p">)</span>
+    <span class="n">s1_Au</span><span class="p">:</span>             <span class="mf">60.0050608</span> <span class="o">+/-</span> <span class="mf">0.98060493</span> <span class="p">(</span><span class="mf">1.63</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">60.00506</span><span class="p">)</span>
+    <span class="n">s1_Bl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Bu</span><span class="p">:</span>             <span class="mf">273.161795</span> <span class="o">+/-</span> <span class="mf">15.4999419</span> <span class="p">(</span><span class="mf">5.67</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">273.1618</span><span class="p">)</span>
+    <span class="n">s1_Cl</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Cu</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Centroid</span><span class="p">:</span>      <span class="o">-</span><span class="mf">104.833860</span> <span class="o">+/-</span> <span class="mf">5.57438226</span> <span class="p">(</span><span class="mf">5.32</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="o">-</span><span class="mf">104.8339</span><span class="p">)</span>
+    <span class="n">s1_Background0</span><span class="p">:</span>    <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_N</span><span class="p">:</span>              <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+<span class="n">SATLAS2</span><span class="p">:</span> <span class="mf">0.226</span> <span class="n">s</span>
+<span class="n">SATLAS1</span><span class="p">:</span> <span class="mf">12.9</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>The difference in coding implementation is a result of the interface
+automatically implementing a PiecewiseConstant background, where the background is a
+constant for different regions in <em>x</em>-space. Notice here that the
+speedup due using the SATLAS2 implementation has risen from a factor 20
+for a single spectrum to almost a factor 60.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">left_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">right_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">left_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">right_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax11</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax12</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax21</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax22</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax12</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax21</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">left_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">left_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs1</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS2 fit model 1&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs2</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS2 fit model 2&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">summodel</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sum of models&#39;</span><span class="p">)</span>
+
+<span class="n">ax12</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">right_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">right_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs1</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS2 fit model 1&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs2</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS2 fit model 2&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">summodel</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sum of models&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax21</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">left_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">left_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs3</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit model 1&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">hfs4</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit model 2&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">left_x</span><span class="p">,</span> <span class="n">summodel2</span><span class="p">(</span><span class="n">left_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sum of models&#39;</span><span class="p">)</span>
+
+<span class="n">ax22</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">right_y</span><span class="p">,</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">right_y</span><span class="p">),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs3</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit model 1&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">hfs4</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS fit model 2&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">right_x</span><span class="p">,</span> <span class="n">summodel2</span><span class="p">(</span><span class="n">right_x</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sum of models&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS2&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/output_13_0.png" src="../../_images/output_13_0.png" />
+</section>
+<section id="different-background-for-multiplets">
+<h2>Different background for multiplets<a class="headerlink" href="#different-background-for-multiplets" title="Permalink to this heading">#</a></h2>
+<p>To demonstrate the convenience of the PiecewiseConstant background, the same results
+are coded with SATLAS, where the use of LinkedModel is required. Note
+that here, the interface is <em>not</em> used.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
+<span class="n">FWHMG</span> <span class="o">=</span> <span class="mi">135</span>
+<span class="n">FWHML</span> <span class="o">=</span> <span class="mi">101</span>
+
+<span class="n">spin1</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">A1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5300</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="n">B1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">230</span><span class="p">]</span>
+<span class="n">C1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">centroid1</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">bkg1</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">scale1</span> <span class="o">=</span> <span class="mi">90</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">13000</span><span class="p">,</span> <span class="o">-</span><span class="mi">9000</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11000</span><span class="p">,</span> <span class="mi">14000</span><span class="p">,</span> <span class="mi">40</span><span class="p">)])</span>
+
+<span class="n">hfs</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">HFS</span><span class="p">(</span><span class="n">spin1</span><span class="p">,</span>
+                   <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span>
+                   <span class="n">A</span><span class="o">=</span><span class="p">[</span><span class="n">A1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="n">B</span><span class="o">=</span><span class="p">[</span><span class="n">B1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="n">C1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="n">df</span><span class="o">=</span><span class="n">centroid1</span><span class="p">,</span>
+                   <span class="n">fwhmg</span><span class="o">=</span><span class="n">FWHMG</span><span class="p">,</span>
+                   <span class="n">fwhml</span><span class="o">=</span><span class="n">FWHML</span><span class="p">,</span>
+                   <span class="n">scale</span><span class="o">=</span><span class="n">scale1</span><span class="p">,</span>
+                   <span class="n">racah</span><span class="o">=</span><span class="kc">True</span>
+                  <span class="p">)</span>
+<span class="n">hfs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">bkg</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">PiecewiseConstant</span><span class="p">([</span><span class="n">bkg1</span><span class="p">,</span> <span class="n">bkg2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">generateSpectrum</span><span class="p">([</span><span class="n">hfs1</span><span class="p">,</span> <span class="n">bkg</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">poisson</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">modifiedSqrt</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Artificial&#39;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">hfs</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">bkg</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">satlas2</span><span class="o">.</span><span class="n">Fitter</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">addSource</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">hfs2</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">spin1</span><span class="p">,</span>
+                    <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">A1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">centroid</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">scale1</span><span class="p">,</span>
+                    <span class="n">background_params</span><span class="o">=</span><span class="p">[</span><span class="n">bkg1</span><span class="p">],</span>
+                    <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs3</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">HFSModel</span><span class="p">(</span><span class="n">spin1</span><span class="p">,</span>
+                    <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">A1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">centroid</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">FWHMG</span><span class="p">,</span> <span class="n">FWHML</span><span class="p">],</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">scale1</span><span class="p">,</span>
+                    <span class="n">background_params</span><span class="o">=</span><span class="p">[</span><span class="n">bkg1</span><span class="p">],</span>
+                    <span class="n">use_racah</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hfs2</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">hfs3</span><span class="o">.</span><span class="n">set_variation</span><span class="p">({</span><span class="s1">&#39;Cu&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">linkedmodel</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">LinkedModel</span><span class="p">([</span><span class="n">hfs2</span><span class="p">,</span> <span class="n">hfs3</span><span class="p">])</span>
+<span class="n">linkedmodel</span><span class="o">.</span><span class="n">shared</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span> <span class="s1">&#39;Au&#39;</span><span class="p">,</span> <span class="s1">&#39;Bl&#39;</span><span class="p">,</span> <span class="s1">&#39;Bu&#39;</span><span class="p">,</span> <span class="s1">&#39;Centroid&#39;</span><span class="p">]</span>
+<span class="n">linked_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">linked_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fitting 1 dataset with chisquare (Pearson, satlas2)...&#39;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">reportFit</span><span class="p">())</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sat</span><span class="o">.</span><span class="n">chisquare_spectroscopic_fit</span><span class="p">(</span><span class="n">linkedmodel</span><span class="p">,</span> <span class="n">linked_x</span><span class="p">,</span> <span class="n">linked_y</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">modifiedSqrt</span><span class="p">)</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">linkedmodel</span><span class="o">.</span><span class="n">display_chisquare_fit</span><span class="p">(</span><span class="n">show_correl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dt2</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS2: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SATLAS1: </span><span class="si">{:.3}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fitting</span> <span class="mi">1</span> <span class="n">dataset</span> <span class="k">with</span> <span class="n">chisquare</span> <span class="p">(</span><span class="n">Pearson</span><span class="p">,</span> <span class="n">satlas2</span><span class="p">)</span><span class="o">...</span>
+<span class="p">[[</span><span class="n">Fit</span> <span class="n">Statistics</span><span class="p">]]</span>
+    <span class="c1"># fitting method   = leastsq</span>
+    <span class="c1"># function evals   = 202</span>
+    <span class="c1"># data points      = 175</span>
+    <span class="c1"># variables        = 9</span>
+    <span class="n">chi</span><span class="o">-</span><span class="n">square</span>         <span class="o">=</span> <span class="mf">162.334878</span>
+    <span class="n">reduced</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span> <span class="o">=</span> <span class="mf">0.97792095</span>
+    <span class="n">Akaike</span> <span class="n">info</span> <span class="n">crit</span>   <span class="o">=</span> <span class="mf">4.85319079</span>
+    <span class="n">Bayesian</span> <span class="n">info</span> <span class="n">crit</span> <span class="o">=</span> <span class="mf">33.3362646</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">Artificial___HFS___centroid</span><span class="p">:</span>      <span class="mf">379.439738</span> <span class="o">+/-</span> <span class="mf">11.8479412</span> <span class="p">(</span><span class="mf">3.12</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Al</span><span class="p">:</span>            <span class="mf">5300.53685</span> <span class="o">+/-</span> <span class="mf">8.60042067</span> <span class="p">(</span><span class="mf">0.16</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">5300</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Au</span><span class="p">:</span>            <span class="mf">100.910641</span> <span class="o">+/-</span> <span class="mf">3.43441833</span> <span class="p">(</span><span class="mf">3.40</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Bl</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Bu</span><span class="p">:</span>            <span class="mf">167.829114</span> <span class="o">+/-</span> <span class="mf">27.5840684</span> <span class="p">(</span><span class="mf">16.44</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">230</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Cl</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Cu</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___FWHMG</span><span class="p">:</span>         <span class="mf">257.963959</span> <span class="o">+/-</span> <span class="mf">23.7214758</span> <span class="p">(</span><span class="mf">9.20</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">135</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___FWHML</span><span class="p">:</span>         <span class="mf">0.01005831</span> <span class="o">+/-</span> <span class="mf">46.0743167</span> <span class="p">(</span><span class="mf">458072.02</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___scale</span><span class="p">:</span>         <span class="mf">73.5969741</span> <span class="o">+/-</span> <span class="mf">6.04333358</span> <span class="p">(</span><span class="mf">8.21</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp7_2to5_2</span><span class="p">:</span>   <span class="mf">0.5</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp7_2to7_2</span><span class="p">:</span>   <span class="mf">0.4938272</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp7_2to9_2</span><span class="p">:</span>   <span class="mf">0.3395062</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp9_2to7_2</span><span class="p">:</span>   <span class="mf">0.1728395</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp9_2to9_2</span><span class="p">:</span>   <span class="mf">0.4938272</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___HFS___Amp9_2to11_2</span><span class="p">:</span>  <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">Artificial___PiecewiseConstant___value1</span><span class="p">:</span>       <span class="mf">122.518511</span> <span class="o">+/-</span> <span class="mf">1.44251185</span> <span class="p">(</span><span class="mf">1.18</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">Artificial___PiecewiseConstant___value0</span><span class="p">:</span>       <span class="mf">151.305847</span> <span class="o">+/-</span> <span class="mf">1.37967336</span> <span class="p">(</span><span class="mf">0.91</span><span class="o">%</span><span class="p">)</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+
+<span class="n">Chisquare</span> <span class="n">fitting</span> <span class="n">done</span><span class="p">:</span> <span class="mi">619</span><span class="n">it</span> <span class="p">[</span><span class="mi">00</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span> <span class="mf">31.30</span><span class="n">it</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+
+<span class="n">NDoF</span><span class="p">:</span> <span class="mi">163</span><span class="p">,</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">158.72971</span><span class="p">,</span> <span class="n">Reduced</span> <span class="n">Chisquare</span><span class="p">:</span> <span class="mf">0.97380192</span>
+<span class="n">Akaike</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">6.9229505</span><span class="p">,</span> <span class="n">Bayesian</span> <span class="n">Information</span> <span class="n">Criterium</span><span class="p">:</span> <span class="mf">44.900382</span>
+<span class="n">Errors</span> <span class="n">scaled</span> <span class="k">with</span> <span class="n">reduced</span> <span class="n">chisquare</span><span class="o">.</span>
+<span class="p">[[</span><span class="n">Variables</span><span class="p">]]</span>
+    <span class="n">s0_FWHMG</span><span class="p">:</span>         <span class="mf">287.317538</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">287.3175</span><span class="p">)</span>
+    <span class="n">s0_FWHML</span><span class="p">:</span>         <span class="mf">1.00000004</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">s0_TotalFWHM</span><span class="p">:</span>     <span class="mf">287.852515</span> <span class="o">==</span> <span class="s1">&#39;0.5346*s0_FWHML+(0.2166*s0_FWHML**2+s0_FWHMG**2)**0.5&#39;</span>
+    <span class="n">s0_Scale</span><span class="p">:</span>         <span class="mf">72.0818067</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">72.08181</span><span class="p">)</span>
+    <span class="n">s0_Saturation</span><span class="p">:</span>    <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__5_2</span><span class="p">:</span>   <span class="mf">0.5000937</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__7_2</span><span class="p">:</span>   <span class="mf">0.4939217</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp7_2__9_2</span><span class="p">:</span>   <span class="mf">0.3396039</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__7_2</span><span class="p">:</span>   <span class="mf">0.172911</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__9_2</span><span class="p">:</span>   <span class="mf">0.4939521</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Amp9_2__11_2</span><span class="p">:</span>  <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Al</span><span class="p">:</span>            <span class="mf">5300.79815</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">5300.798</span><span class="p">)</span>
+    <span class="n">s0_Au</span><span class="p">:</span>            <span class="mf">101.129022</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">101.129</span><span class="p">)</span>
+    <span class="n">s0_Bl</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Bu</span><span class="p">:</span>            <span class="mf">171.971287</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">171.9713</span><span class="p">)</span>
+    <span class="n">s0_Cl</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Cu</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s0_Centroid</span><span class="p">:</span>      <span class="mf">377.508491</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">377.5085</span><span class="p">)</span>
+    <span class="n">s0_Background0</span><span class="p">:</span>   <span class="mf">150.539789</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">150.5398</span><span class="p">)</span>
+    <span class="n">s0_N</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_FWHMG</span><span class="p">:</span>         <span class="mf">208.133894</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">208.1339</span><span class="p">)</span>
+    <span class="n">s1_FWHML</span><span class="p">:</span>         <span class="mf">1.00001971</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">1.00002</span><span class="p">)</span>
+    <span class="n">s1_TotalFWHM</span><span class="p">:</span>     <span class="mf">208.669025</span> <span class="o">==</span> <span class="s1">&#39;0.5346*s1_FWHML+(0.2166*s1_FWHML**2+s1_FWHMG**2)**0.5&#39;</span>
+    <span class="n">s1_Scale</span><span class="p">:</span>         <span class="mf">82.8509918</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">82.85099</span><span class="p">)</span>
+    <span class="n">s1_Saturation</span><span class="p">:</span>    <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp7_2__5_2</span><span class="p">:</span>   <span class="mf">0.5000937</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp7_2__7_2</span><span class="p">:</span>   <span class="mf">0.4939217</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp7_2__9_2</span><span class="p">:</span>   <span class="mf">0.3396039</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp9_2__7_2</span><span class="p">:</span>   <span class="mf">0.172911</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp9_2__9_2</span><span class="p">:</span>   <span class="mf">0.4939521</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Amp9_2__11_2</span><span class="p">:</span>  <span class="mi">1</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Al</span><span class="p">:</span>            <span class="mf">5300.79815</span> <span class="o">==</span> <span class="s1">&#39;s0_Al&#39;</span>
+    <span class="n">s1_Au</span><span class="p">:</span>            <span class="mf">101.129022</span> <span class="o">==</span> <span class="s1">&#39;s0_Au&#39;</span>
+    <span class="n">s1_Bl</span><span class="p">:</span>            <span class="mf">0.00000000</span> <span class="o">==</span> <span class="s1">&#39;s0_Bl&#39;</span>
+    <span class="n">s1_Bu</span><span class="p">:</span>            <span class="mf">171.971287</span> <span class="o">==</span> <span class="s1">&#39;s0_Bu&#39;</span>
+    <span class="n">s1_Cl</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Cu</span><span class="p">:</span>            <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+    <span class="n">s1_Centroid</span><span class="p">:</span>      <span class="mf">377.508491</span> <span class="o">==</span> <span class="s1">&#39;s0_Centroid&#39;</span>
+    <span class="n">s1_Background0</span><span class="p">:</span>   <span class="mf">123.248661</span> <span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="mf">123.2487</span><span class="p">)</span>
+    <span class="n">s1_N</span><span class="p">:</span>             <span class="mi">0</span> <span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+<span class="n">SATLAS2</span><span class="p">:</span> <span class="mf">0.107</span> <span class="n">s</span>
+<span class="n">SATLAS1</span><span class="p">:</span> <span class="mf">19.8</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax11</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax12</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax21</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax11</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+<span class="n">ax22</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax12</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax21</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linked_y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">linked_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linked_y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">linked_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SATLAS2 fit model 1&#39;</span><span class="p">)</span>
+<span class="n">ax11</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax21</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linked_y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">linked_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linkedmodel</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linked_y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">modifiedSqrt</span><span class="p">(</span><span class="n">linked_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Artificial data&#39;</span><span class="p">)</span>
+<span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linkedmodel</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">linked_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax11</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS2&#39;</span><span class="p">)</span>
+<span class="n">ax21</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SATLAS&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/output_16_0.png" src="../../_images/output_16_0.png" />
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../benchmark/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Benchmark of SATLAS2 speed</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../api/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-a-single-hyperfine-spectrum">Fitting a single hyperfine spectrum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overlapping-hyperfine-spectra">Overlapping hyperfine spectra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-background-for-multiplets">Different background for multiplets</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Wouter Gins
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Wouter Gins.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
