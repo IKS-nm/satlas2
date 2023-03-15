@@ -13,7 +13,7 @@ from numpy.typing import ArrayLike
 from scipy.special import voigt_profile
 from sympy.physics.wigner import wigner_3j, wigner_6j
 
-from satlas2.core import Model, Parameter
+from ..core import Model, Parameter
 
 __all__ = ['HFS']
 

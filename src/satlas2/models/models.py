@@ -13,7 +13,7 @@ import uncertainties as unc
 from numpy.typing import ArrayLike
 from scipy.special import erf, voigt_profile
 
-from satlas2.core import Model, Parameter
+from ..core import Model, Parameter
 
 __all__ = [
     'ExponentialDecay', 'Polynomial', 'PiecewiseConstant', 'Voigt',
