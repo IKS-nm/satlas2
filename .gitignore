@@ -2,7 +2,10 @@
 *.pyc
 *.h5
 *.ipynb_checkpoints
-dist/*.whl
-dist/*.tar.gz
+.vscode
+build
+dist
 src/satlas2.egg-info
+src/satlas2/_version.py
+satlas2.egg-info
 docs/_build/doctrees
