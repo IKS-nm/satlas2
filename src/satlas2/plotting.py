@@ -7,6 +7,7 @@ import copy
 from typing import List, Optional, Tuple
 
 import matplotlib as mpl
+import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
 import tqdm
@@ -34,10 +35,13 @@ __all__ = [
 
 
 def _make_axes_grid(no_variables,
-                    padding=0,
-                    cbar_size=0.5,
-                    axis_padding=0.5,
-                    cbar=True):
+                    width=6,
+                    height=6,
+                    cbar=True,
+                    left=0.1,
+                    right=0.9,
+                    top=0.9,
+                    bottom=0.1):
     """Makes a triangular grid of axes, with a colorbar axis next to it.
 
     Parameters
@@ -56,29 +60,20 @@ def _make_axes_grid(no_variables,
     fig, axes, cbar: tuple
         Tuple containing the figure, a 2D-array of axes and the colorbar axis."""
 
-    # Convert to inches.
-    padding, cbar_size, axis_padding = (padding * 0.393700787,
-                                        cbar_size * 0.393700787,
-                                        axis_padding * 0.393700787)
-    if not cbar:
-        cbar_size = 0
-
-    # Generate the figure, convert padding to percentages.
-    fig = plt.figure()
-    padding = 1
-
-    axis_size_left = (fig.get_figwidth() - padding - 0 *
-                      (no_variables + 1) * padding) / no_variables
-    axis_size_up = (fig.get_figheight() - padding - 0 *
-                    (no_variables + 1) * padding) / no_variables
-
-    cbar_size = cbar_size / fig.get_figwidth()
-    left_padding = padding * 0.5 / fig.get_figwidth()
-    left_axis_padding = axis_padding / fig.get_figwidth()
-    up_padding = padding * 0.5 / fig.get_figheight()
-    up_axis_padding = 0 * axis_padding / fig.get_figheight()
-    axis_size_left = axis_size_left / fig.get_figwidth()
-    axis_size_up = axis_size_up / fig.get_figheight()
+    fig = plt.figure(constrained_layout=True, figsize=(width, height))
+    width_ratios = [1] * no_variables
+    if cbar:
+        width_ratios.extend([0.1] * 2)
+    gs = gridspec.GridSpec(nrows=no_variables,
+                           ncols=no_variables + 2 * cbar,
+                           left=left,
+                           right=right,
+                           top=top,
+                           bottom=bottom,
+                           wspace=0,
+                           hspace=0,
+                           figure=fig,
+                           width_ratios=width_ratios)
 
     # Pre-allocate a 2D-array to hold the axes.
     axes = np.array([[None for _ in range(no_variables)]
@@ -95,50 +90,20 @@ def _make_axes_grid(no_variables,
                 # Share the y-axis among the 2D maps along one row,
                 # but not the plot on the diagonal!
                 sharey = axes[i, i - 1] if (i != j and i - 1 != j) else None
-                # Determine the place and size of the axes
-                left_edge = j * axis_size_left + left_padding
-                bottom_edge = I * axis_size_up + up_padding
-                if j > 0:
-                    left_edge += j * left_axis_padding
-                if I > 0:
-                    bottom_edge += I * up_axis_padding
-
-                a = plt.axes(
-                    [left_edge, bottom_edge, axis_size_left, axis_size_up],
-                    sharex=sharex,
-                    sharey=sharey)
+                a = fig.add_subplot(gs[i, j], sharex=sharex, sharey=sharey)
+                a.label_outer()
                 plt.setp(a.xaxis.get_majorticklabels(), rotation=45)
                 plt.setp(a.yaxis.get_majorticklabels(), rotation=45)
             else:
                 a = None
             if i == j:
-                a.yaxis.tick_right()
-                a.yaxis.set_label_position('right')
+                a.set_yticks([])
+                a.set_yticklabels([])
             axes[i, j] = a
 
     axes = np.array(axes)
-    for a in axes[:-1, :].flatten():
-        if a is not None:
-            plt.setp(a.get_xticklabels(), visible=False)
-    for a in axes[:, 1:].flatten():
-        if a is not None:
-            plt.setp(a.get_yticklabels(), visible=False)
-    left_edge = no_variables * (axis_size_left +
-                                left_axis_padding) + left_padding
-    bottom_edge = up_padding
-    width = cbar_size
-
-    height = axis_size_up * len(axes) + up_padding * (len(axes) - 1)
-
-    cbar_width = axis_size_left * 0.1
     if cbar:
-        cbar = plt.axes([
-            1 - cbar_width - padding * 0.5 / fig.get_figwidth(),
-            padding * 0.5 / fig.get_figheight() + axis_size_up * 1.5,
-            cbar_width, axis_size_up * (no_variables - 1) - axis_size_up * 0.5
-        ])
-        plt.setp(cbar.get_xticklabels(), visible=False)
-        plt.setp(cbar.get_yticklabels(), visible=False)
+        cbar = fig.add_subplot(gs[:, -1])
     else:
         cbar = None
     return fig, axes, cbar
@@ -347,15 +312,23 @@ def generateChisquareMap(fitter: Fitter,
 
 
 def generateCorrelationPlot(
-    filename: str,
-    filter: Optional[List[str]] = None,
-    bins: Optional[int] = None,
-    burnin: int = 0,
-    source: bool = True,
-    model: bool = True,
-    binreduction: int = 1,
-    bin2dreduction: int = 1,
-) -> Tuple[plt.Figure, Tuple[plt.Axes], plt.Axes]:
+        filename: str,
+        filter: Optional[List[str]] = None,
+        bins: Optional[int] = None,
+        burnin: int = 0,
+        thin: int = 1,
+        autoprocess: bool = False,
+        source: bool = True,
+        model: bool = True,
+        binreduction: int = 1,
+        bin2dreduction: int = 1,
+        progress: bool = False,
+        width: float = 6,
+        height: float = 6,
+        left: float = 0.15,
+        right: float = 0.95,
+        top: float = 0.85,
+        bottom: float = 0.15) -> Tuple[plt.Figure, Tuple[plt.Axes], plt.Axes]:
     """Given the random walk data, creates a triangle plot: distribution of
     a single parameter on the diagonal axes, 2D contour plots with 1, 2 and
     3 sigma contours on the off-diagonal. The 1-sigma limits based on the
@@ -365,15 +338,21 @@ def generateCorrelationPlot(
     ----------
     filename : str
         Filename for the h5 file containing the data from the walk.
-    filter : Optional[List[str]], optional
+    filter : List[str], optional
         Only this list of columns is used for the plot, by default None.
-    bins : Optional[int], optional
-        Use this number of bins for the plotting. Applies the same
-         number of bins for each parameter. If supplied as a list,
-          length must match the number of parameters. By default None.
+    bins : int, optional
+        Use this number of bins for the plotting.
+        Applies the same number of bins for each parameter.
+        If supplied as a list, length must match the number of
+        parameters. By default None.
     burnin : int, optional
         Number of initial steps from the random walk to be discarded,
         by default 0.
+    thin : int, optional
+        Take only every ``thin`` steps from the chain. (default: ``1``)
+    autoprocess : bool, optional
+        Based on the autocorrelation time of the random walk, perform an
+        automatic burn-in and thinning estimate, by default False.
     source : bool, optional
         Add the source name to the plot titles, by default True.
     model : bool, optional
@@ -384,17 +363,43 @@ def generateCorrelationPlot(
     bin2dreduction : int, optional
         Further reduces the amount of bins in the 2D case by this factor,
         by default 1.
+    progress : bool, optional
+        Show a progress bar of processing the parameters, by default False.
+    width : float, optional
+        Width in inches of the figure, by default 6
+    height : float, optional
+        Height in inches of the figure, by default 6
+    Left : float, optional
+        Extent of the left of the figure, in fraction, by default 0.15
+    right : float, optional
+        Extent of the right of the figure, in fraction, by default 0.95
+    top : float, optional
+        Extent of the top of the figure, in fraction, by default 0.85
+    bottom : float, optional
+        Extent of the bottom of the figure, in fraction, by default 0.15
 
     Returns
     -------
     Tuple[plt.Figure, Tuple[plt.Axes], plt.Axes]
         Tuple containing the figure, the individual axes, and the colorbar axis.
-    """
+    
+    Note
+    ----
+    When estimated automatically, the ``burnin`` and ``thin`` are set to
+    respectively
+
+    .. math::
+        2\cdot\\textrm{max}\\left(\\tau\\right)
+    
+    and
+    
+    .. math::
+        \\textrm{min}\\left(\\tau\\right)/2"""
 
     reader = SATLASHDFBackend(filename)
     var_names = list(reader.labels)
     split_names = [name.split('___') for name in var_names]
-    sources = [name[0] + '\n' for name in split_names]
+    sources = [name[0] for name in split_names]
     models = [name[1] for name in split_names]
     var_names = [name[2] for name in split_names]
     to_be_combined = [var_names]
@@ -403,14 +408,14 @@ def generateCorrelationPlot(
     if source:
         to_be_combined.insert(0, sources)
 
-    var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    var_names = ['\n'.join(tbc) for tbc in zip(*to_be_combined)]
     full_names = list(reader.labels)
 
-    data = reader.get_chain(flat=False)
-    dataset_length = data.shape[0]
-    first, last = int(burnin), int(dataset_length)
-    data = data[first:last, :, :]
-    data = data.reshape(-1, data.shape[-1])
+    if autoprocess:
+        tau = reader.get_autocorr_time(tol=0)
+        burnin = int(2 * np.max(tau))
+        thin = int(0.5 * np.min(tau))
+    data = reader.get_chain(flat=True, discard=burnin, thin=thin)
 
     if filter is not None:
         filter = [(c, n) for f in filter
@@ -418,8 +423,16 @@ def generateCorrelationPlot(
     else:
         filter = list(zip(var_names, full_names))
     with tqdm.tqdm(total=len(filter) + (len(filter)**2 - len(filter)) / 2,
-                   leave=True) as pbar:
-        fig, axes, cbar = _make_axes_grid(len(filter), axis_padding=0)
+                   leave=True,
+                   disable=not progress) as pbar:
+        fig, axes, cbar = _make_axes_grid(len(filter),
+                                          width=width,
+                                          height=height,
+                                          left=left,
+                                          right=right,
+                                          top=top,
+                                          bottom=bottom)
+        fig.set_layout_engine(None)
 
         metadata = {}
         if not isinstance(bins, list):
@@ -448,8 +461,6 @@ def generateCorrelationPlot(
                                    int(bins[bin_index]),
                                    histtype='step',
                                    color='k')
-            # center = n.argmax()
-            # q50 = (b[center] + b[center+1])/2
             q = [15.87, 50, 84.13]
             q16, q50, q84 = np.percentile(x, q)
             metadata[full_name] = {
@@ -467,16 +478,14 @@ def generateCorrelationPlot(
             l = down.split('+/-')[1].split(')')[0]
             if 'e' in up or 'e' in down:
                 ex = up.split('e')[-1]
-                ax.set_title(title_e.format(name, param_val, l, r, ex))
+                t = ax.set_title(title_e.format(name, param_val, l, r, ex))
             else:
-                ax.set_title(title.format(name, param_val, l, r))
+                t = ax.set_title(title.format(name, param_val, l, r))
 
             qvalues = [q16, q50, q84]
             c = '#0093e6'
             for q in qvalues:
                 ax.axvline(q, ls="dashed", color=c)
-            ax.set_yticks([])
-            ax.set_yticklabels([])
             pbar.update(1)
 
         for i, j in zip(*np.tril_indices_from(axes, -1)):
@@ -535,18 +544,21 @@ def generateCorrelationPlot(
             dfticks = (ticks[1:] - ticks[:-1]) / 2
             ticks = ticks[:-1] + dfticks
             cbar.ax.yaxis.set_ticks(ticks)
-            # cbar.ax.yaxis.set_ticks([0, 1 / 6, 0.5, 5 / 6, 1.0])
             cbar.ax.set_yticklabels([r'3$\sigma$', r'2$\sigma$', r'1$\sigma$'])
         except:
             cbar = None
     return fig, axes, cbar
 
 
-def generateWalkPlot(filename: str,
-                     filter: Optional[List[str]] = None,
-                     burnin: int = 0,
-                     source: bool = False,
-                     model: bool = True) -> Tuple[plt.Figure, Tuple[plt.Axes]]:
+def generateWalkPlot(
+        filename: str,
+        filter: Optional[List[str]] = None,
+        burnin: int = 0,
+        thin: int = 1,
+        autoprocess: bool = False,
+        source: bool = False,
+        model: bool = True,
+        progress: bool = False) -> Tuple[plt.Figure, Tuple[plt.Axes]]:
     """Given the random walk data, the random walk for the selected parameters
     is plotted.
 
@@ -554,21 +566,40 @@ def generateWalkPlot(filename: str,
     ----------
     filename : str
         Filename for the h5 file containing the data from the walk.
-    filter : Optional[List[str]], optional
+    filter : List[str], optional
         Only this list of columns is used for the plot, by default None.
     burnin : int, optional
         Number of initial steps from the random walk to be discarded,
         by default 0.
+    thin : int, optional
+        Take only every ``thin`` steps from the chain. (default: ``1``)
+    autoprocess : bool, optional
+        Based on the autocorrelation time of the random walk, perform an
+        automatic burn-in and thinning estimate, by default False.
     source : bool, optional
         Add the source name to the plot titles, by default False.
     model : bool, optional
         Add the model name to the plot titles, by default True.
+    progress : bool, optional
+        Show a progress bar of processing the parameters, by default False.
 
     Returns
     -------
     Tuple[plt.Figure, Tuple[plt.Axes]]
         Tuple containing the figure and the individual axes.
-    """
+
+    Note
+    ----
+    When estimated automatically, the ``burnin`` and ``thin`` are set to
+    respectively
+
+    .. math::
+        2\cdot\\textrm{max}\\left(\\tau\\right)
+    
+    and
+    
+    .. math::
+        \\textrm{min}\\left(\\tau\\right)/2"""
     reader = SATLASHDFBackend(filename)
     var_names = reader.labels
     split_names = [name.split('___') for name in var_names]
@@ -581,33 +612,41 @@ def generateWalkPlot(filename: str,
     if source:
         to_be_combined.insert(0, sources)
 
-    var_names = [' '.join(tbc) for tbc in zip(*to_be_combined)]
+    var_names = ['\n'.join(tbc) for tbc in zip(*to_be_combined)]
     full_names = list(reader.labels)
 
-    data = reader.get_chain(flat=False)
-    dataset_length = data.shape[0]
-    first, last = int(burnin), dataset_length
-    data = data[first:last, :, :]
+    if autoprocess:
+        tau = reader.get_autocorr_time(tol=0)
+        burnin = int(2 * np.max(tau))
+        thin = int(0.5 * np.min(tau))
+    data = reader.get_chain(flat=False, discard=burnin, thin=thin)
+    plot_x = np.arange(data.shape[0]) * thin + burnin
 
     if filter is not None:
         filter = [(c, n) for f in filter
                   for (c, n) in zip(var_names, full_names) if f in c]
     else:
         filter = list(zip(var_names, full_names))
-    with tqdm.tqdm(total=len(filter), leave=True) as pbar:
-        fig, axes = plt.subplots(len(filter), 1, sharex=True)
+    with tqdm.tqdm(total=len(filter), leave=True,
+                   disable=not progress) as pbar:
+        fig = plt.figure(constrained_layout=True)
+        gs = gridspec.GridSpec(nrows=len(filter), ncols=1, figure=fig)
 
-        if len(filter) == 1:
-            axes = [axes]
-        for i, (val, ax) in enumerate(zip(filter, axes)):
+        old_ax = None
+        axes = []
+        for i, val in enumerate(filter):
+            ax = fig.add_subplot(gs[i, 0], sharex=old_ax)
+            old_ax = ax
+            ax.label_outer()
             name, full_name = val
             pbar.set_description(name)
             i = full_names.index(full_name)
             x = data[:, :, i]
             q50 = np.percentile(x, [50.0])
-            ax.plot(range(first, last), x, alpha=0.3, color='gray')
+            ax.plot(plot_x, x, alpha=0.3, color='gray')
             ax.set_ylabel(name)
             ax.axhline(q50, color='k')
+            axes.append(ax)
             pbar.update(1)
         ax.set_xlabel('Step')
     pbar.close()
