@@ -150,6 +150,7 @@ class SATLASMinimizer(Minimizer):
             result.acor = emcee.autocorr.integrated_time(chain)
         except AutocorrError as e:
             print(str(e))
+            result.acor = emcee.autocorr.integrated_time(chain, tol=0)
         return result
 
         # Calculate the residual with the "best fit" parameters
@@ -161,6 +162,10 @@ class SATLASMinimizer(Minimizer):
               burn=0,
               thin=1,
               ntemps=1,
+              load=False,
+              convergence=False,
+              convergence_iter=50,
+              convergence_tau=0.01,
               pos=None,
               reuse_sampler=False,
               workers=1,
@@ -264,26 +269,24 @@ class SATLASMinimizer(Minimizer):
         # set up the random number generator
         rng = _make_random_gen(seed)
 
+        backend = sampler_kwargs.pop('backend')
+        if backend is not None:
+            if not load:
+                backend.reset(nwalkers, self.nvarys)
+            else:
+                nwalkers = backend.shape[0]
+            backend.labels = result.var_names
+        sampler_kwargs['backend'] = backend
         # now initialise the samplers
-        if reuse_sampler:
-            if auto_pool is not None:
-                self.sampler.pool = auto_pool
 
-            p0 = self._lastpos
-            if p0.shape[-1] != self.nvarys:
-                raise ValueError("You cannot reuse the sampler if the number "
-                                 "of varying parameters has changed")
-
+        if load:
+            p0 = None
         else:
             p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.e-4
             p0 *= var_arr
-            sampler_kwargs['pool'] = auto_pool
-            self.sampler = sampler(nwalkers, self.nvarys, self._lnprob,
-                                   **sampler_kwargs)
-        backend = sampler_kwargs.pop('backend')
-        if backend is not None:
-            backend.reset(nwalkers, self.nvarys)
-            backend.labels = result.var_names
+        sampler_kwargs['pool'] = auto_pool
+        self.sampler = sampler(nwalkers, self.nvarys, self._lnprob,
+                                **sampler_kwargs)
 
         # user supplies an initialisation position for the chain
         # If you try to run the sampler with p0 of a wrong size then you'll get
@@ -306,10 +309,24 @@ class SATLASMinimizer(Minimizer):
 
         # now do a production run, sampling all the time
         try:
-            output = self.sampler.run_mcmc(p0,
-                                           steps,
-                                           progress=progress,
-                                           **mcmc_kwargs)
+            output = None
+            old_tau = np.inf
+            check = int(np.ceil(1000/nwalkers))
+            converged = False
+            if p0 is None:
+                p0 = self.sampler._previous_state
+            for output in self.sampler.sample(p0, iterations=steps, progress=progress, **mcmc_kwargs):
+                if convergence:
+                    if self.sampler.iteration % check:
+                        continue
+                    tau = self.sampler.get_autocorr_time(tol=0)
+                    converged = np.all(tau * convergence_iter < self.sampler.iteration)
+                    converged &= np.all(np.abs(old_tau-tau)/tau < convergence_tau)
+                    if converged:
+                        break
+                    old_tau = tau
+            if converged:
+                print('emcee stopped due to convergence')
             self._lastpos = output.coords
         except AbortFitException:
             result.aborted = True
@@ -353,6 +370,7 @@ class SATLASMinimizer(Minimizer):
             result.acor = self.sampler.get_autocorr_time()
         except AutocorrError as e:
             print(str(e))
+            result.acor = self.sampler.get_autocorr_time(tol=0, quiet=True)
         result.acceptance_fraction = self.sampler.acceptance_fraction
 
         # Calculate the residual with the "best fit" parameters

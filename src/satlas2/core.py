@@ -70,6 +70,23 @@ class Fitter:
         for parameter, expression in zip(parameter_name, parameter_expression):
             self.expressions[parameter] = expression
 
+    def removeExpr(self, parameter_name: Union[list, str]) -> None:
+        """
+        Remove the expression for the given parameters.
+
+        Parameters
+        ----------
+        parameter_name : list or str
+            Either a single parameter name or a list of them.
+        """
+        if isinstance(parameter_name, str):
+            parameter_name = [parameter_name]
+        for p in parameter_name:
+            try:
+                del self.expressions[p]
+            except:
+                pass
+
     def shareParams(self, parameter_name: Union[list, str]) -> None:
         """Add parameters to the list of shared parameters.
 
@@ -94,6 +111,26 @@ class Fitter:
         except:
             self.share.append(parameter_name)
 
+    def removeShareParams(self, parameter_name: Union[list, str]) -> None:
+        """Removed shared parameter.
+
+        Note
+        ----
+        The full parameter name should be given.
+
+        Parameters
+        ----------
+        parameter_name : Union[list, str]
+            List of parameters or single parameter name.
+        """
+        if isinstance(parameter_name, str):
+            parameter_name = [parameter_name]
+        for p in parameter_name:
+            try:
+                self.share.remove(p)
+            except ValueError:
+                pass
+
     def shareModelParams(self, parameter_name: Union[list, str]) -> None:
         """Add parameters to the list of shared parameters across all
         models with the same name.
@@ -114,6 +151,22 @@ class Fitter:
             self.shareModel.extend(parameter_name)
         except:
             self.shareModel.append(parameter_name)
+
+    def removeShareModelParams(self, parameter_name: Union[list, str]) -> None:
+        """Remove parameters shared across all models with the same name.
+
+        Parameters
+        ----------
+        parameter_name : Union[list, str]
+            List of parameters or single parameter name.
+        """
+        if isinstance(parameter_name, str):
+            parameter_name = [parameter_name]
+        for p in parameter_name:
+            try:
+                self.shareModel.remove(p)
+            except ValueError:
+                pass
 
     def setParamPrior(self, source: str, model: str, parameter_name: str,
                       value: float, uncertainty: float) -> None:
@@ -150,6 +203,10 @@ class Fitter:
             Name of the parameter.
         """
         del self.priors['___'.join([source, model, parameter_name])]
+
+    def removeAllPriors(self):
+        """Removes all priors on parameters."""
+        self.priors = {}
 
     def addSource(self, source: 'Source') -> None:
         """Add a datasource to the Fitter structure
@@ -447,7 +504,7 @@ class Fitter:
         Returns
         -------
         float
-            Sum of array of residuals
+            Sum of squares of array of residuals
         """
         return np.sum(r * r)
 
@@ -491,8 +548,12 @@ class Fitter:
             mcmc_kwargs: dict = {},
             sampler_kwargs: dict = {},
             filename: Optional[str] = None,
-            steps: int = 1000,
+            overwrite: bool = True,
             nwalkers: int = 50,
+            steps: int = 1000,
+            convergence: bool = False,
+            convergence_iter: int = 50,
+            convergence_tau: float = 0.05,
             scale_covar: bool = True,
             iter_cb: Optional[callable] = None) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
@@ -516,10 +577,22 @@ class Fitter:
             , by default {}
         filename : str, optional
             Filename in which the random walk should be saved, by default None
-        steps : int, optional
-            Number of steps the random walk should, by default 1000
+        overwrite: bool, optional
+            If True, the generated file is overwritten. If False, the number of walkers and the
+            last position is taken from the saved file. By default True.
         nwalkers : int, optional
             Number of walkers to be used in the random walk, by default 50
+        steps : int, optional
+            Number of steps the random walk should take, by default 1000
+        convergence : bool, optional
+            Controls automatically stopping of the random walk based on the
+            autocorrelation criteria, by default False.
+        convergence_iter : int, optional
+            Factor by which the number of steps taken should be greater than
+            the autocorrelation time, by default 50.
+        convergence_tau : float, optional
+            Relative value within which subsequent autocorrelation estimates
+            should lie for convergence, by default 0.05.
         scale_covar : bool, optional
             Scale the calculated uncertainties by the root of the reduced
             chisquare, by default True. Set to False when llh is True, since
@@ -548,20 +621,23 @@ class Fitter:
             kws['method'] = llh_method
             kws['emcee'] = True
             mcmc_kwargs['skip_initial_state_check'] = True
+            import os.path
+            kwargs['load'] = (os.path.isfile(filename) and (not overwrite))
             if filename is not None:
                 sampler_kwargs['backend'] = SATLASHDFBackend(filename)
             else:
                 sampler_kwargs['backend'] = None
 
-            kwargs = {
-                'mcmc_kwargs': mcmc_kwargs,
-                'sampler_kwargs': sampler_kwargs
-            }
+            kwargs['mcmc_kwargs'] = mcmc_kwargs
+            kwargs['sampler_kwargs'] = sampler_kwargs
 
             kwargs['sampler'] = SATLASSampler
             kwargs['steps'] = steps
             kwargs['nwalkers'] = nwalkers
             kwargs['nan_policy'] = 'propagate'
+            kwargs['convergence'] = convergence
+            kwargs['convergence_tau'] = convergence_tau
+            kwargs['convergence_iter'] = convergence_iter
         if llh:
             scale_covar = False
 
