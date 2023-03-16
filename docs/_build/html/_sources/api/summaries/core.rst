@@ -19,7 +19,10 @@ Core summaries
       ~Fitter.evaluateOverWalk
       ~Fitter.fit
       ~Fitter.readWalk
+      ~Fitter.removeExpr
       ~Fitter.removeParamPrior
+      ~Fitter.removeShareModelParams
+      ~Fitter.removeShareParams
       ~Fitter.reportFit
       ~Fitter.revertFit
       ~Fitter.setExpr
@@ -44,7 +47,7 @@ Core summaries
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~Model.f
       ~Model.setTransform
 

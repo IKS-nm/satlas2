@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/sphinx-toolbox.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -374,6 +375,23 @@ document.write(`
         <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">expression</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_expression</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
 
+<div class="viewcode-block" id="Fitter.removeExpr"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.removeExpr">[docs]</a>    <span class="k">def</span> <span class="nf">removeExpr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the expression for the given parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameter_name : list or str</span>
+<span class="sd">            Either a single parameter name or a list of them.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameter_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_name</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
 <div class="viewcode-block" id="Fitter.shareParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.shareParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters.</span>
 
@@ -398,6 +416,26 @@ document.write(`
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Fitter.removeShareParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.removeShareParams">[docs]</a>    <span class="k">def</span> <span class="nf">removeShareParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removed shared parameter.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        The full parameter name should be given.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameter_name : Union[list, str]</span>
+<span class="sd">            List of parameters or single parameter name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameter_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_name</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
 <div class="viewcode-block" id="Fitter.shareModelParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.shareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">shareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameters to the list of shared parameters across all</span>
 <span class="sd">        models with the same name.</span>
@@ -418,6 +456,22 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fitter.removeShareModelParams"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.removeShareModelParams">[docs]</a>    <span class="k">def</span> <span class="nf">removeShareModelParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove parameters shared across all models with the same name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameter_name : Union[list, str]</span>
+<span class="sd">            List of parameters or single parameter name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameter_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_name</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shareModel</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Fitter.setParamPrior"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.setParamPrior">[docs]</a>    <span class="k">def</span> <span class="nf">setParamPrior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                       <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -454,6 +508,10 @@ document.write(`
 <span class="sd">            Name of the parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">priors</span><span class="p">[</span><span class="s1">&#39;___&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">])]</span></div>
+
+<div class="viewcode-block" id="Fitter.removeAllPriors"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.removeAllPriors">[docs]</a>    <span class="k">def</span> <span class="nf">removeAllPriors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes all priors on parameters.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priors</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="Fitter.addSource"><a class="viewcode-back" href="../../api/summaries/core.html#satlas2.core.Fitter.addSource">[docs]</a>    <span class="k">def</span> <span class="nf">addSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;Source&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a datasource to the Fitter structure</span>
@@ -751,7 +809,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            Sum of array of residuals</span>
+<span class="sd">            Sum of squares of array of residuals</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
 
@@ -795,8 +853,12 @@ document.write(`
             <span class="n">mcmc_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
             <span class="n">sampler_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
             <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+            <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
             <span class="n">nwalkers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+            <span class="n">convergence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">convergence_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="n">convergence_tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
             <span class="n">scale_covar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
             <span class="n">iter_cb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform a fit of the models (added to the sources) to the data in the sources.</span>
@@ -820,10 +882,22 @@ document.write(`
 <span class="sd">            , by default {}</span>
 <span class="sd">        filename : str, optional</span>
 <span class="sd">            Filename in which the random walk should be saved, by default None</span>
-<span class="sd">        steps : int, optional</span>
-<span class="sd">            Number of steps the random walk should, by default 1000</span>
+<span class="sd">        overwrite: bool, optional</span>
+<span class="sd">            If True, the generated file is overwritten. If False, the number of walkers and the</span>
+<span class="sd">            last position is taken from the saved file. By default True.</span>
 <span class="sd">        nwalkers : int, optional</span>
 <span class="sd">            Number of walkers to be used in the random walk, by default 50</span>
+<span class="sd">        steps : int, optional</span>
+<span class="sd">            Number of steps the random walk should take, by default 1000</span>
+<span class="sd">        convergence : bool, optional</span>
+<span class="sd">            Controls automatically stopping of the random walk based on the</span>
+<span class="sd">            autocorrelation criteria, by default False.</span>
+<span class="sd">        convergence_iter : int, optional</span>
+<span class="sd">            Factor by which the number of steps taken should be greater than</span>
+<span class="sd">            the autocorrelation time, by default 50.</span>
+<span class="sd">        convergence_tau : float, optional</span>
+<span class="sd">            Relative value within which subsequent autocorrelation estimates</span>
+<span class="sd">            should lie for convergence, by default 0.05.</span>
 <span class="sd">        scale_covar : bool, optional</span>
 <span class="sd">            Scale the calculated uncertainties by the root of the reduced</span>
 <span class="sd">            chisquare, by default True. Set to False when llh is True, since</span>
@@ -852,20 +926,23 @@ document.write(`
             <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_method</span>
             <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;emcee&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">mcmc_kwargs</span><span class="p">[</span><span class="s1">&#39;skip_initial_state_check&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="kn">import</span> <span class="nn">os.path</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">overwrite</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SATLASHDFBackend</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">sampler_kwargs</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;mcmc_kwargs&#39;</span><span class="p">:</span> <span class="n">mcmc_kwargs</span><span class="p">,</span>
-                <span class="s1">&#39;sampler_kwargs&#39;</span><span class="p">:</span> <span class="n">sampler_kwargs</span>
-            <span class="p">}</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;mcmc_kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcmc_kwargs</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sampler_kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sampler_kwargs</span>
 
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sampler&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SATLASSampler</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;steps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nwalkers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nwalkers</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nan_policy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;propagate&#39;</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;convergence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convergence</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;convergence_tau&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convergence_tau</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;convergence_iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convergence_iter</span>
         <span class="k">if</span> <span class="n">llh</span><span class="p">:</span>
             <span class="n">scale_covar</span> <span class="o">=</span> <span class="kc">False</span>
 
