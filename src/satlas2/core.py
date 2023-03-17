@@ -41,6 +41,11 @@ class Fitter:
         self.priors = {}
         self.expressions = {}
         self.mode = 'source'
+        self.llhmethods = {
+            'gaussian': self.gaussLlh,
+            'poisson': self.poissonLlh,
+            'custom': self.customLlh
+        }
 
     def setExpr(self, parameter_name: Union[list, str],
                 parameter_expression: Union[list, str]) -> None:
@@ -272,8 +277,8 @@ class Fitter:
         self.lmpars = lmpars
 
     def f(self) -> ArrayLike:
-        """:meta private:
-        Calculate the response of the models in the different sources, stacked horizontally.
+        """Calculate the response of the models in the different sources,
+        stacked horizontally.
 
         Returns
         -------
@@ -283,8 +288,7 @@ class Fitter:
         return np.hstack([source.f() for _, source in self.sources])
 
     def y(self) -> ArrayLike:
-        """:meta private:
-        Stack the data in the different sources, horizontally.
+        """Stack the data in the different sources, horizontally.
 
         Returns
         -------
@@ -294,8 +298,7 @@ class Fitter:
         return np.hstack([source.y for _, source in self.sources])
 
     def yerr(self) -> ArrayLike:
-        """:meta private:
-        Stack the uncertainty in the different sources, horizontally.
+        """Stack the uncertainty in the different sources, horizontally.
 
         Returns
         -------
@@ -303,6 +306,21 @@ class Fitter:
             Horizontally concatenated uncertainty from each source.
         """
         return np.hstack([source.yerr() for _, source in self.sources])
+
+    def getSourceAttr(self, attr: str) -> ArrayLike:
+        """Stack the giveen attributed in the different sources, horizontally.
+
+        Parameters
+        ----------
+        attr : str
+            Attribute of the sources to be retrieved.
+
+        Returns
+        -------
+        ArrayLike
+            Horizontally concatenated attribute from each source.
+        """
+        return np.hstack([getattr(source, attr) for _, source in self.sources])
 
     def setParameters(self, params: lm.Parameters) -> None:
         """:meta private:
@@ -441,6 +459,10 @@ class Fitter:
             returnvalue = np.append(returnvalue, priors)
         return returnvalue
 
+    def customLlh(self):
+        """Calculate a custom likelihood."""
+        raise NotImplementedError
+
     def llh(self,
             params: lm.Parameters,
             method: str = 'gaussian',
@@ -456,7 +478,7 @@ class Fitter:
         params : lm.Parameters
             Parameters for which the likelihood has to be calculated.
         method : str, optional
-            Defines either a Gaussian or Poissonian likelihood, by default 'gaussian'.
+            Defines either a Gaussian, Poissonian or custom likelihood, by default 'gaussian'.
         emcee : bool, optional
             Toggles the output to be usable by the emcee package, by default False.
 
@@ -466,9 +488,8 @@ class Fitter:
             An array of the negative loglikelihood (emcee=False) or
             a single number giving the loglikelihood (emcee=True).
         """
-        methods = {'gaussian': self.gaussLlh, 'poisson': self.poissonLlh}
         self.setParameters(params)
-        returnvalue = methods[method.lower()]()
+        returnvalue = self.llhmethods[method.lower()]()
         if not emcee:
             returnvalue[~np.isfinite(returnvalue)] = -1e99
             returnvalue *= -1
@@ -883,7 +904,8 @@ class Source:
                  y: ArrayLike,
                  yerr: Union[ArrayLike, callable],
                  name: str,
-                 xerr: ArrayLike = None):
+                 xerr: ArrayLike = None,
+                 **kwargs):
         super().__init__()
         self.x = x
         self.y = y
@@ -893,6 +915,8 @@ class Source:
             self.name = name
         self.models = []
         self.derivative = nd.Derivative(self.evaluate)
+        for k in kwargs.keys():
+            setattr(self, k, kwargs[k])
 
     def addModel(self, model: 'Model'):
         """Add a model to the Source
