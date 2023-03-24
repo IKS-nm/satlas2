@@ -1060,6 +1060,15 @@ class Parameter:
         self.unc = 0
         self.correl = {}
         self.name = ''
+    
+    def representation(self):
+        if self.vary:
+            if self.unc is None:
+                return '{:.2g}'.format(self.value)
+            else:
+                return '{:.2g}+/-{:.2g}'.format(self.value, self.unc)
+        else:
+            return '{:.2g} (fixed)'.format(self.value)
 
     def __repr__(self):
         return '{}+/-{} ({} max, {} min, vary={}, correl={})'.format(
