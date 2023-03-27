@@ -57,7 +57,7 @@ jobs:
           sphinx-build docs _build
       - name: Install flit
         run: |
-          pip install flit
+          pip install flit build
       - name: Run build
         run: |
           python -m build
