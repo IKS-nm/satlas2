@@ -36,6 +36,10 @@ jobs:
         uses: actions/configure-pages@v3
         with:
           fetch-depth: '0'
+      - name: Get history and tags for SCM versioning to work
+        run: |
+          git fetch --prune --unshallow
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
