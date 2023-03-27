@@ -14,6 +14,7 @@ dependencies = [
     'pandas',
 ]
 authors = [
+    {name = "Ruben de Groote", email = "ruben.degroote@kuleuven.be"},
     {name = "Wouter Gins", email = "wouter.gins@kuleuven.be"},
     {name = "Bram van den Borne", email = "bram.vandenborne@kuleuven.be"},
 ]
@@ -39,7 +40,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [tool.flit.sdist]
-exclude = ["doc/"]
+exclude = ["doc/", ".gitignore", "examples/", ".github", ".vscode"]
 
 [tool.setuptools_scm]
 write_to = "src/satlas2/_version.py"
