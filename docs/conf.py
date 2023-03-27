@@ -79,6 +79,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'sphinx_book_theme'
 html_favicon = 'favicon.svg'
 html_title = 'SATLAS2'
+html_logo = '_static/satlas_light.svg'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -101,7 +102,9 @@ html_theme_options = {
     "pygment_light_style": "dracula",
     "pygment_dark_style": "dracula",
     "logo": {
-      "image_light": "satlas_light.svg",
-      "image_dark": "satlas_dark.svg",
+      "text": "SATLAS2",
+      "alt_text": "SATLAS2",
+      "image_light": "_static/satlas_light.svg",
+      "image_dark": "_static/satlas_dark.svg",
    }
 }
