@@ -19,11 +19,11 @@ import satlas2
 # -- Project information -----------------------------------------------------
 
 project = 'satlas2'
-copyright = '2023, Wouter Gins'
-author = 'Wouter Gins'
+copyright = '2023, IKS'
+author = 'IKS'
 
 # The full version, including alpha/beta/rc tags
-release = '.'.join([str(s) for s in satlas2.version_tuple[:3]])
+release = satlas2.__version__
 
 # -- General configuration ---------------------------------------------------
 
