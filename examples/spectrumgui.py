@@ -551,11 +551,13 @@ class ParameterWidget(QtWidgets.QWidget):
         sampling_grid.addWidget(self.SamplesSpinBox, 0, 1)
         sampling_grid.addWidget(self.LabelSamplesNoise, 1, 0)
         sampling_grid.addWidget(self.SamplesNoiseSpinBox, 1, 1)
-        sampling_grid.addWidget(self.LabelSampleMode, 2, 0)
+        sampling_grid.addWidget(self.LabelSampleStep, 2, 0)
+        sampling_grid.addWidget(self.SampleStepSpinbox, 2, 1)
+        sampling_grid.addWidget(self.LabelSampleMode, 3, 0)
         temp_layout = QtWidgets.QVBoxLayout()
         for w in self.samplingModeButtons:
             temp_layout.addWidget(w)
-        sampling_grid.addLayout(temp_layout, 2, 1)
+        sampling_grid.addLayout(temp_layout, 3, 1)
         sampling_groupbox.setLayout(sampling_grid)
         layout.addWidget(sampling_groupbox)
 
@@ -663,8 +665,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mainTabs = QtWidgets.QTabWidget()
 
         self.data = np.loadtxt('testdata.txt', delimiter=',')
-        self.setupFitterWidget()
-        self.mainTabs.addTab(self.fitterWidget, 'Basic Fitter')
+        # self.setupFitterWidget()
+        # self.mainTabs.addTab(self.fitterWidget, 'Basic Fitter')
 
         self.setupSimulatorWidget()
         self.mainTabs.addTab(self.simulatorWidget, 'Simulator')
