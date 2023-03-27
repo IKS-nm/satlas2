@@ -77,7 +77,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_book_theme'
-# html_logo = 'satlas.svg'
 html_favicon = 'favicon.svg'
 html_title = 'SATLAS2'
 
@@ -91,7 +90,7 @@ html_css_files = [
 ]
 
 html_theme_options = {
-    "repository_url": "https://github.com/woutergins/satlas2",
+    "repository_url": "https://github.com/iks-nm/satlas2",
     "use_repository_button": True,
     "repository_branch": "master",
     "home_page_in_toc": True,
