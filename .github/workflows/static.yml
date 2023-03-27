@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Build documentation, prepare distribution, upload to Pages, upload to PyPI
 
 on:
   # Runs on pushes targeting the default branch
@@ -58,9 +58,14 @@ jobs:
       - name: Install flit
         run: |
           pip install flit
-      - name: Run flit
+      - name: Run build
         run: |
-          flit build
+          python -m build
+      - name: Publish distribution 📦 to PyPI
+        if: startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
