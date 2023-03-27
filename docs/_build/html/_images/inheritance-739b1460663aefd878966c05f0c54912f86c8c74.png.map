@@ -1,4 +1,0 @@
-<map id="inheritance62662ebb55" name="inheritance62662ebb55">
-<area shape="rect" id="node1" href="#satlas2.interface.HFSModel" target="_top" title="Initializes a hyperfine spectrum Model with the given hyperfine parameters." alt="" coords="5,5,188,31"/>
-<area shape="rect" id="node2" href="#satlas2.interface.SumModel" target="_top" title="Initializes a hyperfine spectrum for the sum of multiple Models with the given models and a step background." alt="" coords="212,5,395,31"/>
-</map>

@@ -8,4 +8,4 @@ dist
 src/satlas2.egg-info
 src/satlas2/_version.py
 satlas2.egg-info
-docs/_build/doctrees
+docs/_build

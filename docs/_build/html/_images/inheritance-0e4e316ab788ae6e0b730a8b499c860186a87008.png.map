@@ -1,9 +1,0 @@
-<map id="inheritance51c4ce2bb2" name="inheritance51c4ce2bb2">
-<area shape="rect" id="node1" href="core.html#satlas2.core.Model" target="_top" title="Base Model class" alt="" coords="351,3,430,18"/>
-<area shape="rect" id="node2" href="#satlas2.models.hfsModel.HFS" target="_top" title="Initializes a hyperfine spectrum Model with the given hyperfine parameters." alt="" coords="3,47,121,63"/>
-<area shape="rect" id="node3" href="#satlas2.models.models.ExponentialDecay" target="_top" title="Model for an exponential decay" alt="" coords="135,47,295,63"/>
-<area shape="rect" id="node4" href="#satlas2.models.models.PiecewiseConstant" target="_top" title="Model class for a PiecewiseConstant response" alt="" coords="309,47,472,63"/>
-<area shape="rect" id="node5" href="#satlas2.models.models.Polynomial" target="_top" title="Model class for a polynomial response" alt="" coords="487,47,622,63"/>
-<area shape="rect" id="node7" href="#satlas2.models.models.Voigt" target="_top" title="Model for a Voigt lineshape" alt="" coords="637,47,751,63"/>
-<area shape="rect" id="node6" href="#satlas2.models.models.SkewedVoigt" target="_top" title="Model for a Voigt peak skewed by the error function." alt="" coords="623,91,765,107"/>
-</map>
