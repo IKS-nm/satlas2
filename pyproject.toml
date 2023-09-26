@@ -15,7 +15,6 @@ dependencies = [
 ]
 authors = [
     {name = "Ruben de Groote", email = "ruben.degroote@kuleuven.be"},
-    {name = "Wouter Gins", email = "wouter.gins@kuleuven.be"},
     {name = "Bram van den Borne", email = "bram.vandenborne@kuleuven.be"},
 ]
 description = "Fitting package aimed at laser spectroscopy"
