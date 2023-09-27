@@ -42,14 +42,20 @@ J = [0, 1]
 A = [0, 50]
 B = [0, 0]
 C = [0, 0]
-FWHMG = 135/4
-FWHML = 101/4
+FWHMG = 20
+FWHML = 20
 centroid = 0
 bkg = 0.0005
-scale = 0.001
+scale = 0.1
 
-hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewLeft', peak_kwargs = {'skew':{'value': 11, 'min':1}})
+from scipy.special import voigt_profile, erf
+class customHFS(satlas2.HFS):
+    def customPeak(self, x):
+        sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
+        fac, dec_amp = self.params['neg_width'].value, self.params['neg_amp'].value
+        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)) - ((voigt_profile(x, sigma/fac, gamma/fac) / voigt_profile(0, sigma/fac, gamma/fac) / dec_amp))
 
+hfs = customHFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'custom', peak_kwargs = {'neg_width':{'value': 4}, 'neg_amp': {'value': 2}})
 background = satlas2.Polynomial([bkg])
 
 bunches_background = 100000
@@ -61,7 +67,7 @@ sampling_background = satlas2.Polynomial([bunches_background])
 
 models = [hfs, background]
 
-x = np.arange(-150, 150, 5)
+x = np.arange(-150, 150, 1)
 y = []
 rng = np.random.default_rng(10)
 bunches = satlas2.generateSpectrum(sampling_background, x, lambda x: rng.normal(x, noise))
@@ -80,12 +86,13 @@ J = [0, 1]
 A = [0, 51]
 B = [0, 0]
 C = [0, 0]
-FWHMG = 120/4
-FWHML = 120/3
+FWHMG = 20
+FWHML = 20
 centroid = 9
 bkg = 0.0003
-scale = 0.001
-hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewLeft', peak_kwargs = {'skew':{'value': 11, 'min':1}})
+scale = 0.1
+
+hfs = customHFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'custom', peak_kwargs = {'neg_width':{'value': 4}, 'neg_amp': {'value': 4}})
 hfs.params['Bu'].vary = False
 
 source = satlas2.Source(x, y, yerr=modifiedSqrt(y, bunches), name='Data', bunches=bunches)
@@ -122,7 +129,7 @@ print(f.reportFit())
 plot_y = hfs.f(plot_x)+background.f(plot_x)
 ax_rate.plot(plot_x, plot_y, label='Likelihood fit')
 f.revertFit()
-f.fit(llh=True, method='emcee', llh_method='custom', filename = 'extraattributes.h5', steps = 2000)
+f.fit(llh=True, method='emcee', llh_method='custom', filename = 'customHFS.h5', steps = 2000)
 print(f.reportFit())
 plot_y = hfs.f(plot_x)+background.f(plot_x)
 ax_rate.plot(plot_x, plot_y, label='Walker fit')
@@ -137,11 +144,11 @@ ax_events.set_ylabel('Number of bunches [-]')
 ax_counts.set_ylabel('Raw counts')
 
 data = np.vstack([x, y*bunches]).T
-np.savetxt('extraattributesdata.txt', data, delimiter=',')
+np.savetxt('customHFSdata.txt', data, delimiter=',')
 plt.show()
 
-fig,ax = satlas2.generateWalkPlot(filename='extraattributes.h5')
+fig,ax = satlas2.generateWalkPlot(filename='customHFS.h5')
 plt.show()
 
-fig,ax,cbar = satlas2.generateCorrelationPlot(filename='extraattributes.h5', burnin = 500)
+fig,ax,cbar = satlas2.generateCorrelationPlot(filename='customHFS.h5', burnin = 500)
 plt.show()

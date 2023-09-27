@@ -8,7 +8,7 @@ import numpy as np
 
 import satlas2
 
-model = satlas2.Step([0, 1, 2], [3, 5])
+model = satlas2.PiecewiseConstant([0, 1, 2], [3, 5])
 
 x = np.linspace(0, 10, 200)
 start = time.time()
