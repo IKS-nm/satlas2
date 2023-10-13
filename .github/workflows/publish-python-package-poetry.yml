@@ -35,7 +35,9 @@ jobs:
         run: |
           poetry version patch
           git status
-          git add pyproject.toml && git commit -m "Bump version" && git push origin HEAD:master
+          git add .
+          git status
+          git commit -m "Bump version" && git push origin HEAD:master
       # - name: Publish to PyPi
       #   env:
       #     PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
