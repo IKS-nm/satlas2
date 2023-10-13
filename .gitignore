@@ -1,6 +1,5 @@
 # Specify filepatterns you want git to ignore.
 *.h5
-src/satlas2/_version.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

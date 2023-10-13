@@ -1,27 +1,14 @@
-[project]
-name = 'satlas2'
-dependencies = [
-    'numpy',
-    'matplotlib',
-    'scipy',
-    'h5py',
-    'emcee',
-    'sympy',
-    'lmfit',
-    'numdifftools',
-    'uncertainties',
-    'tqdm',
-    'pandas',
-]
+[tool.poetry]
+name = "satlas2"
+version = "0.2.0"
 authors = [
-    {name = "Ruben de Groote", email = "ruben.degroote@kuleuven.be"},
-    {name = "Bram van den Borne", email = "bram.vandenborne@kuleuven.be"},
+    "Ruben de Groote, <ruben.degroote@kuleuven.be>",
+    "Bram van den Borne, <bram.vandenborne@kuleuven.be>",
 ]
 description = "Fitting package aimed at laser spectroscopy"
+license = "MIT"
 readme = "README.md"
-requires-python = ">=3.6"
 keywords = ["physics", "hyperfine structure", "fitting"]
-license = {text = "MIT"}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -32,14 +19,60 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
-dynamic = ["version"]
+packages = [{ include = "satlas2", from = "src" }]
+
+[tool.poetry_bumpversion.file."src/satlas2/__init__.py"]
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.10"
+numpy = "^1.26.0"
+matplotlib = "^3.8.0"
+scipy = "^1.11.3"
+h5py = "^3.10.0"
+emcee = "^3.1.4"
+sympy = "^1.12"
+lmfit = "^1.2.2"
+numdifftools = "^0.9.41"
+uncertainties = "^3.1.7"
+tqdm = "^4.66.1"
+pandas = "^2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+pep8 = "^1.7.1"
+pytest = "^7.4.2"
+sphinx = ">=4,<7"
+sphinx-book-theme = "^1.0.1"
+sphinx-toolbox = "^3.5.0"
 
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.flit.sdist]
-exclude = ["doc/", ".gitignore", "examples/", ".github", ".vscode"]
+[tool.black]
+line-length = 79
+target-version = ['py39']
+exclude = '''
 
-[tool.setuptools_scm]
-write_to = "src/satlas2/_version.py"
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 79
+multi_line_output = 3
+use_parentheses = true

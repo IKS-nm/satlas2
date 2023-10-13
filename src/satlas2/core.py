@@ -15,10 +15,14 @@ import pandas as pd
 import scipy.optimize as optimize
 from numpy.typing import ArrayLike
 
-from .overwrite import (SATLASHDFBackend, SATLASMinimizer, SATLASSampler,
-                        minimize)
+from .overwrite import (
+    SATLASHDFBackend,
+    SATLASMinimizer,
+    SATLASSampler,
+    minimize,
+)
 
-__all__ = ['Fitter', 'Source', 'Model', 'Parameter']
+__all__ = ["Fitter", "Source", "Model", "Parameter"]
 
 
 def modifiedSqrt(input: ArrayLike) -> ArrayLike:
@@ -31,6 +35,7 @@ class Fitter:
     """
     Main class for performing fits and organising data
     """
+
     def __init__(self):
         super().__init__()
         self.sources = []
@@ -40,15 +45,18 @@ class Fitter:
         self.shareModel = []
         self.priors = {}
         self.expressions = {}
-        self.mode = 'source'
+        self.mode = "source"
         self.llhmethods = {
-            'gaussian': self.gaussLlh,
-            'poisson': self.poissonLlh,
-            'custom': self.customLlh
+            "gaussian": self.gaussLlh,
+            "poisson": self.poissonLlh,
+            "custom": self.customLlh,
         }
 
-    def setExpr(self, parameter_name: Union[list, str],
-                parameter_expression: Union[list, str]) -> None:
+    def setExpr(
+        self,
+        parameter_name: Union[list, str],
+        parameter_expression: Union[list, str],
+    ) -> None:
         """
         Set the expression to be used for the given parameters.
         The given parameter names should be the full description
@@ -173,8 +181,14 @@ class Fitter:
             except ValueError:
                 pass
 
-    def setParamPrior(self, source: str, model: str, parameter_name: str,
-                      value: float, uncertainty: float) -> None:
+    def setParamPrior(
+        self,
+        source: str,
+        model: str,
+        parameter_name: str,
+        value: float,
+        uncertainty: float,
+    ) -> None:
         """Set a Gaussian prior on a parameter, mainly intended to
         represent literature values.
 
@@ -191,11 +205,14 @@ class Fitter:
         uncertainty : float
             Standard deviation associated with the value.
         """
-        self.priors['___'.join([source, model,
-                                parameter_name])] = (value, uncertainty)
+        self.priors["___".join([source, model, parameter_name])] = (
+            value,
+            uncertainty,
+        )
 
-    def removeParamPrior(self, source: str, model: str,
-                         parameter_name: str) -> None:
+    def removeParamPrior(
+        self, source: str, model: str, parameter_name: str
+    ) -> None:
         """Removes a prior set on a parameter.
 
         Parameters
@@ -207,13 +224,13 @@ class Fitter:
         parameter_name : str
             Name of the parameter.
         """
-        del self.priors['___'.join([source, model, parameter_name])]
+        del self.priors["___".join([source, model, parameter_name])]
 
     def removeAllPriors(self):
         """Removes all priors on parameters."""
         self.priors = {}
 
-    def addSource(self, source: 'Source') -> None:
+    def addSource(self, source: "Source") -> None:
         """Add a datasource to the Fitter structure
 
         Parameters
@@ -235,32 +252,47 @@ class Fitter:
         sharing = {}
         sharingModel = {}
         tuples = ()
-        for source_name in self.pars.keys(
+        for (
+            source_name
+        ) in (
+            self.pars.keys()
         ):  # Loop over every datasource in the created parameters
             p = self.pars[source_name]
-            for model_name in p.keys(
-            ):  # Loop over every model in the datasource
+            for (
+                model_name
+            ) in p.keys():  # Loop over every model in the datasource
                 pars = p[model_name]
-                for parameter_name in pars.keys(
-                ):  # Loop over every parameter in the model
+                for (
+                    parameter_name
+                ) in pars.keys():  # Loop over every parameter in the model
                     parameter = pars[parameter_name]
-                    n = '___'.join([source_name, model_name,
-                                    parameter_name])  # Set a unique name
-                    parameter.name = '___'.join([source_name, model_name
-                                                 ])  # Set a unique identifier
+                    n = "___".join(
+                        [source_name, model_name, parameter_name]
+                    )  # Set a unique name
+                    parameter.name = "___".join(
+                        [source_name, model_name]
+                    )  # Set a unique identifier
                     if n in self.expressions.keys():
                         expr = self.expressions[n]
-                    elif parameter_name in self.share:  # Set the sharing of a variable with EVERY model
-                        if parameter_name in sharing.keys(
+                    elif (
+                        parameter_name in self.share
+                    ):  # Set the sharing of a variable with EVERY model
+                        if (
+                            parameter_name in sharing.keys()
                         ):  # If not the first instance of a shared variable, get the parameter name
                             expr = sharing[parameter_name]
                         else:
                             sharing[
-                                parameter_name] = n  # If the first instance of a shared variable, set it in the sharing dictionary
+                                parameter_name
+                            ] = n  # If the first instance of a shared variable, set it in the sharing dictionary
                             expr = parameter.expr
-                    elif parameter_name in self.shareModel:  # Set the sharing of a variable across all models with the SAME NAME
-                        if parameter_name in sharingModel.keys(
-                        ) and model_name in sharingModel[parameter_name].keys(
+                    elif (
+                        parameter_name in self.shareModel
+                    ):  # Set the sharing of a variable across all models with the SAME NAME
+                        if (
+                            parameter_name in sharingModel.keys()
+                            and model_name
+                            in sharingModel[parameter_name].keys()
                         ):
                             expr = sharingModel[parameter_name][model_name]
                         else:
@@ -271,8 +303,17 @@ class Fitter:
                             expr = parameter.expr
                     else:
                         expr = parameter.expr
-                    tuples += ((n, parameter.value, parameter.vary,
-                                parameter.min, parameter.max, expr, None), )
+                    tuples += (
+                        (
+                            n,
+                            parameter.value,
+                            parameter.vary,
+                            parameter.min,
+                            parameter.max,
+                            expr,
+                            None,
+                        ),
+                    )
         lmpars.add_many(*tuples)
         self.lmpars = lmpars
 
@@ -333,9 +374,10 @@ class Fitter:
         """
         for p in params.keys():
             if params[p].vary or params[p].expr != None:
-                source_name, model_name, parameter_name = p.split('___')
+                source_name, model_name, parameter_name = p.split("___")
                 self.pars[source_name][model_name][
-                    parameter_name].value = params[p].value
+                    parameter_name
+                ].value = params[p].value
 
     def setUncertainties(self, params: lm.Parameters) -> None:
         """:meta private:
@@ -347,9 +389,10 @@ class Fitter:
         params : lm.Parameters
         """
         for p in params.keys():
-            source_name, model_name, parameter_name = p.split('___')
+            source_name, model_name, parameter_name = p.split("___")
             self.pars[source_name][model_name][parameter_name].unc = params[
-                p].stderr
+                p
+            ].stderr
 
     def setCorrelations(self, params: lm.Parameters) -> None:
         """:meta private:
@@ -361,20 +404,22 @@ class Fitter:
         params : lmfit.Parameters
         """
         for p in params.keys():
-            source_name, model_name, parameter_name = p.split('___')
+            source_name, model_name, parameter_name = p.split("___")
             dictionary = copy.deepcopy(params[p].correl)
             del_keys = []
             try:
                 keys = list(dictionary.keys())
                 for key in keys:
-                    if key.startswith(self.pars[source_name][model_name]
-                                      [parameter_name].name):
-                        dictionary[key.split('___')[-1]] = dictionary[key]
+                    if key.startswith(
+                        self.pars[source_name][model_name][parameter_name].name
+                    ):
+                        dictionary[key.split("___")[-1]] = dictionary[key]
                     del_keys.append(key)
                 for key in del_keys:
                     del dictionary[key]
                 self.pars[source_name][model_name][
-                    parameter_name].correl = dictionary
+                    parameter_name
+                ].correl = dictionary
             except AttributeError:
                 pass
 
@@ -387,17 +432,18 @@ class Fitter:
 
         .. math::
             \sqrt{\\frac{3}{\\frac{1}{y}+\\frac{2}{f(x)}}}
-            
+
         Returns
         -------
         ArrayLike
         """
         model_calcs = self.f()
-        if self.mode == 'source':
+        if self.mode == "source":
             resid = (model_calcs - self.temp_y) / self.yerr()
-        elif self.mode == 'combined':
+        elif self.mode == "combined":
             resid = (model_calcs - self.temp_y) / modifiedSqrt(
-                3 / (1 / self.temp_y + 2 / model_calcs))
+                3 / (1 / self.temp_y + 2 / model_calcs)
+            )
         if np.any(np.isnan(resid)):
             resid[np.isnan(resid)] = np.inf
         return resid
@@ -414,10 +460,11 @@ class Fitter:
         """
         returnval = []
         for key in self.priors.keys():
-            source, model, parameter = key.split('___')
+            source, model, parameter = key.split("___")
             lit, unc = self.priors[key]
             returnval.append(
-                (self.pars[source][model][parameter].value - lit) / unc)
+                (self.pars[source][model][parameter].value - lit) / unc
+            )
         return np.array(returnval)
 
     def residualCalculation(self) -> ArrayLike:
@@ -463,10 +510,12 @@ class Fitter:
         """Calculate a custom likelihood."""
         raise NotImplementedError
 
-    def llh(self,
-            params: lm.Parameters,
-            method: str = 'gaussian',
-            emcee: bool = False) -> ArrayLike:
+    def llh(
+        self,
+        params: lm.Parameters,
+        method: str = "gaussian",
+        emcee: bool = False,
+    ) -> ArrayLike:
         """:meta private:
         Calculate the likelihood, based on the parameters and method.
         In case the minimizer uses the emcee package, the array is summed to a single number.
@@ -552,31 +601,33 @@ class Fitter:
         self._createLmParameters()
 
     def revertFit(self):
-        """Reverts the parameter values to the original values.
-        """
+        """Reverts the parameter values to the original values."""
         params = self.result.init_values
         for p in params.keys():
-            source_name, model_name, parameter_name = p.split('___')
+            source_name, model_name, parameter_name = p.split("___")
             self.pars[source_name][model_name][parameter_name].value = params[
-                p]
+                p
+            ]
         self._prepareFit()
         self.setParameters(self.lmpars)
 
-    def fit(self,
-            llh: bool = False,
-            llh_method: str = 'gaussian',
-            method: str = 'leastsq',
-            mcmc_kwargs: dict = {},
-            sampler_kwargs: dict = {},
-            filename: Optional[str] = None,
-            overwrite: bool = True,
-            nwalkers: int = 50,
-            steps: int = 1000,
-            convergence: bool = False,
-            convergence_iter: int = 50,
-            convergence_tau: float = 0.05,
-            scale_covar: bool = True,
-            iter_cb: Optional[callable] = None) -> None:
+    def fit(
+        self,
+        llh: bool = False,
+        llh_method: str = "gaussian",
+        method: str = "leastsq",
+        mcmc_kwargs: dict = {},
+        sampler_kwargs: dict = {},
+        filename: Optional[str] = None,
+        overwrite: bool = True,
+        nwalkers: int = 50,
+        steps: int = 1000,
+        convergence: bool = False,
+        convergence_iter: int = 50,
+        convergence_tau: float = 0.05,
+        scale_covar: bool = True,
+        iter_cb: Optional[callable] = None,
+    ) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
         Models in the same source are summed together, models in different sources can be
         linked through their parameters.
@@ -624,59 +675,64 @@ class Fitter:
 
         kws = {}
         kwargs = {}
-        kwargs['iter_cb'] = iter_cb
+        kwargs["iter_cb"] = iter_cb
         reduce_fcn = self.reductionSum
-        if llh or method.lower() == 'emcee':
+        if llh or method.lower() == "emcee":
             llh = True
             func = self.llh
-            kws['method'] = llh_method
-            if method.lower() in ['leastsq', 'least_squares']:
-                method = 'slsqp'
+            kws["method"] = llh_method
+            if method.lower() in ["leastsq", "least_squares"]:
+                method = "slsqp"
         else:
             func = self.chisquare
             reduce_fcn = self.reductionSSum
 
-        if method == 'emcee':
+        if method == "emcee":
             llh = True
             func = self.llh
-            kws['method'] = llh_method
-            kws['emcee'] = True
-            mcmc_kwargs['skip_initial_state_check'] = True
+            kws["method"] = llh_method
+            kws["emcee"] = True
+            mcmc_kwargs["skip_initial_state_check"] = True
             import os.path
-            kwargs['load'] = (os.path.isfile(filename) and (not overwrite))
+
+            kwargs["load"] = os.path.isfile(filename) and (not overwrite)
             if filename is not None:
-                sampler_kwargs['backend'] = SATLASHDFBackend(filename)
+                sampler_kwargs["backend"] = SATLASHDFBackend(filename)
             else:
-                sampler_kwargs['backend'] = None
+                sampler_kwargs["backend"] = None
 
-            kwargs['mcmc_kwargs'] = mcmc_kwargs
-            kwargs['sampler_kwargs'] = sampler_kwargs
+            kwargs["mcmc_kwargs"] = mcmc_kwargs
+            kwargs["sampler_kwargs"] = sampler_kwargs
 
-            kwargs['sampler'] = SATLASSampler
-            kwargs['steps'] = steps
-            kwargs['nwalkers'] = nwalkers
-            kwargs['nan_policy'] = 'propagate'
-            kwargs['convergence'] = convergence
-            kwargs['convergence_tau'] = convergence_tau
-            kwargs['convergence_iter'] = convergence_iter
+            kwargs["sampler"] = SATLASSampler
+            kwargs["steps"] = steps
+            kwargs["nwalkers"] = nwalkers
+            kwargs["nan_policy"] = "propagate"
+            kwargs["convergence"] = convergence
+            kwargs["convergence_tau"] = convergence_tau
+            kwargs["convergence_iter"] = convergence_iter
         if llh:
             scale_covar = False
 
-        self.result = minimize(func,
-                               self.lmpars,
-                               method=method,
-                               kws=kws,
-                               reduce_fcn=reduce_fcn,
-                               scale_covar=scale_covar,
-                               **kwargs)
+        self.result = minimize(
+            func,
+            self.lmpars,
+            method=method,
+            kws=kws,
+            reduce_fcn=reduce_fcn,
+            scale_covar=scale_covar,
+            **kwargs,
+        )
         del self.temp_y
         self.updateInfo()
 
-    def reportFit(self,
-                  modelpars: Optional[lm.Parameters] = None,
-                  show_correl: bool = False,
-                  min_correl: float = 0.1,
-                  sort_pars: Union[bool, callable] = False) -> str:
+    def reportFit(
+        self,
+        modelpars: Optional[lm.Parameters] = None,
+        show_correl: bool = False,
+        min_correl: float = 0.1,
+        sort_pars: Union[bool, callable] = False,
+    ) -> str:
         """Generate a report of the fitting results.
 
         The report contains the best-fit values for the parameters and their uncertainties and correlations.
@@ -701,8 +757,9 @@ class Fitter:
         str
             Multi-line text of fit report.
         """
-        return lm.fit_report(self.result, modelpars, show_correl, min_correl,
-                             sort_pars)
+        return lm.fit_report(
+            self.result, modelpars, show_correl, min_correl, sort_pars
+        )
 
     def createResultDataframe(self) -> pd.DataFrame:
         """Generates a dataframe containing all information about the parameters
@@ -711,17 +768,30 @@ class Fitter:
         Returns
         -------
         pd.DataFrame"""
-        data = [[
-            p.split('___')[0],
-            p.split('___')[1],
-            p.split('___')[2], self.result.params[p].value,
-            self.result.params[p].stderr, self.result.params[p].min,
-            self.result.params[p].max, self.result.params[p].expr,
-            self.result.params[p].vary
-        ] for p in self.result.params]
+        data = [
+            [
+                p.split("___")[0],
+                p.split("___")[1],
+                p.split("___")[2],
+                self.result.params[p].value,
+                self.result.params[p].stderr,
+                self.result.params[p].min,
+                self.result.params[p].max,
+                self.result.params[p].expr,
+                self.result.params[p].vary,
+            ]
+            for p in self.result.params
+        ]
         columns = [
-            'Source', 'Model', 'Parameter', 'Value', 'Stderr', 'Minimum',
-            'Maximum', 'Expression', 'Vary'
+            "Source",
+            "Model",
+            "Parameter",
+            "Value",
+            "Stderr",
+            "Minimum",
+            "Maximum",
+            "Expression",
+            "Vary",
         ]
         df = pd.DataFrame(data=data, columns=columns)
         return df
@@ -734,16 +804,33 @@ class Fitter:
         -------
         pd.DataFrame"""
         columns = [
-            'Source', 'Fitting method', 'Message', 'Function evaluations',
-            'Data points', 'Variables', 'Chisquare', 'Redchi', 'Aic', 'Bic'
+            "Source",
+            "Fitting method",
+            "Message",
+            "Function evaluations",
+            "Data points",
+            "Variables",
+            "Chisquare",
+            "Redchi",
+            "Aic",
+            "Bic",
         ]
         source = [name for (name, s) in self.sources]
-        source = ', '.join(source)
-        data = [[
-            source, self.result.method, self.result.message, self.result.nfev,
-            self.result.ndata, self.result.nvarys, self.result.chisqr,
-            self.result.redchi, self.result.aic, self.result.bic
-        ]]
+        source = ", ".join(source)
+        data = [
+            [
+                source,
+                self.result.method,
+                self.result.message,
+                self.result.nfev,
+                self.result.ndata,
+                self.result.nvarys,
+                self.result.chisqr,
+                self.result.redchi,
+                self.result.aic,
+                self.result.bic,
+            ]
+        ]
         df = pd.DataFrame(data=data, columns=columns)
         return df
 
@@ -763,16 +850,17 @@ class Fitter:
         data = reader.get_chain(flat=False, discard=burnin)
         try:
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data)
+                self.lmpars, data
+            )
         except AttributeError:
             self._prepareFit()
             self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data)
+                self.lmpars, data
+            )
         self.updateInfo()
 
     def updateInfo(self):
-        """:meta private:
-        """
+        """:meta private:"""
         self.lmpars = self.result.params
         self.setParameters(self.result.params)
         self.setUncertainties(self.result.params)
@@ -788,8 +876,7 @@ class Fitter:
         self.updateFitInfoSources()
 
     def updateFitInfoSources(self):
-        """:meta private:
-        """
+        """:meta private:"""
         for _, source in self.sources:
             source.nvarys = self.nvarys
             try:
@@ -800,11 +887,13 @@ class Fitter:
             except:
                 pass
 
-    def evaluateOverWalk(self,
-                         filename: str,
-                         burnin: int = 0,
-                         x: Optional[ArrayLike] = None,
-                         evals: int = 0) -> Tuple[list, list]:
+    def evaluateOverWalk(
+        self,
+        filename: str,
+        burnin: int = 0,
+        x: Optional[ArrayLike] = None,
+        evals: int = 0,
+    ) -> Tuple[list, list]:
         """The parameters saved in the h5 file are evaluated
         in the models a specific number of times. From these evaluations, the
         16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.
@@ -834,11 +923,11 @@ class Fitter:
         data = reader.get_chain(flat=False, discard=burnin)
         flatchain = data.reshape((-1, len(var_names)))
         if x is None:
-            method = 'f'
+            method = "f"
             args = ()
         else:
-            method = 'evaluate'
-            args = (x, )
+            method = "evaluate"
+            args = (x,)
         if evals > 0:
             if evals < flatchain.shape[0]:
                 choices = np.random.choice(flatchain.shape[0], evals)
@@ -850,8 +939,11 @@ class Fitter:
         except:
             self._prepareFit()
             names = [p for p in self.lmpars.keys()]
-        common = [(i, name.split('___')) for i, name in enumerate(var_names)
-                  if name in names]
+        common = [
+            (i, name.split("___"))
+            for i, name in enumerate(var_names)
+            if name in names
+        ]
         bands = []
         X = []
         for sample in flatchain:
@@ -861,7 +953,8 @@ class Fitter:
             for i, (_, source) in enumerate(self.sources):
                 try:
                     bands[i] = np.vstack(
-                        [bands[i], getattr(source, method)(*args)])
+                        [bands[i], getattr(source, method)(*args)]
+                    )
                 except Exception as e:
                     bands.append(getattr(source, method)(*args))
                 if len(args) > 0:
@@ -877,8 +970,8 @@ class Fitter:
             self.pars[source][model][parameter].value = median[column]
         for i, (_, source) in enumerate(self.sources):
             bands[i] = np.vstack(
-                [bands[i][0],
-                 getattr(source, method)(*args), bands[i][1]])
+                [bands[i][0], getattr(source, method)(*args), bands[i][1]]
+            )
         return X, bands
 
 
@@ -899,13 +992,16 @@ class Source:
     xerr : ArrayLike, optional
         If enlargement of the yerr with the xerr is required, supply this, by default None.
     """
-    def __init__(self,
-                 x: ArrayLike,
-                 y: ArrayLike,
-                 yerr: Union[ArrayLike, callable],
-                 name: str,
-                 xerr: ArrayLike = None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        yerr: Union[ArrayLike, callable],
+        name: str,
+        xerr: ArrayLike = None,
+        **kwargs,
+    ):
         super().__init__()
         self.x = x
         self.y = y
@@ -918,7 +1014,7 @@ class Source:
         for k in kwargs.keys():
             setattr(self, k, kwargs[k])
 
-    def addModel(self, model: 'Model'):
+    def addModel(self, model: "Model"):
         """Add a model to the Source
 
         Parameters
@@ -978,7 +1074,7 @@ class Source:
             err = self.yerr_data(self.f())
         if self.xerr is not None:
             xerr = self.derivative(self.x) * self.xerr
-            err = (err * err + xerr * xerr)**0.5
+            err = (err * err + xerr * xerr) ** 0.5
         return err
 
 
@@ -993,6 +1089,7 @@ class Model:
         Transformation function to be applied to the
         evaluation points before evaluating the model, by default None
     """
+
     def __init__(self, name: str, prefunc: Optional[callable] = None):
         super().__init__()
         self.name = name
@@ -1048,8 +1145,8 @@ class Model:
 
 
 class Parameter:
-    """:meta private:
-    """
+    """:meta private:"""
+
     def __init__(self, value=0, min=-np.inf, max=np.inf, vary=True, expr=None):
         super().__init__()
         self.value = value
@@ -1059,17 +1156,18 @@ class Parameter:
         self.expr = expr
         self.unc = 0
         self.correl = {}
-        self.name = ''
-    
+        self.name = ""
+
     def representation(self):
         if self.vary:
             if self.unc is None:
-                return '{:.2g}'.format(self.value)
+                return "{:.2g}".format(self.value)
             else:
-                return '{:.2g}+/-{:.2g}'.format(self.value, self.unc)
+                return "{:.2g}+/-{:.2g}".format(self.value, self.unc)
         else:
-            return '{:.2g} (fixed)'.format(self.value)
+            return "{:.2g} (fixed)".format(self.value)
 
     def __repr__(self):
-        return '{}+/-{} ({} max, {} min, vary={}, correl={})'.format(
-            self.value, self.unc, self.max, self.min, self.vary, self.correl)
+        return "{}+/-{} ({} max, {} min, vary={}, correl={})".format(
+            self.value, self.unc, self.max, self.min, self.vary, self.correl
+        )

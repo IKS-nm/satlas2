@@ -1,6 +1,6 @@
 import sys
 
-sys.path.insert(0, '..\src')
+sys.path.insert(0, "..\src")
 from io import BytesIO
 
 import matplotlib.pyplot as plt
@@ -49,14 +49,14 @@ class ExperimentalStandardDeviation(object):
         sigma = np.array(self.sigma)
         Xstat = (1 / sigma**2).sum()
         Xm = (x / sigma**2).sum() / Xstat
-        Xscatt = (((x - Xm) / sigma)**2).sum() / ((len(x) - 1) * Xstat)
+        Xscatt = (((x - Xm) / sigma) ** 2).sum() / ((len(x) - 1) * Xstat)
         Xstat = 1 / Xstat
-        return_value = np.max([Xstat, Xscatt])**0.5
+        return_value = np.max([Xstat, Xscatt]) ** 0.5
         return return_value
 
 
 def sqlite_memory_engine_creator():
-    con = sqlite3.connect(':memory:')
+    con = sqlite3.connect(":memory:")
     con.create_aggregate("expstd", 2, ExperimentalStandardDeviation)
     con.create_aggregate("expav", 2, ExperimentalWeightedAverage)
     return con
@@ -69,8 +69,8 @@ def modifiedSqrt(input):
 
 
 def createModels(backg, lamda, loc, fwhmg, fwhml, amp):
-    bkg = satlas2.ExponentialDecay(backg, lamda, name='Background')
-    peak = satlas2.Voigt(amp, loc, fwhmg, fwhml, name='Signal')
+    bkg = satlas2.ExponentialDecay(backg, lamda, name="Background")
+    peak = satlas2.Voigt(amp, loc, fwhmg, fwhml, name="Signal")
     return peak, bkg
 
 
@@ -90,7 +90,7 @@ rng = np.random.default_rng(0)
 
 x = np.linspace(0, 1000, 250)
 bkgs = [bkg1, bkg2, bkg3]
-names = ['Scan1', 'Scan2', 'Scan3']
+names = ["Scan1", "Scan2", "Scan3"]
 
 metadata = []
 results = []
@@ -104,23 +104,23 @@ for bkg, name in zip(bkgs, names):
 
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    ax.plot(x, y, 'o', label='Data')
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
+    ax.plot(x, y, "o", label="Data")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
     datasource = satlas2.Source(x, y, yerr=modifiedSqrt, name=name)
     datasource.addModel(peakm)
     datasource.addModel(bkgm)
     f = satlas2.Fitter()
     f.addSource(datasource)
     f.fit()
-    ax.plot(datasource.x, datasource.f(), label='Fit')
+    ax.plot(datasource.x, datasource.f(), label="Fit")
     ax.set_title(name)
     ax.legend(loc=0)
     metadata.append(f.createMetadataDataframe())
     results.append(f.createResultDataframe())
 
     imgdata = BytesIO()
-    fig.savefig(imgdata, format='png')
+    fig.savefig(imgdata, format="png")
     imgdatas.append(imgdata)
 
 metadata = pd.concat(metadata)
@@ -177,29 +177,34 @@ results = pd.concat(results)
 #     except:
 #         pass
 
+
 def wavg(group):
-    x = group['Value']
-    sigma = group['Stderr']
+    x = group["Value"]
+    sigma = group["Stderr"]
     Xstat = (1 / sigma**2).sum()
     Xm = (x / sigma**2).sum() / Xstat
     return Xm
 
+
 def wstd(group):
-    x = group['Value']
-    sigma = group['Stderr']
+    x = group["Value"]
+    sigma = group["Stderr"]
     Xstat = (1 / sigma**2).sum()
     Xm = (x / sigma**2).sum() / Xstat
-    Xscatt = (((x - Xm) / sigma)**2).sum() / ((len(x) - 1) * Xstat)
+    Xscatt = (((x - Xm) / sigma) ** 2).sum() / ((len(x) - 1) * Xstat)
     Xstat = 1 / Xstat
-    return_value = np.max([Xstat, Xscatt])**0.5
+    return_value = np.max([Xstat, Xscatt]) ** 0.5
     return return_value
 
-grouped = results[results.Parameter.isin(['FWHMG', 'FWHML'])].groupby(['Model', 'Parameter'])
+
+grouped = results[results.Parameter.isin(["FWHMG", "FWHML"])].groupby(
+    ["Model", "Parameter"]
+)
 dfwavg = grouped.apply(wavg)
-dfwavg.name = 'Weighted average'
+dfwavg.name = "Weighted average"
 dfwavg = dfwavg.to_frame()
 dfwstd = grouped.apply(wstd)
-dfwstd.name = 'Uncertainty'
+dfwstd.name = "Uncertainty"
 dfwstd = dfwstd.to_frame()
 dfresult = pd.merge(dfwavg, dfwstd, right_index=True, left_index=True)
 print(dfwavg)

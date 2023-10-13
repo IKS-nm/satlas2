@@ -15,7 +15,7 @@ import pandas as pd
 from numpy.typing import ArrayLike
 
 from .core import Fitter, Source
-from .models import HFS, Polynomial, PiecewiseConstant
+from .models import HFS, PiecewiseConstant, Polynomial
 
 
 class HFSModel:
@@ -52,55 +52,61 @@ class HFSModel:
     N : int, optional
         Number of sidepeaks to be generated, by default None
     Poisson : float, optional
-        The poisson factor for the sidepeaks, by default 0   
+        The poisson factor for the sidepeaks, by default 0
     Offset : float, optional
         Offset in units of x for the sidepeak, by default 0
     prefunc : callable, optional
-        Transformation to be applied on the input before evaluation, by default None"""
-    def __init__(self,
-                 I: float,
-                 J: ArrayLike[float, float],
-                 ABC: ArrayLike[float, float, float, float, float, float],
-                 centroid: float = 0,
-                 fwhm: ArrayLike[float, float] = [50.0, 50.0],
-                 scale: float = 1.0,
-                 background_params: ArrayLike = [0.001],
-                 shape: str = 'voigt',
-                 use_racah: bool = True,
-                 use_saturation: bool = False,
-                 saturation: float = 0.001,
-                 sidepeak_params: dict = {
-                     'N': None,
-                     'Poisson': 0,
-                     'Offset': 0
-                 },
-                 crystalballparams=None,
-                 pseudovoigtparams=None,
-                 asymmetryparams=None,
-                 name: str = 'HFModel__'):
+        Transformation to be applied on the input before evaluation, by default None
+    """
+
+    def __init__(
+        self,
+        I: float,
+        J: ArrayLike[float, float],
+        ABC: ArrayLike[float, float, float, float, float, float],
+        centroid: float = 0,
+        fwhm: ArrayLike[float, float] = [50.0, 50.0],
+        scale: float = 1.0,
+        background_params: ArrayLike = [0.001],
+        shape: str = "voigt",
+        use_racah: bool = True,
+        use_saturation: bool = False,
+        saturation: float = 0.001,
+        sidepeak_params: dict = {"N": None, "Poisson": 0, "Offset": 0},
+        crystalballparams=None,
+        pseudovoigtparams=None,
+        asymmetryparams=None,
+        name: str = "HFModel__",
+    ):
         super(HFSModel, self).__init__()
         self.background_params = background_params
-        if shape != 'voigt':
-            raise NotImplementedError('Only Voigt shape is supported.')
-        if crystalballparams != None or pseudovoigtparams != None or asymmetryparams != None:
-            raise NotImplementedError('Only Voigt shape is supported.')
-        if name == 'HFModel__':
-            self.name = name + str(I).replace('.', '_')
-        self.hfs = HFS(I,
-                       J,
-                       A=ABC[:2],
-                       B=ABC[2:4],
-                       C=ABC[4:6],
-                       scale=scale,
-                       df=centroid,
-                       fwhmg=fwhm[0],
-                       fwhml=fwhm[1],
-                       name=self.name,
-                       racah=use_racah,
-                       N=sidepeak_params['N'],
-                       offset=sidepeak_params['Offset'],
-                       poisson=sidepeak_params['Poisson'],
-                       prefunc=None)
+        if shape != "voigt":
+            raise NotImplementedError("Only Voigt shape is supported.")
+        if (
+            crystalballparams != None
+            or pseudovoigtparams != None
+            or asymmetryparams != None
+        ):
+            raise NotImplementedError("Only Voigt shape is supported.")
+        if name == "HFModel__":
+            self.name = name + str(I).replace(".", "_")
+        self.hfs = HFS(
+            I,
+            J,
+            A=ABC[:2],
+            B=ABC[2:4],
+            C=ABC[4:6],
+            scale=scale,
+            df=centroid,
+            fwhmg=fwhm[0],
+            fwhml=fwhm[1],
+            name=self.name,
+            racah=use_racah,
+            N=sidepeak_params["N"],
+            offset=sidepeak_params["Offset"],
+            poisson=sidepeak_params["Poisson"],
+            prefunc=None,
+        )
         self.params = self.hfs.params
 
     def set_expr(self, constraints: dict) -> None:
@@ -111,13 +117,15 @@ class HFSModel:
             Parameter to constrain
         value: ArrayLike, length = 2
             First element: Factor to multiply
-            Second element: Parameter that the key should be constrained to. {'Au':['0.5','Al']} results in Au = 0.5*Al"""
+            Second element: Parameter that the key should be constrained to. {'Au':['0.5','Al']} results in Au = 0.5*Al
+        """
         for cons in constraints.keys():
             self.hfs.params[
-                cons].expr = f'{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}'
+                cons
+            ].expr = f"{constraints[cons][0]}*Fit___{self.name}___{constraints[cons][1]}"
 
-    def fix_ratio(self, value, target='upper', parameter='A'):
-        raise NotImplementedError('Use HFSModel.set_expr(...)')
+    def fix_ratio(self, value, target="upper", parameter="A"):
+        raise NotImplementedError("Use HFSModel.set_expr(...)")
 
     def set_variation(self, varyDict: dict) -> None:
         """Sets the variation of the fitparameters as supplied in the
@@ -143,8 +151,9 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x) + Polynomial(self.background_params,
-                                                   name='bkg').f(x)
+        return self.hfs.fUnshifted(x) + Polynomial(
+            self.background_params, name="bkg"
+        ).f(x)
 
     def __call__(self, x: ArrayLike) -> ArrayLike:
         """Calculate the response for an unshifted spectrum with background
@@ -157,19 +166,22 @@ class HFSModel:
         -------
         ArrayLike
         """
-        return self.hfs.fUnshifted(x) + Polynomial(self.background_params,
-                                                   name='bkg').f(x)
+        return self.hfs.fUnshifted(x) + Polynomial(
+            self.background_params, name="bkg"
+        ).f(x)
 
-    def chisquare_fit(self,
-                      x: ArrayLike,
-                      y: ArrayLike,
-                      yerr: Union[ArrayLike, callable] = None,
-                      xerr: ArrayLike = None,
-                      func: callable = None,
-                      verbose: bool = False,
-                      hessian: bool = False,
-                      method: str = 'leastsq',
-                      show_correl: bool = True) -> Tuple[bool, str]:
+    def chisquare_fit(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        yerr: Union[ArrayLike, callable] = None,
+        xerr: ArrayLike = None,
+        func: callable = None,
+        verbose: bool = False,
+        hessian: bool = False,
+        method: str = "leastsq",
+        show_correl: bool = True,
+    ) -> Tuple[bool, str]:
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -204,13 +216,13 @@ class HFSModel:
         """
         if show_correl:
             print(
-                'define whether you want to see the correlations in display_chisquare_fit(...)'
+                "define whether you want to see the correlations in display_chisquare_fit(...)"
             )
         if func is not None:
             yerr = func
-        datasource = Source(x, y, yerr=yerr, name='Fit')
+        datasource = Source(x, y, yerr=yerr, name="Fit")
         datasource.addModel(self.hfs)
-        bkg = Polynomial(self.background_params, name='bkg')
+        bkg = Polynomial(self.background_params, name="bkg")
         datasource.addModel(bkg)
         self.fitter = Fitter()
         self.fitter.addSource(datasource)
@@ -241,11 +253,12 @@ class HFSModel:
             Multi-line text of fit report.
         """
         if not scaled:
-            raise NotImplementedError('Not implemented')
+            raise NotImplementedError("Not implemented")
         return lm.fit_report(self.fitter.result, **kwargs)
 
-    def get_result(self,
-                   selection: str = 'chisquare') -> Tuple[list, list, list]:
+    def get_result(
+        self, selection: str = "chisquare"
+    ) -> Tuple[list, list, list]:
         """Return the variable names, values and estimated error bars for the
         parameters as seperate lists.
 
@@ -259,15 +272,21 @@ class HFSModel:
         -------
         names, values, uncertainties: tuple of lists
             Returns a 3-tuple of lists containing the names of the parameters,
-            the values and the estimated uncertainties, scaled with the reduced chisquared."""
-        lmparamdict = self.fitter.pars['Fit'][self.name]
-        return list(lmparamdict.keys()), [
-            lmparamdict[param_name].value for param_name in lmparamdict.keys()
-        ], [lmparamdict[param_name].unc for param_name in lmparamdict.keys()]
+            the values and the estimated uncertainties, scaled with the reduced chisquared.
+        """
+        lmparamdict = self.fitter.pars["Fit"][self.name]
+        return (
+            list(lmparamdict.keys()),
+            [
+                lmparamdict[param_name].value
+                for param_name in lmparamdict.keys()
+            ],
+            [lmparamdict[param_name].unc for param_name in lmparamdict.keys()],
+        )
 
-    def get_result_dict(self,
-                        method: str = 'chisquare',
-                        scaled: bool = True) -> dict:
+    def get_result_dict(
+        self, method: str = "chisquare", scaled: bool = True
+    ) -> dict:
         """Returns the fitted parameters in a dictionary of the form {name: [value, uncertainty]}.
 
         Parameters
@@ -282,22 +301,26 @@ class HFSModel:
         -------
         dict
             Dictionary of the form described above."""
-        if (method.lower(), scaled) != ('chisquare', True):
-            raise NotImplementedError('Not implemented')
-        lmparamdict = self.fitter.pars['Fit'][self.name]
+        if (method.lower(), scaled) != ("chisquare", True):
+            raise NotImplementedError("Not implemented")
+        lmparamdict = self.fitter.pars["Fit"][self.name]
         return_dict = {
-            param_name:
-            [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+            param_name: [
+                lmparamdict[param_name].value,
+                lmparamdict[param_name].unc,
+            ]
             for param_name in lmparamdict.keys()
         }
         return return_dict
 
-    def get_result_frame(self,
-                         method: str = 'chisquare',
-                         selected: bool = False,
-                         bounds: bool = False,
-                         vary: bool = False,
-                         scaled: bool = True) -> pd.DataFrame:
+    def get_result_frame(
+        self,
+        method: str = "chisquare",
+        selected: bool = False,
+        bounds: bool = False,
+        vary: bool = False,
+        scaled: bool = True,
+    ) -> pd.DataFrame:
         """Returns the data from the fit in a pandas DataFrame.
 
         Parameters
@@ -343,12 +366,15 @@ class SumModel:
         Name of this summodel
     source_name : string, optional
         Name of the DataSource instance (from satlas2)
-        """
-    def __init__(self,
-                 models: list,
-                 background_params: list,
-                 name: str = 'sum',
-                 source_name: str = 'source'):
+    """
+
+    def __init__(
+        self,
+        models: list,
+        background_params: list,
+        name: str = "sum",
+        source_name: str = "source",
+    ):
         super(SumModel, self).__init__()
         self.name = name
         self.models = models
@@ -367,7 +393,7 @@ class SumModel:
         self.params = p
 
     def set_variation(self, varyDict: dict):
-        raise NotImplementedError('Do this at the HFSModel level')
+        raise NotImplementedError("Do this at the HFSModel level")
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """Calculate the response for a spectrum
@@ -390,15 +416,17 @@ class SumModel:
     def __call__(self, x):
         return self.f(x)
 
-    def chisquare_fit(self,
-                      x: ArrayLike,
-                      y: ArrayLike,
-                      yerr: Union[ArrayLike, callable] = None,
-                      xerr: ArrayLike = None,
-                      func: callable = None,
-                      verbose: bool = False,
-                      hessian: bool = False,
-                      method: str = 'leastsq') -> Tuple[bool, str]:
+    def chisquare_fit(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        yerr: Union[ArrayLike, callable] = None,
+        xerr: ArrayLike = None,
+        func: callable = None,
+        verbose: bool = False,
+        hessian: bool = False,
+        method: str = "leastsq",
+    ) -> Tuple[bool, str]:
         """Perform a fit of this model to the data provided in this function.
 
         Parameters
@@ -432,13 +460,15 @@ class SumModel:
             When the chosen options for func, verbose and Hessian result is not implemented.
         """
         if (func, verbose, hessian) != (None, False, False):
-            raise NotImplementedError('Not implemented')
-        datasource = Source(x, y, yerr=yerr, name='Fit')
+            raise NotImplementedError("Not implemented")
+        datasource = Source(x, y, yerr=yerr, name="Fit")
         for model in self.models:
             datasource.addModel(model)
-        step_bkg = PiecewiseConstant(self.background_params['values'],
-                                     self.background_params['bounds'],
-                                     name='bkg')
+        step_bkg = PiecewiseConstant(
+            self.background_params["values"],
+            self.background_params["bounds"],
+            name="bkg",
+        )
         self.models.append(step_bkg)
         datasource.addModel(step_bkg)
         self.fitter = Fitter()
@@ -466,11 +496,12 @@ class SumModel:
             Multi-line text of fit report.
         """
         if not scaled:
-            raise NotImplementedError('Not implemented')
+            raise NotImplementedError("Not implemented")
         return lm.fit_report(self.fitter.result, **kwargs)
 
-    def get_result(self,
-                   selection: str = 'chisquare') -> Tuple[list, list, list]:
+    def get_result(
+        self, selection: str = "chisquare"
+    ) -> Tuple[list, list, list]:
         """Return the variable names, values and estimated error bars for the
         parameters as seperate lists.
 
@@ -485,26 +516,31 @@ class SumModel:
         names, values, uncertainties: tuple of lists
             Returns a 3-tuple of lists containing the names of the parameters. The first list each tuple element contains the names/values/uncertainties of the first model added to the summodel, etc.
             The last list in each tuple element contains the names/values/uncertainties for the step background
-            The values and the estimated uncertainties are always scaled with the reduced chisquared."""
+            The values and the estimated uncertainties are always scaled with the reduced chisquared.
+        """
         varnames = []
         varvalues = []
         varunc = []
         for model in self.models:
-            lmparamdict = self.fitter.pars['Fit'][model.name]
+            lmparamdict = self.fitter.pars["Fit"][model.name]
             varnames.append(list(lmparamdict.keys()))
-            varvalues.append([
-                lmparamdict[param_name].value
-                for param_name in lmparamdict.keys()
-            ])
-            varunc.append([
-                lmparamdict[param_name].unc
-                for param_name in lmparamdict.keys()
-            ])
+            varvalues.append(
+                [
+                    lmparamdict[param_name].value
+                    for param_name in lmparamdict.keys()
+                ]
+            )
+            varunc.append(
+                [
+                    lmparamdict[param_name].unc
+                    for param_name in lmparamdict.keys()
+                ]
+            )
         return varnames, varvalues, varunc
 
-    def get_result_dict(self,
-                        method: str = 'chisquare',
-                        scaled: bool = True) -> dict:
+    def get_result_dict(
+        self, method: str = "chisquare", scaled: bool = True
+    ) -> dict:
         """Returns the fitted parameters in a dictionary of the form {name of model in summodel : {name: [value, uncertainty]}}. Background values are under key 'bkg' in dictionary.
 
         Parameters
@@ -519,24 +555,28 @@ class SumModel:
         -------
         dict
             Dictionary of the form described above."""
-        if (method.lower(), scaled) != ('chisquare', True):
-            raise NotImplementedError('Not implemented')
+        if (method.lower(), scaled) != ("chisquare", True):
+            raise NotImplementedError("Not implemented")
         return_dict = dict()
         for model in self.models:
-            lmparamdict = self.fitter.pars['Fit'][model.name]
+            lmparamdict = self.fitter.pars["Fit"][model.name]
             return_dict[model.name] = {
-                param_name:
-                [lmparamdict[param_name].value, lmparamdict[param_name].unc]
+                param_name: [
+                    lmparamdict[param_name].value,
+                    lmparamdict[param_name].unc,
+                ]
                 for param_name in lmparamdict.keys()
             }
         return return_dict
 
-    def get_result_frame(self,
-                         method: str = 'chisquare',
-                         selected: bool = False,
-                         bounds: bool = False,
-                         vary: bool = False,
-                         scaled: bool = True) -> pd.DataFrame:
+    def get_result_frame(
+        self,
+        method: str = "chisquare",
+        selected: bool = False,
+        bounds: bool = False,
+        vary: bool = False,
+        scaled: bool = True,
+    ) -> pd.DataFrame:
         """Returns the data from the fit in a pandas DataFrame.
 
         Parameters
@@ -564,25 +604,27 @@ class SumModel:
             and the two rows under for the value and the uncertainty"""
         result_dict = self.get_result_dict(method=method, scaled=scaled)
         return_frame = pd.DataFrame.from_dict(result_dict[self.models[0].name])
-        return_frame = return_frame.add_prefix(f'{self.models[0].name}_')
+        return_frame = return_frame.add_prefix(f"{self.models[0].name}_")
         for model in self.models[1:]:
             df_to_add = pd.DataFrame.from_dict(result_dict[model.name])
-            df_to_add = df_to_add.add_prefix(f'{model.name}_')
+            df_to_add = df_to_add.add_prefix(f"{model.name}_")
             return_frame = pd.concat([return_frame, df_to_add], axis=1)
         return return_frame
 
 
-def chisquare_fit(model: Union['HFSModel', 'SumModel'],
-                  x: ArrayLike,
-                  y: ArrayLike,
-                  yerr: Union[ArrayLike, callable],
-                  xerr: ArrayLike = None,
-                  method: str = 'leastsq'):
+def chisquare_fit(
+    model: Union["HFSModel", "SumModel"],
+    x: ArrayLike,
+    y: ArrayLike,
+    yerr: Union[ArrayLike, callable],
+    xerr: ArrayLike = None,
+    method: str = "leastsq",
+):
     """Perform a fit of the provided model to the data provided in this function.
 
     Parameters
     ----------
-    model : 
+    model :
     x : ArrayLike
         x-values of the data points
     y : ArrayLike
@@ -595,7 +637,7 @@ def chisquare_fit(model: Union['HFSModel', 'SumModel'],
         Selects the method used by the :func:`lmfit.minimizer`, by default 'leastsq'.
     show_correl : bool, optional
         Show correlations between fitted parameters in fit message, by default True
-    
+
     Returns
     -------
     Instance of Fitter"""
