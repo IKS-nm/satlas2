@@ -230,7 +230,7 @@ class Fitter:
         """Removes all priors on parameters."""
         self.priors = {}
 
-    def addSource(self, source: "Source") -> None:
+    def addSource(self, source: Source) -> None:
         """Add a datasource to the Fitter structure
 
         Parameters
