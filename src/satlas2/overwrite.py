@@ -17,12 +17,14 @@ from typing import Dict, List, Union
 try:
     import pandas as pd
     from pandas import isnull
+
     HAS_PANDAS = True
 except ImportError:
     HAS_PANDAS = False
     isnull = np.isnan
 try:
     import dill  # noqa: F401
+
     HAS_DILL = True
 except ImportError:
     HAS_DILL = False
@@ -30,7 +32,7 @@ _make_random_gen = lmfit.minimizer._make_random_gen
 isnull = lmfit.minimizer.isnull
 _nan_policy = lmfit.minimizer._nan_policy
 
-__all__ = ['SATLASSampler', 'SATLASHDFBackend', 'SATLASMinimizer', 'minimize']
+__all__ = ["SATLASSampler", "SATLASHDFBackend", "SATLASMinimizer", "minimize"]
 
 
 def ndarray_to_list_of_dicts(
@@ -119,7 +121,7 @@ class SATLASMinimizer(Minimizer):
         result = self.prepare_fit(params)
         params = result.params
         nvarys = result.nvarys
-        result.method = 'emcee'
+        result.method = "emcee"
 
         flatchain = chain.reshape((-1, nvarys))
         steps = chain.shape[0]
@@ -155,39 +157,45 @@ class SATLASMinimizer(Minimizer):
 
         # Calculate the residual with the "best fit" parameters
 
-    def emcee(self,
-              params=None,
-              steps=1000,
-              nwalkers=100,
-              burn=0,
-              thin=1,
-              ntemps=1,
-              load=False,
-              convergence=False,
-              convergence_iter=50,
-              convergence_tau=0.01,
-              pos=None,
-              reuse_sampler=False,
-              workers=1,
-              float_behavior='posterior',
-              is_weighted=True,
-              seed=None,
-              progress=True,
-              mcmc_kwargs={},
-              sampler_kwargs={},
-              sampler=emcee.EnsembleSampler):
+    def emcee(
+        self,
+        params=None,
+        steps=1000,
+        nwalkers=100,
+        burn=0,
+        thin=1,
+        ntemps=1,
+        load=False,
+        convergence=False,
+        convergence_iter=50,
+        convergence_tau=0.01,
+        pos=None,
+        reuse_sampler=False,
+        workers=1,
+        float_behavior="posterior",
+        is_weighted=True,
+        seed=None,
+        progress=True,
+        mcmc_kwargs={},
+        sampler_kwargs={},
+        sampler=emcee.EnsembleSampler,
+    ):
         if ntemps > 1:
-            msg = ("'ntemps' has no effect anymore, since the PTSampler was "
-                   "removed from emcee version 3.")
+            msg = (
+                "'ntemps' has no effect anymore, since the PTSampler was "
+                "removed from emcee version 3."
+            )
             raise DeprecationWarning(msg)
 
         tparams = params
         # if you're reusing the sampler then nwalkers have to be
         # determined from the previous sampling
         if reuse_sampler:
-            if not hasattr(self, 'sampler') or not hasattr(self, '_lastpos'):
-                raise ValueError("You wanted to use an existing sampler, but "
-                                 "it hasn't been created yet")
+            if not hasattr(self, "sampler") or not hasattr(self, "_lastpos"):
+                raise ValueError(
+                    "You wanted to use an existing sampler, but "
+                    "it hasn't been created yet"
+                )
             if len(self._lastpos.shape) == 2:
                 nwalkers = self._lastpos.shape[0]
             elif len(self._lastpos.shape) == 3:
@@ -202,19 +210,17 @@ class SATLASMinimizer(Minimizer):
         out = np.asarray(out).ravel()
         if out.size > 1 and is_weighted is False:
             # we need to marginalise over a constant data uncertainty
-            if '__lnsigma' not in params:
+            if "__lnsigma" not in params:
                 # __lnsigma should already be in params if is_weighted was
                 # previously set to True.
-                params.add('__lnsigma',
-                           value=0.01,
-                           min=-np.inf,
-                           max=np.inf,
-                           vary=True)
+                params.add(
+                    "__lnsigma", value=0.01, min=-np.inf, max=np.inf, vary=True
+                )
                 # have to re-prepare the fit
                 result = self.prepare_fit(params)
                 params = result.params
 
-        result.method = 'emcee'
+        result.method = "emcee"
 
         # Removing internal parameter scaling. We could possibly keep it,
         # but I don't know how this affects the emcee sampling.
@@ -248,45 +254,46 @@ class SATLASMinimizer(Minimizer):
         # sampler_kwargs = {}
         if isinstance(workers, int) and workers > 1 and HAS_DILL:
             auto_pool = multiprocessing.Pool(workers)
-            sampler_kwargs['pool'] = auto_pool
-        elif hasattr(workers, 'map'):
-            sampler_kwargs['pool'] = workers
+            sampler_kwargs["pool"] = auto_pool
+        elif hasattr(workers, "map"):
+            sampler_kwargs["pool"] = workers
 
         # function arguments for the log-probability functions
         # these values are sent to the log-probability functions by the sampler.
         lnprob_args = (self.userfcn, params, result.var_names, bounds)
         lnprob_kwargs = {
-            'is_weighted': is_weighted,
-            'float_behavior': float_behavior,
-            'userargs': self.userargs,
-            'userkws': self.userkws,
-            'nan_policy': self.nan_policy
+            "is_weighted": is_weighted,
+            "float_behavior": float_behavior,
+            "userargs": self.userargs,
+            "userkws": self.userkws,
+            "nan_policy": self.nan_policy,
         }
 
-        sampler_kwargs['args'] = lnprob_args
-        sampler_kwargs['kwargs'] = lnprob_kwargs
+        sampler_kwargs["args"] = lnprob_args
+        sampler_kwargs["kwargs"] = lnprob_kwargs
 
         # set up the random number generator
         rng = _make_random_gen(seed)
 
-        backend = sampler_kwargs.pop('backend')
+        backend = sampler_kwargs.pop("backend")
         if backend is not None:
             if not load:
                 backend.reset(nwalkers, self.nvarys)
             else:
                 nwalkers = backend.shape[0]
             backend.labels = result.var_names
-        sampler_kwargs['backend'] = backend
+        sampler_kwargs["backend"] = backend
         # now initialise the samplers
 
         if load:
             p0 = None
         else:
-            p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.e-4
+            p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.0e-4
             p0 *= var_arr
-        sampler_kwargs['pool'] = auto_pool
-        self.sampler = sampler(nwalkers, self.nvarys, self._lnprob,
-                                **sampler_kwargs)
+        sampler_kwargs["pool"] = auto_pool
+        self.sampler = sampler(
+            nwalkers, self.nvarys, self._lnprob, **sampler_kwargs
+        )
 
         # user supplies an initialisation position for the chain
         # If you try to run the sampler with p0 of a wrong size then you'll get
@@ -300,7 +307,7 @@ class SATLASMinimizer(Minimizer):
             elif tpos.shape[-1] == self.nvarys:
                 tpos = tpos[-1]
             else:
-                raise ValueError('pos should have shape (nwalkers, nvarys)')
+                raise ValueError("pos should have shape (nwalkers, nvarys)")
             p0 = tpos
 
         # if you specified a seed then you also need to seed the sampler
@@ -311,34 +318,43 @@ class SATLASMinimizer(Minimizer):
         try:
             output = None
             old_tau = np.inf
-            check = int(np.ceil(1000/nwalkers))
+            check = int(np.ceil(1000 / nwalkers))
             converged = False
             if p0 is None:
                 p0 = self.sampler._previous_state
-            for output in self.sampler.sample(p0, iterations=steps, progress=progress, **mcmc_kwargs):
+            for output in self.sampler.sample(
+                p0, iterations=steps, progress=progress, **mcmc_kwargs
+            ):
                 if convergence:
                     if self.sampler.iteration % check:
                         continue
                     tau = self.sampler.get_autocorr_time(tol=0)
-                    converged = np.all(tau * convergence_iter < self.sampler.iteration)
-                    converged &= np.all(np.abs(old_tau-tau)/tau < convergence_tau)
+                    converged = np.all(
+                        tau * convergence_iter < self.sampler.iteration
+                    )
+                    converged &= np.all(
+                        np.abs(old_tau - tau) / tau < convergence_tau
+                    )
                     if converged:
                         break
                     old_tau = tau
             if converged:
-                print('emcee stopped due to convergence')
+                print("emcee stopped due to convergence")
             self._lastpos = output.coords
         except AbortFitException:
             result.aborted = True
-            result.message = "Fit aborted by user callback. Could not estimate error-bars."
+            result.message = (
+                "Fit aborted by user callback. Could not estimate error-bars."
+            )
             result.success = False
             result.nfev = self.result.nfev
             output = None
 
         # discard the burn samples and thin
         chain = self.sampler.get_chain(thin=thin, discard=burn)[..., :, :]
-        lnprobability = self.sampler.get_log_prob(thin=thin,
-                                                  discard=burn)[..., :]
+        lnprobability = self.sampler.get_log_prob(thin=thin, discard=burn)[
+            ..., :
+        ]
         flatchain = chain.reshape((-1, self.nvarys))
         if not result.aborted:
             quantiles = np.percentile(flatchain, [15.87, 50, 84.13], axis=0)
@@ -358,7 +374,8 @@ class SATLASMinimizer(Minimizer):
                 for j, var_name2 in enumerate(result.var_names):
                     if i != j:
                         result.params[var_name].correl[var_name2] = corrcoefs[
-                            i, j]
+                            i, j
+                        ]
 
         result.chain = np.copy(chain)
         result.lnprob = np.copy(lnprobability)
@@ -375,24 +392,26 @@ class SATLASMinimizer(Minimizer):
 
         # Calculate the residual with the "best fit" parameters
         out = self.userfcn(params, *self.userargs, **self.userkws)
-        result.residual = _nan_policy(out,
-                                      nan_policy=self.nan_policy,
-                                      handle_inf=False)
+        result.residual = _nan_policy(
+            out, nan_policy=self.nan_policy, handle_inf=False
+        )
 
         # If uncertainty was automatically estimated, weight the residual properly
         if (not is_weighted) and (result.residual.size > 1):
-            if '__lnsigma' in params:
+            if "__lnsigma" in params:
                 result.residual = result.residual / np.exp(
-                    params['__lnsigma'].value)
+                    params["__lnsigma"].value
+                )
 
         # Calculate statistics for the two standard cases:
-        if isinstance(result.residual, np.ndarray) or (float_behavior
-                                                       == 'chi2'):
+        if isinstance(result.residual, np.ndarray) or (
+            float_behavior == "chi2"
+        ):
             result._calculate_statistics()
 
         # Handle special case unique to emcee:
         # This should eventually be moved into result._calculate_statistics.
-        elif float_behavior == 'posterior':
+        elif float_behavior == "posterior":
             result.ndata = 1
             result.nfree = 1
 
@@ -412,28 +431,32 @@ class SATLASMinimizer(Minimizer):
         return result
 
 
-def minimize(fcn,
-             params,
-             method='leastsq',
-             args=None,
-             kws=None,
-             iter_cb=None,
-             scale_covar=True,
-             nan_policy='raise',
-             reduce_fcn=None,
-             calc_covar=True,
-             max_nfev=None,
-             **fit_kws):
-    minimizer_kws = fit_kws.pop('minimizer_kws', {})
-    fitter = SATLASMinimizer(fcn,
-                             params,
-                             fcn_args=args,
-                             fcn_kws=kws,
-                             iter_cb=iter_cb,
-                             scale_covar=scale_covar,
-                             nan_policy=nan_policy,
-                             reduce_fcn=reduce_fcn,
-                             calc_covar=calc_covar,
-                             max_nfev=max_nfev,
-                             **fit_kws)
+def minimize(
+    fcn,
+    params,
+    method="leastsq",
+    args=None,
+    kws=None,
+    iter_cb=None,
+    scale_covar=True,
+    nan_policy="raise",
+    reduce_fcn=None,
+    calc_covar=True,
+    max_nfev=None,
+    **fit_kws,
+):
+    minimizer_kws = fit_kws.pop("minimizer_kws", {})
+    fitter = SATLASMinimizer(
+        fcn,
+        params,
+        fcn_args=args,
+        fcn_kws=kws,
+        iter_cb=iter_cb,
+        scale_covar=scale_covar,
+        nan_policy=nan_policy,
+        reduce_fcn=reduce_fcn,
+        calc_covar=calc_covar,
+        max_nfev=max_nfev,
+        **fit_kws,
+    )
     return fitter.minimize(method=method, **minimizer_kws)

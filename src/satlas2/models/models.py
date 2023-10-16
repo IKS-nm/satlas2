@@ -16,8 +16,11 @@ from scipy.special import erf, voigt_profile
 from ..core import Model, Parameter
 
 __all__ = [
-    'ExponentialDecay', 'Polynomial', 'PiecewiseConstant', 'Voigt',
-    'SkewedVoigt'
+    "ExponentialDecay",
+    "Polynomial",
+    "PiecewiseConstant",
+    "Voigt",
+    "SkewedVoigt",
 ]
 
 sqrt2 = 2**0.5
@@ -37,16 +40,16 @@ class Polynomial(Model):
     prefunc : callable, optional
         Transform function for the input, by default None
     """
-    def __init__(self,
-                 p: ArrayLike,
-                 name: str = 'Polynomial',
-                 prefunc: callable = None):
+
+    def __init__(
+        self, p: ArrayLike, name: str = "Polynomial", prefunc: callable = None
+    ):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            'p' + str(len(p) - (i + 1)): Parameter(value=P,
-                                                   min=-np.inf,
-                                                   max=np.inf,
-                                                   vary=True)
+            "p"
+            + str(len(p) - (i + 1)): Parameter(
+                value=P, min=-np.inf, max=np.inf, vary=True
+            )
             for i, P in enumerate(p)
         }
 
@@ -71,17 +74,20 @@ class PiecewiseConstant(Model):
     prefunc : callable, optional
         Transform function for the input, by default None
     """
-    def __init__(self,
-                 values: ArrayLike,
-                 bounds: ArrayLike,
-                 name: str = 'PiecewiseConstant',
-                 prefunc: callable = None):
+
+    def __init__(
+        self,
+        values: ArrayLike,
+        bounds: ArrayLike,
+        name: str = "PiecewiseConstant",
+        prefunc: callable = None,
+    ):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            'value' + str(len(values) - (i + 1)): Parameter(value=P,
-                                                            min=0,
-                                                            max=np.inf,
-                                                            vary=True)
+            "value"
+            + str(len(values) - (i + 1)): Parameter(
+                value=P, min=0, max=np.inf, vary=True
+            )
             for i, P in enumerate(values[::-1])
         }
         self.bounds = np.hstack([-np.inf, bounds, np.inf])
@@ -89,8 +95,9 @@ class PiecewiseConstant(Model):
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        values = np.array([self.params[p].value
-                           for p in self.params.keys()])[::-1]
+        values = np.array([self.params[p].value for p in self.params.keys()])[
+            ::-1
+        ]
         indices = np.digitize(x, self.bounds) - 1
         bkg = values[indices]
         return bkg
@@ -110,26 +117,29 @@ class ExponentialDecay(Model):
     prefunc : callable, optional
         Transform function for the input, by default None
     """
-    def __init__(self,
-                 a: float,
-                 tau: float,
-                 name: str = 'ExponentialDecay',
-                 prefunc: callable = None):
+
+    def __init__(
+        self,
+        a: float,
+        tau: float,
+        name: str = "ExponentialDecay",
+        prefunc: callable = None,
+    ):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            'amplitude': Parameter(value=a, min=-np.inf, max=np.inf,
-                                   vary=True),
-            'halflife': Parameter(value=tau,
-                                  min=-np.inf,
-                                  max=np.inf,
-                                  vary=True),
+            "amplitude": Parameter(
+                value=a, min=-np.inf, max=np.inf, vary=True
+            ),
+            "halflife": Parameter(
+                value=tau, min=-np.inf, max=np.inf, vary=True
+            ),
         }
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        a = self.params['amplitude'].value
-        b = self.params['halflife'].value
+        a = self.params["amplitude"].value
+        b = self.params["halflife"].value
         return a * np.exp(-log2 * x / b)
 
 
@@ -151,29 +161,32 @@ class Voigt(Model):
     prefunc : callable, optional
         Transform function of the input, by default None
     """
-    def __init__(self,
-                 A: float,
-                 mu: float,
-                 FWHMG: float,
-                 FWHML: float,
-                 name: str = 'Voigt',
-                 prefunc: callable = None):
+
+    def __init__(
+        self,
+        A: float,
+        mu: float,
+        FWHMG: float,
+        FWHML: float,
+        name: str = "Voigt",
+        prefunc: callable = None,
+    ):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            'A': Parameter(value=A, min=0, max=np.inf, vary=True),
-            'mu': Parameter(value=mu, min=-np.inf, max=np.inf, vary=True),
-            'FWHMG': Parameter(value=FWHMG, min=0, max=np.inf, vary=True),
-            'FWHML': Parameter(value=FWHML, min=0, max=np.inf, vary=True)
+            "A": Parameter(value=A, min=0, max=np.inf, vary=True),
+            "mu": Parameter(value=mu, min=-np.inf, max=np.inf, vary=True),
+            "FWHMG": Parameter(value=FWHMG, min=0, max=np.inf, vary=True),
+            "FWHML": Parameter(value=FWHML, min=0, max=np.inf, vary=True),
         }
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        A = self.params['A'].value
-        mu = self.params['mu'].value
+        A = self.params["A"].value
+        mu = self.params["mu"].value
         x = x - mu
-        FWHMG = self.params['FWHMG'].value
-        FWHML = self.params['FWHML'].value
+        FWHMG = self.params["FWHMG"].value
+        FWHML = self.params["FWHML"].value
         sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
         ret = voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
         return A * ret
@@ -187,15 +200,16 @@ class Voigt(Model):
         Tuple[float, float]
             Tuple of the form (value, uncertainty)
         """
-        G, Gu = self.params['FWHMG'].value, self.params['FWHMG'].unc
-        L, Lu = self.params['FWHML'].value, self.params['FWHML'].unc
+        G, Gu = self.params["FWHMG"].value, self.params["FWHMG"].unc
+        L, Lu = self.params["FWHML"].value, self.params["FWHML"].unc
         try:
-            correl = self.params['FWHMG'].correl['FWHML']
+            correl = self.params["FWHMG"].correl["FWHML"]
         except KeyError:
             correl = 0
-        G, L = unc.correlated_values_norm([(G, Gu), (L, Lu)],
-                                          np.array([[1, correl], [correl, 1]]))
-        fwhm = 0.5346 * L + (0.2166 * L * L + G * G)**0.5
+        G, L = unc.correlated_values_norm(
+            [(G, Gu), (L, Lu)], np.array([[1, correl], [correl, 1]])
+        )
+        fwhm = 0.5346 * L + (0.2166 * L * L + G * G) ** 0.5
         return fwhm.nominal_value, fwhm.std_dev
 
 
@@ -219,27 +233,29 @@ class SkewedVoigt(Voigt):
     prefunc : callable, optional
         Transform of the input, by default None
     """
-    def __init__(self,
-                 A: float,
-                 mu: float,
-                 FWHMG: float,
-                 FWHML: float,
-                 skew: float,
-                 name: str = 'SkewedVoigt',
-                 prefunc: callable = None):
+
+    def __init__(
+        self,
+        A: float,
+        mu: float,
+        FWHMG: float,
+        FWHML: float,
+        skew: float,
+        name: str = "SkewedVoigt",
+        prefunc: callable = None,
+    ):
         super().__init__(A, mu, FWHMG, FWHML, name=name, prefunc=prefunc)
-        self.params['Skew'] = Parameter(value=skew,
-                                        min=-np.inf,
-                                        max=np.inf,
-                                        vary=True)
+        self.params["Skew"] = Parameter(
+            value=skew, min=-np.inf, max=np.inf, vary=True
+        )
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         ret = super().f(x)
-        mu = self.params['mu'].value
-        FWHMG = self.params['FWHMG'].value
+        mu = self.params["mu"].value
+        FWHMG = self.params["FWHMG"].value
         sigma = FWHMG / sqrt2log2t2
-        skew = self.params['Skew'].value
+        skew = self.params["Skew"].value
         beta = skew / (sigma * sqrt2)
         asym = 1 + erf(beta * (x - mu))
         return ret * asym
