@@ -10,7 +10,7 @@ from typing import Tuple
 import numpy as np
 import uncertainties as unc
 from numpy.typing import ArrayLike
-from scipy.special import voigt_profile
+from scipy.special import voigt_profile, erf
 from sympy.physics.wigner import wigner_3j, wigner_6j
 
 from ..core import Model, Parameter
@@ -46,6 +46,10 @@ class HFS(Model):
         The Lorentzian FWHM of the Voigt profile, by default 50
     name : str, optional
         Name of the model, by default 'HFS'
+    peak: str, optional
+        peak function to use, by default 'voigt'
+    peak_kwargs: dict, optional
+        additional fitting parameters for skewl, skewr and custom peaks
     N : int, optional
         Number of sidepeaks to be generated, by default None
     offset : float, optional
@@ -58,30 +62,38 @@ class HFS(Model):
         Use individual amplitudes are setting the Racah intensities, by default True
     prefunc : callable, optional
         Transformation to be applied on the input before evaluation, by default None
-    """
-
-    def __init__(
-        self,
-        I: float,
-        J: ArrayLike,
-        A: ArrayLike = [0, 0],
-        B: ArrayLike = [0, 0],
-        C: ArrayLike = [0, 0],
-        df: float = 0,
-        fwhmg: float = 50,
-        fwhml: float = 50,
-        name: str = "HFS",
-        N: int = None,
-        offset: float = 0,
-        poisson: float = 0,
-        scale: float = 1.0,
-        racah: bool = True,
-        prefunc: callable = None,
-    ):
+        """
+    def __init__(self,
+                 I: float,
+                 J: ArrayLike,
+                 A: ArrayLike = [0, 0],
+                 B: ArrayLike = [0, 0],
+                 C: ArrayLike = [0, 0],
+                 df: float = 0,
+                 fwhmg: float = 50,
+                 fwhml: float = 50,
+                 name: str = 'HFS',
+                 peak: str = 'voigt',
+                 peak_kwargs: dict = None,
+                 N: int = None,
+                 offset: float = 0,
+                 poisson: float = 0,
+                 scale: float = 1.0,
+                 racah: bool = True,
+                 prefunc: callable = None):
         super().__init__(name, prefunc=prefunc)
         J1, J2 = J
         lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
         upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
+
+        self.peakfunc = {
+            'voigt': self.voigtPeak,
+            'gaussian': self.gaussPeak,
+            'lorentzian': self.lorentzPeak,
+            'skewleft': self.skewLPeak,
+            'skewright': self.skewRPeak,
+            'custom': self.customPeak
+        }[peak.lower()]
 
         self.lines = []
         self.intensities = {}
@@ -143,6 +155,18 @@ class HFS(Model):
             "FWHML": Parameter(value=fwhml, min=0.01),
             "scale": Parameter(value=scale, min=0, vary=racah),
         }
+
+        if peak.lower() == 'lorentzian':
+            pars['FWHMG'].value,pars['FWHMG'].vary, pars['FWHMG'].min=0,False,0
+        if peak.lower() == 'gaussian':
+            pars['FWHML'].value,pars['FWHML'].vary,pars['FWHML'].min=0,False,0
+        if peak_kwargs is not None:
+            for peak_arg in peak_kwargs:
+                pars[peak_arg] = Parameter(value=peak_kwargs[peak_arg]['value'], 
+                                           min=peak_kwargs[peak_arg].get('min', -np.inf), 
+                                           max=peak_kwargs[peak_arg].get('max', np.inf), 
+                                           vary=peak_kwargs[peak_arg].get('vary', True),
+                                           expr=peak_kwargs[peak_arg].get('expr', None))
         if N is not None:
             pars["N"] = Parameter(value=N, vary=False)
             pars["Offset"] = Parameter(value=offset)
@@ -179,16 +203,14 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params["centroid"].value
-        Al = self.params["Al"].value
-        Au = self.params["Au"].value
-        Bl = self.params["Bl"].value
-        Bu = self.params["Bu"].value
-        Cl = self.params["Cl"].value
-        Cu = self.params["Cu"].value
-        FWHMG = self.params["FWHMG"].value
-        FWHML = self.params["FWHML"].value
-        scale = self.params["scale"].value
+        centroid = self.params['centroid'].value
+        Al = self.params['Al'].value
+        Au = self.params['Au'].value
+        Bl = self.params['Bl'].value
+        Bu = self.params['Bu'].value
+        Cl = self.params['Cl'].value
+        Cu = self.params['Cu'].value
+        scale = self.params['scale'].value
 
         try:
             result = np.zeros(len(x))
@@ -197,20 +219,12 @@ class HFS(Model):
             result = np.zeros(len(x))
         x = self.transform(x)
         for line in self.lines:
-            pos = (
-                centroid
-                + Au * self.scaling_Au[line]
-                + Bu * self.scaling_Bu[line]
-                + Cu * self.scaling_Cu[line]
-                - Al * self.scaling_Al[line]
-                - Bl * self.scaling_Bl[line]
-                - Cl * self.scaling_Cl[line]
-            )
-            result += (
-                scale
-                * self.params["Amp" + line].value
-                * self.peak(x - pos, FWHMG, FWHML)
-            )
+            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
+                line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
+                    line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
+                        line]
+            result += scale * self.params['Amp' + line].value * self.peak(
+                x - pos)
 
         return result
 
@@ -227,19 +241,17 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params["centroid"].value
-        Al = self.params["Al"].value
-        Au = self.params["Au"].value
-        Bl = self.params["Bl"].value
-        Bu = self.params["Bu"].value
-        Cl = self.params["Cl"].value
-        Cu = self.params["Cu"].value
-        FWHMG = self.params["FWHMG"].value
-        FWHML = self.params["FWHML"].value
-        scale = self.params["scale"].value
-        N = self.params["N"].value
-        offset = self.params["Offset"].value
-        poisson = self.params["Poisson"].value
+        centroid = self.params['centroid'].value
+        Al = self.params['Al'].value
+        Au = self.params['Au'].value
+        Bl = self.params['Bl'].value
+        Bu = self.params['Bu'].value
+        Cl = self.params['Cl'].value
+        Cu = self.params['Cu'].value
+        scale = self.params['scale'].value
+        N = self.params['N'].value
+        offset = self.params['Offset'].value
+        poisson = self.params['Poisson'].value
 
         result = np.zeros(len(x))
         x = self.transform(x)
@@ -254,38 +266,125 @@ class HFS(Model):
                 - Cl * self.scaling_Cl[line]
             )
             for i in range(N + 1):
-                result += (
-                    self.params["Amp" + line].value
-                    * self.peak(
-                        self.transform(x - i * offset) - pos, FWHMG, FWHML
-                    )
-                    * (poisson**i)
-                    / np.math.factorial(i)
-                )
+                result += self.params['Amp' + line].value * self.peak(
+                    self.transform(x - i * offset) - pos) * (poisson**i) / np.math.factorial(i)
             result *= scale
 
         return result
 
-    def peak(self, x: ArrayLike, FWHMG: float, FWHML: float) -> ArrayLike:
+    def peak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
-        Calculates the Voigt profile given the Gaussian
+        Calculates the profile given the peak_func method
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        returnvalue = self.peakfunc(x)
+        return returnvalue
+
+    def voigtPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculates the Voigt profile with the Gaussian
         and Lorentzian FWHM
 
         Parameters
         ----------
         x : ArrayLike
             Evaluation points
-        FWHMG : float
-            Gaussian FWHM
-        FWHML : float
-            Lorentzian FWHM
 
         Returns
         -------
         ArrayLike
         """
-        sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
+        sigma, gamma = self.params['FWHMG'].value / sqrt2log2t2, self.params['FWHML'].value / 2
         return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
+
+    def lorentzPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculates the lorentzian profile 
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        gamma = self.params['FWHML'].value / 2
+        return voigt_profile(x, 0, gamma) / voigt_profile(0, 0, gamma)
+
+    def gaussPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculates the Gaussian profile
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        sigma = self.params['FWHMG'].value / sqrt2log2t2
+        return voigt_profile(x, sigma, 0) / voigt_profile(0, sigma, 0)
+
+    def skewRPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculates a right skewed voigt profile with gaussian and lorentzian FWHM and a skewness parameter
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
+        erf_x = self.params['skew'].value*x/self.params['FWHMG'].value
+        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma))*(1+erf(erf_x/np.sqrt(2)))
+
+    def skewLPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculates a left skewed voigt profile with gaussian and lorentzian FWHM and a skewness parameter
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
+        erf_x = self.params['skew'].value*x/self.params['FWHMG'].value
+        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma))*(-erf(erf_x/np.sqrt(2))+1)
+
+    def customPeak(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:
+        Calculate a custom peak
+
+        Parameters
+        ----------
+        x : ArrayLike
+            Evaluation points
+
+        Returns
+        -------
+        ArrayLike
+        """
+        raise NotImplementedError
 
     def calcShift(self, I: float, J: float, F: int) -> ArrayLike:
         """:meta private:
