@@ -20,7 +20,8 @@ __all__ = [
     "Polynomial",
     "PiecewiseConstant",
     "Voigt",
-    "SkewedVoigt",
+    "LSkewedVoigt",
+    "RSkewedVoigt"
 ]
 
 sqrt2 = 2**0.5
@@ -213,8 +214,8 @@ class Voigt(Model):
         return fwhm.nominal_value, fwhm.std_dev
 
 
-class SkewedVoigt(Voigt):
-    """Model for a Voigt peak skewed by the error function.
+class RSkewedVoigt(Voigt):
+    """Model for a Voigt peak skewed to the right by the error function.
 
     Parameters
     ----------
@@ -229,7 +230,7 @@ class SkewedVoigt(Voigt):
     skew : float
         Skew of the peak
     name : str, optional
-        Name of the model, by default 'SkewedVoigt'
+        Name of the model, by default 'RSkewedVoigt'
     prefunc : callable, optional
         Transform of the input, by default None
     """
@@ -241,7 +242,7 @@ class SkewedVoigt(Voigt):
         FWHMG: float,
         FWHML: float,
         skew: float,
-        name: str = "SkewedVoigt",
+        name: str = "RSkewedVoigt",
         prefunc: callable = None,
     ):
         super().__init__(A, mu, FWHMG, FWHML, name=name, prefunc=prefunc)
@@ -259,3 +260,51 @@ class SkewedVoigt(Voigt):
         beta = skew / (sigma * sqrt2)
         asym = 1 + erf(beta * (x - mu))
         return ret * asym
+
+class LSkewedVoigt(Voigt):
+    """Model for a Voigt peak skewed to the left by the error function.
+
+    Parameters
+    ----------
+    A : float
+        Amplitude of the peak
+    mu : float
+        Position of the peak
+    FWHMG : float
+        Gaussian FWHM
+    FWHML : float
+        Lorentzian FWHM
+    skew : float
+        Skew of the peak
+    name : str, optional
+        Name of the model, by default 'LSkewedVoigt'
+    prefunc : callable, optional
+        Transform of the input, by default None
+    """
+
+    def __init__(
+        self,
+        A: float,
+        mu: float,
+        FWHMG: float,
+        FWHML: float,
+        skew: float,
+        name: str = "LSkewedVoigt",
+        prefunc: callable = None,
+    ):
+        super().__init__(A, mu, FWHMG, FWHML, name=name, prefunc=prefunc)
+        self.params["Skew"] = Parameter(
+            value=skew, min=-np.inf, max=np.inf, vary=True
+        )
+
+    def f(self, x: ArrayLike) -> ArrayLike:
+        """:meta private:"""
+        ret = super().f(x)
+        mu = self.params["mu"].value
+        FWHMG = self.params["FWHMG"].value
+        sigma = FWHMG / sqrt2log2t2
+        skew = self.params["Skew"].value
+        beta = skew / (sigma * sqrt2)
+        asym = 1 - erf(beta * (x - mu))
+        return ret * asym
+
