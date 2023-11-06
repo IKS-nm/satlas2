@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "satlas2"
-version = "0.2.3"
+version = "0.2.4"
 authors = [
     "Ruben de Groote, <ruben.degroote@kuleuven.be>",
     "Bram van den Borne, <bram.vandenborne@kuleuven.be>",
