@@ -16,20 +16,20 @@ FWHMG = 120
 FWHML = 80
 skew = 3
 
-skewL = satlas2.LSkewedVoigt(A = A,
+skewR = satlas2.SkewedVoigt(A = A,
                             mu = -mu,
                             FWHMG = FWHMG,
                             FWHML = FWHML,
                             skew = skew,
-                            name = "LSkewedVoigt",
+                            name = "RSkewedVoigt",
                             )
 
-skewR = satlas2.RSkewedVoigt(A = A,
+skewL = satlas2.SkewedVoigt(A = A,
                             mu = mu,
                             FWHMG = FWHMG,
                             FWHML = FWHML,
-                            skew = skew,
-                            name = "RSkewedVoigt",
+                            skew = -skew,
+                            name = "LSkewedVoigt",
                             )
 
 dummy_x = np.linspace(-400,400,801)

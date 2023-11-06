@@ -49,7 +49,7 @@ class HFS(Model):
     peak: str, optional
         peak function to use, by default 'voigt'
     peak_kwargs: dict, optional
-        additional fitting parameters for skewl, skewr and custom peaks
+        additional fitting parameters for skew and custom peaks
     N : int, optional
         Number of sidepeaks to be generated, by default None
     offset : float, optional
@@ -90,8 +90,7 @@ class HFS(Model):
             'voigt': self.voigtPeak,
             'gaussian': self.gaussPeak,
             'lorentzian': self.lorentzPeak,
-            'skewleft': self.skewLPeak,
-            'skewright': self.skewRPeak,
+            'skewvoigt': self.skewPeak,
             'custom': self.customPeak
         }[peak.lower()]
 
@@ -337,9 +336,9 @@ class HFS(Model):
         sigma = self.params['FWHMG'].value / sqrt2log2t2
         return voigt_profile(x, sigma, 0) / voigt_profile(0, sigma, 0)
 
-    def skewRPeak(self, x: ArrayLike) -> ArrayLike:
+    def skewPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
-        Calculates a right skewed voigt profile with gaussian and lorentzian FWHM and a skewness parameter
+        Calculates a skewed voigt profile with gaussian and lorentzian FWHM and a skewness parameter
 
         Parameters
         ----------
@@ -353,23 +352,6 @@ class HFS(Model):
         sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
         erf_x = self.params['skew'].value*x/self.params['FWHMG'].value
         return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma))*(1+erf(erf_x/np.sqrt(2)))
-
-    def skewLPeak(self, x: ArrayLike) -> ArrayLike:
-        """:meta private:
-        Calculates a left skewed voigt profile with gaussian and lorentzian FWHM and a skewness parameter
-
-        Parameters
-        ----------
-        x : ArrayLike
-            Evaluation points
-
-        Returns
-        -------
-        ArrayLike
-        """
-        sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
-        erf_x = self.params['skew'].value*x/self.params['FWHMG'].value
-        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma))*(-erf(erf_x/np.sqrt(2))+1)
 
     def customPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
