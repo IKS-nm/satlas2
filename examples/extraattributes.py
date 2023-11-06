@@ -53,7 +53,7 @@ centroid = 0
 bkg = 0.0005
 scale = 0.001
 
-hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewLeft', peak_kwargs = {'skew':{'value': 11, 'min':1}})
+hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewvoigt', peak_kwargs = {'skew':{'value': 11, 'min':1}})
 
 background = satlas2.Polynomial([bkg])
 
@@ -94,7 +94,7 @@ FWHML = 120/3
 centroid = 9
 bkg = 0.0003
 scale = 0.001
-hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewLeft', peak_kwargs = {'skew':{'value': 11, 'min':1}})
+hfs = satlas2.HFS(spin, J, A, B, C, df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale, peak = 'skewvoigt', peak_kwargs = {'skew':{'value': 11, 'min':1}})
 hfs.params['Bu'].vary = False
 
 source = satlas2.Source(x, y, yerr=modifiedSqrt(y, bunches), name='Data', bunches=bunches)
