@@ -1,6 +1,9 @@
 # Specify filepatterns you want git to ignore.
 *.h5
 
+# ignore poetry for publish workflow
+poetry.lock
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
