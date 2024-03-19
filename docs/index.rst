@@ -23,6 +23,12 @@ SATLAS2 -- Statistical Analysis Toolbox for Laser Spectroscopy, version 2
 .. image:: https://img.shields.io/pypi/dm/satlas2?label=Downloads
    :alt: PyPI - Downloads
 
+\
+
+.. image:: https://img.shields.io/badge/DOI-https%3A%2F%2Fdoi.org%2F10.1016%2Fj.cpc.2023.109053-blue
+   :alt: Static Badge
+
+
 Purpose
 =======
 
