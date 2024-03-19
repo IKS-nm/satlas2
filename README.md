@@ -9,6 +9,8 @@
 
 ![alt text](https://img.shields.io/pypi/dm/satlas2?label=Downloads 'PyPI - Downloads')
 
+[![General Badge](https://img.shields.io/badge/DOI-https%3A%2F%2Fdoi.org%2F10.1016%2Fj.cpc.2023.109053-blue)](https://doi.org/10.1016/j.cpc.2023.109053)
+
 ## Purpose
 
 Contributors:
