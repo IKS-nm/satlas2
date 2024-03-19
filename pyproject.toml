@@ -26,7 +26,7 @@ search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = "^3.9"
 numpy = "^1.26.0"
 matplotlib = "^3.8.0"
 scipy = "^1.11.3"
