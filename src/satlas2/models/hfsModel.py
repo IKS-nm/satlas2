@@ -11,7 +11,7 @@ import numpy as np
 import uncertainties as unc
 from numpy.typing import ArrayLike
 from scipy.special import voigt_profile, erf
-from sympy.physics.wigner import wigner_3j, wigner_6j
+from sympy.physics.wigner import wigner_3j, wigner_6j, sympify
 
 from ..core import Model, Parameter
 
@@ -83,8 +83,8 @@ class HFS(Model):
                  prefunc: callable = None):
         super().__init__(name, prefunc=prefunc)
         J1, J2 = J
-        lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
-        upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
+        lower_F = sympify(np.arange(abs(I - J1), I + J1 + 1, 1))
+        upper_F = sympify(np.arange(abs(I - J2), I + J2 + 1, 1))
 
         self.peakfunc = {
             'voigt': self.voigtPeak,
@@ -395,7 +395,7 @@ class HFS(Model):
             d = float(
                 wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J)
             )
-            shift = phase * n / d
+            shift = float(phase * n / d)
             if not np.isfinite(shift):
                 contrib.append(0)
             else:
