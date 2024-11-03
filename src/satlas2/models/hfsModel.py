@@ -132,7 +132,7 @@ class HFS(Model):
                     intens = float(
                         (2 * F1 + 1)
                         * (2 * F2 + 1)
-                        * wigner_6j(J2, F2, I, F1, J1, 1.0) ** 2
+                        * wigner_6j(J2, float(F2), I, float(F1), J1, 1.0) ** 2
                     )  # DO NOT REMOVE CAST TO FLOAT!!!
                     self.intensities["Amp" + line] = Parameter(
                         value=intens, min=0, vary=not racah
@@ -391,7 +391,7 @@ class HFS(Model):
         phase = (-1) ** (I + J + F)
         contrib = []
         for k in range(1, 4):
-            n = float(wigner_6j(I, J, F, J, I, k))
+            n = float(wigner_6j(I, J, float(F), J, I, k))
             d = float(
                 wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J)
             )
