@@ -477,7 +477,7 @@ def generateCorrelationPlot(
                     3.5 * np.std(x) / x.size ** (1 / 3)
                 )  # Scott's rule for binwidth
                 bins[bin_index] = int(
-                    min(int(x.ptp() / width), 1000) / binreduction
+                    min(int(np.ptp(x) / width), 1000) / binreduction
                 )
             try:
                 (
@@ -500,8 +500,8 @@ def generateCorrelationPlot(
             q16, q50, q84 = np.percentile(x, q)
             metadata[full_name] = {
                 "bins": bins[bin_index],
-                "min": x.min(),
-                "max": x.max(),
+                "min": np.min(x),
+                "max": np.max(x),
             }
 
             title = "{}\n${}_{{-{}}}^{{+{}}}$"
@@ -553,7 +553,7 @@ def generateCorrelationPlot(
             )
             X1, Y1 = 0.5 * (X[1:] + X[:-1]), 0.5 * (Y[1:] + Y[:-1])
             X, Y = X[:-1], Y[:-1]
-            H = (H - H.min()) / (H.max() - H.min())
+            H = (H - np.min(H)) / (np.max(H) - np.min(H))
 
             Hflat = H.flatten()
             inds = np.argsort(Hflat)[::-1]
