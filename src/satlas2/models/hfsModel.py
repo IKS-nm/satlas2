@@ -60,6 +60,12 @@ class HFS(Model):
         The amplitude of the entire spectrum, by default 1.0
     racah : bool, optional
         Use individual amplitudes are setting the Racah intensities, by default True
+    use_saturation : bool, optional
+        If True, apply the saturation model to transition amplitudes. Defaults to False.
+    saturation : float, optional
+        Saturation parameter (>= 0). Only used when `use_saturation` is True;
+        otherwise the value is ignored. The value controls the exponential
+        mapping between Racah intensities and saturated amplitudes.
     prefunc : callable, optional
         Transformation to be applied on the input before evaluation, by default None
         """
@@ -80,8 +86,16 @@ class HFS(Model):
                  poisson: float = 0,
                  scale: float = 1.0,
                  racah: bool = True,
+                 use_saturation: bool = False,
+                 saturation: float = 0.0,
                  prefunc: callable = None):
         super().__init__(name, prefunc=prefunc)
+        # store flags (plain attributes, no property getters/setters)
+        self.use_racah = racah
+        self.use_saturation = use_saturation
+        # Prevent incompatible settings
+        if self.use_racah and self.use_saturation:
+            raise ValueError("Parameters 'racah' and 'use_saturation' cannot both be True")
         J1, J2 = J
         lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
         upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
@@ -95,6 +109,9 @@ class HFS(Model):
         }[peak.lower()]
 
         self.lines = []
+        # temporary lists to build amplitudes
+        self._racah_list = []
+        self._sat_list = []
         self.intensities = {}
         self.scaling_Al = {}
         self.scaling_Bl = {}
@@ -134,13 +151,43 @@ class HFS(Model):
                         * (2 * F2 + 1)
                         * wigner_6j(J2, float(F2), I, float(F1), J1, 1.0) ** 2
                     )  # DO NOT REMOVE CAST TO FLOAT!!!
-                    self.intensities["Amp" + line] = Parameter(
-                        value=intens, min=0, vary=not racah
-                    )
+                    # store racah intensity and saturated proxy
+                    self._racah_list.append(intens)
+                    self._sat_list.append(2 * F1 + 1)
 
-        norm = max([p.value for p in self.intensities.values()])
-        for n, v in self.intensities.items():
-            v.value /= norm
+        # normalize racah and saturated amplitudes
+        if len(self._racah_list) > 0:
+            racah_arr = np.array(self._racah_list, dtype=float)
+            racah_arr = racah_arr / racah_arr.max()
+            sat_arr = np.array(self._sat_list, dtype=float)
+            sat_arr = sat_arr / sat_arr.max()
+        else:
+            racah_arr = np.array([])
+            sat_arr = np.array([])
+
+        # store arrays for saturation calculations
+        self.racah_amplitudes = racah_arr
+        self.saturated_amplitudes = sat_arr
+
+        # helper to compute initial amplitudes depending on saturation
+        def _initial_amps(sat_value: float) -> np.ndarray:
+            if len(racah_arr) == 0:
+                return np.array([])
+            if sat_value is None or sat_value <= 0:
+                return racah_arr.copy()
+            sat = sat_arr
+            rac = racah_arr
+            transitional = -sat * np.expm1(-rac * sat_value / sat)
+            transitional = transitional / transitional.max()
+            return transitional
+
+        # only apply a non-zero saturation mapping when explicitly enabled
+        init_amps = _initial_amps(saturation) if use_saturation else _initial_amps(0.0)
+
+        # populate Parameter objects for amplitudes (respecting racah/use_saturation)
+        for label, amp in zip(self.lines, init_amps):
+            vary_flag = not (racah or use_saturation)
+            self.intensities["Amp" + label] = Parameter(value=float(amp), min=0, vary=vary_flag)
 
         pars = {
             "centroid": Parameter(value=df),
@@ -153,6 +200,7 @@ class HFS(Model):
             "FWHMG": Parameter(value=fwhmg, min=0.01),
             "FWHML": Parameter(value=fwhml, min=0.01),
             "scale": Parameter(value=scale, min=0, vary=racah),
+            "Saturation": Parameter(value=(saturation if use_saturation else 0.0), min=0, vary=use_saturation),
         }
 
         if peak.lower() == 'lorentzian':
@@ -190,6 +238,49 @@ class HFS(Model):
         if I == 0 or J2 == 0:
             self.params["Au"].vary = False
 
+        # If saturation is enabled, ensure amplitudes reflect initial saturation
+        if use_saturation:
+            try:
+                self._set_transitional_amplitudes()
+            except Exception:
+                pass
+
+    def _calculate_transitional_intensities(self, s: float) -> np.ndarray:
+        """Calculate transitional amplitudes between Racah and saturated.
+
+        Uses the exponential mapping: transitional = -sat * expm1(-rac*s/sat)
+        and returns normalized array.
+        """
+        if len(self.racah_amplitudes) == 0:
+            return np.array([])
+        if s is None or s <= 0:
+            return self.racah_amplitudes.copy()
+        sat = self.saturated_amplitudes
+        rac = self.racah_amplitudes
+        transitional = -sat * np.expm1(-rac * s / sat)
+        transitional = transitional / transitional.max()
+        return transitional
+
+    def _set_transitional_amplitudes(self):
+        """Update amp parameters and internal parts according to current Saturation value."""
+        s_val = float(self.params['Saturation'].value)
+        values = self._calculate_transitional_intensities(s_val)
+        for line, v in zip(self.lines, values):
+            key = 'Amp' + line
+            if key in self.params:
+                self.params[key].value = float(v)
+
+        # Ensure parameter vary flags reflect racah/saturation settings
+        if hasattr(self, 'params') and isinstance(self.params, dict):
+            if 'Saturation' in self.params:
+                self.params['Saturation'].vary = self.use_saturation
+            if 'scale' in self.params:
+                self.params['scale'].vary = (self.use_racah or self.use_saturation)
+            for line in self.lines:
+                key = 'Amp' + line
+                if key in self.params:
+                    self.params[key].vary = not (self.use_racah or self.use_saturation)
+
     def fUnshifted(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
         Calculate the response for an unshifted spectrum
@@ -217,13 +308,23 @@ class HFS(Model):
             x = np.array([x])
             result = np.zeros(len(x))
         x = self.transform(x)
-        for line in self.lines:
+        # determine amplitudes: either use saturation mapping or stored Amp params
+        if self.use_saturation and 'Saturation' in self.params:
+            s_val = float(self.params['Saturation'].value)
+            amp_values = self._calculate_transitional_intensities(s_val)
+        else:
+            amp_values = None
+
+        for idx, line in enumerate(self.lines):
             pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
                 line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
                     line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
                         line]
-            result += scale * self.params['Amp' + line].value * self.peak(
-                x - pos)
+            if amp_values is None:
+                amp = self.params['Amp' + line].value
+            else:
+                amp = float(amp_values[idx])
+            result += scale * amp * self.peak(x - pos)
 
         return result
 
@@ -254,7 +355,14 @@ class HFS(Model):
 
         result = np.zeros(len(x))
         x = self.transform(x)
-        for line in self.lines:
+        # determine amplitudes: either use saturation mapping or stored Amp params
+        if self.use_saturation and 'Saturation' in self.params:
+            s_val = float(self.params['Saturation'].value)
+            amp_values = self._calculate_transitional_intensities(s_val)
+        else:
+            amp_values = None
+
+        for idx, line in enumerate(self.lines):
             pos = (
                 centroid
                 + Au * self.scaling_Au[line]
@@ -264,8 +372,9 @@ class HFS(Model):
                 - Bl * self.scaling_Bl[line]
                 - Cl * self.scaling_Cl[line]
             )
+            amp_val = float(amp_values[idx]) if amp_values is not None else self.params['Amp' + line].value
             for i in range(N + 1):
-                result += self.params['Amp' + line].value * self.peak(
+                result += amp_val * self.peak(
                     self.transform(x - i * offset) - pos) * (poisson**i) / np.math.factorial(i)
             result *= scale
 
