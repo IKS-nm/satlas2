@@ -114,9 +114,9 @@ ax_banddata.fill_between(
 # ax_banddata.fill_between(datasource.x, lowerd3, upperd3, color=lcd.get_color(), alpha=0.3, step='mid')
 
 plot_y = datasource.evaluate(plot_x)
-lowerm1, upperm1 = satlas2.poissonInterval(plot_y, sigma=1, mean=True)
-lowerm2, upperm2 = satlas2.poissonInterval(plot_y, sigma=2, mean=True)
-lowerm3, upperm3 = satlas2.poissonInterval(plot_y, sigma=3, mean=True)
+lowerm1, upperm1 = satlas2.poissonInterval(plot_y, sigma=1, is_mean=True)
+lowerm2, upperm2 = satlas2.poissonInterval(plot_y, sigma=2, is_mean=True)
+lowerm3, upperm3 = satlas2.poissonInterval(plot_y, sigma=3, is_mean=True)
 
 ax_bandmean.fill_between(
     plot_x,
