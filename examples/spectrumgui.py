@@ -3,7 +3,7 @@ import sys
 import matplotlib
 from matplotlib import gridspec
 
-matplotlib.use("Qt5Agg")
+matplotlib.use("QtAgg")
 
 import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
@@ -11,9 +11,7 @@ from matplotlib.backends.backend_qtagg import (
     NavigationToolbar2QT as NavigationToolbar,
 )
 from matplotlib.figure import Figure
-from PyQt5 import Qt, QtWidgets
-
-sys.path.insert(0, "..\src")
+from PyQt6 import QtCore, QtWidgets
 
 import satlas2
 
@@ -129,10 +127,10 @@ class QHSeparationLine(QtWidgets.QFrame):
         super().__init__()
         self.setMinimumWidth(1)
         self.setFixedHeight(20)
-        self.setFrameShape(QtWidgets.QFrame.HLine)
-        self.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.setSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
+            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Minimum
         )
         return
 
@@ -146,10 +144,10 @@ class QVSeparationLine(QtWidgets.QFrame):
         super().__init__()
         self.setFixedWidth(20)
         self.setMinimumHeight(1)
-        self.setFrameShape(QtWidgets.QFrame.VLine)
-        self.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.setSizePolicy(
-            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+            QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred
         )
         return
 
@@ -422,7 +420,7 @@ class SimulatorPlotter(FigureCanvasQTAgg):
 
 
 class ParameterWidget(QtWidgets.QWidget):
-    sigChanged = Qt.pyqtSignal()
+    sigChanged = QtCore.pyqtSignal()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -707,7 +705,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Spectrum simulator")
         self.mainTabs = QtWidgets.QTabWidget()
 
-        self.data = np.loadtxt("testdata.txt", delimiter=",")
+        self.data = np.loadtxt("./examples/testdata.txt", delimiter=",")
         # self.setupFitterWidget()
         # self.mainTabs.addTab(self.fitterWidget, 'Basic Fitter')
 
@@ -739,8 +737,8 @@ class MainWindow(QtWidgets.QMainWindow):
         verticalSpacer = QtWidgets.QSpacerItem(
             20,
             40,
-            QtWidgets.QSizePolicy.Minimum,
-            QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Minimum,
+            QtWidgets.QSizePolicy.Policy.Expanding,
         )
         layout.addItem(verticalSpacer)
         layout.addWidget(self.pressButton)
@@ -873,8 +871,8 @@ class MainWindow(QtWidgets.QMainWindow):
         verticalSpacer = QtWidgets.QSpacerItem(
             20,
             40,
-            QtWidgets.QSizePolicy.Minimum,
-            QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Minimum,
+            QtWidgets.QSizePolicy.Policy.Expanding,
         )
         layout.addItem(verticalSpacer)
         layout.addWidget(self.pressButton)
@@ -888,14 +886,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.paramWidget.sigChanged.connect(self.drawSingle)
         self.drawSingle()
 
-    @Qt.pyqtSlot()
+    @QtCore.pyqtSlot()
     def updateData(self):
         samples, noise, step = self.paramWidget.getSamples()
         self.initSampling(samples, noise)
         self.initSpectrum()
         self.sampleSpectrum(step)
 
-    @Qt.pyqtSlot()
+    @QtCore.pyqtSlot()
     def drawSingle(self):
         self.initSpectrum()
 
