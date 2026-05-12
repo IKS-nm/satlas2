@@ -24,8 +24,6 @@ The model includes a skewed Voigt lineshape to handle asymmetric peaks that
 arise from, e.g., non-linear charge-exchange processes or laser power broadening.
 """
 
-import functools
-
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
