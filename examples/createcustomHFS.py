@@ -38,15 +38,13 @@ import satlas2
 # ---------------------------------------------------------------------------
 class BunchedBeamFitter(satlas2.Fitter):
     def customLlh(self):
-        if not hasattr(self, "_bunches"):
-            self._bunches = self.getSourceAttr("bunches")
-        if not hasattr(self, "_data_counts"):
-            self._data_counts = self.temp_y * self._bunches
+        bunches = self.getSourceAttr("bunches")
+        data_counts = self.temp_y * bunches
 
         model_rates  = self.f()
-        model_counts = model_rates * self._bunches
+        model_counts = model_rates * bunches
 
-        llh = self._data_counts * np.log(model_counts) - model_counts
+        llh = data_counts * np.log(model_counts) - model_counts
         llh[model_counts <= 0] = -np.inf
 
         priors = self.gaussianPriorResid()
