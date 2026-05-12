@@ -1,3 +1,4 @@
+import pathlib
 import sys
 
 import matplotlib
@@ -705,7 +706,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Spectrum simulator")
         self.mainTabs = QtWidgets.QTabWidget()
 
-        self.data = np.loadtxt("./examples/testdata.txt", delimiter=",")
+        data = pathlib.Path(__file__).with_name("testdata.txt")
+        self.data = np.loadtxt(data, delimiter=",")
         # self.setupFitterWidget()
         # self.mainTabs.addTab(self.fitterWidget, 'Basic Fitter')
 
