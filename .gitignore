@@ -4,6 +4,9 @@
 # ignore poetry for publish workflow
 poetry.lock
 
+# Claude Code internal state
+.claude/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

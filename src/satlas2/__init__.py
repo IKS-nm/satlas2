@@ -6,4 +6,9 @@ from .overwrite import *
 from .plotting import *
 from .utilities import *
 
-__version__ = "0.2.8"
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("satlas2")
+except PackageNotFoundError:
+    __version__ = "unknown"

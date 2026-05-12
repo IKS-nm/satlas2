@@ -68,41 +68,52 @@ def weightedAverage(
 
 
 def poissonInterval(
-    data: ArrayLike,
+    counts: ArrayLike,
     sigma: float = 1,
     alpha: Optional[float] = None,
-    mean: bool = False,
-) -> Tuple[float, float]:
-    """Calculates the confidence interval
-    for the mean of a Poisson distribution.
+    is_mean: bool = False,
+) -> Tuple[ArrayLike, ArrayLike]:
+    """Calculates the confidence interval for a Poisson distribution.
+
+    Two modes are supported:
+
+    - ``is_mean=False`` (default): *counts* are observed Poisson counts. Returns
+      the interval of means λ consistent with each count at the given confidence
+      level, using the exact chi-squared method (Garwood, 1936).
+    - ``is_mean=True``: *counts* are the exact Poisson mean λ. Returns the
+      interval of counts expected with the given probability, using the exact
+      Poisson CDF.
 
     Parameters
     ----------
-    data: ArrayLike
-        Samples of separate Poisson distributions.
+    counts: ArrayLike
+        Observed Poisson counts (``is_mean=False``) or exact Poisson means λ
+        (``is_mean=True``).
     sigma: float
-        The significance level given in equivalent sigma.
-        Defaults to 1-sigma.
+        Confidence level expressed as equivalent Gaussian sigma. Defaults to 1.
     alpha: Optional[float]
-        Significance level of interval. If given, *sigma* is ignored.
-    mean: bool
-        Set to True if the exact mean is given, by default False
+        Significance level (two-sided). If given, *sigma* is ignored.
+    is_mean: bool
+        If True, *counts* is interpreted as the exact Poisson mean λ.
+        Default is False.
 
     Returns
     -------
-    low, high: Tuple[float, float]
-        Lower and higher limits for the interval."""
+    low, high: Tuple[ArrayLike, ArrayLike]
+        Lower and upper limits of the interval.
+
+    References
+    ----------
+    Garwood, F. (1936). Fiducial limits for the Poisson distribution.
+    *Biometrika*, 28(3-4), 437-442. https://doi.org/10.2307/2333958"""
     if alpha is None:
-        a = (1 - norm.cdf(np.abs(sigma))) * 2
-    else:
-        a = alpha
-    if mean:
-        a = 1 - a
-        low, high = poisson.interval(a, data)
+        alpha = (1 - norm.cdf(np.abs(sigma))) * 2
+    if is_mean:
+        low, high = poisson.interval(1 - alpha, counts)
     else:
         low, high = (
-            chi2.ppf(a / 2, 2 * data) / 2,
-            chi2.ppf(1 - a / 2, 2 * data + 2) / 2,
+            chi2.ppf(alpha / 2, 2 * counts) / 2,
+            chi2.ppf(1 - alpha / 2, 2 * counts + 2) / 2,
         )
     low = np.nan_to_num(low)
     return low, high
