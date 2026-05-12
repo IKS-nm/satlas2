@@ -22,8 +22,6 @@ Three fitting strategies are compared:
   - MCMC posterior sampling
 """
 
-import functools
-
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
