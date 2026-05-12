@@ -1,75 +1,66 @@
-[tool.poetry]
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
 name = "satlas2"
-version = "0.2.8"
+dynamic = ["version"]
 authors = [
-    "Ruben de Groote, <ruben.degroote@kuleuven.be>",
-    "Bram van den Borne, <bram.vandenborne@kuleuven.be>",
+    {name = "Ruben de Groote", email = "ruben.degroote@kuleuven.be"},
+    {name = "Bram van den Borne", email = "bram.vandenborne@kuleuven.be"},
+    {name = "Wouter Gins", email = "wouter.gins@kuleuven.be"},
 ]
 description = "Fitting package aimed at laser spectroscopy"
-license = "MIT"
+license = {text = "MIT"}
 readme = "README.md"
 keywords = ["physics", "hyperfine structure", "fitting"]
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: Microsoft :: Windows",
     "Topic :: Scientific/Engineering :: Physics",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
-packages = [{ include = "satlas2", from = "src" }]
+dependencies = [
+    "numpy>=2.0",
+    "matplotlib>=3.8",
+    "scipy>=1.11",
+    "h5py>=3.10",
+    "emcee>=3.1",
+    "sympy>=1.12",
+    "lmfit>=1.2",
+    "numdifftools>=0.9",
+    "uncertainties>=3.1",
+    "tqdm>=4.66",
+    "pandas>=2.1",
+]
 
-[tool.poetry_bumpversion.file."src/satlas2/__init__.py"]
-search = '__version__ = "{current_version}"'
-replace = '__version__ = "{new_version}"'
+[tool.hatch.version]
+source = "vcs"
 
-[tool.poetry.dependencies]
-python = "^3.10.0"
-numpy = "^2.1.3"
-matplotlib = "^3.8.0"
-scipy = "^1.11.3"
-h5py = "^3.10.0"
-emcee = "^3.1.4"
-sympy = "^1.12"
-lmfit = "^1.2.2"
-numdifftools = "^0.9.41"
-uncertainties = "^3.1.7"
-tqdm = "^4.66.1"
-pandas = "^2.1.1"
+[tool.hatch.build.targets.wheel]
+packages = ["src/satlas2"]
 
-[tool.poetry.group.dev.dependencies]
-black = "^23.9.1"
-pep8 = "^1.7.1"
-pytest = "^7.4.2"
-sphinx = ">=4,<7"
-sphinx-book-theme = "^1.0.1"
-sphinx-toolbox = "^3.5.0"
+[tool.hatch.build.targets.sdist]
+exclude = ["docs", "examples"]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "pytest>=7.4",
+    "sphinx>=4",
+    "sphinx-book-theme>=1.0",
+    "sphinx-toolbox>=3.5",
+]
+examples = [
+    "jupyterlab>=4.0",
+    "pyqt6>=6.4",
+]
 
 [tool.black]
 line-length = 79
-target-version = ['py310']
-exclude = '''
-
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-)
-'''
+target-version = ["py310"]
 
 [tool.isort]
 include_trailing_comma = true
