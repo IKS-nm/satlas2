@@ -72,7 +72,7 @@ def poissonInterval(
     sigma: float = 1,
     alpha: Optional[float] = None,
     is_mean: bool = False,
-) -> Tuple[float, float]:
+) -> Tuple[ArrayLike, ArrayLike]:
     """Calculates the confidence interval for a Poisson distribution.
 
     Two modes are supported:
@@ -99,7 +99,7 @@ def poissonInterval(
 
     Returns
     -------
-    low, high: Tuple[float, float]
+    low, high: Tuple[ArrayLike, ArrayLike]
         Lower and upper limits of the interval.
 
     References
