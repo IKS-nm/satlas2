@@ -42,3 +42,7 @@ Only Python 3.x is supported! Parts of the code have been based on other resourc
 ## Installation
 
 A package is available on PyPi, so 'pip install satlas2' should provide a working environment.
+
+## Development
+
+This project uses AI assistance (specifically [Claude](https://claude.ai)) to accelerate certain development tasks, including documentation improvements, code refactoring, and example modernisation. All AI-generated contributions are reviewed, validated, and approved by the maintainers before being incorporated into the codebase.
