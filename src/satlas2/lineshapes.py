@@ -50,9 +50,9 @@ def skew(x: ArrayLike, skew: float, fwhmg: float) -> ArrayLike:
     r"""Skewing factor of a peak centred at 0 with Gaussian FWHM `fwhmg`:
 
     .. math::
-        1 + \mathrm{erf}\left(rac{lpha x}{\sigma\sqrt{2}}ight)
+        1 + \mathrm{erf}\left(\frac{\alpha x}{\sigma\sqrt{2}}\right)
 
-    with :math:`lpha` the skew and :math:`\sigma` the standard deviation of
+    with :math:`\alpha` the skew and :math:`\sigma` the standard deviation of
     the Gaussian component. This is twice the normal cumulative distribution
     function of the skew normal distribution, and the definition used by
     ``SkewedGaussianModel`` and ``SkewedVoigtModel`` in lmfit. A positive skew

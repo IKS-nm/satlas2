@@ -19,6 +19,23 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+### 🐞 Bug fixes
+
+- The formula in the documentation of `lineshapes.skew` was garbled and produced a
+  Sphinx warning.
+
+### 📖 Documentation
+
+- Fix building the documentation on recent Python versions: the locked `sphinx-toolbox`
+  was incompatible with Sphinx 9, which is used from Python 3.12 on. This is why the
+  documentation of 0.4.0 was not deployed.
+
+### 📦 Build system
+
+- Upgrade `sphinx-toolbox` to 4.3.1 (and `sphinx-tabs` to 3.5.0).
+- The publish workflow only uploads to PyPI for a `v*` tag; running it manually now
+  only redeploys the documentation.
+
 ## [0.4.0] - 2026-09-25
 
 ### 🏆 Highlights
