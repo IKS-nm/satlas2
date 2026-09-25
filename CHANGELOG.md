@@ -80,6 +80,8 @@ entries are left out of a release):
 - Changing the transformation of a model with `setTransform` (or `prefunc`) had
   no effect on inputs that had been evaluated before.
 - `SkewedVoigt` with a `prefunc` applied the skew to the untransformed points.
+- `generateCorrelationPlot` failed for a parameter that did not move during the
+  walk, and `autoprocess` could choose a thinning of 0.
 - `weightedAverage` failed with `axis=1` and used the wrong number of values for
   multidimensional input.
 - `Model.f` raises `NotImplementedError` instead of a `TypeError` when a model
@@ -117,6 +119,9 @@ entries are left out of a release):
   lmfit parameters in a single, documented loop.
 - `HFS`, `Voigt` and `SkewedVoigt` share their peak shapes and FWHM calculation
   instead of each having a copy; add tests for all general models.
+- The plotting functions share their helpers for labels, reading walks, selecting
+  parameters, histogram bins, credible levels and titles, which are tested
+  separately; the figures are unchanged.
 - `Source` and `generateSpectrum` share one way of summing models.
 - The random walk is split into named steps (bounds, backend, sampling,
   summary), and summarising a walk is shared with `readWalk`; seeded walks
