@@ -3,10 +3,7 @@ Functions for the generation of plots related to the fitting results.
 
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
-import copy
 from typing import List, Optional, Tuple
-
-from numpy.typing import ArrayLike
 
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
@@ -14,10 +11,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tqdm
 import uncertainties as u
-from scipy import optimize
-from scipy.stats import chi2
+from numpy.typing import ArrayLike
 
-from .core import Fitter, _split_name
+from .core import _split_name
 from .overwrite import SATLASHDFBackend
 
 inv_color_list = [
@@ -37,7 +33,6 @@ invcmap.set_over(inv_color_list[-1])
 invcmap.set_under(inv_color_list[0])
 
 __all__ = [
-    "generateChisquareMap",
     "generateCorrelationPlot",
     "generateWalkPlot",
 ]
@@ -204,213 +199,6 @@ def _make_axes_grid(
         cbar = fig.add_subplot(gs[:, -1])
     else:
         cbar = None
-    return fig, axes, cbar
-
-
-def generateChisquareMap(
-    fitter: Fitter,
-    filter: Optional[List[str]] = None,
-    method: str = "chisquare",
-    resolution_diag: int = 15,
-    resolution_map: int = 15,
-    fit_kws: dict = {},
-    source: bool = False,
-    model: bool = True,
-):
-    """:meta private:
-    Generates a correlation map for either the chisquare or the MLE method.
-    On the diagonal, the chisquare or loglikelihood is drawn as a function of one fixed parameter.
-    Refitting to the data each time gives the points on the line. A dashed line is drawn on these
-    plots, with the intersection with the plots giving the correct confidence interval for the
-    parameter. In solid lines, the interval estimated by the fitting routine is drawn.
-    On the offdiagonal, two parameters are fixed and the model is again fitted to the data.
-    The change in chisquare/loglikelihood is mapped to 1, 2 and 3 sigma contourmaps.
-
-    Parameters
-    ----------
-    fitter: :class:`.Fitter`
-        Fitter instance for which the chisquare map must be created.
-
-    Other parameters
-    ----------------
-    filter: list of strings
-        Only the parameters matching the names given in this list will be used
-        to generate the maps.
-    resolution_diag: int
-        Number of points for the line plot on each diagonal.
-    resolution_map: int
-        Number of points along each dimension for the meshgrids.
-    fit_kws: dictionary
-        Dictionary of keywords to pass on to the fitting routine.
-    npar: int
-        Number of parameters for which simultaneous predictions need to be made.
-        Influences the uncertainty estimates from the parabola."""
-
-    title = "{}\n${}_{{-{}}}^{{+{}}}$"
-    title_e = "{}\n$({}_{{-{}}}^{{+{}}})e{}$"
-
-    try:
-        orig_value = fitter.chisqr
-    except AttributeError:
-        fitter.fit(**fit_kws)
-        orig_value = fitter.chisqr
-    if method.lower().startswith("llh"):
-        orig_value = fitter.llh_result
-    result = copy.deepcopy(fitter.result)
-    orig_params = copy.deepcopy(fitter.lmpars)
-
-    ranges = {}
-
-    param_names = []
-    no_params = 0
-    for p in orig_params:
-        if orig_params[p].vary and (
-            filter is None or any([f in p for f in filter])
-        ):
-            no_params += 1
-            param_names.append(p)
-    fig, axes, cbar = _make_axes_grid(
-        no_params, axis_padding=0, cbar=no_params > 1
-    )
-
-    split_names = [name.split("___") for name in param_names]
-    sources = [name[0] for name in split_names]
-    models = [name[1] for name in split_names]
-    var_names = [name[2] for name in split_names]
-    to_be_combined = [var_names]
-    if model:
-        to_be_combined.insert(0, models)
-    if source:
-        to_be_combined.insert(0, sources)
-
-    var_names = [" ".join(tbc) for tbc in zip(*to_be_combined)]
-
-    # Make the plots on the diagonal: plot the chisquare/likelihood
-    # for the best fitting values while setting one parameter to
-    # a fixed value.
-    saved_params = copy.deepcopy(fitter.lmpars)
-    for i in range(no_params):
-        params = copy.deepcopy(saved_params)
-        ranges[param_names[i]] = {}
-
-        # Set the y-ticklabels.
-        ax = axes[i, i]
-        ax.set_title(param_names[i])
-        if i == no_params - 1:
-            if method.lower().startswith("chisquare"):
-                ax.set_ylabel(r"$\Delta\chi^2$")
-            else:
-                ax.set_ylabel(r"$\Delta\mathcal{L}$")
-                fit_kws["llh_selected"] = True
-
-        # Select starting point to determine error widths.
-        value = orig_params[param_names[i]].value
-        stderr = orig_params[param_names[i]].stderr
-        stderr = stderr if stderr is not None else 0.01 * np.abs(value)
-        stderr = stderr if stderr != 0 else 0.01 * np.abs(value)
-
-        right = value + stderr
-        left = value - stderr
-        params[param_names[i]].vary = False
-
-        ranges[param_names[i]]["left_val"] = 3 * left - 2 * value
-        ranges[param_names[i]]["right_val"] = 3 * right - 2 * value
-        value_range = np.linspace(
-            3 * left - 2 * value, right * 3 - 2 * value, resolution_diag
-        )
-        chisquare = np.zeros(len(value_range))
-        # Calculate the new value, and store it in the array. Update the progressbar.
-        # with tqdm.tqdm(value_range, desc=param_names[i], leave=True) as pbar:
-        for j, v in enumerate(value_range):
-            params[param_names[i]].value = v
-            fitter.lmpars = params
-            fitter.fit(prepFit=False, **fit_kws)
-            if fitter.llh_result is not None:
-                chisquare[j] = fitter.llh_result - orig_value
-            else:
-                chisquare[j] = fitter.chisqr - orig_value
-                # pbar.update(1)
-        # Plot the result
-        ax.plot(value_range, chisquare, color="k")
-
-        c = "#0093e6"
-        ax.axvline(right, ls="dashed", color=c)
-        ax.axvline(left, ls="dashed", color=c)
-        ax.axvline(value, ls="dashed", color=c)
-        up = "{:.2ug}".format(u.ufloat(value, stderr))
-        down = "{:.2ug}".format(u.ufloat(value, stderr))
-        val = up.split("+/-")[0].split("(")[-1]
-        r = up.split("+/-")[1].split(")")[0]
-        l = down.split("+/-")[1].split(")")[0]
-        if "e" in up or "e" in down:
-            ex = up.split("e")[-1]
-            ax.set_title(title_e.format(var_names[i], val, l, r, ex))
-        else:
-            ax.set_title(title.format(var_names[i], val, l, r))
-        # Restore the parameters.
-        fitter.lmpars = orig_params
-
-    for i, j in zip(*np.tril_indices_from(axes, -1)):
-        params = copy.deepcopy(orig_params)
-        ax = axes[i, j]
-        x_name = param_names[j]
-        y_name = param_names[i]
-        if j == 0:
-            ax.set_ylabel(var_names[i])
-        if i == no_params - 1:
-            ax.set_xlabel(var_names[j])
-        right = ranges[x_name]["right_val"]
-        left = ranges[x_name]["left_val"]
-        x_range = np.linspace(left, right, resolution_map)
-
-        right = ranges[y_name]["right_val"]
-        left = ranges[y_name]["left_val"]
-        y_range = np.linspace(left, right, resolution_map)
-
-        X, Y = np.meshgrid(x_range, y_range)
-        Z = np.zeros(X.shape)
-        i_indices, j_indices = np.indices(Z.shape)
-        params[param_names[i]].vary = False
-        params[param_names[j]].vary = False
-
-        for k, l in zip(i_indices.flatten(), j_indices.flatten()):
-            x = X[k, l]
-            y = Y[k, l]
-            params[param_names[j]].value = x
-            params[param_names[i]].value = y
-            fitter.lmpars = params
-            fitter.fit(prepFit=False, **fit_kws)
-            if fitter.llh_result is not None:
-                Z[k, l] = (fitter.llh_result - orig_value) * 2
-            else:
-                Z[k, l] = fitter.chisqr - orig_value
-
-        Z = -Z
-        bounds = []
-        for bound in [0.997300204, 0.954499736, 0.682689492]:
-            chifunc = (
-                lambda x: chi2.cdf(x, 1) - bound
-            )  # Calculate 1 sigma boundary
-            bounds.append(-optimize.root(chifunc, 1).x[0])
-        bounds.append(0)
-        bounds = np.array(bounds)
-        norm = mpl.colors.BoundaryNorm(bounds, invcmap.N)
-        contourset = ax.contourf(X, Y, Z, bounds, cmap=invcmap, norm=norm)
-        fitter.lmpars = copy.deepcopy(orig_params)
-    try:
-        cbar = plt.colorbar(contourset, cax=cbar, orientation="vertical")
-        cbar.ax.yaxis.set_ticks([-7.5, -4.5, -1.5])
-        cbar.ax.set_yticklabels([r"3$\sigma$", r"2$\sigma$", r"1$\sigma$"])
-    except:
-        pass
-    for a in axes.flatten():
-        if a is not None:
-            for label in a.get_xticklabels()[::2]:
-                label.set_visible(False)
-            for label in a.get_yticklabels()[::2]:
-                label.set_visible(False)
-    fitter.result = result
-    fitter.updateInfo()
     return fig, axes, cbar
 
 

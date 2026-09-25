@@ -126,8 +126,3 @@ def test_walk_plot(walk):
     assert lines[0].get_xdata()[0] == 50
     assert axes[-1].get_xlabel() == "Step"
 
-
-@pytest.mark.xfail(strict=True, reason="generateChisquareMap uses removed Fitter API")
-def test_chisquare_map(walk):
-    fitter, _ = walk
-    plotting.generateChisquareMap(fitter)

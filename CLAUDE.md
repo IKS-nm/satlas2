@@ -52,7 +52,7 @@ Custom subclasses of emcee (`SATLASSampler`, `SATLASHDFBackend`) and lmfit (`SAT
 ### Utilities and plotting
 
 - `utilities.py`: `weightedAverage`, `poissonInterval` (Garwood exact Poisson CI), `generateSpectrum`.
-- `plotting.py`: `generateChisquareMap`, `generateCorrelationPlot`, `generateWalkPlot` — post-fit visualisation helpers.
+- `plotting.py`: `generateCorrelationPlot`, `generateWalkPlot` — post-fit visualisation helpers.
 
 ### Versioning
 

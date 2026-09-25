@@ -40,6 +40,8 @@ entries are left out of a release):
   before `prefunc`; pass `prefunc` by keyword.
 - Spectra of `HFS` with `peak="skewvoigt"` change, since the width of the Gaussian
   component was wrong (see the bug fixes).
+- `satlas2.plotting.generateChisquareMap` is removed; it could not run, since it
+  used parts of the `Fitter` that no longer exist.
 
 ### ⚠️ Deprecations
 
