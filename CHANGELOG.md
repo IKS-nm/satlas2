@@ -113,6 +113,8 @@ entries are left out of a release):
 
 - Correct the `Polynomial` documentation: the coefficients go from the highest
   order down, as in `numpy.polyval`.
+- Document `Fitter.customLlh` as the way to add a likelihood, using the data in
+  `Fitter.temp_y`.
 - Explain in the `HFS` documentation why the saturated amplitudes are calculated
   by the model instead of with lmfit expressions.
 
@@ -140,8 +142,9 @@ entries are left out of a release):
 - The random walk is split into named steps (bounds, backend, sampling,
   summary), and summarising a walk is shared with `readWalk`; seeded walks
   give exactly the same chains as before.
-- `Fitter.fit` builds the random walk options in a separate method, and the
-  data is kept with the parameters instead of in a temporary attribute.
+- `Fitter.fit` builds the random walk options in a separate method, and
+  `Fitter.temp_y` is set whenever the parameters are prepared and kept after
+  the fit.
 - Split the `HFS` constructor into smaller steps and calculate the line positions
   in one place.
 

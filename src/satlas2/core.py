@@ -417,12 +417,12 @@ class Fitter:
                 [source.yerr(f) for (_, source), f in zip(self.sources, values)]
             )
         elif self.mode == "combined":
-            yerr = modifiedSqrt(3 / (1 / self._y + 2 / model_calcs))
+            yerr = modifiedSqrt(3 / (1 / self.temp_y + 2 / model_calcs))
         else:
             raise ValueError(
                 f"Unknown mode {self.mode!r}, use 'source' or 'combined'"
             )
-        resid = (model_calcs - self._y) / yerr
+        resid = (model_calcs - self.temp_y) / yerr
         resid[np.isnan(resid)] = np.inf
         return resid
 
@@ -475,13 +475,18 @@ class Fitter:
         """
         model_calcs = self.f()
         with np.errstate(divide="ignore", invalid="ignore"):
-            returnvalue = self._y * np.log(model_calcs) - model_calcs
+            returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
         returnvalue[model_calcs <= 0] = -np.inf
         priors = self.gaussianPriorResid()
         return np.append(returnvalue, -0.5 * priors * priors)
 
     def customLlh(self):
-        """Calculate a custom likelihood."""
+        """Calculate a custom likelihood, used with ``llh_method="custom"``.
+
+        Override this in a subclass of :class:`Fitter`. It should return the
+        log-likelihood per data point, like :meth:`gaussLlh` and
+        :meth:`poissonLlh`. The response of the models is given by
+        :meth:`f` and the data of all sources, stacked, by :attr:`temp_y`."""
         raise NotImplementedError
 
     def llh(
@@ -571,9 +576,9 @@ class Fitter:
 
     def _prepareFit(self):
         """:meta private:
-        Collect the data and create the parameters, as needed before
-        calculating a residual or likelihood."""
-        self._y = self.y()
+        Collect the data (in :attr:`temp_y`) and create the parameters, as
+        needed before calculating a residual or likelihood."""
+        self.temp_y = self.y()
         self._createParameters()
         self._createLmParameters()
 

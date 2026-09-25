@@ -588,3 +588,25 @@ def test_walk_statistics_match_the_chain(tmp_path):
         assert result_stderr(fitter, name) == pytest.approx((high[i] - low[i]) / 2)
     correl = np.corrcoef(flat.T)[0, 1]
     assert fitter.result.params[names[0]].correl[names[1]] == pytest.approx(correl)
+
+
+def test_custom_likelihood_in_a_subclass():
+    """customLlh is the extension point for other likelihoods; it can use
+    the stacked data in temp_y, as the examples do."""
+
+    class ScaledPoisson(Fitter):
+        def customLlh(self):
+            f = self.f()
+            return 2 * (self.temp_y * np.log(f) - f)
+
+    rng = np.random.default_rng(3)
+    y = rng.poisson(50, 200).astype(float)
+    source = Source(np.arange(200.0), y, yerr=np.sqrt, name="s")
+    source.addModel(Polynomial([10.0], name="c"))
+    fitter = ScaledPoisson()
+    fitter.addSource(source)
+    fitter.fit(llh=True, llh_method="custom")
+    assert result_value(fitter, "s___c___p0") == pytest.approx(y.mean(), rel=1e-4)
+    assert fitter.llh(fitter.lmpars, method="custom", emcee=True) == pytest.approx(
+        2 * np.sum(y * np.log(y.mean()) - y.mean()), rel=1e-6
+    )
