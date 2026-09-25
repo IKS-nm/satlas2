@@ -22,7 +22,7 @@ from .overwrite import (
     minimize,
 )
 
-__all__ = ["Fitter", "Source", "Model", "Parameter"]
+__all__ = ["Fitter", "Source", "Model", "Parameter", "sumModels"]
 
 
 SEPARATOR = "___"
@@ -42,6 +42,11 @@ def _split_name(full_name: str) -> Tuple[str, str, str]:
     """Split the name of a parameter in the Fitter into source, model and parameter."""
     source, model, parameter = full_name.split(SEPARATOR)
     return source, model, parameter
+
+
+def sumModels(models, x: ArrayLike) -> ArrayLike:
+    """Sum of the responses of the given models in the points x."""
+    return sum(model.f(x) for model in models)
 
 
 def modifiedSqrt(input: ArrayLike) -> ArrayLike:
@@ -993,8 +998,7 @@ class Source:
         self.y = y
         self.xerr = xerr
         self.yerr_data = yerr
-        if name is not None:
-            self.name = name
+        self.name = name
         self.models = []
         self.derivative = nd.Derivative(self.evaluate)
         for k in kwargs.keys():
@@ -1025,12 +1029,7 @@ class Source:
         -------
         ArrayLike
         """
-        for _, model in self.models:
-            try:
-                f += model.f(self.x)
-            except UnboundLocalError:
-                f = model.f(self.x)
-        return f
+        return self.evaluate(self.x)
 
     def evaluate(self, x: ArrayLike) -> ArrayLike:
         """Evaluates all models in the given points and returns the sum.
@@ -1044,12 +1043,7 @@ class Source:
         -------
         ArrayLike
         """
-        for _, model in self.models:
-            try:
-                f += model.f(x)
-            except UnboundLocalError:
-                f = model.f(x)
-        return f
+        return sumModels((model for _, model in self.models), x)
 
     def yerr(self, f: Optional[ArrayLike] = None) -> ArrayLike:
         """:meta private:
@@ -1082,11 +1076,21 @@ class Model:
         self.name = name
         self.prefunc = prefunc
         self.params = {}
-        self.xtransformed = None
-        self.xhashed = None
+
+    @property
+    def prefunc(self) -> Optional[callable]:
+        """Transformation applied to the evaluation points before evaluating."""
+        return self._prefunc
+
+    @prefunc.setter
+    def prefunc(self, func: Optional[callable]) -> None:
+        self._prefunc = func
+        self._transformed = None  # (key of x, transformed x)
 
     def transform(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
+        Apply :attr:`prefunc` to the evaluation points. The result for the
+        last input is cached, since a fit evaluates the same points repeatedly.
 
         Parameters
         ----------
@@ -1097,15 +1101,13 @@ class Model:
         -------
         ArrayLike
         """
-        if callable(self.prefunc):
-            hashed = x.data.tobytes()
-            if hashed == self.xhashed:
-                x = self.xtransformed
-            else:
-                x = self.prefunc(x)
-                self.xtransformed = x
-                self.xhashed = hashed
-        return x
+        if not callable(self.prefunc):
+            return x
+        x = np.asarray(x)
+        key = (x.shape, x.dtype.str, x.tobytes())
+        if self._transformed is None or self._transformed[0] != key:
+            self._transformed = (key, self.prefunc(x))
+        return self._transformed[1]
 
     def setTransform(self, func: callable):
         """Set the transformation for the pre-evaluation.
@@ -1128,7 +1130,7 @@ class Model:
         -------
         ArrayLike
         """
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class Parameter:

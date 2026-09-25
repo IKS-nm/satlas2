@@ -404,17 +404,23 @@ def test_prefunc_transforms_the_input():
     assert model.f(np.array([1.0, 2.0])) == pytest.approx([10.0, 20.0])
 
 
-@pytest.mark.xfail(
-    strict=True, reason="the cached transformed x is not cleared (fixed in part 4)"
-)
 def test_set_transform_replaces_the_transformation():
     model = Polynomial([1.0, 0.0], name="line", prefunc=lambda x: 10 * x)
     model.f(np.array([1.0, 2.0]))
     model.setTransform(lambda x: x - 1)
     assert model.f(np.array([1.0, 2.0])) == pytest.approx([0.0, 1.0])
+    model.prefunc = lambda x: x + 1
+    assert model.f(np.array([1.0, 2.0])) == pytest.approx([2.0, 3.0])
 
 
-@pytest.mark.xfail(strict=True, reason="raises TypeError (fixed in part 4)")
+def test_transform_distinguishes_inputs_with_equal_bytes():
+    model = Polynomial([1.0, 0.0], name="line", prefunc=lambda x: 2 * x)
+    x = np.arange(4.0)
+    assert model.f(x) == pytest.approx(2 * x)
+    assert model.f(x.reshape(2, 2)).shape == (2, 2)
+    assert model.f(3.0) == pytest.approx(6.0)
+
+
 def test_base_model_is_abstract():
     with pytest.raises(NotImplementedError):
         Model("base").f(np.zeros(2))

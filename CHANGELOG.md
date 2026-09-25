@@ -47,6 +47,7 @@ entries are left out of a release):
 
 ### ✨ Enhancements
 
+- `satlas2.sumModels(models, x)` sums the responses of several models.
 - The metadata dataframe can be created after reading a random walk, and the
   results of a random walk have a message and success flag.
 
@@ -62,6 +63,12 @@ entries are left out of a release):
   settings leaked into later fits.
 - The likelihood can be calculated after a fit; an unknown `Fitter.mode` raises a
   clear `ValueError`.
+- Changing the transformation of a model with `setTransform` (or `prefunc`) had
+  no effect on inputs that had been evaluated before.
+- `weightedAverage` failed with `axis=1` and used the wrong number of values for
+  multidimensional input.
+- `Model.f` raises `NotImplementedError` instead of a `TypeError` when a model
+  does not implement it.
 - Fix the shape of the log-probabilities in the random walk.
 - `HFS` with sidepeaks: the scale was applied once per line instead of once,
   `np.math.factorial` failed on NumPy 2, `prefunc` was applied twice and scalar
@@ -90,6 +97,7 @@ entries are left out of a release):
   options.
 - The `Fitter` looks up parameters by their full name in one place, and builds the
   lmfit parameters in a single, documented loop.
+- `Source` and `generateSpectrum` share one way of summing models.
 - `Fitter.fit` builds the random walk options in a separate method, and the
   data is kept with the parameters instead of in a temporary attribute.
 - Split the `HFS` constructor into smaller steps and calculate the line positions
