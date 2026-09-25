@@ -64,8 +64,15 @@ entries are left out of a release):
 - Explain in the `HFS` documentation why the saturated amplitudes are calculated
   by the model instead of with lmfit expressions.
 
+### 📦 Build system
+
+- Run the tests with coverage on every push to master and every pull request,
+  for Python 3.10 to 3.13 on Linux and Python 3.12 on Windows.
+
 ### 🛠️ Other improvements
 
+- Add tests for `Fitter`, `Source` and `Model`, comparing fits to closed-form
+  least squares solutions and likelihoods to `scipy.stats`.
 - Add tests for the `HFS` model: golden values, analytic checks of the hyperfine
   energies, intensity sum rule and peak shapes, and the saturation and sidepeak
   options.
