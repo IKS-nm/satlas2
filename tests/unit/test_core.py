@@ -189,13 +189,27 @@ def test_share_model_params_only_links_models_with_the_same_name():
 
 
 @pytest.mark.parametrize("share", ["shareParams", "shareModelParams"])
-@pytest.mark.xfail(
-    strict=True, reason="a single name is split into characters (fixed in part 2)"
-)
 def test_share_accepts_a_single_name(share):
     fitter = Fitter()
     getattr(fitter, share)("p0")
     assert fitter.share + fitter.shareModel == ["p0"]
+    getattr(fitter, "remove" + share[0].upper() + share[1:])("p0")
+    assert fitter.share + fitter.shareModel == []
+
+
+def test_correlations_are_kept_per_model():
+    """Models whose names start with the same text must not mix correlations."""
+    rng = np.random.default_rng(0)
+    x = np.linspace(-5, 5, 40)
+    y = 1 + 0.5 * x + 0.1 * x**2 + rng.normal(0, 0.1, 40)
+    source = Source(x, y, np.full(40, 0.1), name="s")
+    source.addModel(Polynomial([0.4, 0.9], name="bg"))
+    source.addModel(Polynomial([0.05, 0, 0], name="bg2"))
+    fitter = fitter_with(source)
+    fitter.fit()
+    correl = fitter.result.params["s___bg___p1"].correl
+    stored = source.models[0][1].params["p1"].correl
+    assert stored == pytest.approx({"p0": correl["s___bg___p0"]})
 
 
 def test_remove_shared_parameters():

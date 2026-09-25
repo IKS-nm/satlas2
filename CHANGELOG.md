@@ -50,6 +50,10 @@ entries are left out of a release):
 
 ### 🐞 Bug fixes
 
+- `Fitter.shareParams` and `Fitter.shareModelParams` with a single name shared
+  each character of the name instead of the name.
+- The correlations stored in a model included those of other models whose names
+  start with the same text (e.g. `bg` and `bg2`), under the wrong names.
 - Fix the shape of the log-probabilities in the random walk.
 - `HFS` with sidepeaks: the scale was applied once per line instead of once,
   `np.math.factorial` failed on NumPy 2, `prefunc` was applied twice and scalar
@@ -76,6 +80,8 @@ entries are left out of a release):
 - Add tests for the `HFS` model: golden values, analytic checks of the hyperfine
   energies, intensity sum rule and peak shapes, and the saturation and sidepeak
   options.
+- The `Fitter` looks up parameters by their full name in one place, and builds the
+  lmfit parameters in a single, documented loop.
 - Split the `HFS` constructor into smaller steps and calculate the line positions
   in one place.
 

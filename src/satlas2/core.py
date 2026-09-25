@@ -25,6 +25,25 @@ from .overwrite import (
 __all__ = ["Fitter", "Source", "Model", "Parameter"]
 
 
+SEPARATOR = "___"
+
+
+def _as_list(names: Union[list, str]) -> list:
+    """Wrap a single name in a list."""
+    return [names] if isinstance(names, str) else list(names)
+
+
+def _full_name(source: str, model: str, parameter: str) -> str:
+    """Name of a parameter in the Fitter: ``Source___Model___Parameter``."""
+    return SEPARATOR.join([source, model, parameter])
+
+
+def _split_name(full_name: str) -> Tuple[str, str, str]:
+    """Split the name of a parameter in the Fitter into source, model and parameter."""
+    source, model, parameter = full_name.split(SEPARATOR)
+    return source, model, parameter
+
+
 def modifiedSqrt(input: ArrayLike) -> ArrayLike:
     output = np.sqrt(input)
     output[input <= 0] = 1
@@ -76,11 +95,9 @@ class Fitter:
         parameter_expression: list or str
             The parameter expression to be associated with parameter_name.
         """
-        if isinstance(parameter_name, str):
-            parameter_name = [parameter_name]
-        if isinstance(parameter_expression, str):
-            parameter_expression = [parameter_expression]
-        for parameter, expression in zip(parameter_name, parameter_expression):
+        for parameter, expression in zip(
+            _as_list(parameter_name), _as_list(parameter_expression)
+        ):
             self.expressions[parameter] = expression
 
     def removeExpr(self, parameter_name: Union[list, str]) -> None:
@@ -92,13 +109,8 @@ class Fitter:
         parameter_name : list or str
             Either a single parameter name or a list of them.
         """
-        if isinstance(parameter_name, str):
-            parameter_name = [parameter_name]
-        for p in parameter_name:
-            try:
-                del self.expressions[p]
-            except:
-                pass
+        for p in _as_list(parameter_name):
+            self.expressions.pop(p, None)
 
     def shareParams(self, parameter_name: Union[list, str]) -> None:
         """Add parameters to the list of shared parameters.
@@ -119,10 +131,7 @@ class Fitter:
         parameter_name : list or str
             List of parameters or single parameter name.
         """
-        try:
-            self.share.extend(parameter_name)
-        except:
-            self.share.append(parameter_name)
+        self.share.extend(_as_list(parameter_name))
 
     def removeShareParams(self, parameter_name: Union[list, str]) -> None:
         """Removed shared parameter.
@@ -136,13 +145,8 @@ class Fitter:
         parameter_name : Union[list, str]
             List of parameters or single parameter name.
         """
-        if isinstance(parameter_name, str):
-            parameter_name = [parameter_name]
-        for p in parameter_name:
-            try:
-                self.share.remove(p)
-            except ValueError:
-                pass
+        remove = _as_list(parameter_name)
+        self.share = [p for p in self.share if p not in remove]
 
     def shareModelParams(self, parameter_name: Union[list, str]) -> None:
         """Add parameters to the list of shared parameters across all
@@ -160,10 +164,7 @@ class Fitter:
         parameter_name : list or str
             List of parameters or single parameter name.
         """
-        try:
-            self.shareModel.extend(parameter_name)
-        except:
-            self.shareModel.append(parameter_name)
+        self.shareModel.extend(_as_list(parameter_name))
 
     def removeShareModelParams(self, parameter_name: Union[list, str]) -> None:
         """Remove parameters shared across all models with the same name.
@@ -173,13 +174,8 @@ class Fitter:
         parameter_name : Union[list, str]
             List of parameters or single parameter name.
         """
-        if isinstance(parameter_name, str):
-            parameter_name = [parameter_name]
-        for p in parameter_name:
-            try:
-                self.shareModel.remove(p)
-            except ValueError:
-                pass
+        remove = _as_list(parameter_name)
+        self.shareModel = [p for p in self.shareModel if p not in remove]
 
     def setParamPrior(
         self,
@@ -205,7 +201,7 @@ class Fitter:
         uncertainty : float
             Standard deviation associated with the value.
         """
-        self.priors["___".join([source, model, parameter_name])] = (
+        self.priors[_full_name(source, model, parameter_name)] = (
             value,
             uncertainty,
         )
@@ -224,7 +220,7 @@ class Fitter:
         parameter_name : str
             Name of the parameter.
         """
-        del self.priors["___".join([source, model, parameter_name])]
+        del self.priors[_full_name(source, model, parameter_name)]
 
     def removeAllPriors(self):
         """Removes all priors on parameters."""
@@ -242,80 +238,67 @@ class Fitter:
         self.sources.append((name, source))
 
     def _createParameters(self) -> None:
-        """Initialize the parameters from the sources."""
-        for name, source in self.sources:
-            self.pars[name] = source.params()
+        """Collect the parameters of the models in the sources, both nested
+        (:attr:`pars`) and by their full name."""
+        self.pars = {name: source.params() for name, source in self.sources}
+        self._parameters = {
+            _full_name(source_name, model_name, parameter_name): parameter
+            for source_name, models in self.pars.items()
+            for model_name, parameters in models.items()
+            for parameter_name, parameter in parameters.items()
+        }
+
+    def _parameter(self, full_name: str) -> Parameter:
+        """The Parameter of a model, from its full name in the Fitter."""
+        return self._parameters[full_name]
 
     def _createLmParameters(self) -> None:
-        """Creates the lmfit parameters."""
-        lmpars = lm.Parameters()
-        sharing = {}
-        sharingModel = {}
-        tuples = ()
-        for (
-            source_name
-        ) in (
-            self.pars.keys()
-        ):  # Loop over every datasource in the created parameters
-            p = self.pars[source_name]
-            for (
-                model_name
-            ) in p.keys():  # Loop over every model in the datasource
-                pars = p[model_name]
-                for (
-                    parameter_name
-                ) in pars.keys():  # Loop over every parameter in the model
-                    parameter = pars[parameter_name]
-                    n = "___".join(
-                        [source_name, model_name, parameter_name]
-                    )  # Set a unique name
-                    parameter.name = "___".join(
-                        [source_name, model_name]
-                    )  # Set a unique identifier
-                    if n in self.expressions.keys():
-                        expr = self.expressions[n]
-                    elif (
-                        parameter_name in self.share
-                    ):  # Set the sharing of a variable with EVERY model
-                        if (
-                            parameter_name in sharing.keys()
-                        ):  # If not the first instance of a shared variable, get the parameter name
-                            expr = sharing[parameter_name]
-                        else:
-                            sharing[
-                                parameter_name
-                            ] = n  # If the first instance of a shared variable, set it in the sharing dictionary
-                            expr = parameter.expr
-                    elif (
-                        parameter_name in self.shareModel
-                    ):  # Set the sharing of a variable across all models with the SAME NAME
-                        if (
-                            parameter_name in sharingModel.keys()
-                            and model_name
-                            in sharingModel[parameter_name].keys()
-                        ):
-                            expr = sharingModel[parameter_name][model_name]
-                        else:
-                            try:
-                                sharingModel[parameter_name][model_name] = n
-                            except:
-                                sharingModel[parameter_name] = {model_name: n}
-                            expr = parameter.expr
-                    else:
-                        expr = parameter.expr
-                    tuples += (
-                        (
-                            n,
-                            parameter.value,
-                            parameter.vary,
-                            parameter.min,
-                            parameter.max,
-                            expr,
-                            None,
-                        ),
-                    )
-        lmpars.add_many(*tuples)
-        self.lmpars = lmpars
+        """Creates the lmfit parameters, linked through the expressions and the
+        sharing of parameters."""
+        first_shared = {}  # parameter name -> full name of the first occurrence
+        first_model_shared = {}  # (model name, parameter name) -> full name
+        tuples = []
+        for full_name, parameter in self._parameters.items():
+            source_name, model_name, parameter_name = _split_name(full_name)
+            parameter.name = SEPARATOR.join([source_name, model_name])
+            if full_name in self.expressions:
+                expr = self.expressions[full_name]
+            elif parameter_name in self.share:
+                expr = self._linkTo(
+                    first_shared, parameter_name, full_name, parameter.expr
+                )
+            elif parameter_name in self.shareModel:
+                expr = self._linkTo(
+                    first_model_shared,
+                    (model_name, parameter_name),
+                    full_name,
+                    parameter.expr,
+                )
+            else:
+                expr = parameter.expr
+            tuples.append(
+                (
+                    full_name,
+                    parameter.value,
+                    parameter.vary,
+                    parameter.min,
+                    parameter.max,
+                    expr,
+                    None,
+                )
+            )
+        # add_many delays evaluating the expressions until all parameters exist
+        self.lmpars = lm.Parameters()
+        self.lmpars.add_many(*tuples)
+
+    @staticmethod
+    def _linkTo(first: dict, key, full_name: str, own_expr: Optional[str]):
+        """Expression linking a shared parameter to the first parameter shared
+        under the same key. The first parameter keeps its own expression."""
+        if key in first:
+            return first[key]
+        first[key] = full_name
+        return own_expr
 
     def f(self) -> ArrayLike:
         """Calculate the response of the models in the different sources,
@@ -372,12 +355,9 @@ class Fitter:
         ----------
         params : lm.Parameters
         """
-        for p in params.keys():
-            if params[p].vary or params[p].expr != None:
-                source_name, model_name, parameter_name = p.split("___")
-                self.pars[source_name][model_name][
-                    parameter_name
-                ].value = params[p].value
+        for name, lmpar in params.items():
+            if lmpar.vary or lmpar.expr is not None:
+                self._parameter(name).value = lmpar.value
 
     def setUncertainties(self, params: lm.Parameters) -> None:
         """:meta private:
@@ -388,40 +368,27 @@ class Fitter:
         ----------
         params : lm.Parameters
         """
-        for p in params.keys():
-            source_name, model_name, parameter_name = p.split("___")
-            self.pars[source_name][model_name][parameter_name].unc = params[
-                p
-            ].stderr
+        for name, lmpar in params.items():
+            self._parameter(name).unc = lmpar.stderr
 
     def setCorrelations(self, params: lm.Parameters) -> None:
         """:meta private:
         Set the correlations of the underlying Models
-        based on a large Parameters object
+        based on a large Parameters object. Only the correlations with
+        parameters of the same model are kept, by their short name.
 
         Parameters
         ----------
         params : lmfit.Parameters
         """
-        for p in params.keys():
-            source_name, model_name, parameter_name = p.split("___")
-            dictionary = copy.deepcopy(params[p].correl)
-            del_keys = []
-            try:
-                keys = list(dictionary.keys())
-                for key in keys:
-                    if key.startswith(
-                        self.pars[source_name][model_name][parameter_name].name
-                    ):
-                        dictionary[key.split("___")[-1]] = dictionary[key]
-                    del_keys.append(key)
-                for key in del_keys:
-                    del dictionary[key]
-                self.pars[source_name][model_name][
-                    parameter_name
-                ].correl = dictionary
-            except AttributeError:
-                pass
+        for name, lmpar in params.items():
+            parameter = self._parameter(name)
+            prefix = parameter.name + SEPARATOR
+            parameter.correl = {
+                other[len(prefix):]: value
+                for other, value in (lmpar.correl or {}).items()
+                if other.startswith(prefix)
+            }
 
     def resid(self) -> ArrayLike:
         """:meta private:
@@ -458,14 +425,12 @@ class Fitter:
         -------
         ArrayLike
         """
-        returnval = []
-        for key in self.priors.keys():
-            source, model, parameter = key.split("___")
-            lit, unc = self.priors[key]
-            returnval.append(
-                (self.pars[source][model][parameter].value - lit) / unc
-            )
-        return np.array(returnval)
+        return np.array(
+            [
+                (self._parameter(name).value - value) / uncertainty
+                for name, (value, uncertainty) in self.priors.items()
+            ]
+        )
 
     def residualCalculation(self) -> ArrayLike:
         """:meta private:
@@ -602,12 +567,8 @@ class Fitter:
 
     def revertFit(self):
         """Reverts the parameter values to the original values."""
-        params = self.result.init_values
-        for p in params.keys():
-            source_name, model_name, parameter_name = p.split("___")
-            self.pars[source_name][model_name][parameter_name].value = params[
-                p
-            ]
+        for name, value in self.result.init_values.items():
+            self._parameter(name).value = value
         self._prepareFit()
         self.setParameters(self.lmpars)
 
@@ -770,17 +731,15 @@ class Fitter:
         pd.DataFrame"""
         data = [
             [
-                p.split("___")[0],
-                p.split("___")[1],
-                p.split("___")[2],
-                self.result.params[p].value,
-                self.result.params[p].stderr,
-                self.result.params[p].min,
-                self.result.params[p].max,
-                self.result.params[p].expr,
-                self.result.params[p].vary,
+                *_split_name(name),
+                p.value,
+                p.stderr,
+                p.min,
+                p.max,
+                p.expr,
+                p.vary,
             ]
-            for p in self.result.params
+            for name, p in self.result.params.items()
         ]
         columns = [
             "Source",
@@ -869,12 +828,9 @@ class Fitter:
         ----------
         params : lm.Parameters
         """
-        for p in params.keys():
-            if not params[p].vary and params[p].expr is None:
-                source_name, model_name, parameter_name = p.split("___")
-                params[p].value = self.pars[source_name][model_name][
-                    parameter_name
-                ].value
+        for name, lmpar in params.items():
+            if not lmpar.vary and lmpar.expr is None:
+                lmpar.value = self._parameter(name).value
 
     def updateInfo(self):
         """:meta private:"""
@@ -957,17 +913,12 @@ class Fitter:
         except:
             self._prepareFit()
             names = [p for p in self.lmpars.keys()]
-        common = [
-            (i, name.split("___"))
-            for i, name in enumerate(var_names)
-            if name in names
-        ]
+        common = [(i, name) for i, name in enumerate(var_names) if name in names]
         bands = []
         X = []
         for sample in flatchain:
-            for column, splitname in common:
-                source, model, parameter = splitname
-                self.pars[source][model][parameter].value = sample[column]
+            for column, name in common:
+                self._parameter(name).value = sample[column]
             for i, (_, source) in enumerate(self.sources):
                 try:
                     bands[i] = np.vstack(
@@ -983,9 +934,8 @@ class Fitter:
             q = np.percentile(band, [16, 84], axis=0)
             bands[i] = q
         median = np.percentile(flatchain, 50, axis=0)
-        for column, splitname in common:
-            source, model, parameter = splitname
-            self.pars[source][model][parameter].value = median[column]
+        for column, name in common:
+            self._parameter(name).value = median[column]
         for i, (_, source) in enumerate(self.sources):
             bands[i] = np.vstack(
                 [bands[i][0], getattr(source, method)(*args), bands[i][1]]
