@@ -87,6 +87,8 @@ class _SaturationParameter(Parameter):
 
     The amplitudes of the lines depend on the saturation, so the model
     recalculates them every time the value is set (by the user or by a fit).
+    This is deliberately not done with lmfit expressions on the amplitudes,
+    see the notes of :class:`HFS`.
     """
 
     def __init__(self, model: HFS, value: float):
@@ -155,6 +157,29 @@ class HFS(Model):
     prefunc : callable, optional
         Transformation to be applied on the input before evaluation, by default None
 
+    Notes
+    -----
+    **Saturation.** With ``use_saturation=True`` the amplitudes of the lines are
+    not free parameters but follow from the ``Saturation`` parameter. The
+    ``Amp<line>`` parameters are fixed and are recalculated every time the value
+    of ``Saturation`` is set, so they always correspond to the current saturation:
+    after a fit or a random walk they, and the results dataframe, show the
+    amplitudes belonging to the fitted saturation.
+
+    This is done in the model, and not by giving each ``Amp<line>`` parameter an
+    lmfit expression of ``Saturation``, for two reasons:
+
+    * The amplitudes are normalised to the strongest line, so the expression of
+      every line has to contain the terms of all lines. Evaluating these
+      expressions is slow: for a spectrum with 24 lines it takes about 6 ms per
+      change of the saturation, more than ten times the cost of evaluating the
+      spectrum itself, which would dominate every fit and random walk.
+    * The model must give the correct spectrum without a
+      :class:`~satlas2.core.Fitter`, e.g. when plotting. Expressions only exist
+      inside lmfit, so the calculation would have to be duplicated in the model.
+
+    Expressions remain the right tool for relations chosen by the user, such as
+    :meth:`~satlas2.core.Fitter.setExpr`.
     """
 
     def __init__(
