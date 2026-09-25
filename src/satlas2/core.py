@@ -820,15 +820,15 @@ class Fitter:
         data = [
             [
                 source,
-                self.result.method,
-                self.result.message,
-                self.result.nfev,
-                self.result.ndata,
-                self.result.nvarys,
-                self.result.chisqr,
-                self.result.redchi,
-                self.result.aic,
-                self.result.bic,
+                getattr(self.result, 'method', ''),
+                getattr(self.result, 'message', ''),
+                getattr(self.result, 'nfev', None),
+                getattr(self.result, 'ndata', None),
+                getattr(self.result, 'nvarys', None),
+                getattr(self.result, 'chisqr', None),
+                getattr(self.result, 'redchi', None),
+                getattr(self.result, 'aic', None),
+                getattr(self.result, 'bic', None),
             ]
         ]
         df = pd.DataFrame(data=data, columns=columns)

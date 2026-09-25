@@ -90,7 +90,7 @@ class SATLASSampler(emcee.EnsembleSampler):
                 map_func = self.pool.map
             else:
                 map_func = map
-            results = list(map_func(self.log_prob_fn, p))
+            results = np.array(list(map_func(self.log_prob_fn, p))).reshape((-1,))
 
         log_prob = np.array([float(l) for l in results])
         blob = None
@@ -153,6 +153,8 @@ class SATLASMinimizer(Minimizer):
         except AutocorrError as e:
             print(str(e))
             result.acor = emcee.autocorr.integrated_time(chain, tol=0)
+        result.message = "MCMC walk processed successfully."
+        result.success = True
         return result
 
         # Calculate the residual with the "best fit" parameters
@@ -427,6 +429,10 @@ class SATLASMinimizer(Minimizer):
 
         if auto_pool is not None:
             auto_pool.terminate()
+
+        if not result.aborted:
+            result.message = "MCMC sampling completed successfully."
+            result.success = True
 
         return result
 
