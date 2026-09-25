@@ -82,6 +82,27 @@ def _line_strength(
     return float(wigner_6j(J2, F2, I, F1, J1, float(order)) ** 2)
 
 
+class _SaturationParameter(Parameter):
+    """Saturation of an :class:`HFS` model.
+
+    The amplitudes of the lines depend on the saturation, so the model
+    recalculates them every time the value is set (by the user or by a fit).
+    """
+
+    def __init__(self, model: HFS, value: float):
+        self._model = model
+        super().__init__(value=value, min=0)
+
+    @property
+    def value(self) -> float:
+        return self._value
+
+    @value.setter
+    def value(self, value: float) -> None:
+        self._value = value
+        self._model._updateSaturatedAmplitudes(value)
+
+
 class HFS(Model):
     """Initializes a hyperfine spectrum Model with the given hyperfine parameters.
 
@@ -125,7 +146,8 @@ class HFS(Model):
         and initial intensities, by default 1
     use_saturation : bool, optional
         If True, apply the saturation model to transition amplitudes. Defaults to False.
-        Cannot be combined with `racah`. Adds a `Saturation` parameter to the model.
+        Cannot be combined with `racah`. Adds a `Saturation` parameter to the model;
+        the (fixed) amplitudes are recalculated whenever its value changes.
     saturation : float, optional
         Saturation parameter (>= 0). Only used when `use_saturation` is True;
         otherwise the value is ignored. The value controls the exponential
@@ -274,7 +296,7 @@ class HFS(Model):
             "scale": Parameter(value=scale, min=0, vary=not vary_amplitudes),
         }
         if self.use_saturation:
-            pars["Saturation"] = Parameter(value=saturation, min=0)
+            pars["Saturation"] = _SaturationParameter(self, saturation)
 
         if peak == "lorentzian":
             pars["FWHMG"].value, pars["FWHMG"].vary, pars["FWHMG"].min = 0, False, 0
@@ -319,12 +341,14 @@ class HFS(Model):
         transitional = -sat * np.expm1(-rac * s / sat)
         return transitional / transitional.max()
 
+    def _updateSaturatedAmplitudes(self, saturation: float) -> None:
+        """Set the amplitudes of the lines for the given saturation."""
+        amplitudes = self._calculate_transitional_intensities(saturation)
+        for parameter, amplitude in zip(self.intensities.values(), amplitudes):
+            parameter.value = float(amplitude)
+
     def _amplitudes(self) -> np.ndarray:
         """Current relative amplitude of each line."""
-        if self.use_saturation:
-            return self._calculate_transitional_intensities(
-                float(self.params["Saturation"].value)
-            )
         return np.array([self.params[key].value for key in self._amplitude_keys])
 
     def _couplings(self, level: str) -> np.ndarray:

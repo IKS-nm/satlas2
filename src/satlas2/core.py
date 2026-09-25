@@ -859,10 +859,28 @@ class Fitter:
             )
         self.updateInfo()
 
+    def _syncFixedParameters(self, params: lm.Parameters) -> None:
+        """:meta private:
+        Copy the values of fixed parameters from the Models into the given
+        Parameters, for parameters that a Model calculates itself
+        (e.g. the amplitudes of an HFS model with saturation).
+
+        Parameters
+        ----------
+        params : lm.Parameters
+        """
+        for p in params.keys():
+            if not params[p].vary and params[p].expr is None:
+                source_name, model_name, parameter_name = p.split("___")
+                params[p].value = self.pars[source_name][model_name][
+                    parameter_name
+                ].value
+
     def updateInfo(self):
         """:meta private:"""
         self.lmpars = self.result.params
         self.setParameters(self.result.params)
+        self._syncFixedParameters(self.result.params)
         self.setUncertainties(self.result.params)
         self.setCorrelations(self.result.params)
         self.nvarys = self.result.nvarys

@@ -10,7 +10,9 @@ Three kinds of tests are used:
 * Behavioural tests for the saturation and sidepeak options.
 """
 
+import copy
 import json
+import pickle
 from math import factorial
 from pathlib import Path
 
@@ -18,6 +20,7 @@ import numpy as np
 import pytest
 from scipy.special import erf, voigt_profile
 
+import satlas2
 from satlas2.models.hfsModel import HFS, triangle_condition
 
 GOLDEN_FILE = Path(__file__).parent / "data" / "hfs_golden.json"
@@ -318,10 +321,63 @@ def test_intermediate_saturation_mapping():
     assert amps == pytest.approx(expected)
 
 
+def saturation_amplitudes(model):
+    return np.array([model.params["Amp" + line].value for line in model.lines])
+
+
 def test_spectrum_follows_saturation_parameter():
     model = saturation_model(0.5)
     model.params["Saturation"].value = 3.0
     assert model.f(XS) == pytest.approx(saturation_model(3.0).f(XS))
+
+
+def test_amplitudes_are_recalculated_when_saturation_changes():
+    model = saturation_model(0.5)
+    before = saturation_amplitudes(model)
+    model.params["Saturation"].value = 3.0
+    assert not np.allclose(before, saturation_amplitudes(model))
+    assert saturation_amplitudes(model) == pytest.approx(
+        saturation_amplitudes(saturation_model(3.0))
+    )
+    model.params["Saturation"].value = 0.0
+    assert saturation_amplitudes(model) == pytest.approx(
+        saturation_amplitudes(HFS(**SMALL))
+    )
+
+
+@pytest.mark.parametrize("copier", [copy.deepcopy, lambda m: pickle.loads(pickle.dumps(m))])
+def test_saturation_survives_copying(copier):
+    """Models are copied when fitting in parallel."""
+    model = copier(saturation_model(0.5))
+    model.params["Saturation"].value = 3.0
+    assert saturation_amplitudes(model) == pytest.approx(
+        saturation_amplitudes(saturation_model(3.0))
+    )
+    assert model.f(XS) == pytest.approx(saturation_model(3.0).f(XS))
+
+
+def test_fit_reports_amplitudes_at_fitted_saturation():
+    truth = saturation_model(5.0)
+    x = np.linspace(-400, 400, 300)
+    model = saturation_model(0.5)
+    source = satlas2.Source(x, truth.f(x), yerr=np.full_like(x, 0.01), name="s")
+    source.addModel(model)
+    fitter = satlas2.Fitter()
+    fitter.addSource(source)
+    fitter.fit()
+
+    fitted = model.params["Saturation"].value
+    assert fitted == pytest.approx(5.0, rel=1e-3)
+    expected = saturation_amplitudes(saturation_model(fitted))
+    assert saturation_amplitudes(model) == pytest.approx(expected)
+
+    frame = fitter.createResultDataframe()
+    reported = [
+        frame.loc[frame["Parameter"] == "Amp" + line, "Value"].item()
+        for line in model.lines
+    ]
+    assert reported == pytest.approx(expected)
+    assert not frame.loc[frame["Parameter"].str.startswith("Amp"), "Vary"].any()
 
 
 # ----------------------------------------------------------------------------
