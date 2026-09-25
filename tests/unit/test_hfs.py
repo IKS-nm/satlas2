@@ -231,9 +231,18 @@ def test_skewvoigt_matches_definition():
     expected = (
         voigt_profile(x, sigma, gamma)
         / voigt_profile(0, sigma, gamma)
-        * (1 + erf(skew * x / 30 / np.sqrt(2)))
+        * (1 + erf(skew * x / (sigma * np.sqrt(2))))
     )
     assert model.f(x) == pytest.approx(expected)
+
+
+def test_skewvoigt_matches_skewed_voigt_model():
+    from satlas2.models import SkewedVoigt
+
+    model = single_peak_model("skewvoigt", peak_kwargs={"skew": {"value": 0.4}})
+    reference = SkewedVoigt(A=1.0, mu=0.0, FWHMG=30, FWHML=12, skew=0.4)
+    x = np.linspace(-80, 80, 21)
+    assert model.f(x) == pytest.approx(reference.f(x))
 
 
 def test_skewvoigt_without_skew_is_voigt():

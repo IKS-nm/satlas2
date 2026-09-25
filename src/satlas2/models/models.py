@@ -209,7 +209,7 @@ class SkewedVoigt(Voigt):
     FWHML : float
         Lorentzian FWHM
     skew : float
-        Skew of the peak
+        Skew of the peak, as defined in :func:`satlas2.lineshapes.skew`
     name : str, optional
         Name of the model, by default 'SkewedVoigt'
     prefunc : callable, optional
@@ -233,9 +233,8 @@ class SkewedVoigt(Voigt):
 
     def _profile(self, x: ArrayLike) -> ArrayLike:
         """Skewed peak in the (transformed) points x."""
-        # the skew is expressed per Gaussian standard deviation
-        sigma = lineshapes.fwhmToSigma(self.params["FWHMG"].value)
-        beta = self.params["Skew"].value / (sigma * np.sqrt(2))
         return super()._profile(x) * lineshapes.skew(
-            x - self.params["mu"].value, beta
+            x - self.params["mu"].value,
+            self.params["Skew"].value,
+            self.params["FWHMG"].value,
         )

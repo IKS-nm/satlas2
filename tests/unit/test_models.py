@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from scipy.optimize import brentq
 from scipy.special import erf, voigt_profile
+from scipy.stats import norm, skewnorm
 
 from satlas2 import lineshapes
 from satlas2.models import (
@@ -59,9 +60,16 @@ def test_voigt_limits():
     )
 
 
-def test_skew():
-    assert lineshapes.skew(X, 0.0) == pytest.approx(np.ones_like(X))
-    assert lineshapes.skew(X, 0.3) == pytest.approx(1 + erf(0.3 * X))
+def test_skew_is_the_skew_normal_factor():
+    """The skew normal pdf is 2 phi(x/s) Phi(a x/s) / s; the factor is 2 Phi."""
+    sigma = 12.0 * SIGMA_PER_FWHM
+    assert lineshapes.skew(X, 0.0, 12.0) == pytest.approx(np.ones_like(X))
+    assert lineshapes.skew(X, 0.3, 12.0) == pytest.approx(2 * norm.cdf(0.3 * X / sigma))
+    # multiplied with a Gaussian, it is a normalised skew normal distribution
+    skewed = lineshapes.gaussian(X, 12.0) * lineshapes.skew(X, 1.5, 12.0)
+    assert skewed / (sigma * np.sqrt(2 * np.pi)) == pytest.approx(
+        skewnorm.pdf(X, 1.5, scale=sigma)
+    )
 
 
 @pytest.mark.parametrize("G, L", [(10.0, 0.0), (0.0, 10.0), (10.0, 4.0), (3.0, 9.0)])

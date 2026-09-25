@@ -130,7 +130,9 @@ class HFS(Model):
     peak: str, optional
         peak function to use, by default 'voigt'
     peak_kwargs: dict, optional
-        additional fitting parameters for skew and custom peaks
+        additional fitting parameters for skew and custom peaks. The
+        ``"skewvoigt"`` peak needs a ``"skew"`` parameter, defined as in
+        :func:`satlas2.lineshapes.skew`
     N : int, optional
         Number of sidepeaks to be generated, by default None
     offset : float, optional
@@ -525,11 +527,9 @@ class HFS(Model):
         ArrayLike
         """
         fwhmg = self.params["FWHMG"].value
-        # the skew is expressed per Gaussian FWHM
-        beta = self.params["skew"].value / (fwhmg * np.sqrt(2))
-        return lineshapes.voigt(
-            x, fwhmg, self.params["FWHML"].value
-        ) * lineshapes.skew(x, beta)
+        return lineshapes.voigt(x, fwhmg, self.params["FWHML"].value) * lineshapes.skew(
+            x, self.params["skew"].value, fwhmg
+        )
 
     def customPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:

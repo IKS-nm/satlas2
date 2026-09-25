@@ -93,7 +93,7 @@ scale    = 0.001       # peak amplitude  [cts/bunch]
 true_hfs = satlas2.HFS(
     spin, J, A, B, C,
     df=centroid, fwhmg=FWHMG, fwhml=FWHML, scale=scale,
-    peak="skewvoigt", peak_kwargs={"skew": {"value": 11, "min": 1}},
+    peak="skewvoigt", peak_kwargs={"skew": {"value": 4.7, "min": 0.4}},
 )
 background = satlas2.Polynomial([bkg])
 
@@ -124,7 +124,7 @@ y = np.array([
 fit_hfs = satlas2.HFS(
     spin, J, [0, 51], B, C,
     df=9, fwhmg=120 / 4, fwhml=120 / 3, scale=scale,
-    peak="skewvoigt", peak_kwargs={"skew": {"value": 11, "min": 1}},
+    peak="skewvoigt", peak_kwargs={"skew": {"value": 4.7, "min": 0.4}},
     name="HFS",
 )
 fit_hfs.params["Bu"].vary = False   # B-upper is fixed (spin-0 upper state)

@@ -38,8 +38,14 @@ entries are left out of a release):
   `scaling_Cl` and `scaling_Cu` attributes; use `HFS.pos()` for the line positions.
 - The `order`, `use_saturation` and `saturation` arguments of `HFS` are inserted
   before `prefunc`; pass `prefunc` by keyword.
-- Spectra of `HFS` with `peak="skewvoigt"` change, since the width of the Gaussian
-  component was wrong (see the bug fixes).
+- The skew of `HFS` with `peak="skewvoigt"` follows the standard definition of
+  the skew normal distribution, as `SkewedVoigt` and lmfit's `SkewedVoigtModel`
+  do: `1 + erf(skew * x / (sigma * sqrt(2)))`, with `sigma` the standard
+  deviation of the Gaussian component. It was defined per Gaussian FWHM, so
+  divide existing skew values by 2.355 (`2 sqrt(2 ln 2)`) to keep the same shape.
+  The width of the Gaussian component also changes (see the bug fixes).
+- `satlas2.plotting.generateChisquareMap` is removed; it could not run, since it
+  used parts of the `Fitter` that no longer exist.
 - `satlas2.plotting.generateChisquareMap` is removed; it could not run, since it
   used parts of the `Fitter` that no longer exist.
 

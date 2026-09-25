@@ -46,10 +46,18 @@ def voigt(x: ArrayLike, fwhmg: float, fwhml: float) -> ArrayLike:
     return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
 
 
-def skew(x: ArrayLike, beta: float) -> ArrayLike:
-    """Skewing factor ``1 + erf(beta * x)``: multiplying a peak with it moves
-    intensity to the right for positive beta and to the left for negative beta."""
-    return 1 + erf(beta * x)
+def skew(x: ArrayLike, skew: float, fwhmg: float) -> ArrayLike:
+    r"""Skewing factor of a peak centred at 0 with Gaussian FWHM `fwhmg`:
+
+    .. math::
+        1 + \mathrm{erf}\left(rac{lpha x}{\sigma\sqrt{2}}ight)
+
+    with :math:`lpha` the skew and :math:`\sigma` the standard deviation of
+    the Gaussian component. This is twice the normal cumulative distribution
+    function of the skew normal distribution, and the definition used by
+    ``SkewedGaussianModel`` and ``SkewedVoigtModel`` in lmfit. A positive skew
+    moves intensity to the right, a negative skew to the left."""
+    return 1 + erf(skew * x / (fwhmToSigma(fwhmg) * np.sqrt(2)))
 
 
 def voigtFWHM(
