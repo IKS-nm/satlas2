@@ -5,7 +5,7 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 """
 from __future__ import annotations
 
-import copy
+import os
 from typing import Optional, Tuple, Union
 
 import lmfit as lm
@@ -391,28 +391,34 @@ class Fitter:
             }
 
     def resid(self) -> ArrayLike:
-        """:meta private:
+        r""":meta private:
         Calculates the residuals for use in a Gaussian fitting.
         Based on the value of :attr:`Fitter.mode`, a different method is
         used. If :attr:`Fitter.mode` is 'source', the result of :func:`~Fitter.yerr` is used.
         If :attr:`Fitter.mode` is 'combined', the denominator is calculated as
 
         .. math::
-            \sqrt{\\frac{3}{\\frac{1}{y}+\\frac{2}{f(x)}}}
+            \sqrt{\frac{3}{\frac{1}{y}+\frac{2}{f(x)}}}
 
         Returns
         -------
         ArrayLike
         """
-        model_calcs = self.f()
+        # evaluate the models once; a callable yerr is applied to these values
+        values = [source.f() for _, source in self.sources]
+        model_calcs = np.hstack(values)
         if self.mode == "source":
-            resid = (model_calcs - self.temp_y) / self.yerr()
-        elif self.mode == "combined":
-            resid = (model_calcs - self.temp_y) / modifiedSqrt(
-                3 / (1 / self.temp_y + 2 / model_calcs)
+            yerr = np.hstack(
+                [source.yerr(f) for (_, source), f in zip(self.sources, values)]
             )
-        if np.any(np.isnan(resid)):
-            resid[np.isnan(resid)] = np.inf
+        elif self.mode == "combined":
+            yerr = modifiedSqrt(3 / (1 / self._y + 2 / model_calcs))
+        else:
+            raise ValueError(
+                f"Unknown mode {self.mode!r}, use 'source' or 'combined'"
+            )
+        resid = (model_calcs - self._y) / yerr
+        resid[np.isnan(resid)] = np.inf
         return resid
 
     def gaussianPriorResid(self) -> ArrayLike:
@@ -463,13 +469,11 @@ class Fitter:
         ArrayLike
         """
         model_calcs = self.f()
-        returnvalue = self.temp_y * np.log(model_calcs) - model_calcs
+        with np.errstate(divide="ignore", invalid="ignore"):
+            returnvalue = self._y * np.log(model_calcs) - model_calcs
         returnvalue[model_calcs <= 0] = -np.inf
         priors = self.gaussianPriorResid()
-        if len(priors) > 1:
-            priors = -0.5 * priors * priors
-            returnvalue = np.append(returnvalue, priors)
-        return returnvalue
+        return np.append(returnvalue, -0.5 * priors * priors)
 
     def customLlh(self):
         """Calculate a custom likelihood."""
@@ -561,7 +565,10 @@ class Fitter:
         return self.residualCalculation()
 
     def _prepareFit(self):
-        """:meta private:"""
+        """:meta private:
+        Collect the data and create the parameters, as needed before
+        calculating a residual or likelihood."""
+        self._y = self.y()
         self._createParameters()
         self._createLmParameters()
 
@@ -577,8 +584,8 @@ class Fitter:
         llh: bool = False,
         llh_method: str = "gaussian",
         method: str = "leastsq",
-        mcmc_kwargs: dict = {},
-        sampler_kwargs: dict = {},
+        mcmc_kwargs: Optional[dict] = None,
+        sampler_kwargs: Optional[dict] = None,
         filename: Optional[str] = None,
         overwrite: bool = True,
         nwalkers: int = 50,
@@ -604,10 +611,10 @@ class Fitter:
             Set to 'emcee' for random walk.
         mcmc_kwargs : dict, optional
             Dictionary of keyword arguments to be supplied to the MCMC routine
-            (see :func:`emcee.EnsembleSampler.sample`), by default {}
+            (see :func:`emcee.EnsembleSampler.sample`), by default None
         sampler_kwargs : dict, optional
-            Dictionary of keyword arguments to be supplied to the :func:`emcee.EnsembleSampler`
-            , by default {}
+            Dictionary of keyword arguments to be supplied to the
+            :func:`emcee.EnsembleSampler`, by default None
         filename : str, optional
             Filename in which the random walk should be saved, by default None
         overwrite: bool, optional
@@ -631,61 +638,72 @@ class Fitter:
             chisquare, by default True. Set to False when llh is True, since
             the reduced chisquare calculated in this case is not applicable.
         """
-        self.temp_y = self.y()
         self._prepareFit()
-
-        kws = {}
+        method = method.lower()
         kwargs = {}
-        kwargs["iter_cb"] = iter_cb
-        reduce_fcn = self.reductionSum
-        if llh or method.lower() == "emcee":
-            llh = True
-            func = self.llh
-            kws["method"] = llh_method
-            if method.lower() in ["leastsq", "least_squares"]:
+        if method == "emcee":
+            func, kws = self.llh, {"method": llh_method, "emcee": True}
+            kwargs = self._walkOptions(
+                mcmc_kwargs,
+                sampler_kwargs,
+                filename,
+                overwrite,
+                nwalkers,
+                steps,
+                convergence,
+                convergence_iter,
+                convergence_tau,
+            )
+        elif llh:
+            func, kws = self.llh, {"method": llh_method}
+            # leastsq needs residuals; a likelihood needs a scalar minimiser
+            if method in ("leastsq", "least_squares"):
                 method = "slsqp"
         else:
-            func = self.chisquare
-            reduce_fcn = self.reductionSSum
-
-        if method == "emcee":
-            llh = True
-            func = self.llh
-            kws["method"] = llh_method
-            kws["emcee"] = True
-            mcmc_kwargs["skip_initial_state_check"] = True
-            import os.path
-
-            kwargs["load"] = os.path.isfile(filename) and (not overwrite)
-            if filename is not None:
-                sampler_kwargs["backend"] = SATLASHDFBackend(filename)
-            else:
-                sampler_kwargs["backend"] = None
-
-            kwargs["mcmc_kwargs"] = mcmc_kwargs
-            kwargs["sampler_kwargs"] = sampler_kwargs
-
-            kwargs["sampler"] = SATLASSampler
-            kwargs["steps"] = steps
-            kwargs["nwalkers"] = nwalkers
-            kwargs["nan_policy"] = "propagate"
-            kwargs["convergence"] = convergence
-            kwargs["convergence_tau"] = convergence_tau
-            kwargs["convergence_iter"] = convergence_iter
-        if llh:
-            scale_covar = False
+            func, kws = self.chisquare, {}
+        is_llh = llh or method == "emcee"
 
         self.result = minimize(
             func,
             self.lmpars,
             method=method,
             kws=kws,
-            reduce_fcn=reduce_fcn,
-            scale_covar=scale_covar,
+            reduce_fcn=self.reductionSum if is_llh else self.reductionSSum,
+            # the reduced chisquare has no meaning for a likelihood
+            scale_covar=scale_covar and not is_llh,
+            iter_cb=iter_cb,
             **kwargs,
         )
-        del self.temp_y
         self.updateInfo()
+
+    @staticmethod
+    def _walkOptions(
+        mcmc_kwargs: Optional[dict],
+        sampler_kwargs: Optional[dict],
+        filename: Optional[str],
+        overwrite: bool,
+        nwalkers: int,
+        steps: int,
+        convergence: bool,
+        convergence_iter: int,
+        convergence_tau: float,
+    ) -> dict:
+        """:meta private:
+        Keyword arguments for :meth:`SATLASMinimizer.emcee`."""
+        load = filename is not None and os.path.isfile(filename) and not overwrite
+        backend = None if filename is None else SATLASHDFBackend(filename)
+        return {
+            "load": load,
+            "mcmc_kwargs": {**(mcmc_kwargs or {}), "skip_initial_state_check": True},
+            "sampler_kwargs": {**(sampler_kwargs or {}), "backend": backend},
+            "sampler": SATLASSampler,
+            "steps": steps,
+            "nwalkers": nwalkers,
+            "nan_policy": "propagate",
+            "convergence": convergence,
+            "convergence_tau": convergence_tau,
+            "convergence_iter": convergence_iter,
+        }
 
     def reportFit(
         self,
@@ -1033,13 +1051,14 @@ class Source:
                 f = model.f(x)
         return f
 
-    def yerr(self):
-        """:meta private:"""
-        err = None
+    def yerr(self, f: Optional[ArrayLike] = None) -> ArrayLike:
+        """:meta private:
+        Uncertainty on the data. A callable yerr is applied to the response of
+        the models, which is calculated unless given as `f`."""
         if not callable(self.yerr_data):
             err = self.yerr_data
         else:
-            err = self.yerr_data(self.f())
+            err = self.yerr_data(self.f() if f is None else f)
         if self.xerr is not None:
             xerr = self.derivative(self.x) * self.xerr
             err = (err * err + xerr * xerr) ** 0.5

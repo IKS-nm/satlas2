@@ -5,6 +5,7 @@ squares, weighted means), and likelihoods to scipy.stats. Behaviour that is
 known to be wrong is marked ``xfail(strict=True)`` and names the fix.
 """
 
+import copy
 import inspect
 
 import numpy as np
@@ -288,7 +289,6 @@ def test_remove_priors():
 # ----------------------------------------------------------------------------
 def prepared(fitter):
     """Set up the fitter as fit() does, without fitting."""
-    fitter.temp_y = fitter.y()
     fitter._prepareFit()
     return fitter
 
@@ -362,7 +362,6 @@ def test_poisson_loglikelihood_includes_priors():
     assert len(llh) == n_data + 2
 
 
-@pytest.mark.xfail(strict=True, reason="a single prior is ignored (fixed in part 3)")
 def test_poisson_loglikelihood_includes_a_single_prior():
     llh, n_data = poisson_llh_with_priors(["p0"])
     assert len(llh) == n_data + 1
@@ -484,10 +483,48 @@ def test_evaluate_over_walk_returns_one_x_per_source(walk):
     assert len(X) == len(sources)
 
 
-@pytest.mark.xfail(strict=True, reason="mutable default arguments (fixed in part 3)")
 def test_fit_does_not_change_its_defaults(tmp_path):
+    before = copy.deepcopy(
+        {k: v.default for k, v in inspect.signature(Fitter.fit).parameters.items()}
+    )
     fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
     fitter.fit(method="emcee", nwalkers=8, steps=5, filename=str(tmp_path / "c.h5"))
-    defaults = inspect.signature(Fitter.fit).parameters
-    assert defaults["mcmc_kwargs"].default == {}
-    assert defaults["sampler_kwargs"].default == {}
+    after = {k: v.default for k, v in inspect.signature(Fitter.fit).parameters.items()}
+    assert after == before
+
+
+@pytest.mark.parametrize("method", ["emcee", "EMCEE"])
+def test_walk_without_file(method):
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.fit(method=method, nwalkers=8, steps=5)
+    assert fitter.result.method == "emcee"
+    assert fitter.result.chain.shape == (5, 8, 2)
+
+
+def test_unknown_mode_raises():
+    fitter = prepared(fitter_with(counting_source()))
+    fitter.mode = "typo"
+    with pytest.raises(ValueError, match="typo"):
+        fitter.resid()
+
+
+def test_callable_yerr_evaluates_models_once():
+    calls = []
+
+    class Counting(Polynomial):
+        def f(self, x):
+            calls.append(1)
+            return super().f(x)
+
+    source = Source(np.linspace(1, 2, 5), np.full(5, 4.0), yerr=np.sqrt, name="s")
+    source.addModel(Counting([4.0], name="c"))
+    fitter = prepared(fitter_with(source))
+    calls.clear()
+    fitter.resid()
+    assert len(calls) == 1
+
+
+def test_likelihood_can_be_evaluated_after_a_fit():
+    fitter = fitter_with(counting_source())
+    fitter.fit()
+    assert np.isfinite(fitter.llh(fitter.lmpars, method="poisson", emcee=True))

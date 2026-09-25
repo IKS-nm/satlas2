@@ -38,6 +38,8 @@ entries are left out of a release):
 
 ### 🚀 Performance improvements
 
+- Fits with a callable `yerr` (e.g. Poisson-style weighting) evaluate the models
+  once per step instead of twice, making them about twice as fast.
 - The Wigner symbols in `HFS` are cached across instances: creating a model is up to
   1000 times faster after the first model with the same spins.
 - `HFS` evaluates all lines, and sidepeaks, in one vectorised call, and uses closed
@@ -54,6 +56,12 @@ entries are left out of a release):
   each character of the name instead of the name.
 - The correlations stored in a model included those of other models whose names
   start with the same text (e.g. `bg` and `bg2`), under the wrong names.
+- A random walk without `filename` failed, as did `method="EMCEE"` in capitals.
+- A single Gaussian prior was ignored in the Poisson likelihood.
+- `Fitter.fit` changed its own default `mcmc_kwargs` and `sampler_kwargs`, so
+  settings leaked into later fits.
+- The likelihood can be calculated after a fit; an unknown `Fitter.mode` raises a
+  clear `ValueError`.
 - Fix the shape of the log-probabilities in the random walk.
 - `HFS` with sidepeaks: the scale was applied once per line instead of once,
   `np.math.factorial` failed on NumPy 2, `prefunc` was applied twice and scalar
@@ -82,6 +90,8 @@ entries are left out of a release):
   options.
 - The `Fitter` looks up parameters by their full name in one place, and builds the
   lmfit parameters in a single, documented loop.
+- `Fitter.fit` builds the random walk options in a separate method, and the
+  data is kept with the parameters instead of in a temporary attribute.
 - Split the `HFS` constructor into smaller steps and calculate the line positions
   in one place.
 
