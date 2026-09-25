@@ -12,15 +12,18 @@ from math import factorial
 
 import numpy as np
 from numpy.typing import ArrayLike
-from sympy.physics.wigner import wigner_3j, wigner_6j
 
 from .. import lineshapes
 from ..core import Model, Parameter
+from ._wigner import wigner_3j, wigner_6j
 
 __all__ = ["HFS"]
 
 # Amplitudes below this (before normalisation) are considered forbidden
 _MIN_STRENGTH = 1e-12
+# Largest number of elements of the (peaks x points) array evaluated at once,
+# which limits the memory use for large spectra (2**20 floats is 8 MB)
+_MAX_CHUNK_ELEMENTS = 2**20
 
 
 def triangle_condition(spin_1: float, spin_2: float, order: float) -> bool:
@@ -35,12 +38,12 @@ def _level_label(F: float) -> str:
     return f"{F:.0f}" if F % 1 == 0 else f"{2 * F:.0f}_2"
 
 
-# The Wigner symbols are evaluated symbolically and are slow, but only depend
-# on the spins, so they are cached across all HFS instances.
+# The Wigner symbols only depend on the spins, so the derived coefficients are
+# cached across all HFS instances.
 @cache
 def _quadrupole_norm(I: float, J: float, k: int) -> float:
     """Normalisation of the rank-k interaction, independent of F."""
-    return float(wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
+    return wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J)
 
 
 @cache
@@ -55,7 +58,7 @@ def _shift_coefficients(I: float, J: float, F: float) -> tuple[float, float, flo
     phase = (-1) ** (I + J + F)
     coefficients = []
     for k in (1, 2, 3):  # dipole, quadrupole, octupole
-        six_j = float(wigner_6j(I, J, F, J, I, k))
+        six_j = wigner_6j(I, J, F, J, I, k)
         norm = _quadrupole_norm(I, J, k)
         shift = phase * six_j / norm if norm != 0 else 0
         if not np.isfinite(shift):
@@ -74,7 +77,7 @@ def _line_strength(
     I: float, J1: float, J2: float, F1: float, F2: float, order: int
 ) -> float:
     """Squared 6j symbol determining the strength of a line."""
-    return float(wigner_6j(J2, F2, I, F1, J1, float(order)) ** 2)
+    return wigner_6j(J2, F2, I, F1, J1, order) ** 2
 
 
 class _SaturationParameter(Parameter):
@@ -390,8 +393,16 @@ class HFS(Model):
         self, x: np.ndarray, positions: np.ndarray, amplitudes: np.ndarray
     ) -> np.ndarray:
         """Sum the peaks at the given positions and amplitudes in the (already
-        transformed) points x."""
-        return amplitudes @ self.peak(x[np.newaxis, :] - positions[:, np.newaxis])
+        transformed) points x, evaluating a limited number of points at once."""
+        chunk = max(1, _MAX_CHUNK_ELEMENTS // max(len(positions), 1))
+        return np.concatenate(
+            [
+                amplitudes
+                @ self.peak(x[np.newaxis, start : start + chunk] - positions[:, np.newaxis])
+                for start in range(0, len(x), chunk)
+            ]
+            or [np.zeros(0)]
+        )
 
     def fUnshifted(self, x: ArrayLike) -> ArrayLike:
         """:meta private:

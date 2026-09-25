@@ -38,6 +38,10 @@ entries are left out of a release):
 
 ### 🚀 Performance improvements
 
+- The Wigner 3j and 6j symbols are calculated numerically (exactly, with the Racah
+  formulas) instead of with sympy: creating the first `HFS` model takes about 2 ms
+  instead of 100 ms, and importing satlas2 no longer imports sympy.
+- `HFS` evaluates large spectra in chunks, limiting the memory use.
 - Fits with a callable `yerr` (e.g. Poisson-style weighting) evaluate the models
   once per step instead of twice, making them about twice as fast.
 - The Wigner symbols in `HFS` are cached across instances: creating a model is up to
@@ -90,6 +94,7 @@ entries are left out of a release):
 
 ### 📦 Build system
 
+- sympy is no longer a dependency; it is only used in the tests.
 - Run the tests with coverage on every push to master and every pull request,
   for Python 3.10 to 3.13 on Linux and Python 3.12 on Windows.
 

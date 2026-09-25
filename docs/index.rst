@@ -48,7 +48,6 @@ This package has the following dependencies:
     * `SciPy <http://www.scipy.org/>`_
     * `h5py <http://docs.h5py.org/en/latest/index.html>`_
     * `emcee <http://dan.iel.fm/emcee/current/>`_
-    * `sympy <http://www.sympy.org/>`_
     * `LMFIT <http://lmfit.github.io/lmfit-py/index.html>`_
     * `numdifftools <http://numdifftools.readthedocs.io/en/latest/>`_
     * `uncertainties <https://pythonhosted.org/uncertainties/>`_
