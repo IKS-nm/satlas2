@@ -917,52 +917,36 @@ class Fitter:
         """
         reader = SATLASHDFBackend(filename)
         var_names = list(reader.labels)
-        data = reader.get_chain(flat=False, discard=burnin)
-        flatchain = data.reshape((-1, len(var_names)))
-        if x is None:
-            method = "f"
-            args = ()
-        else:
-            method = "evaluate"
-            args = (x,)
-        if evals > 0:
-            if evals < flatchain.shape[0]:
-                choices = np.random.choice(flatchain.shape[0], evals)
-                flatchain = flatchain[choices]
-        else:
-            pass
-        try:
-            names = [p for p in self.lmpars.keys()]
-        except:
+        flatchain = reader.get_chain(flat=True, discard=burnin)
+        if 0 < evals < len(flatchain):
+            flatchain = flatchain[np.random.choice(len(flatchain), evals)]
+        if not hasattr(self, "lmpars"):
             self._prepareFit()
-            names = [p for p in self.lmpars.keys()]
-        common = [(i, name) for i, name in enumerate(var_names) if name in names]
-        bands = []
-        X = []
+        columns = [
+            (i, self._parameter(name))
+            for i, name in enumerate(var_names)
+            if name in self.lmpars
+        ]
+
+        def evaluate(source: Source) -> ArrayLike:
+            return source.f() if x is None else source.evaluate(x)
+
+        samples = [[] for _ in self.sources]
         for sample in flatchain:
-            for column, name in common:
-                self._parameter(name).value = sample[column]
-            for i, (_, source) in enumerate(self.sources):
-                try:
-                    bands[i] = np.vstack(
-                        [bands[i], getattr(source, method)(*args)]
-                    )
-                except Exception as e:
-                    bands.append(getattr(source, method)(*args))
-                if len(args) > 0:
-                    X.append(args[0])
-                else:
-                    X.append(source.x)
-        for i, band in enumerate(bands):
-            q = np.percentile(band, [16, 84], axis=0)
-            bands[i] = q
+            for column, parameter in columns:
+                parameter.value = sample[column]
+            for evaluations, (_, source) in zip(samples, self.sources):
+                evaluations.append(evaluate(source))
+
+        # the middle row is evaluated with the median parameters
         median = np.percentile(flatchain, 50, axis=0)
-        for column, name in common:
-            self._parameter(name).value = median[column]
-        for i, (_, source) in enumerate(self.sources):
-            bands[i] = np.vstack(
-                [bands[i][0], getattr(source, method)(*args), bands[i][1]]
-            )
+        for column, parameter in columns:
+            parameter.value = median[column]
+        bands = []
+        for evaluations, (_, source) in zip(samples, self.sources):
+            low, high = np.percentile(evaluations, [16, 84], axis=0)
+            bands.append(np.vstack([low, evaluate(source), high]))
+        X = [source.x if x is None else x for _, source in self.sources]
         return X, bands
 
 

@@ -29,6 +29,11 @@ entries are left out of a release):
 
 ### 💥 Breaking changes
 
+- `Fitter.evaluateOverWalk` returns one array of x values per source, instead of
+  one per source for every sample of the walk.
+- A random walk that is too short for a reliable autocorrelation time emits a
+  `RuntimeWarning` instead of printing the message; stopping at convergence is
+  reported in the result message and logged instead of printed.
 - `HFS` no longer has the `scaling_Al`, `scaling_Au`, `scaling_Bl`, `scaling_Bu`,
   `scaling_Cl` and `scaling_Cu` attributes; use `HFS.pos()` for the line positions.
 - The `order`, `use_saturation` and `saturation` arguments of `HFS` are inserted
@@ -38,6 +43,8 @@ entries are left out of a release):
 
 ### 🚀 Performance improvements
 
+- `Fitter.evaluateOverWalk` collects the evaluations in a list instead of
+  stacking the arrays after every sample, which took quadratic time.
 - The Wigner 3j and 6j symbols are calculated numerically (exactly, with the Racah
   formulas) instead of with sympy: creating the first `HFS` model takes about 2 ms
   instead of 100 ms, and importing satlas2 no longer imports sympy.
@@ -63,6 +70,7 @@ entries are left out of a release):
   each character of the name instead of the name.
 - The correlations stored in a model included those of other models whose names
   start with the same text (e.g. `bg` and `bg2`), under the wrong names.
+- A `pool` passed in `sampler_kwargs` was ignored by the random walk.
 - A random walk without `filename` failed, as did `method="EMCEE"` in capitals.
 - A single Gaussian prior was ignored in the Poisson likelihood.
 - `Fitter.fit` changed its own default `mcmc_kwargs` and `sampler_kwargs`, so
@@ -110,6 +118,9 @@ entries are left out of a release):
 - `HFS`, `Voigt` and `SkewedVoigt` share their peak shapes and FWHM calculation
   instead of each having a copy; add tests for all general models.
 - `Source` and `generateSpectrum` share one way of summing models.
+- The random walk is split into named steps (bounds, backend, sampling,
+  summary), and summarising a walk is shared with `readWalk`; seeded walks
+  give exactly the same chains as before.
 - `Fitter.fit` builds the random walk options in a separate method, and the
   data is kept with the parameters instead of in a temporary attribute.
 - Split the `HFS` constructor into smaller steps and calculate the line positions

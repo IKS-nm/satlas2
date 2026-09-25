@@ -482,7 +482,6 @@ def test_evaluate_over_walk_band_shape(walk):
         assert np.all(band[1] <= band[2] + 1e-12)
 
 
-@pytest.mark.xfail(strict=True, reason="one x array per sample (fixed in part 5)")
 def test_evaluate_over_walk_returns_one_x_per_source(walk):
     fitter, sources, filename = walk
     X, _ = fitter.evaluateOverWalk(filename, burnin=20, evals=30)
@@ -534,3 +533,58 @@ def test_likelihood_can_be_evaluated_after_a_fit():
     fitter = fitter_with(counting_source())
     fitter.fit()
     assert np.isfinite(fitter.llh(fitter.lmpars, method="poisson", emcee=True))
+
+
+def small_walk(tmp_path, **kwargs):
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.fit()
+    filename = str(tmp_path / "walk.h5")
+    np.random.seed(5)
+    fitter.fit(method="emcee", nwalkers=8, filename=filename, **kwargs)
+    return fitter, filename
+
+
+def test_resuming_a_walk_extends_the_chain(tmp_path):
+    fitter, filename = small_walk(tmp_path, steps=20)
+    first = satlas2.SATLASHDFBackend(filename).get_chain()
+    fitter.fit(method="emcee", nwalkers=8, steps=15, filename=filename, overwrite=False)
+    chain = satlas2.SATLASHDFBackend(filename).get_chain()
+    assert chain.shape == (35, 8, 2)
+    assert np.array_equal(chain[:20], first)
+
+
+def test_walk_stops_at_convergence(tmp_path):
+    fitter, _ = small_walk(
+        tmp_path, steps=5000, convergence=True, convergence_iter=5, convergence_tau=0.5
+    )
+    assert fitter.result.chain.shape[0] < 5000
+    assert "converged" in fitter.result.message
+
+
+def test_short_walk_warns_about_autocorrelation(tmp_path):
+    with pytest.warns(RuntimeWarning, match="autocorrelation"):
+        small_walk(tmp_path, steps=10)
+
+
+def test_walk_uses_a_given_pool(tmp_path):
+    class Pool:
+        calls = 0
+
+        def map(self, func, iterable):
+            Pool.calls += 1
+            return list(map(func, iterable))
+
+    small_walk(tmp_path, steps=5, sampler_kwargs={"pool": Pool()})
+    assert Pool.calls > 0
+
+
+def test_walk_statistics_match_the_chain(tmp_path):
+    fitter, _ = small_walk(tmp_path, steps=40)
+    flat = fitter.result.chain.reshape(-1, 2)
+    names = fitter.result.var_names
+    low, median, high = np.percentile(flat, [15.87, 50, 84.13], axis=0)
+    for i, name in enumerate(names):
+        assert result_value(fitter, name) == pytest.approx(median[i])
+        assert result_stderr(fitter, name) == pytest.approx((high[i] - low[i]) / 2)
+    correl = np.corrcoef(flat.T)[0, 1]
+    assert fitter.result.params[names[0]].correl[names[1]] == pytest.approx(correl)
