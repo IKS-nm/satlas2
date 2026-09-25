@@ -6,13 +6,14 @@ Implementation of the HFSModel class, currently only supplied with a Voigt profi
 
 from __future__ import annotations
 
+from collections.abc import Callable
+from functools import cache
 from math import factorial
-from typing import Tuple
 
 import numpy as np
 import uncertainties as unc
 from numpy.typing import ArrayLike
-from scipy.special import voigt_profile, erf
+from scipy.special import erf, voigt_profile
 from sympy.physics.wigner import wigner_3j, wigner_6j
 
 from ..core import Model, Parameter
@@ -23,11 +24,62 @@ sqrt2 = 2**0.5
 sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
 
+# Amplitudes below this (before normalisation) are considered forbidden
+_MIN_STRENGTH = 1e-12
+
 
 def triangle_condition(spin_1: float, spin_2: float, order: float) -> bool:
+    """Check if three angular momenta can be coupled to a total of zero."""
     return (abs(spin_1 - spin_2) <= order <= spin_1 + spin_2) and (
         spin_1 + spin_2 + order
     ) % 1 == 0
+
+
+def _level_label(F: float) -> str:
+    """Label of a hyperfine level, half-integers as '<2F>_2'."""
+    return f"{F:.0f}" if F % 1 == 0 else f"{2 * F:.0f}_2"
+
+
+# The Wigner symbols are evaluated symbolically and are slow, but only depend
+# on the spins, so they are cached across all HFS instances.
+@cache
+def _quadrupole_norm(I: float, J: float, k: int) -> float:
+    """Normalisation of the rank-k interaction, independent of F."""
+    return float(wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
+
+
+@cache
+def _shift_coefficients(I: float, J: float, F: float) -> tuple[float, float, float]:
+    """Energy shift of the level F per unit of the A, B and C constants.
+
+    The shift of the level is ``A * a + B * b + C * c``, with (a, b, c) the
+    returned coefficients. For example, a = K/2 with K = F(F+1) - I(I+1) - J(J+1).
+    If the interaction does not exist for the given spins (e.g. the quadrupole
+    interaction for J < 1), its coefficient is 0.
+    """
+    phase = (-1) ** (I + J + F)
+    coefficients = []
+    for k in (1, 2, 3):  # dipole, quadrupole, octupole
+        six_j = float(wigner_6j(I, J, F, J, I, k))
+        norm = _quadrupole_norm(I, J, k)
+        shift = phase * six_j / norm if norm != 0 else 0
+        if not np.isfinite(shift):
+            shift = 0
+        # conventions of the A and B constants
+        if k == 1:
+            shift *= I * J
+        elif k == 2:
+            shift /= 4
+        coefficients.append(shift)
+    return tuple(coefficients)
+
+
+@cache
+def _line_strength(
+    I: float, J1: float, J2: float, F1: float, F2: float, order: int
+) -> float:
+    """Squared 6j symbol determining the strength of a line."""
+    return float(wigner_6j(J2, F2, I, F1, J1, float(order)) ** 2)
 
 
 class HFS(Model):
@@ -73,13 +125,14 @@ class HFS(Model):
         and initial intensities, by default 1
     use_saturation : bool, optional
         If True, apply the saturation model to transition amplitudes. Defaults to False.
-        Cannot be combined with `racah`.
+        Cannot be combined with `racah`. Adds a `Saturation` parameter to the model.
     saturation : float, optional
         Saturation parameter (>= 0). Only used when `use_saturation` is True;
         otherwise the value is ignored. The value controls the exponential
         mapping between Racah intensities and saturated amplitudes.
     prefunc : callable, optional
         Transformation to be applied on the input before evaluation, by default None
+
     """
 
     def __init__(
@@ -103,26 +156,15 @@ class HFS(Model):
         order: int = 1,
         use_saturation: bool = False,
         saturation: float = 0.0,
-        prefunc: callable | None = None,
+        prefunc: Callable | None = None,
     ):
         super().__init__(name, prefunc=prefunc)
-        if A is None:
-            A = [0, 0]
-        if B is None:
-            B = [0, 0]
-        if C is None:
-            C = [0, 0]
-        # store flags (plain attributes, no property getters/setters)
-        self.use_racah = racah
-        self.use_saturation = use_saturation
-        # Prevent incompatible settings
-        if self.use_racah and self.use_saturation:
+        if racah and use_saturation:
             raise ValueError(
                 "Parameters 'racah' and 'use_saturation' cannot both be True"
             )
-        J1, J2 = J
-        lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
-        upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
+        self.use_racah = racah
+        self.use_saturation = use_saturation
 
         self.peakfunc = {
             "voigt": self.voigtPeak,
@@ -132,86 +174,92 @@ class HFS(Model):
             "custom": self.customPeak,
         }[peak.lower()]
 
-        self.lines = []
-        # temporary lists to build amplitudes
-        self._racah_list = []
-        self._sat_list = []
-        self.intensities = {}
-        self.scaling_Al = {}
-        self.scaling_Bl = {}
-        self.scaling_Cl = {}
-        self.scaling_Au = {}
-        self.scaling_Bu = {}
-        self.scaling_Cu = {}
+        J1, J2 = J
+        self._build_lines(I, J1, J2, order)
+        self.params = self._build_parameters(
+            A=[0, 0] if A is None else A,
+            B=[0, 0] if B is None else B,
+            C=[0, 0] if C is None else C,
+            df=df,
+            fwhmg=fwhmg,
+            fwhml=fwhml,
+            peak=peak.lower(),
+            peak_kwargs=peak_kwargs,
+            N=N,
+            offset=offset,
+            poisson=poisson,
+            scale=scale,
+            saturation=saturation,
+        )
+        self._amplitude_keys = ["Amp" + line for line in self.lines]
+        self.f = self.fUnshifted if N is None else self.fShifted
+        self._fix_unused_couplings(I, J1, J2)
 
+    def _build_lines(self, I: float, J1: float, J2: float, order: int) -> None:
+        """Determine the allowed transitions, their shifts and their intensities.
+
+        Sets :attr:`lines`, the shift matrix and the normalised Racah and
+        saturated amplitudes.
+        """
         if not triangle_condition(J1, J2, order):
             raise ValueError(
                 f"Triangle condition not satisfied for J1={J1}, J2={J2} and order={order}."
             )
+        lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
+        upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
 
-        for i, F1 in enumerate(lower_F):
-            for j, F2 in enumerate(upper_F):
-                if triangle_condition(F1, F2, order):
-                    wigner = (
-                        wigner_6j(J2, float(F2), I, float(F1), J1, float(order)) ** 2
-                    )
-                    if wigner < 1e-12:
-                        continue
-                    if F1 % 1 == 0:
-                        F1_str = f"{F1:.0f}"
-                    else:
-                        F1_str = f"{2 * F1:.0f}_2"
+        lines, lower_shifts, upper_shifts, racah, saturated = [], [], [], [], []
+        for F1 in map(float, lower_F):
+            for F2 in map(float, upper_F):
+                if not triangle_condition(F1, F2, order):
+                    continue
+                wigner = _line_strength(I, J1, J2, F1, F2, order)
+                if wigner < _MIN_STRENGTH:
+                    continue
+                lines.append(f"{_level_label(F1)}to{_level_label(F2)}")
+                lower_shifts.append(self.calcShift(I, J1, F1))
+                upper_shifts.append(self.calcShift(I, J2, F2))
+                racah.append((2 * F1 + 1) * (2 * F2 + 1) * wigner)
+                saturated.append(2 * F1 + 1)
 
-                    if F2 % 1 == 0:
-                        F2_str = f"{F2:.0f}"
-                    else:
-                        F2_str = f"{2 * F2:.0f}_2"
-
-                    line = f"{F1_str}to{F2_str}"
-                    self.lines.append(line)
-
-                    C1, D1, E1 = self.calcShift(I, J1, F1)
-                    C2, D2, E2 = self.calcShift(I, J2, F2)
-
-                    self.scaling_Al[line] = C1
-                    self.scaling_Bl[line] = D1
-                    self.scaling_Cl[line] = E1
-                    self.scaling_Au[line] = C2
-                    self.scaling_Bu[line] = D2
-                    self.scaling_Cu[line] = E2
-
-                    intens = float((2 * F1 + 1) * (2 * F2 + 1) * wigner)  # DO NOT REMOVE CAST TO FLOAT!!!
-                    # store racah intensity and saturated proxy
-                    self._racah_list.append(intens)
-                    self._sat_list.append(2 * F1 + 1)
-                else:
-                    print(f"Line {F1} to {F2} is forbidden and will be skipped.")
-
-        # normalize racah and saturated amplitudes
-        if len(self._racah_list) > 0:
-            racah_arr = np.array(self._racah_list, dtype=float)
-            racah_arr = racah_arr / racah_arr.max()
-            sat_arr = np.array(self._sat_list, dtype=float)
-            sat_arr = sat_arr / sat_arr.max()
-        else:
-            racah_arr = np.array([])
-            sat_arr = np.array([])
-
-        # store arrays for saturation calculations
-        self.racah_amplitudes = racah_arr
-        self.saturated_amplitudes = sat_arr
-
-        # only apply a non-zero saturation mapping when explicitly enabled
-        init_amps = self._calculate_transitional_intensities(
-            saturation if use_saturation else 0.0
+        self.lines = lines
+        # (n_lines, 3) coefficients of A, B and C of the lower and upper level
+        self._lower_shifts = np.array(lower_shifts, dtype=float).reshape(-1, 3)
+        self._upper_shifts = np.array(upper_shifts, dtype=float).reshape(-1, 3)
+        racah = np.array(racah, dtype=float)
+        saturated = np.array(saturated, dtype=float)
+        # normalise to the strongest line
+        self.racah_amplitudes = racah / racah.max() if len(racah) else racah
+        self.saturated_amplitudes = (
+            saturated / saturated.max() if len(saturated) else saturated
         )
 
-        # populate Parameter objects for amplitudes (respecting racah/use_saturation)
-        for label, amp in zip(self.lines, init_amps):
-            vary_flag = not (racah or use_saturation)
-            self.intensities["Amp" + label] = Parameter(
-                value=float(amp), min=0, vary=vary_flag
-            )
+    def _build_parameters(
+        self,
+        A,
+        B,
+        C,
+        df,
+        fwhmg,
+        fwhml,
+        peak,
+        peak_kwargs,
+        N,
+        offset,
+        poisson,
+        scale,
+        saturation,
+    ) -> dict:
+        """Create the Parameter objects of the model."""
+        # Amplitudes are only free if neither Racah nor saturation fixes them
+        vary_amplitudes = not (self.use_racah or self.use_saturation)
+        initial = self._calculate_transitional_intensities(
+            saturation if self.use_saturation else 0.0
+        )
+        self.intensities = {
+            "Amp" + line: Parameter(value=float(amp), min=0, vary=vary_amplitudes)
+            for line, amp in zip(self.lines, initial)
+        }
 
         pars = {
             "centroid": Parameter(value=df),
@@ -223,47 +271,38 @@ class HFS(Model):
             "Cu": Parameter(value=C[1]),
             "FWHMG": Parameter(value=fwhmg, min=0.01),
             "FWHML": Parameter(value=fwhml, min=0.01),
-            "scale": Parameter(value=scale, min=0, vary=racah or use_saturation),
+            "scale": Parameter(value=scale, min=0, vary=not vary_amplitudes),
         }
-        if use_saturation:
+        if self.use_saturation:
             pars["Saturation"] = Parameter(value=saturation, min=0)
 
-        if peak.lower() == "lorentzian":
+        if peak == "lorentzian":
             pars["FWHMG"].value, pars["FWHMG"].vary, pars["FWHMG"].min = 0, False, 0
-        if peak.lower() == "gaussian":
+        if peak == "gaussian":
             pars["FWHML"].value, pars["FWHML"].vary, pars["FWHML"].min = 0, False, 0
-        if peak_kwargs is not None:
-            for peak_arg in peak_kwargs:
-                pars[peak_arg] = Parameter(
-                    value=peak_kwargs[peak_arg]["value"],
-                    min=peak_kwargs[peak_arg].get("min", -np.inf),
-                    max=peak_kwargs[peak_arg].get("max", np.inf),
-                    vary=peak_kwargs[peak_arg].get("vary", True),
-                    expr=peak_kwargs[peak_arg].get("expr", None),
-                )
+        for peak_arg, spec in (peak_kwargs or {}).items():
+            pars[peak_arg] = Parameter(
+                value=spec["value"],
+                min=spec.get("min", -np.inf),
+                max=spec.get("max", np.inf),
+                vary=spec.get("vary", True),
+                expr=spec.get("expr", None),
+            )
         if N is not None:
             pars["N"] = Parameter(value=N, vary=False)
             pars["Offset"] = Parameter(value=offset)
             pars["Poisson"] = Parameter(value=poisson, min=0, max=1)
-            self.f = self.fShifted
-        else:
-            self.f = self.fUnshifted
-        pars = {**pars, **self.intensities}
+        return {**pars, **self.intensities}
 
-        self.params = pars
-
-        if I < 1.5 or J1 < 1.5:
-            self.params["Cl"].vary = False
-        if I < 1.5 or J2 < 1.5:
-            self.params["Cu"].vary = False
-        if I < 1 or J1 < 1:
-            self.params["Bl"].vary = False
-        if I < 1 or J2 < 1:
-            self.params["Bu"].vary = False
-        if I == 0 or J1 == 0:
-            self.params["Al"].vary = False
-        if I == 0 or J2 == 0:
-            self.params["Au"].vary = False
+    def _fix_unused_couplings(self, I: float, J1: float, J2: float) -> None:
+        """Fix the coupling constants that have no effect for the given spins."""
+        for level, J in (("l", J1), ("u", J2)):
+            if I < 1.5 or J < 1.5:
+                self.params["C" + level].vary = False
+            if I < 1 or J < 1:
+                self.params["B" + level].vary = False
+            if I == 0 or J == 0:
+                self.params["A" + level].vary = False
 
     def _calculate_transitional_intensities(self, s: float) -> np.ndarray:
         """Calculate transitional amplitudes between Racah and saturated.
@@ -278,8 +317,37 @@ class HFS(Model):
         sat = self.saturated_amplitudes
         rac = self.racah_amplitudes
         transitional = -sat * np.expm1(-rac * s / sat)
-        transitional = transitional / transitional.max()
-        return transitional
+        return transitional / transitional.max()
+
+    def _amplitudes(self) -> np.ndarray:
+        """Current relative amplitude of each line."""
+        if self.use_saturation:
+            return self._calculate_transitional_intensities(
+                float(self.params["Saturation"].value)
+            )
+        return np.array([self.params[key].value for key in self._amplitude_keys])
+
+    def _couplings(self, level: str) -> np.ndarray:
+        """Current values of A, B and C of the lower ("l") or upper ("u") level."""
+        return np.array([self.params[c + level].value for c in "ABC"])
+
+    def _positions(self) -> np.ndarray:
+        """Current position of each line: the centroid plus the shift of the
+        upper level minus the shift of the lower level."""
+        upper = self._upper_shifts @ self._couplings("u")
+        lower = self._lower_shifts @ self._couplings("l")
+        return self.params["centroid"].value + upper - lower
+
+    def _prepare(self, x: ArrayLike) -> np.ndarray:
+        """Turn the input into a transformed 1D array."""
+        return self.transform(np.atleast_1d(x))
+
+    def _sum_peaks(
+        self, x: np.ndarray, positions: np.ndarray, amplitudes: np.ndarray
+    ) -> np.ndarray:
+        """Sum the peaks at the given positions and amplitudes in the (already
+        transformed) points x."""
+        return amplitudes @ self.peak(x[np.newaxis, :] - positions[:, np.newaxis])
 
     def fUnshifted(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -293,45 +361,9 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params["centroid"].value
-        Al = self.params["Al"].value
-        Au = self.params["Au"].value
-        Bl = self.params["Bl"].value
-        Bu = self.params["Bu"].value
-        Cl = self.params["Cl"].value
-        Cu = self.params["Cu"].value
+        x = self._prepare(x)
         scale = self.params["scale"].value
-
-        try:
-            result = np.zeros(len(x))
-        except TypeError:
-            x = np.array([x])
-            result = np.zeros(len(x))
-        x = self.transform(x)
-        # determine amplitudes: either use saturation mapping or stored Amp params
-        if self.use_saturation:
-            s_val = float(self.params["Saturation"].value)
-            amp_values = self._calculate_transitional_intensities(s_val)
-        else:
-            amp_values = None
-
-        for idx, line in enumerate(self.lines):
-            pos = (
-                centroid
-                + Au * self.scaling_Au[line]
-                + Bu * self.scaling_Bu[line]
-                + Cu * self.scaling_Cu[line]
-                - Al * self.scaling_Al[line]
-                - Bl * self.scaling_Bl[line]
-                - Cl * self.scaling_Cl[line]
-            )
-            if amp_values is None:
-                amp = self.params["Amp" + line].value
-            else:
-                amp = float(amp_values[idx])
-            result += scale * amp * self.peak(x - pos)
-
-        return result
+        return scale * self._sum_peaks(x, self._positions(), self._amplitudes())
 
     def fShifted(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -346,51 +378,19 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params["centroid"].value
-        Al = self.params["Al"].value
-        Au = self.params["Au"].value
-        Bl = self.params["Bl"].value
-        Bu = self.params["Bu"].value
-        Cl = self.params["Cl"].value
-        Cu = self.params["Cu"].value
+        x = self._prepare(x)
         scale = self.params["scale"].value
-        N = self.params["N"].value
+        N = int(self.params["N"].value)
         offset = self.params["Offset"].value
         poisson = self.params["Poisson"].value
 
-        try:
-            result = np.zeros(len(x))
-        except TypeError:
-            x = np.array([x])
-            result = np.zeros(len(x))
-        x = self.transform(x)
-        # determine amplitudes: either use saturation mapping or stored Amp params
-        if self.use_saturation:
-            s_val = float(self.params['Saturation'].value)
-            amp_values = self._calculate_transitional_intensities(s_val)
-        else:
-            amp_values = None
-
-        for idx, line in enumerate(self.lines):
-            pos = (
-                centroid
-                + Au * self.scaling_Au[line]
-                + Bu * self.scaling_Bu[line]
-                + Cu * self.scaling_Cu[line]
-                - Al * self.scaling_Al[line]
-                - Bl * self.scaling_Bl[line]
-                - Cl * self.scaling_Cl[line]
-            )
-            amp_val = float(amp_values[idx]) if amp_values is not None else self.params['Amp' + line].value
-            for i in range(N + 1):
-                result += (
-                    amp_val
-                    * self.peak(x - i * offset - pos)
-                    * (poisson**i)
-                    / factorial(i)
-                )
-
-        return scale * result
+        # every line has N+1 copies, shifted by i*offset and weighted by a
+        # Poisson-like factor
+        order = np.arange(N + 1)
+        weights = poisson**order / np.array([factorial(int(i)) for i in order])
+        positions = self._positions()[:, np.newaxis] + order * offset
+        amplitudes = self._amplitudes()[:, np.newaxis] * weights
+        return scale * self._sum_peaks(x, positions.ravel(), amplitudes.ravel())
 
     def peak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -430,7 +430,7 @@ class HFS(Model):
 
     def lorentzPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
-        Calculates the lorentzian profile
+        Calculates the lorentzian profile, normalised to a height of 1
 
         Parameters
         ----------
@@ -442,11 +442,11 @@ class HFS(Model):
         ArrayLike
         """
         gamma = self.params["FWHML"].value / 2
-        return voigt_profile(x, 0, gamma) / voigt_profile(0, 0, gamma)
+        return 1 / (1 + (x / gamma) ** 2)
 
     def gaussPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
-        Calculates the Gaussian profile
+        Calculates the Gaussian profile, normalised to a height of 1
 
         Parameters
         ----------
@@ -458,7 +458,7 @@ class HFS(Model):
         ArrayLike
         """
         sigma = self.params["FWHMG"].value / sqrt2log2t2
-        return voigt_profile(x, sigma, 0) / voigt_profile(0, sigma, 0)
+        return np.exp(-0.5 * (x / sigma) ** 2)
 
     def skewPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -497,7 +497,7 @@ class HFS(Model):
         """
         raise NotImplementedError
 
-    def calcShift(self, I: float, J: float, F: int) -> ArrayLike:
+    def calcShift(self, I: float, J: float, F: int) -> list[float]:
         """:meta private:
         Calculate the coefficients for the energy shift due to the hyperfine
         interaction up to the octupole moment. A general equation is used
@@ -514,25 +514,10 @@ class HFS(Model):
 
         Returns
         -------
-        ArrayLike
+        list[float]
             Individual coefficients, in ascending order
         """
-        phase = (-1) ** (I + J + F)
-        contrib = []
-        for k in range(1, 4):
-            n = float(wigner_6j(I, J, float(F), J, I, k))
-            d = float(wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
-            with np.errstate(invalid="ignore", divide="ignore"):
-                shift = phase * n / d
-            if not np.isfinite(shift):
-                contrib.append(0)
-            else:
-                if k == 1:
-                    shift = shift * (I * J)
-                elif k == 2:
-                    shift = shift / 4
-                contrib.append(shift)
-        return contrib
+        return list(_shift_coefficients(float(I), float(J), float(F)))
 
     def pos(self) -> ArrayLike:
         """Returns the positions of the peaks in MHz in the hyperfine spectrum
@@ -541,34 +526,15 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params["centroid"].value
-        Al = self.params["Al"].value
-        Au = self.params["Au"].value
-        Bl = self.params["Bl"].value
-        Bu = self.params["Bu"].value
-        Cl = self.params["Cl"].value
-        Cu = self.params["Cu"].value
-        pos = []
-        for line in self.lines:
-            p = (
-                centroid
-                + Au * self.scaling_Au[line]
-                + Bu * self.scaling_Bu[line]
-                + Cu * self.scaling_Cu[line]
-                - Al * self.scaling_Al[line]
-                - Bl * self.scaling_Bl[line]
-                - Cl * self.scaling_Cl[line]
-            )
-            pos.append(p)
-        return pos
+        return self._positions()
 
-    def calculateFWHM(self) -> Tuple[float, float]:
+    def calculateFWHM(self) -> tuple[float, float]:
         """Calculate the total FWHM of the profiles, with uncertainty,
         taking the correlations into account.
 
         Returns
         -------
-        Tuple[float, float]
+        tuple[float, float]
             Tuple of the form (value, uncertainty)
         """
         G, Gu = self.params["FWHMG"].value, self.params["FWHMG"].unc
