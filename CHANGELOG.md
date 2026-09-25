@@ -47,6 +47,8 @@ entries are left out of a release):
 
 ### ✨ Enhancements
 
+- New `satlas2.lineshapes` module with the Gaussian, Lorentzian and Voigt peaks,
+  the skewing factor and the total Voigt FWHM, used by all models.
 - `satlas2.sumModels(models, x)` sums the responses of several models.
 - The metadata dataframe can be created after reading a random walk, and the
   results of a random walk have a message and success flag.
@@ -65,6 +67,7 @@ entries are left out of a release):
   clear `ValueError`.
 - Changing the transformation of a model with `setTransform` (or `prefunc`) had
   no effect on inputs that had been evaluated before.
+- `SkewedVoigt` with a `prefunc` applied the skew to the untransformed points.
 - `weightedAverage` failed with `axis=1` and used the wrong number of values for
   multidimensional input.
 - `Model.f` raises `NotImplementedError` instead of a `TypeError` when a model
@@ -80,6 +83,8 @@ entries are left out of a release):
 
 ### 📖 Documentation
 
+- Correct the `Polynomial` documentation: the coefficients go from the highest
+  order down, as in `numpy.polyval`.
 - Explain in the `HFS` documentation why the saturated amplitudes are calculated
   by the model instead of with lmfit expressions.
 
@@ -97,6 +102,8 @@ entries are left out of a release):
   options.
 - The `Fitter` looks up parameters by their full name in one place, and builds the
   lmfit parameters in a single, documented loop.
+- `HFS`, `Voigt` and `SkewedVoigt` share their peak shapes and FWHM calculation
+  instead of each having a copy; add tests for all general models.
 - `Source` and `generateSpectrum` share one way of summing models.
 - `Fitter.fit` builds the random walk options in a separate method, and the
   data is kept with the parameters instead of in a temporary attribute.

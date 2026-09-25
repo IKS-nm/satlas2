@@ -11,18 +11,13 @@ from functools import cache
 from math import factorial
 
 import numpy as np
-import uncertainties as unc
 from numpy.typing import ArrayLike
-from scipy.special import erf, voigt_profile
 from sympy.physics.wigner import wigner_3j, wigner_6j
 
+from .. import lineshapes
 from ..core import Model, Parameter
 
 __all__ = ["HFS"]
-
-sqrt2 = 2**0.5
-sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
-log2 = np.log(2)
 
 # Amplitudes below this (before normalisation) are considered forbidden
 _MIN_STRENGTH = 1e-12
@@ -471,11 +466,9 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma, gamma = (
-            self.params["FWHMG"].value / sqrt2log2t2,
-            self.params["FWHML"].value / 2,
+        return lineshapes.voigt(
+            x, self.params["FWHMG"].value, self.params["FWHML"].value
         )
-        return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
 
     def lorentzPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -490,8 +483,7 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        gamma = self.params["FWHML"].value / 2
-        return 1 / (1 + (x / gamma) ** 2)
+        return lineshapes.lorentzian(x, self.params["FWHML"].value)
 
     def gaussPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -506,8 +498,7 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma = self.params["FWHMG"].value / sqrt2log2t2
-        return np.exp(-0.5 * (x / sigma) ** 2)
+        return lineshapes.gaussian(x, self.params["FWHMG"].value)
 
     def skewPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -522,14 +513,12 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma, gamma = (
-            self.params["FWHMG"].value / sqrt2log2t2,
-            self.params["FWHML"].value / 2,
-        )
-        erf_x = self.params["skew"].value * x / self.params["FWHMG"].value
-        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)) * (
-            1 + erf(erf_x / np.sqrt(2))
-        )
+        fwhmg = self.params["FWHMG"].value
+        # the skew is expressed per Gaussian FWHM
+        beta = self.params["skew"].value / (fwhmg * np.sqrt(2))
+        return lineshapes.voigt(
+            x, fwhmg, self.params["FWHML"].value
+        ) * lineshapes.skew(x, beta)
 
     def customPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -586,14 +575,4 @@ class HFS(Model):
         tuple[float, float]
             Tuple of the form (value, uncertainty)
         """
-        G, Gu = self.params["FWHMG"].value, self.params["FWHMG"].unc
-        L, Lu = self.params["FWHML"].value, self.params["FWHML"].unc
-        try:
-            correl = self.params["FWHMG"].correl["FWHML"]
-        except KeyError:
-            correl = 0
-        G, L = unc.correlated_values_norm(
-            [(G, Gu), (L, Lu)], np.array([[1, correl], [correl, 1]])
-        )
-        fwhm = 0.5346 * L + (0.2166 * L * L + G * G) ** 0.5
-        return fwhm.nominal_value, fwhm.std_dev
+        return lineshapes.voigtFWHMFromParameters(self.params)
