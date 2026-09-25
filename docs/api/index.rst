@@ -26,6 +26,19 @@ Models module summary
    ~models.Voigt
    ~hfsModel.HFS
 
+Lineshapes module summary
+-------------------------
+
+.. currentmodule:: satlas2.lineshapes
+
+.. autosummary::
+
+   ~gaussian
+   ~lorentzian
+   ~voigt
+   ~skew
+   ~voigtFWHM
+
 Interface module summary
 ------------------------
 
@@ -66,6 +79,7 @@ Subpages
 
    summaries/core
    summaries/models
+   summaries/lineshapes
    summaries/interface
    summaries/plotting
    summaries/utilities

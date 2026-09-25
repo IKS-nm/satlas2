@@ -1,6 +1,11 @@
 API Interface
 =============
 
+.. deprecated:: 0.4.0
+    The interface module only exists to ease the migration from satlas and will
+    be removed in a future version. Use :class:`~satlas2.models.hfsModel.HFS`
+    with :class:`~satlas2.core.Source` and :class:`~satlas2.core.Fitter` instead.
+
 Interface summaries
 -------------------
 

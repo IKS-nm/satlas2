@@ -1,4 +1,4 @@
-from . import core, interface, models, overwrite, plotting, utilities
+from . import core, interface, lineshapes, models, overwrite, plotting, utilities
 from .core import *
 from .interface import *
 from .models import *

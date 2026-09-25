@@ -9,10 +9,9 @@ from __future__ import annotations
 from typing import Tuple
 
 import numpy as np
-import uncertainties as unc
 from numpy.typing import ArrayLike
-from scipy.special import erf, voigt_profile
 
+from .. import lineshapes
 from ..core import Model, Parameter
 
 __all__ = [
@@ -23,8 +22,6 @@ __all__ = [
     "SkewedVoigt"
 ]
 
-sqrt2 = 2**0.5
-sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
 
 
@@ -34,7 +31,9 @@ class Polynomial(Model):
     Parameters
     ----------
     p : ArrayLike
-        Polynomial coefficients, sorted in increasing order
+        Polynomial coefficients, from the highest order down to the constant
+        (as in :func:`numpy.polyval`). The parameters are named after their
+        order: ``p0`` is the constant, ``p1`` the linear coefficient, ...
     name : str
         Name of the model
     prefunc : callable, optional
@@ -84,23 +83,16 @@ class PiecewiseConstant(Model):
     ):
         super().__init__(name, prefunc=prefunc)
         self.params = {
-            "value"
-            + str(len(values) - (i + 1)): Parameter(
-                value=P, min=0, max=np.inf, vary=True
-            )
-            for i, P in enumerate(values[::-1])
+            f"value{i}": Parameter(value=value, min=0, max=np.inf, vary=True)
+            for i, value in enumerate(values)
         }
         self.bounds = np.hstack([-np.inf, bounds, np.inf])
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
         x = self.transform(x)
-        values = np.array([self.params[p].value for p in self.params.keys()])[
-            ::-1
-        ]
-        indices = np.digitize(x, self.bounds) - 1
-        bkg = values[indices]
-        return bkg
+        values = np.array([p.value for p in self.params.values()])
+        return values[np.digitize(x, self.bounds) - 1]
 
 
 class ExponentialDecay(Model):
@@ -181,15 +173,15 @@ class Voigt(Model):
 
     def f(self, x: ArrayLike) -> ArrayLike:
         """:meta private:"""
-        x = self.transform(x)
-        A = self.params["A"].value
-        mu = self.params["mu"].value
-        x = x - mu
-        FWHMG = self.params["FWHMG"].value
-        FWHML = self.params["FWHML"].value
-        sigma, gamma = FWHMG / sqrt2log2t2, FWHML / 2
-        ret = voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
-        return A * ret
+        return self.params["A"].value * self._profile(self.transform(x))
+
+    def _profile(self, x: ArrayLike) -> ArrayLike:
+        """Peak with height 1 in the (transformed) points x."""
+        return lineshapes.voigt(
+            x - self.params["mu"].value,
+            self.params["FWHMG"].value,
+            self.params["FWHML"].value,
+        )
 
     def calculateFWHM(self) -> Tuple[float, float]:
         """Calculate the total FWHM of the profiles, with uncertainty,
@@ -200,17 +192,7 @@ class Voigt(Model):
         Tuple[float, float]
             Tuple of the form (value, uncertainty)
         """
-        G, Gu = self.params["FWHMG"].value, self.params["FWHMG"].unc
-        L, Lu = self.params["FWHML"].value, self.params["FWHML"].unc
-        try:
-            correl = self.params["FWHMG"].correl["FWHML"]
-        except KeyError:
-            correl = 0
-        G, L = unc.correlated_values_norm(
-            [(G, Gu), (L, Lu)], np.array([[1, correl], [correl, 1]])
-        )
-        fwhm = 0.5346 * L + (0.2166 * L * L + G * G) ** 0.5
-        return fwhm.nominal_value, fwhm.std_dev
+        return lineshapes.voigtFWHMFromParameters(self.params)
 
 
 class SkewedVoigt(Voigt):
@@ -227,7 +209,7 @@ class SkewedVoigt(Voigt):
     FWHML : float
         Lorentzian FWHM
     skew : float
-        Skew of the peak
+        Skew of the peak, as defined in :func:`satlas2.lineshapes.skew`
     name : str, optional
         Name of the model, by default 'SkewedVoigt'
     prefunc : callable, optional
@@ -249,13 +231,10 @@ class SkewedVoigt(Voigt):
             value=skew, min=-np.inf, max=np.inf, vary=True
         )
 
-    def f(self, x: ArrayLike) -> ArrayLike:
-        """:meta private:"""
-        ret = super().f(x)
-        mu = self.params["mu"].value
-        FWHMG = self.params["FWHMG"].value
-        sigma = FWHMG / sqrt2log2t2
-        skew = self.params["Skew"].value
-        beta = skew / (sigma * sqrt2)
-        asym = 1 + erf(beta * (x - mu))
-        return ret * asym
+    def _profile(self, x: ArrayLike) -> ArrayLike:
+        """Skewed peak in the (transformed) points x."""
+        return super()._profile(x) * lineshapes.skew(
+            x - self.params["mu"].value,
+            self.params["Skew"].value,
+            self.params["FWHMG"].value,
+        )

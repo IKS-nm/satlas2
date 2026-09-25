@@ -1,9 +1,21 @@
 """
 Reimplementation of several features in the emcee and lmfit packages, in order to make it work correctly.
 
+The random walk (:meth:`SATLASMinimizer.emcee`) follows :meth:`lmfit.Minimizer.emcee`,
+with these differences:
+
+* the walk can be saved to, and resumed from, an HDF5 file
+  (:class:`SATLASHDFBackend`, which also stores the parameter names);
+* the walk can stop when the autocorrelation time has converged;
+* keyword arguments can be passed to the sampler and to its ``sample`` method.
+
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
+
+import logging
 import multiprocessing
+import warnings
+from typing import Dict, List, Optional, Union
 
 import emcee
 import lmfit.minimizer
@@ -11,28 +23,26 @@ import numpy as np
 from emcee.autocorr import AutocorrError
 from lmfit import Minimizer
 
-AbortFitException = lmfit.minimizer.AbortFitException
-from typing import Dict, List, Union
-
-try:
-    import pandas as pd
-    from pandas import isnull
-
-    HAS_PANDAS = True
-except ImportError:
-    HAS_PANDAS = False
-    isnull = np.isnan
 try:
     import dill  # noqa: F401
 
     HAS_DILL = True
 except ImportError:
     HAS_DILL = False
+
+AbortFitException = lmfit.minimizer.AbortFitException
 _make_random_gen = lmfit.minimizer._make_random_gen
-isnull = lmfit.minimizer.isnull
-_nan_policy = lmfit.minimizer._nan_policy
+try:
+    _coerce_float64 = lmfit.minimizer.coerce_float64
+except AttributeError:  # lmfit < 1.3
+    _coerce_float64 = lmfit.minimizer._nan_policy
 
 __all__ = ["SATLASSampler", "SATLASHDFBackend", "SATLASMinimizer", "minimize"]
+
+logger = logging.getLogger(__name__)
+
+# Relative spread of the walkers around the starting values
+_INITIAL_SPREAD = 1.0e-4
 
 
 def ndarray_to_list_of_dicts(
@@ -52,6 +62,9 @@ def ndarray_to_list_of_dicts(
 
 
 class SATLASSampler(emcee.EnsembleSampler):
+    """Ensemble sampler that accepts log-probabilities returned as arrays of
+    one element, as the likelihood of the :class:`~satlas2.core.Fitter` does."""
+
     def compute_log_prob(self, coords):
         """Calculate the vector of log-probability for the walkers
 
@@ -86,23 +99,23 @@ class SATLASSampler(emcee.EnsembleSampler):
             # If the `pool` property of the sampler has been set (i.e. we want
             # to use `multiprocessing`), use the `pool`'s map method.
             # Otherwise, just use the built-in `map` function.
-            if self.pool is not None:
-                map_func = self.pool.map
-            else:
-                map_func = map
-            results = list(map_func(self.log_prob_fn, p))
+            map_func = self.pool.map if self.pool is not None else map
+            results = map_func(self.log_prob_fn, p)
 
-        log_prob = np.array([float(l) for l in results])
-        blob = None
+        # lmfit returns an array of one element for walkers inside the bounds,
+        # and a float (-inf) for walkers outside of them
+        log_prob = np.array([np.asarray(l, dtype=float).item() for l in results])
 
         # Check for log_prob returning NaN.
         if np.any(np.isnan(log_prob)):
             raise ValueError("Probability function returned NaN")
 
-        return log_prob, blob
+        return log_prob, None
 
 
 class SATLASHDFBackend(emcee.backends.HDFBackend):
+    """HDF5 backend that also stores the names of the parameters."""
+
     @property
     def labels(self):
         with self.open() as f:
@@ -116,46 +129,128 @@ class SATLASHDFBackend(emcee.backends.HDFBackend):
             g.attrs["labels"] = labels
 
 
+def _autocorrelationTime(get_time) -> np.ndarray:
+    """Integrated autocorrelation time; if the chain is too short for a
+    reliable estimate, warn and return the unreliable estimate."""
+    try:
+        return get_time()
+    except AutocorrError as e:
+        warnings.warn(str(e), RuntimeWarning, stacklevel=3)
+        return get_time(tol=0)
+
+
 class SATLASMinimizer(Minimizer):
     def process_walk(self, params, chain):
+        """Summarise a random walk read from a file, as :meth:`emcee` does
+        for a walk it has just performed."""
         result = self.prepare_fit(params)
-        params = result.params
-        nvarys = result.nvarys
         result.method = "emcee"
+        steps, nwalkers = chain.shape[:2]
+        self._summariseChain(result, chain.reshape((-1, result.nvarys)))
+        result.errorbars = True
+        result.nvarys = len(result.var_names)
+        result.nfev = nwalkers * steps
+        result.acor = _autocorrelationTime(
+            lambda **kw: emcee.autocorr.integrated_time(chain, **kw)
+        )
+        result.message = "MCMC walk processed successfully."
+        result.success = True
+        return result
 
-        flatchain = chain.reshape((-1, nvarys))
-        steps = chain.shape[0]
-        nwalkers = chain.shape[1]
+    @staticmethod
+    def _summariseChain(result, flatchain: np.ndarray) -> None:
+        """Set the parameters to the median of the walk, with half the 68%
+        interval as uncertainty and the correlations between the parameters."""
+        params = result.params
         quantiles = np.percentile(flatchain, [15.87, 50, 84.13], axis=0)
-
         for i, var_name in enumerate(result.var_names):
             std_l, median, std_u = quantiles[:, i]
             params[var_name].value = median
             params[var_name].stderr = 0.5 * (std_u - std_l)
             params[var_name].correl = {}
-
         params.update_constraints()
 
-        # work out correlation coefficients
         corrcoefs = np.corrcoef(flatchain.T)
-
         for i, var_name in enumerate(result.var_names):
             for j, var_name2 in enumerate(result.var_names):
                 if i != j:
-                    result.params[var_name].correl[var_name2] = corrcoefs[i, j]
+                    params[var_name].correl[var_name2] = corrcoefs[i, j]
 
-        result.errorbars = True
-        result.nvarys = len(result.var_names)
-        result.nfev = nwalkers * steps
+    @staticmethod
+    def _walkBounds(params, var_names):
+        """Starting values and bounds of the varied parameters, without the
+        internal parameter scaling of lmfit."""
+        values, bounds = [], []
+        for param in params.values():
+            if param.expr is not None:
+                param.vary = False
+            if not param.vary:
+                continue
+            values.append(param.value)
+            param.from_internal = lambda val: val
+            lb = -np.inf if param.min is None or param.min is np.nan else param.min
+            ub = np.inf if param.max is None or param.max is np.nan else param.max
+            bounds.append((lb, ub))
+        return np.array(values, dtype=float).reshape(len(var_names)), np.array(bounds)
 
-        try:
-            result.acor = emcee.autocorr.integrated_time(chain)
-        except AutocorrError as e:
-            print(str(e))
-            result.acor = emcee.autocorr.integrated_time(chain, tol=0)
-        return result
+    def _prepareBackend(self, backend, load: bool, nwalkers: int, var_names) -> int:
+        """Reset the backend for a new walk, or read the number of walkers
+        when resuming one. Returns the number of walkers."""
+        if backend is None:
+            return nwalkers
+        if load:
+            nwalkers = backend.shape[0]
+        else:
+            backend.reset(nwalkers, self.nvarys)
+        backend.labels = var_names
+        return nwalkers
 
-        # Calculate the residual with the "best fit" parameters
+    def _sample(
+        self,
+        p0,
+        steps: int,
+        progress: bool,
+        mcmc_kwargs: dict,
+        convergence: bool,
+        convergence_iter: int,
+        convergence_tau: float,
+    ):
+        """Run the sampler, optionally stopping when the autocorrelation time
+        is shorter than 1/convergence_iter of the walk and changed less than
+        convergence_tau (relatively) since the previous check.
+
+        Returns the last position of the walkers and whether the walk converged."""
+        if p0 is None:
+            p0 = self.sampler._previous_state
+        check_every = int(np.ceil(1000 / self.sampler.nwalkers))
+        old_tau = np.inf
+        output = None
+        converged = False
+        for output in self.sampler.sample(
+            p0, iterations=steps, progress=progress, **mcmc_kwargs
+        ):
+            if not convergence or self.sampler.iteration % check_every:
+                continue
+            tau = self.sampler.get_autocorr_time(tol=0)
+            converged = np.all(tau * convergence_iter < self.sampler.iteration)
+            converged &= np.all(np.abs(old_tau - tau) / tau < convergence_tau)
+            if converged:
+                logger.info("emcee stopped due to convergence")
+                break
+            old_tau = tau
+        return output.coords, converged
+
+    def _startPosition(self, p0, pos, reuse_sampler: bool):
+        """Starting position given by the user, if any."""
+        if pos is None or reuse_sampler:
+            return p0
+        tpos = np.asarray(pos, dtype=float)
+        if p0 is not None and p0.shape == tpos.shape:
+            return tpos
+        # trying to initialise with a previous chain
+        if tpos.shape[-1] == self.nvarys:
+            return tpos[-1]
+        raise ValueError("pos should have shape (nwalkers, nvarys)")
 
     def emcee(
         self,
@@ -176,16 +271,20 @@ class SATLASMinimizer(Minimizer):
         is_weighted=True,
         seed=None,
         progress=True,
-        mcmc_kwargs={},
-        sampler_kwargs={},
+        mcmc_kwargs=None,
+        sampler_kwargs=None,
         sampler=emcee.EnsembleSampler,
     ):
+        """Perform a random walk. See :meth:`lmfit.Minimizer.emcee` for the
+        common arguments; the others are described in the module documentation
+        and in :meth:`satlas2.core.Fitter.fit`."""
         if ntemps > 1:
-            msg = (
+            raise DeprecationWarning(
                 "'ntemps' has no effect anymore, since the PTSampler was "
                 "removed from emcee version 3."
             )
-            raise DeprecationWarning(msg)
+        mcmc_kwargs = dict(mcmc_kwargs or {})
+        sampler_kwargs = dict(sampler_kwargs or {})
 
         tparams = params
         # if you're reusing the sampler then nwalkers have to be
@@ -196,72 +295,35 @@ class SATLASMinimizer(Minimizer):
                     "You wanted to use an existing sampler, but "
                     "it hasn't been created yet"
                 )
-            if len(self._lastpos.shape) == 2:
-                nwalkers = self._lastpos.shape[0]
-            elif len(self._lastpos.shape) == 3:
-                nwalkers = self._lastpos.shape[1]
+            nwalkers = self._lastpos.shape[-2]
             tparams = None
 
         result = self.prepare_fit(params=tparams)
         params = result.params
 
         # check if the userfcn returns a vector of residuals
-        out = self.userfcn(params, *self.userargs, **self.userkws)
-        out = np.asarray(out).ravel()
-        if out.size > 1 and is_weighted is False:
-            # we need to marginalise over a constant data uncertainty
-            if "__lnsigma" not in params:
-                # __lnsigma should already be in params if is_weighted was
-                # previously set to True.
-                params.add(
-                    "__lnsigma", value=0.01, min=-np.inf, max=np.inf, vary=True
-                )
-                # have to re-prepare the fit
-                result = self.prepare_fit(params)
-                params = result.params
+        out = np.asarray(self.userfcn(params, *self.userargs, **self.userkws)).ravel()
+        if out.size > 1 and is_weighted is False and "__lnsigma" not in params:
+            # marginalise over a constant data uncertainty
+            params.add("__lnsigma", value=0.01, min=-np.inf, max=np.inf, vary=True)
+            result = self.prepare_fit(params)
+            params = result.params
 
         result.method = "emcee"
-
-        # Removing internal parameter scaling. We could possibly keep it,
-        # but I don't know how this affects the emcee sampling.
-        bounds = []
-        var_arr = np.zeros(len(result.var_names))
-        i = 0
-        for par in params:
-            param = params[par]
-            if param.expr is not None:
-                param.vary = False
-            if param.vary:
-                var_arr[i] = param.value
-                i += 1
-            else:
-                # don't want to append bounds if they're not being varied.
-                continue
-
-            param.from_internal = lambda val: val
-            lb, ub = param.min, param.max
-            if lb is None or lb is np.nan:
-                lb = -np.inf
-            if ub is None or ub is np.nan:
-                ub = np.inf
-            bounds.append((lb, ub))
-        bounds = np.array(bounds)
-
+        var_arr, bounds = self._walkBounds(params, result.var_names)
         self.nvarys = len(result.var_names)
 
-        # set up multiprocessing options for the samplers
+        # set up multiprocessing; a pool in sampler_kwargs is used as given
         auto_pool = None
-        # sampler_kwargs = {}
         if isinstance(workers, int) and workers > 1 and HAS_DILL:
             auto_pool = multiprocessing.Pool(workers)
             sampler_kwargs["pool"] = auto_pool
         elif hasattr(workers, "map"):
             sampler_kwargs["pool"] = workers
 
-        # function arguments for the log-probability functions
-        # these values are sent to the log-probability functions by the sampler.
-        lnprob_args = (self.userfcn, params, result.var_names, bounds)
-        lnprob_kwargs = {
+        # arguments sent to the log-probability function by the sampler
+        sampler_kwargs["args"] = (self.userfcn, params, result.var_names, bounds)
+        sampler_kwargs["kwargs"] = {
             "is_weighted": is_weighted,
             "float_behavior": float_behavior,
             "userargs": self.userargs,
@@ -269,166 +331,85 @@ class SATLASMinimizer(Minimizer):
             "nan_policy": self.nan_policy,
         }
 
-        sampler_kwargs["args"] = lnprob_args
-        sampler_kwargs["kwargs"] = lnprob_kwargs
-
-        # set up the random number generator
         rng = _make_random_gen(seed)
-
-        backend = sampler_kwargs.pop("backend")
-        if backend is not None:
-            if not load:
-                backend.reset(nwalkers, self.nvarys)
-            else:
-                nwalkers = backend.shape[0]
-            backend.labels = result.var_names
-        sampler_kwargs["backend"] = backend
-        # now initialise the samplers
-
-        if load:
-            p0 = None
-        else:
-            p0 = 1 + rng.randn(nwalkers, self.nvarys) * 1.0e-4
-            p0 *= var_arr
-        sampler_kwargs["pool"] = auto_pool
-        self.sampler = sampler(
-            nwalkers, self.nvarys, self._lnprob, **sampler_kwargs
-        )
-
-        # user supplies an initialisation position for the chain
-        # If you try to run the sampler with p0 of a wrong size then you'll get
-        # a ValueError. Note, you can't initialise with a position if you are
-        # reusing the sampler.
-        if pos is not None and not reuse_sampler:
-            tpos = np.asfarray(pos)
-            if p0.shape == tpos.shape:
-                pass
-            # trying to initialise with a previous chain
-            elif tpos.shape[-1] == self.nvarys:
-                tpos = tpos[-1]
-            else:
-                raise ValueError("pos should have shape (nwalkers, nvarys)")
-            p0 = tpos
-
+        backend = sampler_kwargs.get("backend")
+        nwalkers = self._prepareBackend(backend, load, nwalkers, result.var_names)
+        p0 = None
+        if not load:
+            p0 = (1 + rng.randn(nwalkers, self.nvarys) * _INITIAL_SPREAD) * var_arr
+        self.sampler = sampler(nwalkers, self.nvarys, self._lnprob, **sampler_kwargs)
+        p0 = self._startPosition(p0, pos, reuse_sampler)
         # if you specified a seed then you also need to seed the sampler
         if seed is not None:
             self.sampler.random_state = rng.get_state()
 
-        # now do a production run, sampling all the time
+        converged = False
         try:
-            output = None
-            old_tau = np.inf
-            check = int(np.ceil(1000 / nwalkers))
-            converged = False
-            if p0 is None:
-                p0 = self.sampler._previous_state
-            for output in self.sampler.sample(
-                p0, iterations=steps, progress=progress, **mcmc_kwargs
-            ):
-                if convergence:
-                    if self.sampler.iteration % check:
-                        continue
-                    tau = self.sampler.get_autocorr_time(tol=0)
-                    converged = np.all(
-                        tau * convergence_iter < self.sampler.iteration
-                    )
-                    converged &= np.all(
-                        np.abs(old_tau - tau) / tau < convergence_tau
-                    )
-                    if converged:
-                        break
-                    old_tau = tau
-            if converged:
-                print("emcee stopped due to convergence")
-            self._lastpos = output.coords
+            self._lastpos, converged = self._sample(
+                p0,
+                steps,
+                progress,
+                mcmc_kwargs,
+                convergence,
+                convergence_iter,
+                convergence_tau,
+            )
         except AbortFitException:
             result.aborted = True
-            result.message = (
-                "Fit aborted by user callback. Could not estimate error-bars."
-            )
+            result.message = "Fit aborted by user callback. Could not estimate error-bars."
             result.success = False
-            result.nfev = self.result.nfev
-            output = None
 
         # discard the burn samples and thin
-        chain = self.sampler.get_chain(thin=thin, discard=burn)[..., :, :]
-        lnprobability = self.sampler.get_log_prob(thin=thin, discard=burn)[
-            ..., :
-        ]
-        flatchain = chain.reshape((-1, self.nvarys))
+        chain = self.sampler.get_chain(thin=thin, discard=burn)
         if not result.aborted:
-            quantiles = np.percentile(flatchain, [15.87, 50, 84.13], axis=0)
-
-            for i, var_name in enumerate(result.var_names):
-                std_l, median, std_u = quantiles[:, i]
-                params[var_name].value = median
-                params[var_name].stderr = 0.5 * (std_u - std_l)
-                params[var_name].correl = {}
-
-            params.update_constraints()
-
-            # work out correlation coefficients
-            corrcoefs = np.corrcoef(flatchain.T)
-
-            for i, var_name in enumerate(result.var_names):
-                for j, var_name2 in enumerate(result.var_names):
-                    if i != j:
-                        result.params[var_name].correl[var_name2] = corrcoefs[
-                            i, j
-                        ]
-
+            self._summariseChain(result, chain.reshape((-1, self.nvarys)))
         result.chain = np.copy(chain)
-        result.lnprob = np.copy(lnprobability)
+        result.lnprob = np.copy(self.sampler.get_log_prob(thin=thin, discard=burn))
         result.errorbars = True
         result.nvarys = len(result.var_names)
         result.nfev = nwalkers * steps
-
-        try:
-            result.acor = self.sampler.get_autocorr_time()
-        except AutocorrError as e:
-            print(str(e))
-            result.acor = self.sampler.get_autocorr_time(tol=0, quiet=True)
+        result.acor = _autocorrelationTime(self.sampler.get_autocorr_time)
         result.acceptance_fraction = self.sampler.acceptance_fraction
 
-        # Calculate the residual with the "best fit" parameters
+        self._calculateWalkStatistics(result, params, is_weighted, float_behavior)
+
+        if auto_pool is not None:
+            auto_pool.terminate()
+        if not result.aborted:
+            result.message = (
+                "MCMC sampling stopped early: the autocorrelation time converged."
+                if converged
+                else "MCMC sampling completed successfully."
+            )
+            result.success = True
+        return result
+
+    def _calculateWalkStatistics(
+        self, result, params, is_weighted: bool, float_behavior: str
+    ) -> None:
+        """Residual and fit statistics at the median of the walk."""
         out = self.userfcn(params, *self.userargs, **self.userkws)
-        result.residual = _nan_policy(
+        result.residual = _coerce_float64(
             out, nan_policy=self.nan_policy, handle_inf=False
         )
 
         # If uncertainty was automatically estimated, weight the residual properly
-        if (not is_weighted) and (result.residual.size > 1):
-            if "__lnsigma" in params:
-                result.residual = result.residual / np.exp(
-                    params["__lnsigma"].value
-                )
+        if (not is_weighted) and result.residual.size > 1 and "__lnsigma" in params:
+            result.residual = result.residual / np.exp(params["__lnsigma"].value)
 
-        # Calculate statistics for the two standard cases:
-        if isinstance(result.residual, np.ndarray) or (
-            float_behavior == "chi2"
-        ):
+        if isinstance(result.residual, np.ndarray) or float_behavior == "chi2":
             result._calculate_statistics()
-
-        # Handle special case unique to emcee:
-        # This should eventually be moved into result._calculate_statistics.
         elif float_behavior == "posterior":
+            # special case unique to emcee
             result.ndata = 1
             result.nfree = 1
-
             # assuming prior prob = 1, this is true
             _neg2_log_likel = -2 * result.residual
-
             # assumes that residual is properly weighted, avoid overflowing np.exp()
             result.chisqr = np.exp(min(650, _neg2_log_likel))
-
             result.redchi = result.chisqr / result.nfree
             result.aic = _neg2_log_likel + 2 * result.nvarys
             result.bic = _neg2_log_likel + np.log(result.ndata) * result.nvarys
-
-        if auto_pool is not None:
-            auto_pool.terminate()
-
-        return result
 
 
 def minimize(

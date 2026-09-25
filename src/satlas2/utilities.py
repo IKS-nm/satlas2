@@ -11,7 +11,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.stats import chi2, norm, poisson
 
-from .core import Model
+from .core import Model, sumModels
 
 __all__ = ["weightedAverage", "poissonInterval", "generateSpectrum"]
 
@@ -58,13 +58,20 @@ def weightedAverage(
                                                     x\right\rangle_{weighted}}
                                                       {\sigma_i}\right)^2}
                {\left(N-1\right)\sum_{i=1}^N \frac{1}{\sigma_i^2}}"""
-    x = np.array(x)
-    sigma = np.array(sigma)
-    Xstat = (1 / sigma**2).sum(axis=axis)
-    Xm = (x / sigma**2).sum(axis=axis) / Xstat
-    Xscatt = (((x - Xm) / sigma) ** 2).sum(axis=axis) / ((len(x) - 1) * Xstat)
-    Xstat = 1 / Xstat
-    return Xm, np.maximum.reduce([Xstat, Xscatt], axis=axis) ** 0.5
+    x = np.asarray(x, dtype=float)
+    sigma = np.asarray(sigma, dtype=float)
+    n = x.size if axis is None else x.shape[axis]
+    weights = 1 / sigma**2
+    total_weight = weights.sum(axis=axis, keepdims=True)
+    mean = (x * weights).sum(axis=axis, keepdims=True) / total_weight
+    stat = 1 / total_weight
+    scatter = (((x - mean) / sigma) ** 2).sum(axis=axis, keepdims=True) / (
+        (n - 1) * total_weight
+    )
+    uncertainty = np.sqrt(np.maximum(stat, scatter))
+    if axis is None:
+        return mean.item(), uncertainty.item()
+    return np.squeeze(mean, axis=axis), np.squeeze(uncertainty, axis=axis)
 
 
 def poissonInterval(
@@ -122,7 +129,7 @@ def poissonInterval(
 def generateSpectrum(
     models: Union[Model, list],
     x: ArrayLike,
-    generator: Optional[callable] = np.random.default_rng().poisson,
+    generator: Optional[callable] = None,
 ) -> ArrayLike:
     """Generates a dataset based on the models and x-values provided.
 
@@ -134,7 +141,8 @@ def generateSpectrum(
         The x values for which a y value has to be generated.
     generator : callable, optional
         A callable with one parameter that returns a random value based on this.
-        The default is a Poisson generator.
+        The default is a Poisson generator; pass e.g.
+        ``np.random.default_rng(seed).poisson`` for reproducible data.
 
     Returns
     -------
@@ -143,17 +151,8 @@ def generateSpectrum(
         to the generator.
     """
 
-    def evaluate(x):
-        try:
-            for model in models:
-                try:
-                    f += model.f(x)
-                except UnboundLocalError:
-                    f = model.f(x)
-        except TypeError:
-            f = models.f(x)
-        return f
-
-    y = evaluate(x)
-    y = generator(y)
-    return y
+    if isinstance(models, Model):
+        models = [models]
+    if generator is None:
+        generator = np.random.default_rng().poisson
+    return generator(sumModels(models, x))
