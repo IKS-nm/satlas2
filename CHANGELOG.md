@@ -41,6 +41,12 @@ entries are left out of a release):
 - Spectra of `HFS` with `peak="skewvoigt"` change, since the width of the Gaussian
   component was wrong (see the bug fixes).
 
+### ⚠️ Deprecations
+
+- The satlas v1 compatibility layer (`satlas2.interface`: `HFSModel`, `SumModel`
+  and `chisquare_fit`) is deprecated and emits a `DeprecationWarning`; it will be
+  removed in a future version. Use `HFS` with `Source` and `Fitter` instead.
+
 ### 🚀 Performance improvements
 
 - `Fitter.evaluateOverWalk` collects the evaluations in a list instead of

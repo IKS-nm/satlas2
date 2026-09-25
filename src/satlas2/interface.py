@@ -3,11 +3,17 @@ Implementation of the base HFSModel and SumModel classes, based on the syntax us
 
 NOTE: THIS IS NOT FULLY BENCHMARKED/DEVELOPED SO BUGS MIGHT BE PRESENT, AND NOT ALL FUNCTIONALITIES OF THE ORIGINAL SATLAS ARE IMPLEMENTED
 
+.. deprecated:: 0.4.0
+    This compatibility layer will be removed in a future version. Use
+    :class:`~satlas2.models.HFS` with :class:`~satlas2.core.Source` and
+    :class:`~satlas2.core.Fitter` instead.
+
 .. moduleauthor:: Bram van den Borne <bram.vandenborne@kuleuven.be>
 """
 
 from __future__ import annotations
 
+import warnings
 from typing import Tuple, Union
 
 import lmfit as lm
@@ -16,6 +22,16 @@ from numpy.typing import ArrayLike
 
 from .core import Fitter, Source
 from .models import HFS, PiecewiseConstant, Polynomial
+
+
+def _warnDeprecated(name: str) -> None:
+    """Warn that a part of the satlas v1 compatibility layer is deprecated."""
+    warnings.warn(
+        f"satlas2.interface.{name} is deprecated and will be removed in a future "
+        "version; use satlas2.HFS with satlas2.Source and satlas2.Fitter instead.",
+        DeprecationWarning,
+        stacklevel=3,
+    )
 
 
 class HFSModel:
@@ -78,6 +94,7 @@ class HFSModel:
         asymmetryparams=None,
         name: str = "HFModel__",
     ):
+        _warnDeprecated("HFSModel")
         super(HFSModel, self).__init__()
         self.background_params = background_params
         if shape != "voigt":
@@ -375,6 +392,7 @@ class SumModel:
         name: str = "sum",
         source_name: str = "source",
     ):
+        _warnDeprecated("SumModel")
         super(SumModel, self).__init__()
         self.name = name
         self.models = models
@@ -641,4 +659,5 @@ def chisquare_fit(
     Returns
     -------
     Instance of Fitter"""
+    _warnDeprecated("chisquare_fit")
     return model.chisquare_fit(x=x, y=y, yerr=yerr, xerr=xerr, method=method)
