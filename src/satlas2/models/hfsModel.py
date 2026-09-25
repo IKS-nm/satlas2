@@ -6,6 +6,7 @@ Implementation of the HFSModel class, currently only supplied with a Voigt profi
 
 from __future__ import annotations
 
+from math import factorial
 from typing import Tuple
 
 import numpy as np
@@ -222,9 +223,10 @@ class HFS(Model):
             "Cu": Parameter(value=C[1]),
             "FWHMG": Parameter(value=fwhmg, min=0.01),
             "FWHML": Parameter(value=fwhml, min=0.01),
-            "scale": Parameter(value=scale, min=0, vary=racah),
-            "Saturation": Parameter(value=(saturation if use_saturation else 0.0), min=0, vary=use_saturation),
+            "scale": Parameter(value=scale, min=0, vary=racah or use_saturation),
         }
+        if use_saturation:
+            pars["Saturation"] = Parameter(value=saturation, min=0)
 
         if peak.lower() == "lorentzian":
             pars["FWHMG"].value, pars["FWHMG"].vary, pars["FWHMG"].min = 0, False, 0
@@ -263,13 +265,6 @@ class HFS(Model):
         if I == 0 or J2 == 0:
             self.params["Au"].vary = False
 
-        # If saturation is enabled, ensure amplitudes reflect initial saturation
-        if use_saturation:
-            try:
-                self._set_transitional_amplitudes()
-            except Exception:
-                pass
-
     def _calculate_transitional_intensities(self, s: float) -> np.ndarray:
         """Calculate transitional amplitudes between Racah and saturated.
 
@@ -285,26 +280,6 @@ class HFS(Model):
         transitional = -sat * np.expm1(-rac * s / sat)
         transitional = transitional / transitional.max()
         return transitional
-
-    def _set_transitional_amplitudes(self):
-        """Update amp parameters and internal parts according to current Saturation value."""
-        s_val = float(self.params['Saturation'].value)
-        values = self._calculate_transitional_intensities(s_val)
-        for line, v in zip(self.lines, values):
-            key = 'Amp' + line
-            if key in self.params:
-                self.params[key].value = float(v)
-
-        # Ensure parameter vary flags reflect racah/saturation settings
-        if hasattr(self, 'params') and isinstance(self.params, dict):
-            if 'Saturation' in self.params:
-                self.params['Saturation'].vary = self.use_saturation
-            if 'scale' in self.params:
-                self.params['scale'].vary = (self.use_racah or self.use_saturation)
-            for line in self.lines:
-                key = 'Amp' + line
-                if key in self.params:
-                    self.params[key].vary = not (self.use_racah or self.use_saturation)
 
     def fUnshifted(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -334,7 +309,7 @@ class HFS(Model):
             result = np.zeros(len(x))
         x = self.transform(x)
         # determine amplitudes: either use saturation mapping or stored Amp params
-        if self.use_saturation and "Saturation" in self.params:
+        if self.use_saturation:
             s_val = float(self.params["Saturation"].value)
             amp_values = self._calculate_transitional_intensities(s_val)
         else:
@@ -383,10 +358,14 @@ class HFS(Model):
         offset = self.params["Offset"].value
         poisson = self.params["Poisson"].value
 
-        result = np.zeros(len(x))
+        try:
+            result = np.zeros(len(x))
+        except TypeError:
+            x = np.array([x])
+            result = np.zeros(len(x))
         x = self.transform(x)
         # determine amplitudes: either use saturation mapping or stored Amp params
-        if self.use_saturation and 'Saturation' in self.params:
+        if self.use_saturation:
             s_val = float(self.params['Saturation'].value)
             amp_values = self._calculate_transitional_intensities(s_val)
         else:
@@ -406,13 +385,12 @@ class HFS(Model):
             for i in range(N + 1):
                 result += (
                     amp_val
-                    * self.peak(self.transform(x - i * offset) - pos)
+                    * self.peak(x - i * offset - pos)
                     * (poisson**i)
-                    / np.math.factorial(i)
+                    / factorial(i)
                 )
-            result *= scale
 
-        return result
+        return scale * result
 
     def peak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -496,7 +474,7 @@ class HFS(Model):
         ArrayLike
         """
         sigma, gamma = (
-            self.params["FWHMG"].value / 2 * np.sqrt(2 * np.log(2)),
+            self.params["FWHMG"].value / sqrt2log2t2,
             self.params["FWHML"].value / 2,
         )
         erf_x = self.params["skew"].value * x / self.params["FWHMG"].value
