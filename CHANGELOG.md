@@ -19,6 +19,8 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-25
+
 ### 🏆 Highlights
 
 - `HFS` supports transitions of arbitrary order through the `order` argument; the
@@ -152,5 +154,6 @@ entries are left out of a release):
 Changes up to and including this version are listed in the
 [GitHub releases](https://github.com/IKS-nm/satlas2/releases).
 
-[Unreleased]: https://github.com/IKS-nm/satlas2/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/IKS-nm/satlas2/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/IKS-nm/satlas2/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/IKS-nm/satlas2/releases/tag/v0.3.0
