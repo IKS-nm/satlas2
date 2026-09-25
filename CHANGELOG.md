@@ -46,8 +46,6 @@ entries are left out of a release):
   The width of the Gaussian component also changes (see the bug fixes).
 - `satlas2.plotting.generateChisquareMap` is removed; it could not run, since it
   used parts of the `Fitter` that no longer exist.
-- `satlas2.plotting.generateChisquareMap` is removed; it could not run, since it
-  used parts of the `Fitter` that no longer exist.
 
 ### ⚠️ Deprecations
 
@@ -100,7 +98,8 @@ entries are left out of a release):
   multidimensional input.
 - `Model.f` raises `NotImplementedError` instead of a `TypeError` when a model
   does not implement it.
-- Fix the shape of the log-probabilities in the random walk.
+- Fix the shape of the log-probabilities in the random walk, which also failed
+  on NumPy 2 as soon as a walker moved outside the bounds of a parameter.
 - `HFS` with sidepeaks: the scale was applied once per line instead of once,
   `np.math.factorial` failed on NumPy 2, `prefunc` was applied twice and scalar
   input was not accepted.

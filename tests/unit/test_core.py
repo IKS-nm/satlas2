@@ -610,3 +610,15 @@ def test_custom_likelihood_in_a_subclass():
     assert fitter.llh(fitter.lmpars, method="custom", emcee=True) == pytest.approx(
         2 * np.sum(y * np.log(y.mean()) - y.mean()), rel=1e-6
     )
+
+
+def test_walk_with_walkers_outside_the_bounds(tmp_path):
+    """Walkers outside the bounds get a log-probability of -inf (a float),
+    the others an array of one element; both must be accepted."""
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.fit()
+    model = fitter.sources[0][1].models[0][1]
+    model.params["p1"].min = model.params["p1"].value - 1e-3
+    np.random.seed(6)
+    fitter.fit(method="emcee", nwalkers=8, steps=30)
+    assert np.all(fitter.result.chain[..., 1] >= model.params["p1"].min)

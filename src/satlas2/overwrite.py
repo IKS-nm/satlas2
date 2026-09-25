@@ -100,10 +100,11 @@ class SATLASSampler(emcee.EnsembleSampler):
             # to use `multiprocessing`), use the `pool`'s map method.
             # Otherwise, just use the built-in `map` function.
             map_func = self.pool.map if self.pool is not None else map
-            # every walker may return an array of one element: flatten
-            results = np.array(list(map_func(self.log_prob_fn, p))).reshape((-1,))
+            results = map_func(self.log_prob_fn, p)
 
-        log_prob = np.array([float(l) for l in results])
+        # lmfit returns an array of one element for walkers inside the bounds,
+        # and a float (-inf) for walkers outside of them
+        log_prob = np.array([np.asarray(l, dtype=float).item() for l in results])
 
         # Check for log_prob returning NaN.
         if np.any(np.isnan(log_prob)):
