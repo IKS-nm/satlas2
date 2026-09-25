@@ -3,6 +3,7 @@ Implementation of the HFSModel class, currently only supplied with a Voigt profi
 
 .. moduleauthor:: Wouter Gins <wouter.gins@kuleuven.be>
 """
+
 from __future__ import annotations
 
 from typing import Tuple
@@ -20,6 +21,12 @@ __all__ = ["HFS"]
 sqrt2 = 2**0.5
 sqrt2log2t2 = 2 * np.sqrt(2 * np.log(2))
 log2 = np.log(2)
+
+
+def triangle_condition(spin_1: float, spin_2: float, order: float) -> bool:
+    return (abs(spin_1 - spin_2) <= order <= spin_1 + spin_2) and (
+        spin_1 + spin_2 + order
+    ) % 1 == 0
 
 
 class HFS(Model):
@@ -60,38 +67,51 @@ class HFS(Model):
         The amplitude of the entire spectrum, by default 1.0
     racah : bool, optional
         Use individual amplitudes are setting the Racah intensities, by default True
+    order : int, optional
+        Define the order of the transition, used to calculate the allowed transitions
+        and initial intensities, by default 1
     prefunc : callable, optional
         Transformation to be applied on the input before evaluation, by default None
-        """
-    def __init__(self,
-                 I: float,
-                 J: ArrayLike,
-                 A: ArrayLike = [0, 0],
-                 B: ArrayLike = [0, 0],
-                 C: ArrayLike = [0, 0],
-                 df: float = 0,
-                 fwhmg: float = 50,
-                 fwhml: float = 50,
-                 name: str = 'HFS',
-                 peak: str = 'voigt',
-                 peak_kwargs: dict = None,
-                 N: int = None,
-                 offset: float = 0,
-                 poisson: float = 0,
-                 scale: float = 1.0,
-                 racah: bool = True,
-                 prefunc: callable = None):
+    """
+
+    def __init__(
+        self,
+        I: float,
+        J: ArrayLike,
+        A: ArrayLike | None = None,
+        B: ArrayLike | None = None,
+        C: ArrayLike | None = None,
+        df: float = 0,
+        fwhmg: float = 50,
+        fwhml: float = 50,
+        name: str = "HFS",
+        peak: str = "voigt",
+        peak_kwargs: dict | None = None,
+        N: int | None = None,
+        offset: float = 0,
+        poisson: float = 0,
+        scale: float = 1.0,
+        racah: bool = True,
+        order: int = 1,
+        prefunc: callable | None = None,
+    ):
         super().__init__(name, prefunc=prefunc)
+        if A is None:
+            A = [0, 0]
+        if B is None:
+            B = [0, 0]
+        if C is None:
+            C = [0, 0]
         J1, J2 = J
         lower_F = np.arange(abs(I - J1), I + J1 + 1, 1)
         upper_F = np.arange(abs(I - J2), I + J2 + 1, 1)
 
         self.peakfunc = {
-            'voigt': self.voigtPeak,
-            'gaussian': self.gaussPeak,
-            'lorentzian': self.lorentzPeak,
-            'skewvoigt': self.skewPeak,
-            'custom': self.customPeak
+            "voigt": self.voigtPeak,
+            "gaussian": self.gaussPeak,
+            "lorentzian": self.lorentzPeak,
+            "skewvoigt": self.skewPeak,
+            "custom": self.customPeak,
         }[peak.lower()]
 
         self.lines = []
@@ -103,20 +123,30 @@ class HFS(Model):
         self.scaling_Bu = {}
         self.scaling_Cu = {}
 
+        if not triangle_condition(J1, J2, order):
+            raise ValueError(
+                f"Triangle condition not satisfied for J1={J1}, J2={J2} and order={order}."
+            )
+
         for i, F1 in enumerate(lower_F):
             for j, F2 in enumerate(upper_F):
-                if abs(F2 - F1) <= 1 and not F2 == F1 == 0.0:
+                if triangle_condition(F1, F2, order):
+                    wigner = (
+                        wigner_6j(J2, float(F2), I, float(F1), J1, float(order)) ** 2
+                    )
+                    if wigner < 1e-12:
+                        continue
                     if F1 % 1 == 0:
-                        F1_str = "{:.0f}".format(F1)
+                        F1_str = f"{F1:.0f}"
                     else:
-                        F1_str = "{:.0f}_2".format(2 * F1)
+                        F1_str = f"{2 * F1:.0f}_2"
 
                     if F2 % 1 == 0:
-                        F2_str = "{:.0f}".format(F2)
+                        F2_str = f"{F2:.0f}"
                     else:
-                        F2_str = "{:.0f}_2".format(2 * F2)
+                        F2_str = f"{2 * F2:.0f}_2"
 
-                    line = "{}to{}".format(F1_str, F2_str)
+                    line = f"{F1_str}to{F2_str}"
                     self.lines.append(line)
 
                     C1, D1, E1 = self.calcShift(I, J1, F1)
@@ -129,17 +159,15 @@ class HFS(Model):
                     self.scaling_Bu[line] = D2
                     self.scaling_Cu[line] = E2
 
-                    intens = float(
-                        (2 * F1 + 1)
-                        * (2 * F2 + 1)
-                        * wigner_6j(J2, float(F2), I, float(F1), J1, 1.0) ** 2
-                    )  # DO NOT REMOVE CAST TO FLOAT!!!
+                    intens = float((2 * F1 + 1) * (2 * F2 + 1) * wigner)
                     self.intensities["Amp" + line] = Parameter(
                         value=intens, min=0, vary=not racah
                     )
+                else:
+                    print(f"Line {F1} to {F2} is forbidden and will be skipped.")
 
-        norm = max([p.value for p in self.intensities.values()])
-        for n, v in self.intensities.items():
+        norm = max(p.value for p in self.intensities.values())
+        for v in self.intensities.values():
             v.value /= norm
 
         pars = {
@@ -155,17 +183,19 @@ class HFS(Model):
             "scale": Parameter(value=scale, min=0, vary=racah),
         }
 
-        if peak.lower() == 'lorentzian':
-            pars['FWHMG'].value,pars['FWHMG'].vary, pars['FWHMG'].min=0,False,0
-        if peak.lower() == 'gaussian':
-            pars['FWHML'].value,pars['FWHML'].vary,pars['FWHML'].min=0,False,0
+        if peak.lower() == "lorentzian":
+            pars["FWHMG"].value, pars["FWHMG"].vary, pars["FWHMG"].min = 0, False, 0
+        if peak.lower() == "gaussian":
+            pars["FWHML"].value, pars["FWHML"].vary, pars["FWHML"].min = 0, False, 0
         if peak_kwargs is not None:
             for peak_arg in peak_kwargs:
-                pars[peak_arg] = Parameter(value=peak_kwargs[peak_arg]['value'], 
-                                           min=peak_kwargs[peak_arg].get('min', -np.inf), 
-                                           max=peak_kwargs[peak_arg].get('max', np.inf), 
-                                           vary=peak_kwargs[peak_arg].get('vary', True),
-                                           expr=peak_kwargs[peak_arg].get('expr', None))
+                pars[peak_arg] = Parameter(
+                    value=peak_kwargs[peak_arg]["value"],
+                    min=peak_kwargs[peak_arg].get("min", -np.inf),
+                    max=peak_kwargs[peak_arg].get("max", np.inf),
+                    vary=peak_kwargs[peak_arg].get("vary", True),
+                    expr=peak_kwargs[peak_arg].get("expr", None),
+                )
         if N is not None:
             pars["N"] = Parameter(value=N, vary=False)
             pars["Offset"] = Parameter(value=offset)
@@ -202,14 +232,14 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params['centroid'].value
-        Al = self.params['Al'].value
-        Au = self.params['Au'].value
-        Bl = self.params['Bl'].value
-        Bu = self.params['Bu'].value
-        Cl = self.params['Cl'].value
-        Cu = self.params['Cu'].value
-        scale = self.params['scale'].value
+        centroid = self.params["centroid"].value
+        Al = self.params["Al"].value
+        Au = self.params["Au"].value
+        Bl = self.params["Bl"].value
+        Bu = self.params["Bu"].value
+        Cl = self.params["Cl"].value
+        Cu = self.params["Cu"].value
+        scale = self.params["scale"].value
 
         try:
             result = np.zeros(len(x))
@@ -218,12 +248,16 @@ class HFS(Model):
             result = np.zeros(len(x))
         x = self.transform(x)
         for line in self.lines:
-            pos = centroid + Au * self.scaling_Au[line] + Bu * self.scaling_Bu[
-                line] + Cu * self.scaling_Cu[line] - Al * self.scaling_Al[
-                    line] - Bl * self.scaling_Bl[line] - Cl * self.scaling_Cl[
-                        line]
-            result += scale * self.params['Amp' + line].value * self.peak(
-                x - pos)
+            pos = (
+                centroid
+                + Au * self.scaling_Au[line]
+                + Bu * self.scaling_Bu[line]
+                + Cu * self.scaling_Cu[line]
+                - Al * self.scaling_Al[line]
+                - Bl * self.scaling_Bl[line]
+                - Cl * self.scaling_Cl[line]
+            )
+            result += scale * self.params["Amp" + line].value * self.peak(x - pos)
 
         return result
 
@@ -240,17 +274,17 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        centroid = self.params['centroid'].value
-        Al = self.params['Al'].value
-        Au = self.params['Au'].value
-        Bl = self.params['Bl'].value
-        Bu = self.params['Bu'].value
-        Cl = self.params['Cl'].value
-        Cu = self.params['Cu'].value
-        scale = self.params['scale'].value
-        N = self.params['N'].value
-        offset = self.params['Offset'].value
-        poisson = self.params['Poisson'].value
+        centroid = self.params["centroid"].value
+        Al = self.params["Al"].value
+        Au = self.params["Au"].value
+        Bl = self.params["Bl"].value
+        Bu = self.params["Bu"].value
+        Cl = self.params["Cl"].value
+        Cu = self.params["Cu"].value
+        scale = self.params["scale"].value
+        N = self.params["N"].value
+        offset = self.params["Offset"].value
+        poisson = self.params["Poisson"].value
 
         result = np.zeros(len(x))
         x = self.transform(x)
@@ -265,8 +299,12 @@ class HFS(Model):
                 - Cl * self.scaling_Cl[line]
             )
             for i in range(N + 1):
-                result += self.params['Amp' + line].value * self.peak(
-                    self.transform(x - i * offset) - pos) * (poisson**i) / np.math.factorial(i)
+                result += (
+                    self.params["Amp" + line].value
+                    * self.peak(self.transform(x - i * offset) - pos)
+                    * (poisson**i)
+                    / np.math.factorial(i)
+                )
             result *= scale
 
         return result
@@ -301,12 +339,15 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma, gamma = self.params['FWHMG'].value / sqrt2log2t2, self.params['FWHML'].value / 2
+        sigma, gamma = (
+            self.params["FWHMG"].value / sqrt2log2t2,
+            self.params["FWHML"].value / 2,
+        )
         return voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)
 
     def lorentzPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
-        Calculates the lorentzian profile 
+        Calculates the lorentzian profile
 
         Parameters
         ----------
@@ -317,7 +358,7 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        gamma = self.params['FWHML'].value / 2
+        gamma = self.params["FWHML"].value / 2
         return voigt_profile(x, 0, gamma) / voigt_profile(0, 0, gamma)
 
     def gaussPeak(self, x: ArrayLike) -> ArrayLike:
@@ -333,7 +374,7 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma = self.params['FWHMG'].value / sqrt2log2t2
+        sigma = self.params["FWHMG"].value / sqrt2log2t2
         return voigt_profile(x, sigma, 0) / voigt_profile(0, sigma, 0)
 
     def skewPeak(self, x: ArrayLike) -> ArrayLike:
@@ -349,9 +390,14 @@ class HFS(Model):
         -------
         ArrayLike
         """
-        sigma, gamma = self.params['FWHMG'].value / 2 * np.sqrt(2 * np.log(2)), self.params['FWHML'].value/2
-        erf_x = self.params['skew'].value*x/self.params['FWHMG'].value
-        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma))*(1+erf(erf_x/np.sqrt(2)))
+        sigma, gamma = (
+            self.params["FWHMG"].value / 2 * np.sqrt(2 * np.log(2)),
+            self.params["FWHML"].value / 2,
+        )
+        erf_x = self.params["skew"].value * x / self.params["FWHMG"].value
+        return (voigt_profile(x, sigma, gamma) / voigt_profile(0, sigma, gamma)) * (
+            1 + erf(erf_x / np.sqrt(2))
+        )
 
     def customPeak(self, x: ArrayLike) -> ArrayLike:
         """:meta private:
@@ -392,10 +438,9 @@ class HFS(Model):
         contrib = []
         for k in range(1, 4):
             n = float(wigner_6j(I, J, float(F), J, I, k))
-            d = float(
-                wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J)
-            )
-            shift = phase * n / d
+            d = float(wigner_3j(I, k, I, -I, 0, I) * wigner_3j(J, k, J, -J, 0, J))
+            with np.errstate(invalid="ignore", divide="ignore"):
+                shift = phase * n / d
             if not np.isfinite(shift):
                 contrib.append(0)
             else:
