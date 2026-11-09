@@ -19,8 +19,19 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+### 💥 Breaking changes
+
+- After a likelihood fit or a random walk, `chisqr`, `redchi`, `aic` and `bic` (in the
+  result, the metadata dataframe, the `Fitter` and its sources) are statistics of the
+  likelihood: the chisquare for the Gaussian likelihood, the likelihood-ratio deviance
+  (Baker-Cousins) for the Poisson likelihood and `None` for a custom likelihood, with
+  the AIC and BIC calculated from -2 lnL.
+
 ### 🐞 Bug fixes
 
+- The chisquare, reduced chisquare, AIC and BIC reported after a likelihood fit were the
+  sum of the squared loglikelihood per point (and, after a random walk, exp(-2 lnL)),
+  which have no meaning.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 
