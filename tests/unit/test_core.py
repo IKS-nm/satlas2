@@ -622,3 +622,63 @@ def test_walk_with_walkers_outside_the_bounds(tmp_path):
     np.random.seed(6)
     fitter.fit(method="emcee", nwalkers=8, steps=30)
     assert np.all(fitter.result.chain[..., 1] >= model.params["p1"].min)
+
+
+# ----------------------------------------------------------------------------
+# Validation of the input
+# ----------------------------------------------------------------------------
+def test_duplicate_source_names_raise():
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    with pytest.raises(ValueError, match="already added"):
+        fitter.addSource(line_source("s", intercept=2.0, slope=0.5))
+
+
+def test_duplicate_model_names_in_a_source_raise():
+    source = line_source("s", intercept=1.0, slope=0.5)
+    with pytest.raises(ValueError, match="already added"):
+        source.addModel(Polynomial([1.0], name="bg"))
+
+
+def test_the_same_model_name_in_different_sources_is_allowed():
+    fitter_with(*two_sources())
+
+
+@pytest.mark.parametrize("name", ["111Cd", "a b", "Cd-111", "_s", "s_", "a___b", ""])
+def test_invalid_source_names_raise(name):
+    with pytest.raises(ValueError, match="Invalid source name"):
+        Source(np.zeros(2), np.zeros(2), np.ones(2), name=name)
+
+
+@pytest.mark.parametrize("name", ["a b", "bg_", "a___b"])
+def test_invalid_model_names_raise(name):
+    source = Source(np.zeros(2), np.zeros(2), np.ones(2), name="s")
+    with pytest.raises(ValueError, match="Invalid model name"):
+        source.addModel(Polynomial([1.0], name=name))
+
+
+@pytest.mark.parametrize("name", ["Cd111", "s1", "Ground_state", "HFModel__1_5", "111Cd"])
+def test_valid_model_names(name):
+    source = Source(np.zeros(2), np.zeros(2), np.ones(2), name="s")
+    source.addModel(Polynomial([1.0], name=name))
+
+
+@pytest.mark.parametrize(
+    "kwargs, match",
+    [
+        ({"y": np.zeros(3)}, "y has shape"),
+        ({"yerr": np.ones(3)}, "yerr has shape"),
+        ({"xerr": np.ones(3)}, "xerr has shape"),
+        ({"y": np.array([0.0, np.nan])}, "y contains NaN"),
+        ({"x": np.array([0.0, np.inf])}, "x contains NaN"),
+        ({"yerr": np.array([1.0, 0.0])}, "0 or less"),
+        ({"yerr": np.array([1.0, -1.0])}, "0 or less"),
+    ],
+)
+def test_invalid_data_raises(kwargs, match):
+    data = {"x": np.zeros(2), "y": np.zeros(2), "yerr": np.ones(2), **kwargs}
+    with pytest.raises(ValueError, match=match):
+        Source(name="s", **data)
+
+
+def test_callable_yerr_is_not_checked():
+    Source(np.zeros(2), np.zeros(2), np.sqrt, name="s")
