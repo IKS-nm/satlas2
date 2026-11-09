@@ -21,6 +21,11 @@ entries are left out of a release):
 
 ### 🐞 Bug fixes
 
+- A random walk never moved a parameter whose starting value was exactly 0 (such as a
+  centroid or a slope of 0), and reported an uncertainty of 0 for it: the walkers were
+  spread relative to the value. The walkers now start in a ball with a tenth of the
+  uncertainty of the previous fit as width, or, without a previous fit, 1e-4 times the
+  value (1e-4 for a value of 0), clipped to the bounds.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 

@@ -295,6 +295,10 @@ class Fitter:
         # add_many delays evaluating the expressions until all parameters exist
         self.lmpars = lm.Parameters()
         self.lmpars.add_many(*tuples)
+        # the uncertainties of a previous fit set the spread of the walkers
+        # at the start of a random walk
+        for full_name, parameter in self._parameters.items():
+            self.lmpars[full_name].stderr = parameter.unc or None
 
     @staticmethod
     def _linkTo(first: dict, key, full_name: str, own_expr: Optional[str]):
