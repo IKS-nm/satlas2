@@ -19,8 +19,17 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+### 💥 Breaking changes
+
+- `Fitter.readWalk` raises a `ValueError` when the parameters that vary differ from the
+  parameters of the saved walk, naming the differences. Make the same parameters vary as
+  during the walk before reading it.
+
 ### 🐞 Bug fixes
 
+- `Fitter.readWalk` matched the columns of the saved walk to the parameters by position
+  instead of by name, which gave wrong values without a warning when the parameters that
+  vary (or their order) had changed since the walk.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 

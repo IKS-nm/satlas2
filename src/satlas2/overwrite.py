@@ -139,11 +139,30 @@ def _autocorrelationTime(get_time) -> np.ndarray:
         return get_time(tol=0)
 
 
+def _matchColumns(labels, var_names) -> List[int]:
+    """Columns of a walk over the parameters ``labels`` that hold the
+    parameters ``var_names``. Raises a ValueError if the sets differ."""
+    labels = [str(label) for label in labels]
+    missing = [name for name in var_names if name not in labels]
+    extra = [label for label in labels if label not in var_names]
+    if missing or extra:
+        raise ValueError(
+            "The parameters of the walk do not match the parameters that vary: "
+            f"varied but not in the walk: {missing or 'none'}; "
+            f"in the walk but not varied: {extra or 'none'}."
+        )
+    return [labels.index(name) for name in var_names]
+
+
 class SATLASMinimizer(Minimizer):
-    def process_walk(self, params, chain):
+    def process_walk(self, params, chain, labels=None):
         """Summarise a random walk read from a file, as :meth:`emcee` does
-        for a walk it has just performed."""
+        for a walk it has just performed. With the names of the walked
+        parameters as labels, the columns of the chain are matched to the
+        varied parameters by name; a ValueError is raised if they differ."""
         result = self.prepare_fit(params)
+        if labels is not None:
+            chain = chain[..., _matchColumns(labels, result.var_names)]
         result.method = "emcee"
         steps, nwalkers = chain.shape[:2]
         self._summariseChain(result, chain.reshape((-1, result.nvarys)))

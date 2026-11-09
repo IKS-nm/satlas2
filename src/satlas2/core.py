@@ -825,6 +825,10 @@ class Fitter:
         """Read and process the h5 file containing the results of a random walk.
         The parameter values and uncertainties are extracted from the walk.
 
+        The columns of the walk are matched to the parameters by name, so the
+        parameters that vary must be the same as during the walk; otherwise a
+        ValueError names the differences.
+
         Parameters
         ----------
         filename : str
@@ -833,17 +837,12 @@ class Fitter:
             Optional amount of steps to remove from the start, defaults to 0.
         """
         reader = SATLASHDFBackend(filename)
-        # var_names = list(reader.labels)
         data = reader.get_chain(flat=False, discard=burnin)
-        try:
-            self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data
-            )
-        except AttributeError:
-            self._prepareFit()
-            self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
-                self.lmpars, data
-            )
+        # the free parameters follow from the models as they are now
+        self._prepareFit()
+        self.result = SATLASMinimizer(self.llh, self.lmpars).process_walk(
+            self.lmpars, data, labels=list(reader.labels)
+        )
         self.updateInfo()
 
     def _syncFixedParameters(self, params: lm.Parameters) -> None:

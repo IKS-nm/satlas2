@@ -470,6 +470,29 @@ def test_read_walk_uses_chain_percentiles(walk):
     assert result_stderr(fitter, "s1___bg___p1") == pytest.approx((high - low) / 2)
 
 
+def test_read_walk_matches_columns_by_name(walk):
+    """A fitter whose parameters are listed in another order reads each
+    column of the walk into the parameter of the same name."""
+    _, sources, filename = walk
+    fitter = fitter_with(*reversed([copy.deepcopy(s) for s in sources]))
+    fitter.readWalk(filename, burnin=20)
+    reader = satlas2.SATLASHDFBackend(filename)
+    chain = reader.get_chain(flat=True, discard=20)
+    labels = list(reader.labels)
+    for name in labels:
+        median = np.percentile(chain[:, labels.index(name)], 50)
+        assert result_value(fitter, name) == pytest.approx(median)
+
+
+def test_read_walk_raises_when_the_varied_parameters_differ(walk):
+    _, sources, filename = walk
+    changed = [copy.deepcopy(s) for s in sources]
+    changed[0].models[0][1].params["p0"].vary = False
+    fitter = fitter_with(*changed)
+    with pytest.raises(ValueError, match="s1___bg___p0"):
+        fitter.readWalk(filename)
+
+
 def test_evaluate_over_walk_band_shape(walk):
     fitter, sources, filename = walk
     x = np.linspace(-5, 5, 7)
