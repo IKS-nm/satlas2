@@ -1,0 +1,31 @@
+name: Release check
+
+# A pull request into master is a release: check that CHANGELOG.md names a new
+# version and that nothing is left under [Unreleased].
+on:
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          version=$(grep -m1 -oP '^## \[\K[0-9]+\.[0-9]+\.[0-9]+(?=\])' CHANGELOG.md)
+          if [ -z "$version" ]; then
+            echo "::error file=CHANGELOG.md::No version section found"; exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v$version" > /dev/null; then
+            echo "::error file=CHANGELOG.md::v$version is already released: add a section for the new version"; exit 1
+          fi
+          unreleased=$(awk '/^## \[Unreleased\]/{f=1; next} /^## \[/{f=0} f' CHANGELOG.md | grep -c '^- ' || true)
+          if [ "$unreleased" -ne 0 ]; then
+            echo "::error file=CHANGELOG.md::[Unreleased] still has entries: move them to the $version section"; exit 1
+          fi
+          if ! grep -q "^\[$version\]: " CHANGELOG.md; then
+            echo "::error file=CHANGELOG.md::Add the compare link for [$version] at the bottom"; exit 1
+          fi
+          echo "Ready to release v$version"

@@ -37,7 +37,22 @@ section headings of the polars release notes (🏆 Highlights, 💥 Breaking cha
 - Write entries for users: what changed and, for breaking changes and deprecations, what to
   do instead. Leave out headings without entries.
 - On release, rename `[Unreleased]` to `[x.y.z] - date`, add an empty `[Unreleased]` above it
-  and update the compare links at the bottom, before tagging `vx.y.z`.
+  and update the compare links at the bottom (see below; the tag is created by CI).
+
+## Branches and releases
+
+- `master` always holds the latest release; `develop` collects the work for the next one.
+- Work on a short branch off `develop` (`fix/...`, `feature/...`, `ci/...`), opened as a pull
+  request into `develop` and **squash-merged**, so each change is one commit.
+- A release is a pull request from `develop` into `master` whose last commit moves the
+  `[Unreleased]` entries to the new version section (the `Release check` workflow enforces
+  this). Merge it with a **merge commit**, never a squash: a squash makes `develop` and
+  `master` diverge and the next release conflicts.
+- The push to `master` runs `publish.yml`: it takes the version from the newest section of
+  `CHANGELOG.md`, creates the `vx.y.z` tag (from which `hatch-vcs` takes the package version),
+  publishes to PyPI, creates the GitHub release and deploys the documentation.
+- A hotfix branches off `master`, includes its own version section, is merged into `master`
+  as a release, after which `master` is merged into `develop`.
 
 ## Architecture
 
