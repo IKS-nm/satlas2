@@ -188,8 +188,8 @@ class SATLASMinimizer(Minimizer):
                 continue
             values.append(param.value)
             param.from_internal = lambda val: val
-            lb = -np.inf if param.min is None or param.min is np.nan else param.min
-            ub = np.inf if param.max is None or param.max is np.nan else param.max
+            lb = -np.inf if param.min is None or np.isnan(param.min) else param.min
+            ub = np.inf if param.max is None or np.isnan(param.max) else param.max
             bounds.append((lb, ub))
         return np.array(values, dtype=float).reshape(len(var_names)), np.array(bounds)
 

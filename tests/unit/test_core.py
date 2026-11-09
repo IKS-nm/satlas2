@@ -622,3 +622,63 @@ def test_walk_with_walkers_outside_the_bounds(tmp_path):
     np.random.seed(6)
     fitter.fit(method="emcee", nwalkers=8, steps=30)
     assert np.all(fitter.result.chain[..., 1] >= model.params["p1"].min)
+
+
+# ----------------------------------------------------------------------------
+# Robustness
+# ----------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    "kwargs", [{"progress": False}, {"mcmc_kwargs": {"progress": False}}]
+)
+def test_walk_progress_bar_can_be_turned_off(kwargs, capsys):
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.fit(method="emcee", nwalkers=8, steps=5, **kwargs)
+    assert "it/s" not in capsys.readouterr().err
+
+
+def test_fwhm_without_uncertainties():
+    voigt = satlas2.Voigt(1.0, 0.0, 2.0, 1.0)
+    voigt.params["FWHMG"].unc = None
+    value, uncertainty = voigt.calculateFWHM()
+    assert value == pytest.approx(satlas2.lineshapes.voigtFWHM(2.0, 1.0)[0])
+    assert np.isnan(uncertainty)
+
+
+@pytest.fixture(scope="module")
+def shared_walk(tmp_path_factory):
+    filename = str(tmp_path_factory.mktemp("shared") / "chain.h5")
+    sources = two_sources()
+    fitter = fitter_with(*sources)
+    fitter.shareParams("p0")
+    fitter.fit()
+    fitter.fit(method="emcee", nwalkers=12, steps=40, filename=filename)
+    return fitter, sources, filename
+
+
+def test_evaluate_over_walk_follows_shared_parameters(shared_walk):
+    fitter, sources, filename = shared_walk
+    x = np.array([0.0, 1.0])
+    _, bands = fitter.evaluateOverWalk(filename, x=x)
+    reader = satlas2.SATLASHDFBackend(filename)
+    labels = list(reader.labels)
+    median = np.percentile(reader.get_chain(flat=True), 50, axis=0)
+    # s2 has no p0 of its own in the walk: it follows s1's
+    assert "s2___bg___p0" not in labels
+    p0 = median[labels.index("s1___bg___p0")]
+    p1 = median[labels.index("s2___bg___p1")]
+    assert bands[1][1] == pytest.approx(p0 + p1 * x)
+
+
+def test_evaluate_over_walk_restores_the_parameters(shared_walk):
+    fitter, sources, filename = shared_walk
+    before = {k: v.value for k, v in fitter._parameters.items()}
+    fitter.evaluateOverWalk(filename, evals=20, seed=1)
+    after = {k: v.value for k, v in fitter._parameters.items()}
+    assert after == before
+
+
+def test_evaluate_over_walk_is_reproducible_with_a_seed(shared_walk):
+    fitter, _, filename = shared_walk
+    _, first = fitter.evaluateOverWalk(filename, evals=20, seed=1)
+    _, second = fitter.evaluateOverWalk(filename, evals=20, seed=1)
+    assert np.array_equal(first[0], second[0])

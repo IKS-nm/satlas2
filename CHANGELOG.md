@@ -19,8 +19,24 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+### ✨ Enhancements
+
+- `Fitter.fit` has a `progress` argument to hide the progress bar of a random walk.
+- `Fitter.evaluateOverWalk` has a `seed` argument for reproducible bands; with `evals`
+  it draws the samples without replacement.
+
 ### 🐞 Bug fixes
 
+- `Fitter.evaluateOverWalk` did not update shared parameters and parameters with an
+  expression, so their models were evaluated with fixed values; it now evaluates the
+  walk through the lmfit parameters. It also left the models at the median of the walk;
+  the parameters are now restored.
+- Passing `progress` in `mcmc_kwargs` raised a `TypeError` (multiple values for
+  `progress`); it is now used as the `progress` argument.
+- `calculateFWHM` of `Voigt` and `HFS` raised an error when the fit could not estimate
+  the uncertainties; it returns NaN as uncertainty instead.
+- Bare `except` clauses in `Fitter` also caught `KeyboardInterrupt`; parameter bounds of
+  NaN were not recognised in a random walk.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 
