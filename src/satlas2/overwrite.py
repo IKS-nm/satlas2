@@ -41,7 +41,10 @@ __all__ = ["SATLASSampler", "SATLASHDFBackend", "SATLASMinimizer", "minimize"]
 
 logger = logging.getLogger(__name__)
 
-# Relative spread of the walkers around the starting values
+# Spread of the walkers around the starting values: a fraction of the
+# uncertainty of a previous fit or, without one, of the value itself (or
+# absolute, for a value of 0)
+_INITIAL_SPREAD_STDERR = 0.1
 _INITIAL_SPREAD = 1.0e-4
 
 
@@ -193,6 +196,24 @@ class SATLASMinimizer(Minimizer):
             bounds.append((lb, ub))
         return np.array(values, dtype=float).reshape(len(var_names)), np.array(bounds)
 
+    @staticmethod
+    def _initialPositions(rng, nwalkers, values, bounds, stderrs) -> np.ndarray:
+        """Starting positions of the walkers: a Gaussian ball around the
+        values, with a width of a tenth of the uncertainty of a previous fit
+        where known, and otherwise 1e-4 times the value (or 1e-4 for a value
+        of 0, which a relative spread would leave without any spread: emcee
+        then never moves the walkers in that direction). Positions are
+        clipped to the bounds."""
+        values = np.asarray(values, dtype=float)
+        stderrs = np.array(
+            [np.nan if s is None else s for s in stderrs], dtype=float
+        )
+        width = np.where(values == 0, _INITIAL_SPREAD, _INITIAL_SPREAD * np.abs(values))
+        known = np.isfinite(stderrs) & (stderrs > 0)
+        width[known] = _INITIAL_SPREAD_STDERR * stderrs[known]
+        p0 = values + rng.randn(nwalkers, len(values)) * width
+        return np.clip(p0, bounds[:, 0], bounds[:, 1])
+
     def _prepareBackend(self, backend, load: bool, nwalkers: int, var_names) -> int:
         """Reset the backend for a new walk, or read the number of walkers
         when resuming one. Returns the number of walkers."""
@@ -298,6 +319,11 @@ class SATLASMinimizer(Minimizer):
             nwalkers = self._lastpos.shape[-2]
             tparams = None
 
+        # prepare_fit clears the uncertainties, which set the starting spread
+        stderrs = {
+            name: par.stderr
+            for name, par in (tparams if tparams is not None else self.params).items()
+        }
         result = self.prepare_fit(params=tparams)
         params = result.params
 
@@ -336,7 +362,13 @@ class SATLASMinimizer(Minimizer):
         nwalkers = self._prepareBackend(backend, load, nwalkers, result.var_names)
         p0 = None
         if not load:
-            p0 = (1 + rng.randn(nwalkers, self.nvarys) * _INITIAL_SPREAD) * var_arr
+            p0 = self._initialPositions(
+                rng,
+                nwalkers,
+                var_arr,
+                bounds.reshape(-1, 2),
+                [stderrs.get(name) for name in result.var_names],
+            )
         self.sampler = sampler(nwalkers, self.nvarys, self._lnprob, **sampler_kwargs)
         p0 = self._startPosition(p0, pos, reuse_sampler)
         # if you specified a seed then you also need to seed the sampler

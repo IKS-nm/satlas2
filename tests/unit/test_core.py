@@ -506,6 +506,41 @@ def test_walk_without_file(method):
     assert fitter.result.chain.shape == (5, 8, 2)
 
 
+def test_walk_moves_a_parameter_that_starts_at_zero():
+    """A relative spread leaves a parameter at exactly 0 without spread, and
+    emcee then never moves it (with an uncertainty of 0 as result)."""
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.sources[0][1].models[0][1].params["p1"].value = 0.0
+    fitter.fit(method="emcee", nwalkers=8, steps=50)
+    column = fitter.result.var_names.index("s___bg___p1")
+    assert np.ptp(fitter.result.chain[..., column]) > 0
+    assert result_stderr(fitter, "s___bg___p1") > 0
+
+
+def test_walk_starts_around_the_previous_fit():
+    fitter = fitter_with(line_source("s", intercept=1.0, slope=0.5))
+    fitter.fit()
+    stderr = result_stderr(fitter, "s___bg___p1")
+    fitter.fit(method="emcee", nwalkers=50, steps=1)
+    column = fitter.result.var_names.index("s___bg___p1")
+    start = fitter.result.chain[0, :, column]
+    # one step moves part of the walkers; the start has a tenth of the stderr
+    assert 0.02 * stderr < np.std(start) < 0.5 * stderr
+
+
+def test_initial_positions_respect_the_bounds():
+    rng = np.random.RandomState(0)
+    bounds = np.array([[0.0, 1.0], [-np.inf, np.inf]])
+    p0 = satlas2.SATLASMinimizer._initialPositions(
+        rng, 100, [0.0, 5.0], bounds, [0.5, None]
+    )
+    assert p0.shape == (100, 2)
+    assert np.all((p0[:, 0] >= 0) & (p0[:, 0] <= 1))
+    assert np.std(p0[:, 0]) > 0
+    # no uncertainty known: a spread of 1e-4 relative to the value
+    assert np.std(p0[:, 1]) == pytest.approx(5e-4, rel=0.3)
+
+
 def test_unknown_mode_raises():
     fitter = prepared(fitter_with(counting_source()))
     fitter.mode = "typo"
