@@ -527,19 +527,25 @@ class Fitter:
 
     def reductionSum(self, r: ArrayLike) -> float:
         """:meta private:
-        Reduces the likelihood to a single number. Used by lmfit.
+        Reduces the negative loglikelihood per point to -2 lnL. Used by lmfit.
+
+        lmfit calculates the covariance of a scalar minimisation as twice the
+        inverse of the Hessian of the minimised function, which assumes that
+        the function is a chisquare. The likelihood is therefore minimised as
+        -2 lnL (equal to the chisquare for Gaussian uncertainties): -lnL would
+        give a covariance twice too large, and uncertainties sqrt(2) too large.
 
         Parameters
         ----------
         r : ArrayLike
-            Array of residuals
+            Negative loglikelihood per point
 
         Returns
         -------
         float
-            Sum of array of residuals
+            -2 lnL
         """
-        return np.sum(r)
+        return 2 * np.sum(r)
 
     def reductionSSum(self, r: ArrayLike) -> float:
         """:meta private:
