@@ -32,6 +32,9 @@ entries are left out of a release):
 
 ### 📦 Build system
 
+- Releases are made by merging `develop` into `master`: the publish workflow then tags the
+  version of the newest `CHANGELOG.md` section, publishes it to PyPI, creates the GitHub
+  release and deploys the documentation. Pushing a tag by hand no longer publishes.
 - Upgrade `sphinx-toolbox` to 4.3.1 (and `sphinx-tabs` to 3.5.0).
 - The publish workflow only uploads to PyPI for a `v*` tag; running it manually now
   only redeploys the documentation.
