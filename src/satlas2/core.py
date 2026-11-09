@@ -6,6 +6,7 @@ Implementation of the base Fitter, Source, Model and Parameter classes
 from __future__ import annotations
 
 import os
+import re
 from typing import Optional, Tuple, Union
 
 import lmfit as lm
@@ -36,6 +37,29 @@ def _as_list(names: Union[list, str]) -> list:
 def _full_name(source: str, model: str, parameter: str) -> str:
     """Name of a parameter in the Fitter: ``Source___Model___Parameter``."""
     return SEPARATOR.join([source, model, parameter])
+
+
+# Letters, digits and underscores, not at the start or end; a source name
+# starts with a letter. The full parameter name must be a valid lmfit (Python)
+# name, and an underscore next to SEPARATOR, or SEPARATOR itself, would break
+# splitting it.
+_NAME = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9_]*[A-Za-z0-9])?")
+
+
+def _checkName(kind: str, name: str, first: bool = False) -> None:
+    """Raise a ValueError if name can not be used in a parameter name."""
+    if (
+        not isinstance(name, str)
+        or _NAME.fullmatch(name) is None
+        or SEPARATOR in name
+        or (first and not name[0].isalpha())
+    ):
+        start = "start with a letter and " if first else ""
+        raise ValueError(
+            f"Invalid {kind} name {name!r}: the name must {start}consist of "
+            f"letters, digits and underscores, without {SEPARATOR!r} and not "
+            "starting or ending with an underscore."
+        )
 
 
 def _split_name(full_name: str) -> Tuple[str, str, str]:
@@ -240,6 +264,11 @@ class Fitter:
             Source to be added to the fitter
         """
         name = source.name
+        _checkName("source", name, first=True)
+        if any(name == other for other, _ in self.sources):
+            raise ValueError(
+                f"A source named {name!r} was already added; source names must be unique."
+            )
         self.sources.append((name, source))
 
     def _createParameters(self) -> None:
@@ -983,6 +1012,8 @@ class Source:
         **kwargs,
     ):
         super().__init__()
+        _checkName("source", name, first=True)
+        self._checkData(x, y, yerr, xerr)
         self.x = x
         self.y = y
         self.xerr = xerr
@@ -993,6 +1024,32 @@ class Source:
         for k in kwargs.keys():
             setattr(self, k, kwargs[k])
 
+    @staticmethod
+    def _checkData(x, y, yerr, xerr) -> None:
+        """Raise a ValueError for data that can not be fitted: arrays of
+        different lengths, non-finite values, or uncertainties that are not
+        positive."""
+        x, y = np.asarray(x), np.asarray(y)
+        arrays = {"y": y}
+        if not callable(yerr):
+            arrays["yerr"] = np.asarray(yerr)
+        if xerr is not None:
+            arrays["xerr"] = np.asarray(xerr)
+        for label, values in arrays.items():
+            if values.shape != x.shape:
+                raise ValueError(
+                    f"{label} has shape {values.shape}, but x has shape {x.shape}."
+                )
+        for label, values in {"x": x, **arrays}.items():
+            if not np.all(np.isfinite(values)):
+                raise ValueError(f"{label} contains NaN or infinite values.")
+        if "yerr" in arrays and np.any(arrays["yerr"] <= 0):
+            raise ValueError(
+                "yerr contains values of 0 or less, which give an infinite "
+                "chisquare. For counting data with zero counts, use a callable "
+                "yerr (applied to the model) or the Poisson likelihood."
+            )
+
     def addModel(self, model: "Model"):
         """Add a model to the Source
 
@@ -1002,6 +1059,12 @@ class Source:
             The Model to be added to the source. Multiple models give, as a result,
             the sum of the individual models
         """
+        _checkName("model", model.name)
+        if any(model.name == other for other, _ in self.models):
+            raise ValueError(
+                f"A model named {model.name!r} was already added to source "
+                f"{self.name!r}; model names in a source must be unique."
+            )
         self.models.append((model.name, model))
 
     def params(self) -> dict:

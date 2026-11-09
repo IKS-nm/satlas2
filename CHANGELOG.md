@@ -19,8 +19,22 @@ entries are left out of a release):
 
 ## [Unreleased]
 
+### 💥 Breaking changes
+
+- `Source` and `Fitter` check their input and raise a `ValueError` with an explanation
+  for: a source name that was already added to the `Fitter`; a model name that was already
+  added to the same `Source`; source or model names with characters other than letters,
+  digits and underscores, starting or ending with an underscore or containing `___` (and
+  source names not starting with a letter); `y`, an array `yerr` or `xerr` of another
+  shape than `x`; NaN or infinite data; and an array `yerr` with values of 0 or less.
+  Previously these failed later with an unclear error, or, for duplicate names, fitted
+  without updating the parameters of one of the sources.
+
 ### 🐞 Bug fixes
 
+- Two sources with the same name (or two models with the same name in one source) shared
+  one set of parameters without a warning, so one of them was never fitted. This now
+  raises a `ValueError`.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 
