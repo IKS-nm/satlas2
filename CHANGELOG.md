@@ -36,6 +36,13 @@ entries are left out of a release):
 - The publish workflow only uploads to PyPI for a `v*` tag; running it manually now
   only redeploys the documentation.
 
+### 🛠️ Other improvements
+
+- Statistical tests (`tests/statistical`, marked `slow` and left out of a normal
+  `pytest` run) check the reported uncertainties of the chisquare fit, both likelihoods
+  and the random walk against the scatter of the best fits over simulated datasets. They
+  run weekly in CI, or with `pytest -m slow`.
+
 ## [0.4.0] - 2026-09-25
 
 ### 🏆 Highlights

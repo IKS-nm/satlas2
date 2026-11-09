@@ -1,0 +1,21 @@
+name: Statistical tests
+
+# Slow tests that compare the reported uncertainties of every fitting method
+# to the scatter of the best fits over many simulated datasets.
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync --group dev
+      - run: uv run pytest -m slow -v tests/statistical
