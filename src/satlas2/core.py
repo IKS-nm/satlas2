@@ -12,7 +12,6 @@ import lmfit as lm
 import numdifftools as nd
 import numpy as np
 import pandas as pd
-import scipy.optimize as optimize
 from numpy.typing import ArrayLike
 
 from .overwrite import (
@@ -64,7 +63,6 @@ class Fitter:
         super().__init__()
         self.sources = []
         self.pars = {}
-        self.bounds = optimize.Bounds([], [])
         self.share = []
         self.shareModel = []
         self.priors = {}

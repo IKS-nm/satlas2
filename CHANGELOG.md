@@ -21,6 +21,8 @@ entries are left out of a release):
 
 ### 🐞 Bug fixes
 
+- `Fitter()` raised `ValueError: lb and ub must be non-empty` with SciPy 1.18 and
+  later, which made satlas2 unusable with those versions.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 
@@ -32,6 +34,8 @@ entries are left out of a release):
 
 ### 📦 Build system
 
+- A weekly CI run tests against the newest releases of the dependencies, instead of
+  the versions in `uv.lock`.
 - Upgrade `sphinx-toolbox` to 4.3.1 (and `sphinx-tabs` to 3.5.0).
 - The publish workflow only uploads to PyPI for a `v*` tag; running it manually now
   only redeploys the documentation.
