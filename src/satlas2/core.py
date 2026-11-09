@@ -409,6 +409,15 @@ class Fitter:
         -------
         ArrayLike
         """
+        model_calcs, yerr = self._modelAndUncertainty()
+        resid = (model_calcs - self.temp_y) / yerr
+        resid[np.isnan(resid)] = np.inf
+        return resid
+
+    def _modelAndUncertainty(self) -> Tuple[ArrayLike, ArrayLike]:
+        """:meta private:
+        Response of the models and the uncertainty of each data point, as
+        used by :meth:`resid` and :meth:`gaussLlh`."""
         # evaluate the models once; a callable yerr is applied to these values
         values = [source.f() for _, source in self.sources]
         model_calcs = np.hstack(values)
@@ -422,9 +431,7 @@ class Fitter:
             raise ValueError(
                 f"Unknown mode {self.mode!r}, use 'source' or 'combined'"
             )
-        resid = (model_calcs - self.temp_y) / yerr
-        resid[np.isnan(resid)] = np.inf
-        return resid
+        return model_calcs, yerr
 
     def gaussianPriorResid(self) -> ArrayLike:
         """:meta private:
@@ -456,14 +463,24 @@ class Fitter:
 
     def gaussLlh(self) -> ArrayLike:
         """:meta private:
-        Calculate the Gaussian likelihood
+        Calculate the Gaussian loglikelihood per data point,
+        ``-0.5 * ((f - y) / yerr)**2 - ln(yerr)``, followed by the Gaussian
+        priors. The term ``-ln(yerr)`` matters when the uncertainty depends
+        on the parameters (a callable yerr, an xerr, or the 'combined' mode);
+        without it, a larger response with a larger uncertainty would be
+        favoured. The constant ``-0.5 ln(2 pi)`` is left out.
 
         Returns
         -------
         ArrayLike
         """
-        resid = self.residualCalculation()
-        return -0.5 * resid * resid  # Faster than **2
+        model_calcs, yerr = self._modelAndUncertainty()
+        with np.errstate(divide="ignore", invalid="ignore"):
+            resid = (model_calcs - self.temp_y) / yerr
+            llh = -0.5 * resid * resid - np.log(yerr)
+        llh[np.isnan(llh)] = -np.inf
+        priors = self.gaussianPriorResid()
+        return np.append(llh, -0.5 * priors * priors)
 
     def poissonLlh(self) -> ArrayLike:
         """:meta private:

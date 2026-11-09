@@ -11,7 +11,7 @@ import inspect
 import numpy as np
 import pytest
 from scipy.special import gammaln
-from scipy.stats import poisson
+from scipy.stats import norm, poisson
 
 import satlas2
 from satlas2 import Fitter, Model, Polynomial, Source
@@ -328,7 +328,26 @@ def test_gaussian_loglikelihood():
     fitter = prepared(fitter_with(source))
     llh = fitter.llh(fitter.lmpars, method="gaussian", emcee=True)
     f = source.f()
-    assert llh == pytest.approx(-0.5 * np.sum((f - source.y) ** 2 / f))
+    # the uncertainty sqrt(f) depends on the parameters, so -ln(sigma) counts
+    expected = norm.logpdf(source.y, f, np.sqrt(f)).sum() + 0.5 * np.log(2 * np.pi) * len(f)
+    assert llh == pytest.approx(expected)
+
+
+def test_gaussian_likelihood_with_a_model_dependent_uncertainty_is_unbiased():
+    """Without -ln(sigma), a Gaussian likelihood with sigma = sqrt(f) fitted
+    to Poisson counts with mean 10 gives about 10.5: a larger mean, with a
+    larger uncertainty, makes every residual smaller."""
+    rng = np.random.default_rng(5)
+    estimates = []
+    for _ in range(20):
+        y = rng.poisson(10, 200).astype(float)
+        source = Source(np.arange(200.0), y, yerr=np.sqrt, name="s")
+        source.addModel(Polynomial([8.0], name="c"))
+        fitter = fitter_with(source)
+        fitter.fit(llh=True, llh_method="gaussian")
+        estimates.append(result_value(fitter, "s___c___p0"))
+    # the standard error of the mean of the estimates is about 0.05
+    assert np.mean(estimates) == pytest.approx(10, abs=0.15)
 
 
 def test_poisson_loglikelihood_matches_scipy():

@@ -21,6 +21,12 @@ entries are left out of a release):
 
 ### 🐞 Bug fixes
 
+- The Gaussian likelihood (`llh_method="gaussian"`) left out the term -ln(sigma). When
+  the uncertainty depends on the parameters (a callable `yerr` such as `np.sqrt`, an
+  `xerr`, or `mode="combined"`), this biased the fit towards a larger response: a
+  constant fitted to Poisson counts with mean 10 and `yerr=np.sqrt` gave 10.5. Fits and
+  walks with such uncertainties give different (unbiased) results now; fits with fixed
+  uncertainties are unchanged. The chisquare fit is unchanged.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 
