@@ -90,4 +90,8 @@ def voigtFWHMFromParameters(params: dict) -> tuple[float, float]:
     Total FWHM of a Voigt peak from the ``FWHMG`` and ``FWHML`` parameters of
     a model, taking their uncertainties and correlation into account."""
     G, L = params["FWHMG"], params["FWHML"]
-    return voigtFWHM(G.value, L.value, G.unc, L.unc, G.correl.get("FWHML", 0))
+    if G.unc is None or L.unc is None:
+        # no uncertainties, e.g. when the covariance could not be estimated
+        return voigtFWHM(G.value, L.value)[0], np.nan
+    correlation = (G.correl or {}).get("FWHML", 0)
+    return voigtFWHM(G.value, L.value, G.unc, L.unc, correlation)

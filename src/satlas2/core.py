@@ -605,6 +605,7 @@ class Fitter:
         convergence_tau: float = 0.05,
         scale_covar: bool = True,
         iter_cb: Optional[callable] = None,
+        progress: bool = True,
     ) -> None:
         """Perform a fit of the models (added to the sources) to the data in the sources.
         Models in the same source are summed together, models in different sources can be
@@ -647,6 +648,11 @@ class Fitter:
             Scale the calculated uncertainties by the root of the reduced
             chisquare, by default True. Set to False when llh is True, since
             the reduced chisquare calculated in this case is not applicable.
+        iter_cb : callable, optional
+            Function called at every iteration of the minimiser, see
+            :func:`lmfit.minimize`, by default None.
+        progress : bool, optional
+            Show a progress bar during a random walk, by default True.
         """
         self._prepareFit()
         method = method.lower()
@@ -663,6 +669,7 @@ class Fitter:
                 convergence,
                 convergence_iter,
                 convergence_tau,
+                progress,
             )
         elif llh:
             func, kws = self.llh, {"method": llh_method}
@@ -697,14 +704,19 @@ class Fitter:
         convergence: bool,
         convergence_iter: int,
         convergence_tau: float,
+        progress: bool = True,
     ) -> dict:
         """:meta private:
         Keyword arguments for :meth:`SATLASMinimizer.emcee`."""
         load = filename is not None and os.path.isfile(filename) and not overwrite
         backend = None if filename is None else SATLASHDFBackend(filename)
+        mcmc_kwargs = dict(mcmc_kwargs or {})
+        # emcee's own progress argument, given to sample(), would be passed twice
+        progress = mcmc_kwargs.pop("progress", progress)
         return {
             "load": load,
-            "mcmc_kwargs": {**(mcmc_kwargs or {}), "skip_initial_state_check": True},
+            "progress": progress,
+            "mcmc_kwargs": {**mcmc_kwargs, "skip_initial_state_check": True},
             "sampler_kwargs": {**(sampler_kwargs or {}), "backend": backend},
             "sampler": SATLASSampler,
             "steps": steps,
@@ -873,7 +885,7 @@ class Fitter:
             self.ndata = self.result.ndata
             self.chisqr = self.result.chisqr
             self.redchi = self.result.redchi
-        except:
+        except AttributeError:  # e.g. a walk read from a file
             pass
         self.updateFitInfoSources()
 
@@ -886,7 +898,7 @@ class Fitter:
                 source.ndata = self.ndata
                 source.nfree = self.nfree
                 source.redchi = self.redchi
-            except:
+            except AttributeError:
                 pass
 
     def evaluateOverWalk(
@@ -895,10 +907,13 @@ class Fitter:
         burnin: int = 0,
         x: Optional[ArrayLike] = None,
         evals: int = 0,
+        seed: Optional[int] = None,
     ) -> Tuple[list, list]:
         """The parameters saved in the h5 file are evaluated
         in the models a specific number of times. From these evaluations, the
         16, 50 and 84 percentiles (corresponding to the 1-sigma band) are calculated.
+        Shared parameters and expressions follow the parameters of the walk, and
+        the parameters of the models are left as they were before the call.
 
         Parameters
         ----------
@@ -909,7 +924,10 @@ class Fitter:
         x : ArrayLike, optional
             Evaluation points for the model, defaults to the datapoints in Source
         evals : int, optional
-            Number of selected parameter values, defaults to using all values
+            Number of samples of the walk to evaluate, drawn at random without
+            replacement; by default all samples are used.
+        seed : int, optional
+            Seed for drawing the samples, for reproducible bands.
 
         Returns
         -------
@@ -924,33 +942,39 @@ class Fitter:
         var_names = list(reader.labels)
         flatchain = reader.get_chain(flat=True, discard=burnin)
         if 0 < evals < len(flatchain):
-            flatchain = flatchain[np.random.choice(len(flatchain), evals)]
-        if not hasattr(self, "lmpars"):
-            self._prepareFit()
-        columns = [
-            (i, self._parameter(name))
-            for i, name in enumerate(var_names)
-            if name in self.lmpars
-        ]
+            rng = np.random.default_rng(seed)
+            flatchain = flatchain[rng.choice(len(flatchain), evals, replace=False)]
+        self._prepareFit()
+        columns = [(i, name) for i, name in enumerate(var_names) if name in self.lmpars]
+        original = {name: p.value for name, p in self._parameters.items()}
+
+        def setValues(values: ArrayLike) -> None:
+            # through the lmfit parameters, so that shared parameters and
+            # expressions follow the walked parameters
+            for column, name in columns:
+                self.lmpars[name].value = values[column]
+            self.setParameters(self.lmpars)
 
         def evaluate(source: Source) -> ArrayLike:
             return source.f() if x is None else source.evaluate(x)
 
-        samples = [[] for _ in self.sources]
-        for sample in flatchain:
-            for column, parameter in columns:
-                parameter.value = sample[column]
-            for evaluations, (_, source) in zip(samples, self.sources):
-                evaluations.append(evaluate(source))
+        try:
+            samples = [[] for _ in self.sources]
+            for sample in flatchain:
+                setValues(sample)
+                for evaluations, (_, source) in zip(samples, self.sources):
+                    evaluations.append(evaluate(source))
 
-        # the middle row is evaluated with the median parameters
-        median = np.percentile(flatchain, 50, axis=0)
-        for column, parameter in columns:
-            parameter.value = median[column]
-        bands = []
-        for evaluations, (_, source) in zip(samples, self.sources):
-            low, high = np.percentile(evaluations, [16, 84], axis=0)
-            bands.append(np.vstack([low, evaluate(source), high]))
+            # the middle row is evaluated with the median parameters
+            setValues(np.percentile(flatchain, 50, axis=0))
+            bands = []
+            for evaluations, (_, source) in zip(samples, self.sources):
+                low, high = np.percentile(evaluations, [16, 84], axis=0)
+                bands.append(np.vstack([low, evaluate(source), high]))
+        finally:
+            for name, value in original.items():
+                self._parameter(name).value = value
+            self._prepareFit()
         X = [source.x if x is None else x for _, source in self.sources]
         return X, bands
 
