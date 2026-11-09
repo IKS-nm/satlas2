@@ -21,6 +21,11 @@ entries are left out of a release):
 
 ### 🐞 Bug fixes
 
+- The uncertainties of a likelihood fit (`fit(llh=True)`, with any `llh_method`) were
+  sqrt(2) times too large: lmfit derives the covariance from the minimised function
+  assuming it is a chisquare, while -lnL instead of -2 lnL was minimised. Divide
+  uncertainties from likelihood fits with earlier versions by sqrt(2). Chisquare fits and
+  random walks were not affected.
 - The formula in the documentation of `lineshapes.skew` was garbled and produced a
   Sphinx warning.
 

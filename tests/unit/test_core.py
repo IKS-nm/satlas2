@@ -390,6 +390,35 @@ class Offset(Model):
         return np.full_like(self.transform(x), self.params["value"].value, dtype=float)
 
 
+def test_gaussian_likelihood_uncertainties_equal_chisquare_uncertainties():
+    """For fixed Gaussian uncertainties, -2 lnL is the chisquare, so the
+    likelihood fit must give the unscaled chisquare uncertainties (which
+    are exact for a straight line) and not sqrt(2) times larger."""
+    source = line_source("s", intercept=1.5, slope=-0.7)
+    fitter = fitter_with(source)
+    fitter.fit(llh=True, llh_method="gaussian")
+    design = np.column_stack([np.ones_like(source.x), source.x])
+    _, cov, _ = weighted_lstsq(design, source.y, source.yerr_data)
+    for i, name in enumerate(["s___bg___p0", "s___bg___p1"]):
+        assert result_stderr(fitter, name) == pytest.approx(
+            np.sqrt(cov[i, i]), rel=1e-3
+        )
+
+
+def test_poisson_likelihood_uncertainty_of_a_mean():
+    """The uncertainty of a Poisson mean estimated from n counts is
+    sqrt(mean / n)."""
+    rng = np.random.default_rng(3)
+    y = rng.poisson(50, 200).astype(float)
+    source = Source(np.arange(200.0), y, yerr=np.sqrt, name="s")
+    source.addModel(Polynomial([10.0], name="c"))
+    fitter = fitter_with(source)
+    fitter.fit(llh=True, llh_method="poisson")
+    assert result_stderr(fitter, "s___c___p0") == pytest.approx(
+        np.sqrt(y.mean() / len(y)), rel=1e-3
+    )
+
+
 def test_source_sums_its_models():
     x = np.linspace(0, 1, 4)
     source = Source(x, x, yerr=np.ones(4), name="s")
