@@ -622,3 +622,63 @@ def test_walk_with_walkers_outside_the_bounds(tmp_path):
     np.random.seed(6)
     fitter.fit(method="emcee", nwalkers=8, steps=30)
     assert np.all(fitter.result.chain[..., 1] >= model.params["p1"].min)
+
+
+# ----------------------------------------------------------------------------
+# Fit statistics of likelihood fits
+# ----------------------------------------------------------------------------
+def test_gaussian_likelihood_fit_reports_the_chisquare():
+    chisquare_fit = fitter_with(line_source("s", intercept=1.5, slope=-0.7))
+    chisquare_fit.fit()
+    fitter = fitter_with(line_source("s", intercept=1.5, slope=-0.7))
+    fitter.fit(llh=True, llh_method="gaussian")
+    assert fitter.result.chisqr == pytest.approx(chisquare_fit.result.chisqr, rel=1e-6)
+    assert fitter.result.redchi == pytest.approx(chisquare_fit.result.redchi, rel=1e-6)
+    assert fitter.result.ndata == 40
+    assert fitter.result.nfree == 38
+
+
+def poisson_fit(method="fit"):
+    rng = np.random.default_rng(3)
+    y = rng.poisson(50, 200).astype(float)
+    y[:3] = 0  # zero counts contribute 2 f to the deviance
+    source = Source(np.arange(200.0), y, yerr=np.sqrt, name="s")
+    source.addModel(Polynomial([10.0], name="c"))
+    fitter = fitter_with(source)
+    if method == "fit":
+        fitter.fit(llh=True, llh_method="poisson")
+    else:
+        fitter.fit(method="emcee", llh_method="poisson", nwalkers=8, steps=30)
+    return fitter, y
+
+
+@pytest.mark.parametrize("method", ["fit", "emcee"])
+def test_poisson_likelihood_statistics(method):
+    fitter, y = poisson_fit(method)
+    mean = result_value(fitter, "s___c___p0")
+    nonzero = y > 0
+    deviance = 2 * np.sum(mean - y) + 2 * np.sum(
+        y[nonzero] * np.log(y[nonzero] / mean)
+    )
+    lnL = np.sum(y * np.log(mean) - mean)
+    assert fitter.result.chisqr == pytest.approx(deviance)
+    assert fitter.result.redchi == pytest.approx(deviance / 199)
+    assert fitter.result.aic == pytest.approx(-2 * lnL + 2)
+    assert fitter.result.bic == pytest.approx(-2 * lnL + np.log(200))
+    # the statistics are also passed on to the fitter and the sources
+    assert fitter.chisqr == fitter.result.chisqr
+    assert fitter.sources[0][1].redchi == fitter.result.redchi
+
+
+def test_custom_likelihood_has_no_chisquare():
+    class Custom(Fitter):
+        def customLlh(self):
+            return self.gaussLlh()
+
+    fitter = Custom()
+    fitter.addSource(line_source("s", intercept=1.5, slope=-0.7))
+    fitter.fit(llh=True, llh_method="custom")
+    assert fitter.result.chisqr is None
+    assert fitter.result.redchi is None
+    assert np.isfinite(fitter.result.aic)
+    assert "chi-square" in fitter.reportFit()

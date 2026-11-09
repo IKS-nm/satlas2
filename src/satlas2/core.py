@@ -684,7 +684,55 @@ class Fitter:
             iter_cb=iter_cb,
             **kwargs,
         )
+        if is_llh and not self.result.aborted:
+            self._setLikelihoodStatistics(llh_method)
         self.updateInfo()
+
+    def _setLikelihoodStatistics(self, method: str) -> None:
+        """:meta private:
+        Replace the fit statistics of a likelihood fit or random walk, which
+        lmfit calculates as if the negative loglikelihood per point were a
+        residual, by statistics of the likelihood:
+
+        * ``chisqr``: the chisquare for the Gaussian likelihood, the
+          likelihood-ratio deviance (Baker-Cousins) for the Poisson
+          likelihood, and None for a custom likelihood. Gaussian priors
+          contribute their squared residual;
+        * ``redchi``: ``chisqr`` divided by the degrees of freedom;
+        * ``aic`` and ``bic``: from -2 lnL. The Poisson likelihood leaves out
+          the constant log(y!), so only differences between fits of the same
+          data are meaningful.
+        """
+        result = self.result
+        self.setParameters(result.params)
+        lnL = float(self.llh(result.params, method=method, emcee=True))
+        k = result.nvarys
+        n = len(self.temp_y)
+        method = method.lower()
+        if method == "gaussian":
+            chisqr = float(np.sum(self.residualCalculation() ** 2))
+        elif method == "poisson":
+            chisqr = self._poissonDeviance()
+        else:
+            chisqr = None
+        result.ndata = n
+        result.nfree = n - k
+        result.chisqr = chisqr
+        result.redchi = (
+            chisqr / result.nfree if chisqr is not None and result.nfree > 0 else None
+        )
+        result.aic = -2 * lnL + 2 * k
+        result.bic = -2 * lnL + np.log(n) * k
+
+    def _poissonDeviance(self) -> float:
+        """:meta private:
+        Likelihood-ratio deviance of Poisson data (Baker and Cousins, 1984),
+        plus the squared residuals of the Gaussian priors."""
+        f, y = self.f(), self.temp_y
+        with np.errstate(divide="ignore", invalid="ignore"):
+            terms = f - y + np.where(y > 0, y * np.log(y / f), 0)
+        priors = self.gaussianPriorResid()
+        return float(2 * np.sum(terms) + np.sum(priors * priors))
 
     @staticmethod
     def _walkOptions(
